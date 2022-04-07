@@ -62,3 +62,12 @@ class Instrument:
     @property
     def market(self):
         return f'{self.__first}/{self.__second}'
+    
+class SubscribedChannel:
+    def __init__(self, channel: Channels, market: str):
+        self.__channel = channel
+        self.__market = market
+        
+    def __eq__(self, other):
+        return  self.__channel == other.__channel and \
+                self.__market ==  other.__market

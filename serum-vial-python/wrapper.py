@@ -23,6 +23,8 @@ class Wrapper:
         
         
     def subscribe(self, channel: Channels, instr: Instrument):
+        if SubscribedChannel(channel, instr.market) in self.__channel_list:
+            return
         self.__ws.send(json.dumps(
             {
                 'op': Ops.Subscribe,
@@ -33,13 +35,14 @@ class Wrapper:
         
     
     def unsubscribe(self, channel: Channels, instr: Instrument):
-        self.__ws.send(json.dumps(
-            {
-                'op': Ops.Unsubscribe,
-                'channel': channel,
-                'markets': [instr.market]
-            }
-        ))
+        if SubscribedChannel(channel, instr.market) in self.__channel_list:
+            self.__ws.send(json.dumps(
+                {
+                    'op': Ops.Unsubscribe,
+                    'channel': channel,
+                    'markets': [instr.market]
+                }
+            ))
     
     
     def __m_event(self, event, msg = None):
@@ -93,6 +96,7 @@ class SocketObj(object):
         self.__thread_warning = None
         self.__url = url
         self.__isStarted = False
+        self.__isConnected = False
         websocket.enableTrace(False)
         
     def start(self):
@@ -160,16 +164,16 @@ class SocketObj(object):
                 self.__parse_done(dump)
             case MessageType.Event.Subscribed: 
                 self.__information_event(
-                    BrokerEvent.CoinSubscribed, 
-                    self.__format_subscribe_msg(
-                        MessageType.Event.Subscribed, 
-                        dump['markets'][0]
-                    )
+                    MessageType.Event.Subscribed, 
+                    SubscribedChannel(dump['channel'], dump['markets'][0])
                 )
             case MessageType.Event.Unsubscribed: 
-                self.__information_event(BrokerEvent.CoinUnsubscribed, dump)
-            case MessageType.Event.Error: 
-                self.__information_event(BrokerEvent.SessionError, dump)
+                self.__information_event(
+                    MessageType.Event.Unsubscribed, 
+                    SubscribedChannel(dump['channel'], dump['markets'][0])
+                )
+            # case MessageType.Event.Error: 
+            #     self.__information_eventMessageType.Event.Error, dump)
                 
     def __parse_quote(self, dump):
         self.__message_event(MessageType.Level1.Quote,
@@ -212,9 +216,3 @@ class SocketObj(object):
     
     def __parse_done(self, dump):
         pass
-    
-    def __from_exch(self, market):
-        return Instrument(market.split('/')[0], market.split('/')[1])
-    
-    def __format_subscribe_msg(self, event, market):
-        return f'{event}-{market}'

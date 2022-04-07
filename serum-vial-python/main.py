@@ -1,5 +1,4 @@
-from wrapper import Wrapper, SocketObj
-import json
+from wrapper import Wrapper
 from models import *
 from pprint import pprint
 import datetime 
@@ -42,7 +41,12 @@ if __name__ == '__main__':
     
     while True:
         msg = input()
-        if msg == "l1":
-            wr.subscribe(Channels.Level1, btc_usdt)
-        elif msg == "l2":
-            wr.subscribe(Channels.Level2, eth_usdt)
+        match msg:
+            case "l1":
+                wr.subscribe(Channels.Level1, btc_usdt)
+            case "ul1":
+                wr.unsubscribe(Channels.Level1, btc_usdt)
+            case "l2":
+                wr.subscribe(Channels.Level2, eth_usdt)
+            case "ul2":
+                wr.unsubscribe(Channels.Level2, eth_usdt)
