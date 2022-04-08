@@ -28,8 +28,15 @@ def m_event(event, msg):
             pprint(msg['bids'][:COUNT])
             print()
 
-def i_event(event, msg = ''):
-    pass
+
+def i_event(event, msg = None):
+    match event:
+            case MessageType.Event.Subscribed:
+                print(f'<-- Subscribe | channel: {msg.channel} | market: {msg.market}')
+            case MessageType.Event.Unsubscribed:
+                print(f'<-- Unsubscribe | channel: {msg.channel} | market: {msg.market}')
+            case _:
+                print(f'<-- {event} -- msg({msg if msg != None else ""})')
 
 if __name__ == '__main__':
     wr = Wrapper(Logger(), m_event, i_event)
