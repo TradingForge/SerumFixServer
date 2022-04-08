@@ -30,13 +30,14 @@ def m_event(event, msg):
 
 
 def i_event(event, msg = None):
+    now = datetime.datetime.now()
     match event:
             case MessageType.Event.Subscribed:
-                print(f'<-- Subscribe | channel: {msg.channel} | market: {msg.market}')
+                print(f'{now.hour}:{now.minute}:{now.second} | <-- Subscribe | channel: {msg.channel} | market: {msg.market}\n')
             case MessageType.Event.Unsubscribed:
-                print(f'<-- Unsubscribe | channel: {msg.channel} | market: {msg.market}')
+                print(f'{now.hour}:{now.minute}:{now.second} | <-- Unsubscribe | channel: {msg.channel} | market: {msg.market}\n')
             case _:
-                print(f'<-- {event} -- msg({msg if msg != None else ""})')
+                print(f'{now.hour}:{now.minute}:{now.second} | <-- {event} -- msg({msg if msg != None else ""})\n')
 
 if __name__ == '__main__':
     wr = Wrapper(Logger(), m_event, i_event)
