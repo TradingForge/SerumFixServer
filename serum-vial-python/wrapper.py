@@ -76,7 +76,6 @@ class Wrapper:
                 self.__snapshots_map[msg['market']]['bids'] = list(SortedList(snpt_bid))[::-1]
                 
                 self.__message_event(Channels.Level2, self.__snapshots_map[msg['market']])
-                # print(self.__snapshots_map[msg['market']])
                 
                 
     def __i_event(self, event, msg = None):
@@ -86,9 +85,10 @@ class Wrapper:
             case MessageType.Event.Unsubscribed:
                 self.__channel_list.remove(msg)
         
+        self.__information_event(event, msg)
+        
     
 class SocketObj(object):
-
     def __init__(self, url, logger, message_event, information_event):
         self.__message_event = message_event
         self.__information_event = information_event
@@ -99,12 +99,14 @@ class SocketObj(object):
         self.__isConnected = False
         websocket.enableTrace(False)
         
+
     def start(self):
         self.__ws = websocket.WebSocketApp(self.__url, 
                                            on_open=self.__on_open,
                                            on_message=self.__on_message,
                                            on_error=self.__on_error,
                                            on_close=self.__on_close)
+        
         wst = threading.Thread(target=self.__ws.run_forever, daemon=True)
         wst.start()
         self.__isStarted = True
@@ -114,13 +116,16 @@ class SocketObj(object):
         self.__thread_warning = threading.Thread(name='WarningLoop', daemon=True)
         self.__thread_warning.start()
 
+
     def stop(self):
         self.__ws.close()
         self.__logger.debug('stopped')
 
+
     def isStarted(self):
         return self.__isStarted
-            
+
+
     def send(self, msg):
         try:
             self.__ws.send(msg)
@@ -131,10 +136,12 @@ class SocketObj(object):
         self.__logger.info(f'<-- Error {error}')
         self.__information_event(BrokerEvent.SessionError, error)
 
+
     def __on_open(self, ws):
         self.__information_event(BrokerEvent.SessionLogon)
         self.__logger.info('<-- connection open')
         self.__isConnected = True
+
 
     def __on_close(self, ws, close_status_code, close_msg):
         self.__isConnected = False
@@ -152,16 +159,6 @@ class SocketObj(object):
                 self.__parse_snapshot_lvl2(dump)
             case MessageType.Level2.Update:
                 self.__parse_update_lvl2(dump)
-            case MessageType.Level3.Snapshot:
-                self.__parse_snapshot_lvl3(dump)
-            case MessageType.Level3.Open:
-                self.__parse_open(dump)
-            case MessageType.Level3.Fill:
-                self.__parse_fill(dump)
-            case MessageType.Level3.Change:
-                self.__parse_change(dump)
-            case MessageType.Level3.Done:
-                self.__parse_done(dump)
             case MessageType.Event.Subscribed: 
                 self.__information_event(
                     MessageType.Event.Subscribed, 
@@ -172,8 +169,7 @@ class SocketObj(object):
                     MessageType.Event.Unsubscribed, 
                     SubscribedChannel(dump['channel'], dump['markets'][0])
                 )
-            # case MessageType.Event.Error: 
-            #     self.__information_eventMessageType.Event.Error, dump)
+                
                 
     def __parse_quote(self, dump):
         self.__message_event(MessageType.Level1.Quote,
@@ -183,7 +179,8 @@ class SocketObj(object):
                 'bestBid': [Decimal(dump['bestBid'][0]), Decimal(dump['bestBid'][1])]
             }
         )
-    
+        
+        
     def __parse_snapshot_lvl2(self, dump):
         self.__message_event(MessageType.Level2.Snapshot, 
             {
@@ -193,6 +190,7 @@ class SocketObj(object):
             }
         )
     
+    
     def __parse_update_lvl2(self, dump):
         self.__message_event(MessageType.Level2.Update, 
             {
@@ -201,18 +199,3 @@ class SocketObj(object):
                 'bids': [[Decimal(bid[0]), Decimal(bid[1])] for bid in dump['bids']]
             }
         )
-    
-    def __parse_snapshot_lvl3(self, dump):
-        pass
-    
-    def __parse_open(self, dump):
-        pass
-    
-    def __parse_fill(self, dump):
-        pass
-    
-    def __parse_change(self, dump):
-        pass
-    
-    def __parse_done(self, dump):
-        pass
