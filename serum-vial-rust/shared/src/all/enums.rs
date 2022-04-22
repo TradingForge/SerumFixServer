@@ -1,38 +1,102 @@
-#[derive(Clone, PartialEq)]
-pub enum OrderAmount {
-    All,
-    Fixed(f64),
-}
 
-#[derive(Clone, PartialEq)]
-pub enum OrderPrice {
+//#[repr(u8)]
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_40.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
+pub enum OrderType {
     Market,
-    Limit(f64),
+    Limit,
+    Stop,
+    StopLimit,
 }
 
-#[derive(Debug, Hash, Clone, Copy, PartialEq, Eq)]
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_54.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
 pub enum OrderSide {
-    Ask,
-    Bid,
+    Buy,
+    Sell,
 }
 
-#[derive(Debug, Hash, Clone, Copy, PartialEq, Eq)]
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_39.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
 pub enum OrderStatus {
-    Pending,
+    New,
+    PartFilled,
     Filled,
     Canceled,
-    Placed,
+    Replaced,
+    PendingCancel,
+    Rejected,
 }
 
-#[derive(Debug)]
-pub enum RestError {
-    Request(reqwest::Error),
-    Parse(serde_json::Error),
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_150.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
+pub enum ExecType {
+    New,
+    PartFilled,
+    Filled,
+    Canceled,
+    Replaced,
+    PendingCancel,
+    Rejected,
+    PendingNew,
+    Calculated,
+    Expired,
+    PendingReplace,
+    Trade,
+    OrderStatus,
 }
 
-#[non_exhaustive]
-#[derive(Hash, Debug, Clone, PartialEq, Eq)]
-pub enum InstrumentClass {
-    U,
-    R,
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_59.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
+pub enum TimeInForce {
+    Day,
+    GTC,
+    OPG,
+    IOC,
+    FOK,
 }
+
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_20.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
+pub enum ExecTransType {
+    New ,
+    Cancel,
+    Correct,
+    Status,
+}
+
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_434.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
+pub enum OrdRejectResponse {
+    CancelRequest,
+    CancelReplaceRequest,
+}
+
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_380.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
+pub enum BusinessRejectReason {
+    Other = 0,
+    UnknownId = 1,
+    UnknownSecurity = 2,
+    UnsupportedMessageType = 3,
+    ApplicationNotAvailable = 4,
+    ConditionallyRequiredFieldMissing = 5
+}
+
+//https://www.onixs.biz/fix-dictionary/4.4/tagNum_167.html
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd)]
+pub enum SecurityType {
+    Forex,
+    Index,
+    Commodity,
+    Treasury,
+    Bullion,
+    Stock,
+    Bonds,
+    Funds,
+    Options,
+    Futures,
+    Cfd
+}
+
+

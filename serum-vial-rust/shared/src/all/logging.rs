@@ -1,7 +1,7 @@
 use chrono::Utc;
 
 pub trait Logger {
-    type Priority: ToString;
+    type Priority : ToString;
     fn log(&self, priority: Self::Priority, message: &str);
 }
 
@@ -20,8 +20,8 @@ impl ToString for LogPriority {
             LogPriority::Debug => String::from("Debug"),
             LogPriority::Info => String::from("Info"),
             LogPriority::Warning => String::from("Warning"),
-            LogPriority::Error => String::from("Error"),
-        }
+            LogPriority::Error => String::from("Error")
+        } 
     }
 }
 
@@ -30,11 +30,6 @@ pub struct ConsoleLogger;
 impl<'a> Logger for ConsoleLogger {
     type Priority = LogPriority;
     fn log(&self, priority: Self::Priority, message: &str) {
-        println!(
-            "{} | {} | {}",
-            Utc::now().to_string(),
-            priority.to_string(),
-            message
-        )
+        println!("{} | {} | {}", Utc::now().to_string(), priority.to_string(), message)
     }
 }
