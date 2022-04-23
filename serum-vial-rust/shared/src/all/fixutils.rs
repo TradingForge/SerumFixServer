@@ -1,11 +1,11 @@
 
 
-use crate::all::enums::{OrderSide, OrderStatus, OrderType, ExecType, TimeInForce, ExecTransType, OrdRejectResponse};
+use crate::shared::enums::{OrderSide, OrderStatus, OrderType, ExecType, TimeInForce, ExecTransType, OrdRejectResponse};
 
-pub trait From { fn from(&self) -> char; }
+pub trait ToFix<char>{ fn to_fix(&self) -> char; }
 
-impl From for OrderType {
-    fn from(&self) -> char{
+impl ToFix<char> for OrderType {
+    fn to_fix(&self) -> char{
         match self{
             OrderType::Market => '0',
             OrderType::Limit => '1',
@@ -15,8 +15,8 @@ impl From for OrderType {
     }
 }
 
-impl From for OrderSide {
-    fn from(&self) -> char{
+impl ToFix<char> for OrderSide {
+    fn to_fix(&self) -> char{
         match self{
             OrderSide::Buy => '1',
             OrderSide::Sell => '2',
@@ -24,8 +24,8 @@ impl From for OrderSide {
     }
 }
 
-impl From for OrderStatus {
-    fn from(&self) -> char{
+impl ToFix<char> for OrderStatus {
+    fn to_fix(&self) -> char{
         match self{
             OrderStatus::New => '0',
             OrderStatus::PartFilled => '1',
@@ -38,8 +38,8 @@ impl From for OrderStatus {
     }
 }
 
-impl From for ExecType {
-    fn from(&self) -> char{
+impl ToFix<char> for ExecType {
+    fn to_fix(&self) -> char{
         match self{
             ExecType::New => '0',
             ExecType::PartFilled => '1',
@@ -58,8 +58,8 @@ impl From for ExecType {
     }
 }
 
-impl From for TimeInForce {
-    fn from(&self) -> char{
+impl ToFix<char> for TimeInForce {
+    fn to_fix(&self) -> char{
         match self{
             TimeInForce::Day => '0',
             TimeInForce::GTC => '1',
@@ -70,8 +70,8 @@ impl From for TimeInForce {
     }
 }
 
-impl From for ExecTransType {
-    fn from(&self) -> char{
+impl ToFix<char> for ExecTransType {
+    fn to_fix(&self) -> char{
         match self{
             ExecTransType::New => '0',
             ExecTransType::Cancel => '1',
@@ -81,8 +81,8 @@ impl From for ExecTransType {
     }
 }
 
-impl From for OrdRejectResponse {
-    fn from(&self) -> char{
+impl ToFix<char> for OrdRejectResponse {
+    fn to_fix(&self) -> char{
         match self{
             OrdRejectResponse::CancelRequest => '1',
             OrdRejectResponse::CancelReplaceRequest => '2',
