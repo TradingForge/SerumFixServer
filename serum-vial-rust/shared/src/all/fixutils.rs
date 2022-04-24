@@ -1,6 +1,6 @@
 
 
-use crate::shared::enums::{OrderSide, OrderStatus, OrderType, ExecType, TimeInForce, ExecTransType, OrdRejectResponse};
+use crate::all::enums::{OrderSide, OrderStatus, OrderType, ExecType, TimeInForce, ExecTransType, OrdRejectResponse};
 
 pub trait ToFix<char>{ fn to_fix(&self) -> char; }
 
