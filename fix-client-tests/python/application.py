@@ -11,13 +11,7 @@ class BrokerEvent:
     MarketDataReject = "MarketDataReject"
 
 
-class SubscriptionModel:
-    TopBook = "TopBook"
-    FullBook = "FullBook"
-
-
 class FixApp(fix.Application):
-
     def __init__(self, name):
         self.my_name = name
         self.__sessionID = None
@@ -80,9 +74,9 @@ class FixApp(fix.Application):
             print("fromApp: " + exc + " for " + message)
 
     def get_instruments(self):
-        sdr = fix44.SecurityDefinitionRequest()
+        sdr = fix44.SecurityListRequest()
         sdr.setField(fix.SecurityReqID(str(self.__reqId)))
-        sdr.setField(fix.SecurityRequestType(3))
+        sdr.setField(fix.SecurityListRequestType(4))
         fix.Session.sendToTarget(sdr, self.__sessionID)
         self.__reqId = self.__reqId + 1
 
@@ -185,6 +179,8 @@ class FixApp(fix.Application):
         self.event_func(data)
         pass
 
+    def onInstrument(self, message, sessionID):
+        pass
 
 class Client:
     def __init__(self, config):
