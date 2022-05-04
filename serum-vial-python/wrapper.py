@@ -140,7 +140,7 @@ class Wrapper:
                 limit_price=order.price,
                 max_quantity=order.amount,
                 client_id=order.client_id,
-                opts = TxOpts(skip_confirmation=False, skip_preflight=True)
+                opts = TxOpts(skip_preflight=True)
             )
             
             self.__logger.info(f'order sent: side {order.side} price {order.price} size {order.amount} id {order.client_id} tx {tx}')
@@ -166,7 +166,7 @@ class Wrapper:
             return
 
         order = orders[0]
-        tx = self.__markets[my_order.market].cancel_order(self.__owner, order, opts=TxOpts(skip_confirmation=False, skip_preflight=True))
+        tx = self.__markets[my_order.market].cancel_order(self.__owner, order, opts=TxOpts(skip_preflight=True))
         self.__logger.info(f'cancelled order: side {my_order.side} price {order.info.price} size {order.info.size} id {order.client_id} tx {tx}')
         
         
