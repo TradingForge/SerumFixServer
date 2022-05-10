@@ -2,7 +2,6 @@ import websocket
 from .models import *
 import json
 import threading
-from decimal import *
 from sortedcontainers import SortedList    
 
 from random import randint
@@ -281,8 +280,8 @@ class SocketObj(object):
         self.__message_event(MessageType.Level1.Quote,
             {
                 'market': dump['market'],
-                'bestAsk': [Decimal(dump['bestAsk'][0]), Decimal(dump['bestAsk'][1])],
-                'bestBid': [Decimal(dump['bestBid'][0]), Decimal(dump['bestBid'][1])]
+                'bestAsk': [float(dump['bestAsk'][0]), float(dump['bestAsk'][1])],
+                'bestBid': [float(dump['bestBid'][0]), float(dump['bestBid'][1])]
             }
         )
         
@@ -291,8 +290,8 @@ class SocketObj(object):
         self.__message_event(MessageType.Level2.Snapshot, 
             {
                 'market': dump['market'],
-                'asks': [[Decimal(ask[0]), Decimal(ask[1])] for ask in dump['asks']],
-                'bids': [[Decimal(bid[0]), Decimal(bid[1])] for bid in dump['bids']]
+                'asks': [[float(ask[0]), float(ask[1])] for ask in dump['asks']],
+                'bids': [[float(bid[0]), float(bid[1])] for bid in dump['bids']]
             }
         )
     
@@ -301,8 +300,8 @@ class SocketObj(object):
         self.__message_event(MessageType.Level2.Update, 
             {
                 'market': dump['market'],
-                'asks': [[Decimal(ask[0]), Decimal(ask[1])] for ask in dump['asks']],
-                'bids': [[Decimal(bid[0]), Decimal(bid[1])] for bid in dump['bids']]
+                'asks': [[float(ask[0]), float(ask[1])] for ask in dump['asks']],
+                'bids': [[float(bid[0]), float(bid[1])] for bid in dump['bids']]
             }
         )
         
