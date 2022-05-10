@@ -38,6 +38,8 @@ class Widget(QWidget):
             self.__event_handler.information_event
         )
 
+        self.__wr.start()
+
     
     def connect(self):
         self.ui.SubscribeLevel1.clicked.connect(self.subscribe_lv1_event)
