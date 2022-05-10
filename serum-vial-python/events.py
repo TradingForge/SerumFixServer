@@ -6,6 +6,7 @@ class EventHandler:
         self.__logger = logger
 
     def message_event(self, event, msg):
+        self.__logger.info(msg)
         match event:
             case Channels.Level1: 
                 self.__logger.info(f"{msg['market']} BestAsk({msg['bestAsk']}) BestBid({msg['bestBid']})")
@@ -29,6 +30,7 @@ class EventHandler:
 
 
     def information_event(self, event, msg = None):
+        self.__logger.info(msg if msg != None else "")
         match event:
             case MessageType.Event.Subscribed:
                 self.__logger.info(f'channel: {msg.channel} | market: {msg.market}')

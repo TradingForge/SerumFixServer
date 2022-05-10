@@ -10,16 +10,18 @@ from logger import Logger
 from events import EventHandler
 from serum_modules.wrapper import Wrapper
 from serum_modules.config import KEYPAIR_PHANTOM
+from serum_modules.models import *
 
 class Widget(QWidget):
     def __init__(self):
         super(Widget, self).__init__()
         self.load_ui()
         self.load_wrapper()
+        self.connect()
 
     def load_ui(self):
         loader = QUiLoader()
-        path = os.fspath(Path(__file__).resolve().parent / "ui/form.ui")
+        path = os.fspath(Path(__file__).resolve().parent / "UI/form.ui")
         ui_file = QFile(path)
         ui_file.open(QFile.ReadOnly)
         self.ui = loader.load(ui_file, self)
@@ -35,13 +37,56 @@ class Widget(QWidget):
             self.__event_handler.message_event,
             self.__event_handler.information_event
         )
-        
-        
 
     
-    # def subscribe_lv1_event(self):
-    #     if self.ui.Base.getText():
-    
+    def connect(self):
+        self.ui.SubscribeLevel1.clicked.connect(self.subscribe_lv1_event)
+        self.ui.UnsubscribeLevel1.clicked.connect(self.unsubscribe_lv1_event)
+
+        self.ui.SubscribeLevel2.clicked.connect(self.subscribe_lv2_event)
+        self.ui.UnsubscribeLevel2.clicked.connect(self.unsubscribe_lv2_event)
+        
+        
+    def subscribe_lv1_event(self):
+        if self.ui.Base.text() == "" or self.ui.Quote.text() == "":
+            self.__logger.error("Input fields must not be empty")
+            return
+
+        self.__wr.subscribe(
+            Channels.Level1, 
+            Instrument(self.ui.Base.text().upper(), self.ui.Quote.text().upper())
+        )
+
+    def unsubscribe_lv1_event(self):
+        if self.ui.Base.text() == "" or self.ui.Quote.text() == "":
+            self.__logger.error("Input fields must not be empty")
+            return
+
+        self.__wr.unsubscribe(
+            Channels.Level1, 
+            Instrument(self.ui.Base.text().upper(), self.ui.Quote.text().upper())
+        )
+
+    def subscribe_lv2_event(self):
+        if self.ui.Base.text() == "" or self.ui.Quote.text() == "":
+            self.__logger.error("Input fields must not be empty")
+            return
+
+        self.__wr.subscribe(
+            Channels.Level2, 
+            Instrument(self.ui.Base.text().upper(), self.ui.Quote.text().upper())
+        )
+
+    def unsubscribe_lv2_event(self):
+        if self.ui.Base.text() == "" or self.ui.Quote.text() == "":
+            self.__logger.error("Input fields must not be empty")
+            return
+
+        self.__wr.unsubscribe(
+            Channels.Level2, 
+            Instrument(self.ui.Base.text().upper(), self.ui.Quote.text().upper())
+        )
+
 
 if __name__ == "__main__":
     app = QApplication([])
