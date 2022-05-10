@@ -1,5 +1,5 @@
 import websocket
-from models import *
+from .models import *
 import json
 import threading
 from decimal import *
