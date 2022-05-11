@@ -1,11 +1,11 @@
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_library("${LMAX_NAME}" STATIC
-        FIX8_LMAXPrice_classes.cpp
-        FIX8_LMAXPrice_traits.cpp
-        FIX8_LMAXPrice_types.cpp
-        FIX8_LMAXTrade_classes.cpp
-        FIX8_LMAXTrade_traits.cpp
-        FIX8_LMAXTrade_types.cpp
+        FIX8_SERUM_Data_classes.cpp
+        FIX8_SERUM_data_traits.cpp
+        FIX8_SERUM_Data_types.cpp
+        FIX8_SERUM_Order_classes.cpp
+        FIX8_SERUM_Order_traits.cpp
+        FIX8_SERUM_Order_types.cpp
 )
 
 find_package(Fix8 REQUIRED)
