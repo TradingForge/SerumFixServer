@@ -205,7 +205,7 @@ class SocketObj(object):
         wst.start()
         self.__isStarted = True
 
-        self.__logger.debug('connection started')
+        # self.__logger.debug('connection started')
 
         self.__thread_warning = threading.Thread(name='WarningLoop', daemon=True)
         self.__thread_warning.start()
@@ -213,7 +213,7 @@ class SocketObj(object):
 
     def stop(self):
         self.__ws.close()
-        self.__logger.debug('stopped')
+        # self.__logger.debug('stopped')
 
 
     def isStarted(self):
@@ -227,20 +227,20 @@ class SocketObj(object):
             pass
         
     def __on_error(self, ws, error):
-        self.__logger.info(f'<-- Error {error}')
+        self.__logger.error(f'<-- Error {error}')
         self.__information_event(BrokerEvent.SessionError, error)
 
 
     def __on_open(self, ws):
         self.__information_event(BrokerEvent.SessionLogon)
-        self.__logger.info('<-- connection open')
+        # self.__logger.info('<-- connection open')
         self.__isConnected = True
 
 
     def __on_close(self, ws, close_status_code, close_msg):
         self.__isConnected = False
         self.__information_event(BrokerEvent.SessionLogout)
-        self.__logger.info(f'<-- connection close  code--{close_status_code}  msg--{close_msg}')
+        # self.__logger.info(f'<-- connection close  code--{close_status_code}  msg--{close_msg}')
         
 
     def __on_message(self, ws, message):
