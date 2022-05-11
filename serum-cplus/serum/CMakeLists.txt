@@ -1,7 +1,7 @@
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_library("${LMAX_NAME}" STATIC
         FIX8_SERUM_Data_classes.cpp
-        FIX8_SERUM_data_traits.cpp
+        FIX8_SERUM_Data_traits.cpp
         FIX8_SERUM_Data_types.cpp
         FIX8_SERUM_Order_classes.cpp
         FIX8_SERUM_Order_traits.cpp
