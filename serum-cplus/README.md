@@ -25,12 +25,20 @@ make && make install
 
 ## Boost
 ```bash
-curl -LO https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz
-tar -xzf boost_1_72_0.tar.gz && cd boost_1_72_0/
+curl -LO https://dl.bintray.com/boostorg/release/1.79.0/source/boost_1_79_0.tar.gz
+tar -xzf boost_1_79_0.tar.gz && cd boost_1_79_0/
 ./bootstrap.sh
 sudo ./b2 install
 sudo ldconfig
 ```
+## POCO
+```bash
+curl -LO https://github.com/pocoproject/poco/archive/poco-1.9.4-release.tar.gz
+tar -xzf poco-1.9.4-release.tar.gz && cd poco-poco-1.9.4-release/
+mkdir cmake-build && cd cmake-build/
+cmake .. && cmake --build . --target install
+sudo cmake --build . --target install
+sudo ldconfig
 
 ## Fix8
 ```bash
