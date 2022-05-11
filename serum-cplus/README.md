@@ -17,15 +17,9 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 --slave /u
 sudo update-alternatives --config gcc
 ```
 
-mkdir build && cd build
-
-cmake -DREDIS_PLUS_PLUS_BUILD_TEST=OFF -DCMAKE_BUILD_TYPE=Release ..
-make && make install
-```
-
 ## Boost
 ```bash
-curl -LO https://dl.bintray.com/boostorg/release/1.79.0/source/boost_1_79_0.tar.gz
+curl -LO https://sourceforge.net/projects/boost/files/boost/1.79.0/boost_1_79_0.tar.gz/download
 tar -xzf boost_1_79_0.tar.gz && cd boost_1_79_0/
 ./bootstrap.sh
 sudo ./b2 install
@@ -47,6 +41,9 @@ tar -xzf fix8-1.4.1.tar.gz && cd fix8-1.4.1/
 ./bootstrap && ./configure && make
 sudo make install
 sudo ldconfig
+
+#compile error: need  fix https://stackoverflow.com/questions/46916875/error-when-building-fix-8
+#You have to explicitly #include <functional> in logger.hpp.
 ```
 
 # Cloning and compiling the source

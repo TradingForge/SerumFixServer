@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------------------------
-// *** f8c generated file: DO NOT EDIT! Created: 2022-05-10 15:24:24 ***
+// *** f8c generated file: DO NOT EDIT! Created: 2022-05-11 21:41:20 ***
 //-------------------------------------------------------------------------------------------------
 /*
 
@@ -49,23 +49,23 @@ HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 //-------------------------------------------------------------------------------------------------
 #include <fix8/f8config.h>
 #if defined FIX8_MAGIC_NUM && FIX8_MAGIC_NUM > 16793601L
-#error FIX8_SERUM_Trade_router.hpp version 1.4.1 is out of date. Please regenerate with f8c.
+#error FIX8_SERUM_Data_router.hpp version 1.4.1 is out of date. Please regenerate with f8c.
 #endif
 //-------------------------------------------------------------------------------------------------
-// FIX8_SERUM_Trade_router.hpp
+// FIX8_SERUM_Data_router.hpp
 //-------------------------------------------------------------------------------------------------
-#ifndef FIX8_464958385F534552554D5F54726164655F726F757465722E687070_
-#define FIX8_464958385F534552554D5F54726164655F726F757465722E687070_
+#ifndef FIX8_464958385F534552554D5F446174615F726F757465722E687070_
+#define FIX8_464958385F534552554D5F446174615F726F757465722E687070_
 
 namespace FIX8 {
-namespace SERUM_Trade {
+namespace SERUM_Data {
 
 //-------------------------------------------------------------------------------------------------
-class FIX8_SERUM_Trade_Router : public Router
+class FIX8_SERUM_Data_Router : public Router
 {
 public:
-   FIX8_SERUM_Trade_Router() {}
-   virtual ~FIX8_SERUM_Trade_Router() {}
+   FIX8_SERUM_Data_Router() {}
+   virtual ~FIX8_SERUM_Data_Router() {}
 
    virtual bool operator() (const class Message *msg) const { return false; }
    virtual bool operator() (const class Heartbeat *msg) const { return true; }
@@ -163,6 +163,6 @@ public:
    virtual bool operator() (const class DerivativeSecurityListRequest *msg) const { return false; }
 };
 
-} // namespace SERUM_Trade
+} // namespace SERUM_Data
 } // namespace FIX8
-#endif // FIX8_464958385F534552554D5F54726164655F726F757465722E687070_
+#endif // FIX8_464958385F534552554D5F446174615F726F757465722E687070_

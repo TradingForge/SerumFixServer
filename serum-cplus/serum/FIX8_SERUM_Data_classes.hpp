@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------------------------
-// *** f8c generated file: DO NOT EDIT! Created: 2022-05-10 15:24:24 ***
+// *** f8c generated file: DO NOT EDIT! Created: 2022-05-11 21:41:20 ***
 //-------------------------------------------------------------------------------------------------
 /*
 
@@ -49,51 +49,51 @@ HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 //-------------------------------------------------------------------------------------------------
 #include <fix8/f8config.h>
 #if defined FIX8_MAGIC_NUM && FIX8_MAGIC_NUM > 16793601L
-#error FIX8_SERUM_Trade_classes.hpp version 1.4.1 is out of date. Please regenerate with f8c.
+#error FIX8_SERUM_Data_classes.hpp version 1.4.1 is out of date. Please regenerate with f8c.
 #endif
 //-------------------------------------------------------------------------------------------------
-// FIX8_SERUM_Trade_classes.hpp
+// FIX8_SERUM_Data_classes.hpp
 //-------------------------------------------------------------------------------------------------
-#ifndef FIX8_464958385F534552554D5F54726164655F636C61737365732E687070_
-#define FIX8_464958385F534552554D5F54726164655F636C61737365732E687070_
+#ifndef FIX8_464958385F534552554D5F446174615F636C61737365732E687070_
+#define FIX8_464958385F534552554D5F446174615F636C61737365732E687070_
 
-#if defined(_MSC_VER) && defined(F8_SERUM_Trade_API_SHARED)
-    #if defined(BUILD_F8_SERUM_Trade_API)
-        #define F8_SERUM_Trade_API __declspec(dllexport)
+#if defined(_MSC_VER) && defined(F8_SERUM_Data_API_SHARED)
+    #if defined(BUILD_F8_SERUM_Data_API)
+        #define F8_SERUM_Data_API __declspec(dllexport)
     #else
-        #define F8_SERUM_Trade_API __declspec(dllimport)
+        #define F8_SERUM_Data_API __declspec(dllimport)
     #endif
 #else
-    #define F8_SERUM_Trade_API
+    #define F8_SERUM_Data_API
 #endif
 namespace FIX8 {
 
 extern "C"
 {
-   F8_SERUM_Trade_API const F8MetaCntx& SERUM_Trade_ctx();
+   F8_SERUM_Data_API const F8MetaCntx& SERUM_Data_ctx();
 }
 
-namespace SERUM_Trade {
+namespace SERUM_Data {
 
 //-------------------------------------------------------------------------------------------------
-using FIX8_SERUM_Trade_BaseMsgEntry = MsgTable;
+using FIX8_SERUM_Data_BaseMsgEntry = MsgTable;
 /// Compiler generated metadata object, accessed through this function.
-F8_SERUM_Trade_API const F8MetaCntx& ctx();
-class FIX8_SERUM_Trade_Router;
+F8_SERUM_Data_API const F8MetaCntx& ctx();
+class FIX8_SERUM_Data_Router;
 
 //-------------------------------------------------------------------------------------------------
 /// Heartbeat (0), admin, 1 field, 0 groups.
 class Heartbeat : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 1;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 1;
 
 public:
    explicit Heartbeat(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~Heartbeat() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
    bool is_admin() const { return true; }
 
    static const MsgType& get_msgtype() { return _msgtype; }
@@ -105,15 +105,15 @@ public:
 /// TestRequest (1), admin, 1 field, 0 groups.
 class TestRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 1;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 1;
 
 public:
    explicit TestRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~TestRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
    bool is_admin() const { return true; }
 
    static const MsgType& get_msgtype() { return _msgtype; }
@@ -125,15 +125,15 @@ public:
 /// ResendRequest (2), admin, 2 fields, 0 groups.
 class ResendRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 2;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 2;
 
 public:
    explicit ResendRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~ResendRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
    bool is_admin() const { return true; }
 
    static const MsgType& get_msgtype() { return _msgtype; }
@@ -145,15 +145,15 @@ public:
 /// Reject (3), admin, 7 fields, 0 groups.
 class Reject : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 7;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 7;
 
 public:
    explicit Reject(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~Reject() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
    bool is_admin() const { return true; }
 
    static const MsgType& get_msgtype() { return _msgtype; }
@@ -165,15 +165,15 @@ public:
 /// SequenceReset (4), admin, 2 fields, 0 groups.
 class SequenceReset : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 2;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 2;
 
 public:
    explicit SequenceReset(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~SequenceReset() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
    bool is_admin() const { return true; }
 
    static const MsgType& get_msgtype() { return _msgtype; }
@@ -185,15 +185,15 @@ public:
 /// Logout (5), admin, 3 fields, 0 groups.
 class Logout : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 3;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 3;
 
 public:
    explicit Logout(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~Logout() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
    bool is_admin() const { return true; }
 
    static const MsgType& get_msgtype() { return _msgtype; }
@@ -205,10 +205,10 @@ public:
 /// IOI (6), application, 93 fields, 7 groups.
 class IOI : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 93;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 93;
 
 public:
    explicit IOI(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -225,7 +225,7 @@ public:
          });
    }
    ~IOI() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -249,9 +249,9 @@ public:
    // IOI::NoIOIQualifiers
    class NoIOIQualifiers : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -270,9 +270,9 @@ public:
    // IOI::NoRoutingIDs
    class NoRoutingIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -291,9 +291,9 @@ public:
    // IOI::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -312,9 +312,9 @@ public:
    // IOI::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -333,9 +333,9 @@ public:
    // IOI::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 44;
 
    public:
@@ -372,9 +372,9 @@ public:
       // IOI::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -393,9 +393,9 @@ public:
       // IOI::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -415,9 +415,9 @@ public:
    // IOI::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -454,9 +454,9 @@ public:
       // IOI::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -475,9 +475,9 @@ public:
       // IOI::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -497,9 +497,9 @@ public:
    // IOI::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -519,10 +519,10 @@ public:
 /// Advertisement (7), application, 62 fields, 4 groups.
 class Advertisement : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 62;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 62;
 
 public:
    explicit Advertisement(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -536,7 +536,7 @@ public:
          });
    }
    ~Advertisement() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -557,9 +557,9 @@ public:
    // Advertisement::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -578,9 +578,9 @@ public:
    // Advertisement::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -607,9 +607,9 @@ public:
       // Advertisement::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -629,9 +629,9 @@ public:
    // Advertisement::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -668,9 +668,9 @@ public:
       // Advertisement::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -689,9 +689,9 @@ public:
       // Advertisement::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -711,9 +711,9 @@ public:
    // Advertisement::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -733,10 +733,10 @@ public:
 /// ExecutionReport (8), application, 218 fields, 9 groups.
 class ExecutionReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 218;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 218;
 
 public:
    explicit ExecutionReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -755,7 +755,7 @@ public:
          });
    }
    ~ExecutionReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -781,9 +781,9 @@ public:
    // ExecutionReport::NoMiscFees
    class NoMiscFees : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -802,9 +802,9 @@ public:
    // ExecutionReport::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -823,9 +823,9 @@ public:
    // ExecutionReport::NoContraBrokers
    class NoContraBrokers : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 5;
 
    public:
@@ -844,9 +844,9 @@ public:
    // ExecutionReport::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -873,9 +873,9 @@ public:
       // ExecutionReport::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -895,9 +895,9 @@ public:
    // ExecutionReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -916,9 +916,9 @@ public:
    // ExecutionReport::NoContAmts
    class NoContAmts : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -937,9 +937,9 @@ public:
    // ExecutionReport::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 53;
 
    public:
@@ -978,9 +978,9 @@ public:
       // ExecutionReport::NoLegs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -1007,9 +1007,9 @@ public:
          // ExecutionReport::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -1029,9 +1029,9 @@ public:
       // ExecutionReport::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1050,9 +1050,9 @@ public:
       // ExecutionReport::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1072,9 +1072,9 @@ public:
    // ExecutionReport::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -1111,9 +1111,9 @@ public:
       // ExecutionReport::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1132,9 +1132,9 @@ public:
       // ExecutionReport::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1154,9 +1154,9 @@ public:
    // ExecutionReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -1176,15 +1176,15 @@ public:
 /// OrderCancelReject (9), application, 21 fields, 0 groups.
 class OrderCancelReject : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 21;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 21;
 
 public:
    explicit OrderCancelReject(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~OrderCancelReject() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -1195,10 +1195,10 @@ public:
 /// Logon (A), admin, 11 fields, 1 group.
 class Logon : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 11;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 11;
 
 public:
    explicit Logon(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -1207,7 +1207,7 @@ public:
          _groups.insert({384, new NoMsgTypes });
    }
    ~Logon() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
    bool is_admin() const { return true; }
 
    static const MsgType& get_msgtype() { return _msgtype; }
@@ -1220,9 +1220,9 @@ public:
    // Logon::NoMsgTypes
    class NoMsgTypes : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -1242,10 +1242,10 @@ public:
 /// DerivativeSecurityList (AA), application, 53 fields, 3 groups.
 class DerivativeSecurityList : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 53;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 53;
 
 public:
    explicit DerivativeSecurityList(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -1258,7 +1258,7 @@ public:
          });
    }
    ~DerivativeSecurityList() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -1278,9 +1278,9 @@ public:
    // DerivativeSecurityList::NoRelatedSym
    class NoRelatedSym : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 54;
 
    public:
@@ -1321,9 +1321,9 @@ public:
       // DerivativeSecurityList::NoRelatedSym::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1342,9 +1342,9 @@ public:
       // DerivativeSecurityList::NoRelatedSym::NoLegs
       class NoLegs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 42;
 
       public:
@@ -1371,9 +1371,9 @@ public:
          // DerivativeSecurityList::NoRelatedSym::NoLegs::NoLegSecurityAltID
          class NoLegSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -1393,9 +1393,9 @@ public:
       // DerivativeSecurityList::NoRelatedSym::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -1414,9 +1414,9 @@ public:
       // DerivativeSecurityList::NoRelatedSym::NoInstrAttrib
       class NoInstrAttrib : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1436,9 +1436,9 @@ public:
    // DerivativeSecurityList::NoUnderlyingSecurityAltID
    class NoUnderlyingSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -1457,9 +1457,9 @@ public:
    // DerivativeSecurityList::NoUnderlyingStips
    class NoUnderlyingStips : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -1479,10 +1479,10 @@ public:
 /// NewOrderMultileg (AB), application, 131 fields, 7 groups.
 class NewOrderMultileg : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 131;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 131;
 
 public:
    explicit NewOrderMultileg(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -1499,7 +1499,7 @@ public:
          });
    }
    ~NewOrderMultileg() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -1523,9 +1523,9 @@ public:
    // NewOrderMultileg::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 6;
 
    public:
@@ -1552,9 +1552,9 @@ public:
       // NewOrderMultileg::NoAllocs::NoNested3PartyIDs
       class NoNested3PartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -1581,9 +1581,9 @@ public:
          // NewOrderMultileg::NoAllocs::NoNested3PartyIDs::NoNested3PartySubIDs
          class NoNested3PartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -1604,9 +1604,9 @@ public:
    // NewOrderMultileg::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -1625,9 +1625,9 @@ public:
    // NewOrderMultileg::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -1654,9 +1654,9 @@ public:
       // NewOrderMultileg::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1676,9 +1676,9 @@ public:
    // NewOrderMultileg::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -1697,9 +1697,9 @@ public:
    // NewOrderMultileg::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 53;
 
    public:
@@ -1740,9 +1740,9 @@ public:
       // NewOrderMultileg::NoLegs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -1769,9 +1769,9 @@ public:
          // NewOrderMultileg::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -1791,9 +1791,9 @@ public:
       // NewOrderMultileg::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1812,9 +1812,9 @@ public:
       // NewOrderMultileg::NoLegs::NoLegAllocs
       class NoLegAllocs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 6;
 
       public:
@@ -1841,9 +1841,9 @@ public:
          // NewOrderMultileg::NoLegs::NoLegAllocs::NoNested2PartyIDs
          class NoNested2PartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -1870,9 +1870,9 @@ public:
             // NewOrderMultileg::NoLegs::NoLegAllocs::NoNested2PartyIDs::NoNested2PartySubIDs
             class NoNested2PartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -1893,9 +1893,9 @@ public:
       // NewOrderMultileg::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1915,9 +1915,9 @@ public:
    // NewOrderMultileg::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -1954,9 +1954,9 @@ public:
       // NewOrderMultileg::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1975,9 +1975,9 @@ public:
       // NewOrderMultileg::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -1997,9 +1997,9 @@ public:
    // NewOrderMultileg::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -2019,10 +2019,10 @@ public:
 /// MultilegOrderCancelReplace (AC), application, 134 fields, 7 groups.
 class MultilegOrderCancelReplace : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 134;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 134;
 
 public:
    explicit MultilegOrderCancelReplace(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -2039,7 +2039,7 @@ public:
          });
    }
    ~MultilegOrderCancelReplace() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -2063,9 +2063,9 @@ public:
    // MultilegOrderCancelReplace::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 6;
 
    public:
@@ -2092,9 +2092,9 @@ public:
       // MultilegOrderCancelReplace::NoAllocs::NoNested3PartyIDs
       class NoNested3PartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -2121,9 +2121,9 @@ public:
          // MultilegOrderCancelReplace::NoAllocs::NoNested3PartyIDs::NoNested3PartySubIDs
          class NoNested3PartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -2144,9 +2144,9 @@ public:
    // MultilegOrderCancelReplace::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -2165,9 +2165,9 @@ public:
    // MultilegOrderCancelReplace::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -2194,9 +2194,9 @@ public:
       // MultilegOrderCancelReplace::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2216,9 +2216,9 @@ public:
    // MultilegOrderCancelReplace::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -2237,9 +2237,9 @@ public:
    // MultilegOrderCancelReplace::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 53;
 
    public:
@@ -2280,9 +2280,9 @@ public:
       // MultilegOrderCancelReplace::NoLegs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -2309,9 +2309,9 @@ public:
          // MultilegOrderCancelReplace::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -2331,9 +2331,9 @@ public:
       // MultilegOrderCancelReplace::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2352,9 +2352,9 @@ public:
       // MultilegOrderCancelReplace::NoLegs::NoLegAllocs
       class NoLegAllocs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 6;
 
       public:
@@ -2381,9 +2381,9 @@ public:
          // MultilegOrderCancelReplace::NoLegs::NoLegAllocs::NoNested2PartyIDs
          class NoNested2PartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -2410,9 +2410,9 @@ public:
             // MultilegOrderCancelReplace::NoLegs::NoLegAllocs::NoNested2PartyIDs::NoNested2PartySubIDs
             class NoNested2PartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -2433,9 +2433,9 @@ public:
       // MultilegOrderCancelReplace::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2455,9 +2455,9 @@ public:
    // MultilegOrderCancelReplace::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -2494,9 +2494,9 @@ public:
       // MultilegOrderCancelReplace::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2515,9 +2515,9 @@ public:
       // MultilegOrderCancelReplace::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2537,9 +2537,9 @@ public:
    // MultilegOrderCancelReplace::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -2559,10 +2559,10 @@ public:
 /// TradeCaptureReportRequest (AD), application, 88 fields, 7 groups.
 class TradeCaptureReportRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 88;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 88;
 
 public:
    explicit TradeCaptureReportRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -2579,7 +2579,7 @@ public:
          });
    }
    ~TradeCaptureReportRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -2603,9 +2603,9 @@ public:
    // TradeCaptureReportRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -2632,9 +2632,9 @@ public:
       // TradeCaptureReportRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2654,9 +2654,9 @@ public:
    // TradeCaptureReportRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -2675,9 +2675,9 @@ public:
    // TradeCaptureReportRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -2704,9 +2704,9 @@ public:
       // TradeCaptureReportRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2726,9 +2726,9 @@ public:
    // TradeCaptureReportRequest::NoDates
    class NoDates : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -2747,9 +2747,9 @@ public:
    // TradeCaptureReportRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -2786,9 +2786,9 @@ public:
       // TradeCaptureReportRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2807,9 +2807,9 @@ public:
       // TradeCaptureReportRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -2829,9 +2829,9 @@ public:
    // TradeCaptureReportRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -2850,9 +2850,9 @@ public:
    // TradeCaptureReportRequest::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -2872,10 +2872,10 @@ public:
 /// TradeCaptureReport (AE), application, 123 fields, 7 groups.
 class TradeCaptureReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 123;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 123;
 
 public:
    explicit TradeCaptureReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -2892,7 +2892,7 @@ public:
          });
    }
    ~TradeCaptureReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -2916,9 +2916,9 @@ public:
    // TradeCaptureReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -2937,9 +2937,9 @@ public:
    // TradeCaptureReport::NoSides
    class NoSides : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 61;
 
    public:
@@ -2984,9 +2984,9 @@ public:
       // TradeCaptureReport::NoSides::NoAllocs
       class NoAllocs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 6;
 
       public:
@@ -3013,9 +3013,9 @@ public:
          // TradeCaptureReport::NoSides::NoAllocs::NoNested2PartyIDs
          class NoNested2PartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -3042,9 +3042,9 @@ public:
             // TradeCaptureReport::NoSides::NoAllocs::NoNested2PartyIDs::NoNested2PartySubIDs
             class NoNested2PartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -3065,9 +3065,9 @@ public:
       // TradeCaptureReport::NoSides::NoMiscFees
       class NoMiscFees : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -3086,9 +3086,9 @@ public:
       // TradeCaptureReport::NoSides::NoStipulations
       class NoStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -3107,9 +3107,9 @@ public:
       // TradeCaptureReport::NoSides::NoPartyIDs
       class NoPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -3136,9 +3136,9 @@ public:
          // TradeCaptureReport::NoSides::NoPartyIDs::NoPartySubIDs
          class NoPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -3158,9 +3158,9 @@ public:
       // TradeCaptureReport::NoSides::NoContAmts
       class NoContAmts : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 3;
 
       public:
@@ -3179,9 +3179,9 @@ public:
       // TradeCaptureReport::NoSides::NoClearingInstructions
       class NoClearingInstructions : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 1;
 
       public:
@@ -3201,9 +3201,9 @@ public:
    // TradeCaptureReport::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 53;
 
    public:
@@ -3242,9 +3242,9 @@ public:
       // TradeCaptureReport::NoLegs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -3271,9 +3271,9 @@ public:
          // TradeCaptureReport::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -3293,9 +3293,9 @@ public:
       // TradeCaptureReport::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -3314,9 +3314,9 @@ public:
       // TradeCaptureReport::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -3336,9 +3336,9 @@ public:
    // TradeCaptureReport::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -3375,9 +3375,9 @@ public:
       // TradeCaptureReport::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -3396,9 +3396,9 @@ public:
       // TradeCaptureReport::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -3418,9 +3418,9 @@ public:
    // TradeCaptureReport::NoPosAmt
    class NoPosAmt : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -3439,9 +3439,9 @@ public:
    // TradeCaptureReport::NoTrdRegTimestamps
    class NoTrdRegTimestamps : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -3460,9 +3460,9 @@ public:
    // TradeCaptureReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -3482,10 +3482,10 @@ public:
 /// OrderMassStatusRequest (AF), application, 98 fields, 5 groups.
 class OrderMassStatusRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 98;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 98;
 
 public:
    explicit OrderMassStatusRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -3500,7 +3500,7 @@ public:
          });
    }
    ~OrderMassStatusRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -3522,9 +3522,9 @@ public:
    // OrderMassStatusRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -3551,9 +3551,9 @@ public:
       // OrderMassStatusRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -3573,9 +3573,9 @@ public:
    // OrderMassStatusRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -3594,9 +3594,9 @@ public:
    // OrderMassStatusRequest::NoUnderlyingSecurityAltID
    class NoUnderlyingSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -3615,9 +3615,9 @@ public:
    // OrderMassStatusRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -3636,9 +3636,9 @@ public:
    // OrderMassStatusRequest::NoUnderlyingStips
    class NoUnderlyingStips : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -3658,10 +3658,10 @@ public:
 /// QuoteRequestReject (AG), application, 7 fields, 1 group.
 class QuoteRequestReject : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 7;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 7;
 
 public:
    explicit QuoteRequestReject(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -3670,7 +3670,7 @@ public:
          _groups.insert({146, new NoRelatedSym });
    }
    ~QuoteRequestReject() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -3682,9 +3682,9 @@ public:
    // QuoteRequestReject::NoRelatedSym
    class NoRelatedSym : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 99;
 
    public:
@@ -3731,9 +3731,9 @@ public:
       // QuoteRequestReject::NoRelatedSym::NoStipulations
       class NoStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -3752,9 +3752,9 @@ public:
       // QuoteRequestReject::NoRelatedSym::NoPartyIDs
       class NoPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -3781,9 +3781,9 @@ public:
          // QuoteRequestReject::NoRelatedSym::NoPartyIDs::NoPartySubIDs
          class NoPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -3803,9 +3803,9 @@ public:
       // QuoteRequestReject::NoRelatedSym::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -3824,9 +3824,9 @@ public:
       // QuoteRequestReject::NoRelatedSym::NoLegs
       class NoLegs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 53;
 
       public:
@@ -3865,9 +3865,9 @@ public:
          // QuoteRequestReject::NoRelatedSym::NoLegs::NoNestedPartyIDs
          class NoNestedPartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -3894,9 +3894,9 @@ public:
             // QuoteRequestReject::NoRelatedSym::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
             class NoNestedPartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -3916,9 +3916,9 @@ public:
          // QuoteRequestReject::NoRelatedSym::NoLegs::NoLegSecurityAltID
          class NoLegSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -3937,9 +3937,9 @@ public:
          // QuoteRequestReject::NoRelatedSym::NoLegs::NoLegStipulations
          class NoLegStipulations : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -3959,9 +3959,9 @@ public:
       // QuoteRequestReject::NoRelatedSym::NoUnderlyings
       class NoUnderlyings : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 47;
 
       public:
@@ -3998,9 +3998,9 @@ public:
          // QuoteRequestReject::NoRelatedSym::NoUnderlyings::NoUnderlyingSecurityAltID
          class NoUnderlyingSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -4019,9 +4019,9 @@ public:
          // QuoteRequestReject::NoRelatedSym::NoUnderlyings::NoUnderlyingStips
          class NoUnderlyingStips : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -4041,9 +4041,9 @@ public:
       // QuoteRequestReject::NoRelatedSym::NoQuoteQualifiers
       class NoQuoteQualifiers : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 1;
 
       public:
@@ -4062,9 +4062,9 @@ public:
       // QuoteRequestReject::NoRelatedSym::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -4085,10 +4085,10 @@ public:
 /// RFQRequest (AH), application, 3 fields, 1 group.
 class RFQRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 3;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 3;
 
 public:
    explicit RFQRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -4097,7 +4097,7 @@ public:
          _groups.insert({146, new NoRelatedSym });
    }
    ~RFQRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -4109,9 +4109,9 @@ public:
    // RFQRequest::NoRelatedSym
    class NoRelatedSym : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 50;
 
    public:
@@ -4152,9 +4152,9 @@ public:
       // RFQRequest::NoRelatedSym::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4173,9 +4173,9 @@ public:
       // RFQRequest::NoRelatedSym::NoLegs
       class NoLegs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 42;
 
       public:
@@ -4202,9 +4202,9 @@ public:
          // RFQRequest::NoRelatedSym::NoLegs::NoLegSecurityAltID
          class NoLegSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -4224,9 +4224,9 @@ public:
       // RFQRequest::NoRelatedSym::NoUnderlyings
       class NoUnderlyings : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 47;
 
       public:
@@ -4263,9 +4263,9 @@ public:
          // RFQRequest::NoRelatedSym::NoUnderlyings::NoUnderlyingSecurityAltID
          class NoUnderlyingSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -4284,9 +4284,9 @@ public:
          // RFQRequest::NoRelatedSym::NoUnderlyings::NoUnderlyingStips
          class NoUnderlyingStips : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -4306,9 +4306,9 @@ public:
       // RFQRequest::NoRelatedSym::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -4329,10 +4329,10 @@ public:
 /// QuoteStatusReport (AI), application, 127 fields, 7 groups.
 class QuoteStatusReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 127;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 127;
 
 public:
    explicit QuoteStatusReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -4349,7 +4349,7 @@ public:
          });
    }
    ~QuoteStatusReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -4373,9 +4373,9 @@ public:
    // QuoteStatusReport::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -4394,9 +4394,9 @@ public:
    // QuoteStatusReport::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -4423,9 +4423,9 @@ public:
       // QuoteStatusReport::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4445,9 +4445,9 @@ public:
    // QuoteStatusReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -4466,9 +4466,9 @@ public:
    // QuoteStatusReport::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 48;
 
    public:
@@ -4507,9 +4507,9 @@ public:
       // QuoteStatusReport::NoLegs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -4536,9 +4536,9 @@ public:
          // QuoteStatusReport::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -4558,9 +4558,9 @@ public:
       // QuoteStatusReport::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4579,9 +4579,9 @@ public:
       // QuoteStatusReport::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4601,9 +4601,9 @@ public:
    // QuoteStatusReport::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -4640,9 +4640,9 @@ public:
       // QuoteStatusReport::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4661,9 +4661,9 @@ public:
       // QuoteStatusReport::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4683,9 +4683,9 @@ public:
    // QuoteStatusReport::NoQuoteQualifiers
    class NoQuoteQualifiers : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -4704,9 +4704,9 @@ public:
    // QuoteStatusReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -4726,10 +4726,10 @@ public:
 /// QuoteResponse (AJ), application, 127 fields, 7 groups.
 class QuoteResponse : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 127;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 127;
 
 public:
    explicit QuoteResponse(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -4746,7 +4746,7 @@ public:
          });
    }
    ~QuoteResponse() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -4770,9 +4770,9 @@ public:
    // QuoteResponse::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -4791,9 +4791,9 @@ public:
    // QuoteResponse::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -4820,9 +4820,9 @@ public:
       // QuoteResponse::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4842,9 +4842,9 @@ public:
    // QuoteResponse::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -4863,9 +4863,9 @@ public:
    // QuoteResponse::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 56;
 
    public:
@@ -4904,9 +4904,9 @@ public:
       // QuoteResponse::NoLegs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -4933,9 +4933,9 @@ public:
          // QuoteResponse::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -4955,9 +4955,9 @@ public:
       // QuoteResponse::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4976,9 +4976,9 @@ public:
       // QuoteResponse::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -4998,9 +4998,9 @@ public:
    // QuoteResponse::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -5037,9 +5037,9 @@ public:
       // QuoteResponse::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -5058,9 +5058,9 @@ public:
       // QuoteResponse::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -5080,9 +5080,9 @@ public:
    // QuoteResponse::NoQuoteQualifiers
    class NoQuoteQualifiers : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -5101,9 +5101,9 @@ public:
    // QuoteResponse::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -5123,10 +5123,10 @@ public:
 /// Confirmation (AK), application, 136 fields, 12 groups.
 class Confirmation : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 136;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 136;
 
 public:
    explicit Confirmation(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -5148,7 +5148,7 @@ public:
          });
    }
    ~Confirmation() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -5177,9 +5177,9 @@ public:
    // Confirmation::NoOrders
    class NoOrders : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 9;
 
    public:
@@ -5206,9 +5206,9 @@ public:
       // Confirmation::NoOrders::NoNested2PartyIDs
       class NoNested2PartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -5235,9 +5235,9 @@ public:
          // Confirmation::NoOrders::NoNested2PartyIDs::NoNested2PartySubIDs
          class NoNested2PartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -5258,9 +5258,9 @@ public:
    // Confirmation::NoDlvyInst
    class NoDlvyInst : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -5287,9 +5287,9 @@ public:
       // Confirmation::NoDlvyInst::NoSettlPartyIDs
       class NoSettlPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -5316,9 +5316,9 @@ public:
          // Confirmation::NoDlvyInst::NoSettlPartyIDs::NoSettlPartySubIDs
          class NoSettlPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -5339,9 +5339,9 @@ public:
    // Confirmation::NoMiscFees
    class NoMiscFees : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -5360,9 +5360,9 @@ public:
    // Confirmation::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -5381,9 +5381,9 @@ public:
    // Confirmation::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -5410,9 +5410,9 @@ public:
       // Confirmation::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -5432,9 +5432,9 @@ public:
    // Confirmation::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -5453,9 +5453,9 @@ public:
    // Confirmation::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -5482,9 +5482,9 @@ public:
       // Confirmation::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -5504,9 +5504,9 @@ public:
    // Confirmation::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -5543,9 +5543,9 @@ public:
       // Confirmation::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -5564,9 +5564,9 @@ public:
       // Confirmation::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -5586,9 +5586,9 @@ public:
    // Confirmation::NoTrdRegTimestamps
    class NoTrdRegTimestamps : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -5607,9 +5607,9 @@ public:
    // Confirmation::NoCapacities
    class NoCapacities : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -5628,9 +5628,9 @@ public:
    // Confirmation::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -5649,9 +5649,9 @@ public:
    // Confirmation::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -5671,10 +5671,10 @@ public:
 /// PositionMaintenanceRequest (AL), application, 68 fields, 7 groups.
 class PositionMaintenanceRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 68;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 68;
 
 public:
    explicit PositionMaintenanceRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -5691,7 +5691,7 @@ public:
          });
    }
    ~PositionMaintenanceRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -5715,9 +5715,9 @@ public:
    // PositionMaintenanceRequest::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -5736,9 +5736,9 @@ public:
    // PositionMaintenanceRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -5765,9 +5765,9 @@ public:
       // PositionMaintenanceRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -5787,9 +5787,9 @@ public:
    // PositionMaintenanceRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -5808,9 +5808,9 @@ public:
    // PositionMaintenanceRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -5837,9 +5837,9 @@ public:
       // PositionMaintenanceRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -5859,9 +5859,9 @@ public:
    // PositionMaintenanceRequest::NoPositions
    class NoPositions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 5;
 
    public:
@@ -5888,9 +5888,9 @@ public:
       // PositionMaintenanceRequest::NoPositions::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -5917,9 +5917,9 @@ public:
          // PositionMaintenanceRequest::NoPositions::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -5940,9 +5940,9 @@ public:
    // PositionMaintenanceRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -5979,9 +5979,9 @@ public:
       // PositionMaintenanceRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6000,9 +6000,9 @@ public:
       // PositionMaintenanceRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6022,9 +6022,9 @@ public:
    // PositionMaintenanceRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -6044,10 +6044,10 @@ public:
 /// PositionMaintenanceReport (AM), application, 69 fields, 8 groups.
 class PositionMaintenanceReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 69;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 69;
 
 public:
    explicit PositionMaintenanceReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -6065,7 +6065,7 @@ public:
          });
    }
    ~PositionMaintenanceReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -6090,9 +6090,9 @@ public:
    // PositionMaintenanceReport::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -6111,9 +6111,9 @@ public:
    // PositionMaintenanceReport::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -6140,9 +6140,9 @@ public:
       // PositionMaintenanceReport::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6162,9 +6162,9 @@ public:
    // PositionMaintenanceReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -6183,9 +6183,9 @@ public:
    // PositionMaintenanceReport::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -6212,9 +6212,9 @@ public:
       // PositionMaintenanceReport::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6234,9 +6234,9 @@ public:
    // PositionMaintenanceReport::NoPositions
    class NoPositions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 5;
 
    public:
@@ -6263,9 +6263,9 @@ public:
       // PositionMaintenanceReport::NoPositions::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -6292,9 +6292,9 @@ public:
          // PositionMaintenanceReport::NoPositions::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -6315,9 +6315,9 @@ public:
    // PositionMaintenanceReport::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -6354,9 +6354,9 @@ public:
       // PositionMaintenanceReport::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6375,9 +6375,9 @@ public:
       // PositionMaintenanceReport::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6397,9 +6397,9 @@ public:
    // PositionMaintenanceReport::NoPosAmt
    class NoPosAmt : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -6418,9 +6418,9 @@ public:
    // PositionMaintenanceReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -6440,10 +6440,10 @@ public:
 /// RequestForPositions (AN), application, 64 fields, 6 groups.
 class RequestForPositions : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 64;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 64;
 
 public:
    explicit RequestForPositions(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -6459,7 +6459,7 @@ public:
          });
    }
    ~RequestForPositions() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -6482,9 +6482,9 @@ public:
    // RequestForPositions::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -6503,9 +6503,9 @@ public:
    // RequestForPositions::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -6532,9 +6532,9 @@ public:
       // RequestForPositions::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6554,9 +6554,9 @@ public:
    // RequestForPositions::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -6575,9 +6575,9 @@ public:
    // RequestForPositions::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -6604,9 +6604,9 @@ public:
       // RequestForPositions::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6626,9 +6626,9 @@ public:
    // RequestForPositions::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -6665,9 +6665,9 @@ public:
       // RequestForPositions::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6686,9 +6686,9 @@ public:
       // RequestForPositions::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6708,9 +6708,9 @@ public:
    // RequestForPositions::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -6730,10 +6730,10 @@ public:
 /// RequestForPositionsAck (AO), application, 61 fields, 5 groups.
 class RequestForPositionsAck : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 61;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 61;
 
 public:
    explicit RequestForPositionsAck(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -6748,7 +6748,7 @@ public:
          });
    }
    ~RequestForPositionsAck() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -6770,9 +6770,9 @@ public:
    // RequestForPositionsAck::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -6799,9 +6799,9 @@ public:
       // RequestForPositionsAck::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6821,9 +6821,9 @@ public:
    // RequestForPositionsAck::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -6842,9 +6842,9 @@ public:
    // RequestForPositionsAck::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -6871,9 +6871,9 @@ public:
       // RequestForPositionsAck::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6893,9 +6893,9 @@ public:
    // RequestForPositionsAck::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -6932,9 +6932,9 @@ public:
       // RequestForPositionsAck::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6953,9 +6953,9 @@ public:
       // RequestForPositionsAck::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -6975,9 +6975,9 @@ public:
    // RequestForPositionsAck::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -6997,10 +6997,10 @@ public:
 /// PositionReport (AP), application, 70 fields, 7 groups.
 class PositionReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 70;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 70;
 
 public:
    explicit PositionReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -7017,7 +7017,7 @@ public:
          });
    }
    ~PositionReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -7041,9 +7041,9 @@ public:
    // PositionReport::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -7070,9 +7070,9 @@ public:
       // PositionReport::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7092,9 +7092,9 @@ public:
    // PositionReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -7113,9 +7113,9 @@ public:
    // PositionReport::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -7142,9 +7142,9 @@ public:
       // PositionReport::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7164,9 +7164,9 @@ public:
    // PositionReport::NoPositions
    class NoPositions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 5;
 
    public:
@@ -7193,9 +7193,9 @@ public:
       // PositionReport::NoPositions::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -7222,9 +7222,9 @@ public:
          // PositionReport::NoPositions::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -7245,9 +7245,9 @@ public:
    // PositionReport::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 49;
 
    public:
@@ -7284,9 +7284,9 @@ public:
       // PositionReport::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7305,9 +7305,9 @@ public:
       // PositionReport::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7327,9 +7327,9 @@ public:
    // PositionReport::NoPosAmt
    class NoPosAmt : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -7348,9 +7348,9 @@ public:
    // PositionReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -7370,10 +7370,10 @@ public:
 /// TradeCaptureReportRequestAck (AQ), application, 57 fields, 4 groups.
 class TradeCaptureReportRequestAck : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 57;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 57;
 
 public:
    explicit TradeCaptureReportRequestAck(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -7387,7 +7387,7 @@ public:
          });
    }
    ~TradeCaptureReportRequestAck() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -7408,9 +7408,9 @@ public:
    // TradeCaptureReportRequestAck::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -7429,9 +7429,9 @@ public:
    // TradeCaptureReportRequestAck::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -7458,9 +7458,9 @@ public:
       // TradeCaptureReportRequestAck::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7480,9 +7480,9 @@ public:
    // TradeCaptureReportRequestAck::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -7519,9 +7519,9 @@ public:
       // TradeCaptureReportRequestAck::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7540,9 +7540,9 @@ public:
       // TradeCaptureReportRequestAck::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7562,9 +7562,9 @@ public:
    // TradeCaptureReportRequestAck::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -7584,10 +7584,10 @@ public:
 /// TradeCaptureReportAck (AR), application, 79 fields, 5 groups.
 class TradeCaptureReportAck : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 79;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 79;
 
 public:
    explicit TradeCaptureReportAck(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -7602,7 +7602,7 @@ public:
          });
    }
    ~TradeCaptureReportAck() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -7624,9 +7624,9 @@ public:
    // TradeCaptureReportAck::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 6;
 
    public:
@@ -7653,9 +7653,9 @@ public:
       // TradeCaptureReportAck::NoAllocs::NoNested2PartyIDs
       class NoNested2PartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -7682,9 +7682,9 @@ public:
          // TradeCaptureReportAck::NoAllocs::NoNested2PartyIDs::NoNested2PartySubIDs
          class NoNested2PartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -7705,9 +7705,9 @@ public:
    // TradeCaptureReportAck::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -7726,9 +7726,9 @@ public:
    // TradeCaptureReportAck::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 53;
 
    public:
@@ -7767,9 +7767,9 @@ public:
       // TradeCaptureReportAck::NoLegs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -7796,9 +7796,9 @@ public:
          // TradeCaptureReportAck::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -7818,9 +7818,9 @@ public:
       // TradeCaptureReportAck::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7839,9 +7839,9 @@ public:
       // TradeCaptureReportAck::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -7861,9 +7861,9 @@ public:
    // TradeCaptureReportAck::NoTrdRegTimestamps
    class NoTrdRegTimestamps : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -7882,9 +7882,9 @@ public:
    // TradeCaptureReportAck::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -7904,10 +7904,10 @@ public:
 /// AllocationReport (AS), application, 131 fields, 10 groups.
 class AllocationReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 131;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 131;
 
 public:
    explicit AllocationReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -7927,7 +7927,7 @@ public:
          });
    }
    ~AllocationReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -7954,9 +7954,9 @@ public:
    // AllocationReport::NoOrders
    class NoOrders : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 9;
 
    public:
@@ -7983,9 +7983,9 @@ public:
       // AllocationReport::NoOrders::NoNested2PartyIDs
       class NoNested2PartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -8012,9 +8012,9 @@ public:
          // AllocationReport::NoOrders::NoNested2PartyIDs::NoNested2PartySubIDs
          class NoNested2PartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -8035,9 +8035,9 @@ public:
    // AllocationReport::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 35;
 
    public:
@@ -8078,9 +8078,9 @@ public:
       // AllocationReport::NoAllocs::NoDlvyInst
       class NoDlvyInst : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 3;
 
       public:
@@ -8107,9 +8107,9 @@ public:
          // AllocationReport::NoAllocs::NoDlvyInst::NoSettlPartyIDs
          class NoSettlPartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -8136,9 +8136,9 @@ public:
             // AllocationReport::NoAllocs::NoDlvyInst::NoSettlPartyIDs::NoSettlPartySubIDs
             class NoSettlPartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -8159,9 +8159,9 @@ public:
       // AllocationReport::NoAllocs::NoMiscFees
       class NoMiscFees : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -8180,9 +8180,9 @@ public:
       // AllocationReport::NoAllocs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -8209,9 +8209,9 @@ public:
          // AllocationReport::NoAllocs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -8231,9 +8231,9 @@ public:
       // AllocationReport::NoAllocs::NoClearingInstructions
       class NoClearingInstructions : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 1;
 
       public:
@@ -8253,9 +8253,9 @@ public:
    // AllocationReport::NoExecs
    class NoExecs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 6;
 
    public:
@@ -8274,9 +8274,9 @@ public:
    // AllocationReport::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -8295,9 +8295,9 @@ public:
    // AllocationReport::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -8324,9 +8324,9 @@ public:
       // AllocationReport::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -8346,9 +8346,9 @@ public:
    // AllocationReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -8367,9 +8367,9 @@ public:
    // AllocationReport::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -8396,9 +8396,9 @@ public:
       // AllocationReport::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -8418,9 +8418,9 @@ public:
    // AllocationReport::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -8457,9 +8457,9 @@ public:
       // AllocationReport::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -8478,9 +8478,9 @@ public:
       // AllocationReport::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -8500,9 +8500,9 @@ public:
    // AllocationReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -8521,9 +8521,9 @@ public:
    // AllocationReport::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -8543,10 +8543,10 @@ public:
 /// AllocationReportAck (AT), application, 17 fields, 2 groups.
 class AllocationReportAck : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 17;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 17;
 
 public:
    explicit AllocationReportAck(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -8558,7 +8558,7 @@ public:
          });
    }
    ~AllocationReportAck() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -8577,9 +8577,9 @@ public:
    // AllocationReportAck::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 8;
 
    public:
@@ -8598,9 +8598,9 @@ public:
    // AllocationReportAck::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -8627,9 +8627,9 @@ public:
       // AllocationReportAck::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -8650,15 +8650,15 @@ public:
 /// ConfirmationAck (AU), application, 9 fields, 0 groups.
 class ConfirmationAck : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 9;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 9;
 
 public:
    explicit ConfirmationAck(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~ConfirmationAck() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -8669,10 +8669,10 @@ public:
 /// SettlementInstructionRequest (AV), application, 15 fields, 1 group.
 class SettlementInstructionRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 15;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 15;
 
 public:
    explicit SettlementInstructionRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -8681,7 +8681,7 @@ public:
          _groups.insert({453, new NoPartyIDs });
    }
    ~SettlementInstructionRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -8693,9 +8693,9 @@ public:
    // SettlementInstructionRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -8722,9 +8722,9 @@ public:
       // SettlementInstructionRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -8745,10 +8745,10 @@ public:
 /// AssignmentReport (AW), application, 69 fields, 7 groups.
 class AssignmentReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 69;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 69;
 
 public:
    explicit AssignmentReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -8765,7 +8765,7 @@ public:
          });
    }
    ~AssignmentReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -8789,9 +8789,9 @@ public:
    // AssignmentReport::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -8818,9 +8818,9 @@ public:
       // AssignmentReport::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -8840,9 +8840,9 @@ public:
    // AssignmentReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -8861,9 +8861,9 @@ public:
    // AssignmentReport::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -8890,9 +8890,9 @@ public:
       // AssignmentReport::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -8912,9 +8912,9 @@ public:
    // AssignmentReport::NoPositions
    class NoPositions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 5;
 
    public:
@@ -8941,9 +8941,9 @@ public:
       // AssignmentReport::NoPositions::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -8970,9 +8970,9 @@ public:
          // AssignmentReport::NoPositions::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -8993,9 +8993,9 @@ public:
    // AssignmentReport::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -9032,9 +9032,9 @@ public:
       // AssignmentReport::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9053,9 +9053,9 @@ public:
       // AssignmentReport::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9075,9 +9075,9 @@ public:
    // AssignmentReport::NoPosAmt
    class NoPosAmt : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -9096,9 +9096,9 @@ public:
    // AssignmentReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -9118,10 +9118,10 @@ public:
 /// CollateralRequest (AX), application, 100 fields, 10 groups.
 class CollateralRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 100;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 100;
 
 public:
    explicit CollateralRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -9141,7 +9141,7 @@ public:
          });
    }
    ~CollateralRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -9168,9 +9168,9 @@ public:
    // CollateralRequest::NoExecs
    class NoExecs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -9189,9 +9189,9 @@ public:
    // CollateralRequest::NoMiscFees
    class NoMiscFees : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -9210,9 +9210,9 @@ public:
    // CollateralRequest::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -9231,9 +9231,9 @@ public:
    // CollateralRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -9260,9 +9260,9 @@ public:
       // CollateralRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9282,9 +9282,9 @@ public:
    // CollateralRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -9303,9 +9303,9 @@ public:
    // CollateralRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -9332,9 +9332,9 @@ public:
       // CollateralRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9354,9 +9354,9 @@ public:
    // CollateralRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 48;
 
    public:
@@ -9393,9 +9393,9 @@ public:
       // CollateralRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9414,9 +9414,9 @@ public:
       // CollateralRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9436,9 +9436,9 @@ public:
    // CollateralRequest::NoTrdRegTimestamps
    class NoTrdRegTimestamps : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -9457,9 +9457,9 @@ public:
    // CollateralRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -9478,9 +9478,9 @@ public:
    // CollateralRequest::NoTrades
    class NoTrades : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -9500,10 +9500,10 @@ public:
 /// CollateralAssignment (AY), application, 108 fields, 11 groups.
 class CollateralAssignment : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 108;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 108;
 
 public:
    explicit CollateralAssignment(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -9524,7 +9524,7 @@ public:
          });
    }
    ~CollateralAssignment() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -9552,9 +9552,9 @@ public:
    // CollateralAssignment::NoDlvyInst
    class NoDlvyInst : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -9581,9 +9581,9 @@ public:
       // CollateralAssignment::NoDlvyInst::NoSettlPartyIDs
       class NoSettlPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -9610,9 +9610,9 @@ public:
          // CollateralAssignment::NoDlvyInst::NoSettlPartyIDs::NoSettlPartySubIDs
          class NoSettlPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -9633,9 +9633,9 @@ public:
    // CollateralAssignment::NoExecs
    class NoExecs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -9654,9 +9654,9 @@ public:
    // CollateralAssignment::NoMiscFees
    class NoMiscFees : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -9675,9 +9675,9 @@ public:
    // CollateralAssignment::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -9696,9 +9696,9 @@ public:
    // CollateralAssignment::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -9725,9 +9725,9 @@ public:
       // CollateralAssignment::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9747,9 +9747,9 @@ public:
    // CollateralAssignment::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -9768,9 +9768,9 @@ public:
    // CollateralAssignment::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -9797,9 +9797,9 @@ public:
       // CollateralAssignment::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9819,9 +9819,9 @@ public:
    // CollateralAssignment::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 48;
 
    public:
@@ -9858,9 +9858,9 @@ public:
       // CollateralAssignment::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9879,9 +9879,9 @@ public:
       // CollateralAssignment::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -9901,9 +9901,9 @@ public:
    // CollateralAssignment::NoTrdRegTimestamps
    class NoTrdRegTimestamps : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -9922,9 +9922,9 @@ public:
    // CollateralAssignment::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -9943,9 +9943,9 @@ public:
    // CollateralAssignment::NoTrades
    class NoTrades : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -9965,10 +9965,10 @@ public:
 /// CollateralResponse (AZ), application, 99 fields, 10 groups.
 class CollateralResponse : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 99;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 99;
 
 public:
    explicit CollateralResponse(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -9988,7 +9988,7 @@ public:
          });
    }
    ~CollateralResponse() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -10015,9 +10015,9 @@ public:
    // CollateralResponse::NoExecs
    class NoExecs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -10036,9 +10036,9 @@ public:
    // CollateralResponse::NoMiscFees
    class NoMiscFees : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -10057,9 +10057,9 @@ public:
    // CollateralResponse::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -10078,9 +10078,9 @@ public:
    // CollateralResponse::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -10107,9 +10107,9 @@ public:
       // CollateralResponse::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10129,9 +10129,9 @@ public:
    // CollateralResponse::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -10150,9 +10150,9 @@ public:
    // CollateralResponse::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -10179,9 +10179,9 @@ public:
       // CollateralResponse::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10201,9 +10201,9 @@ public:
    // CollateralResponse::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 48;
 
    public:
@@ -10240,9 +10240,9 @@ public:
       // CollateralResponse::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10261,9 +10261,9 @@ public:
       // CollateralResponse::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10283,9 +10283,9 @@ public:
    // CollateralResponse::NoTrdRegTimestamps
    class NoTrdRegTimestamps : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -10304,9 +10304,9 @@ public:
    // CollateralResponse::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -10325,9 +10325,9 @@ public:
    // CollateralResponse::NoTrades
    class NoTrades : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -10347,10 +10347,10 @@ public:
 /// News (B), application, 13 fields, 5 groups.
 class News : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 13;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 13;
 
 public:
    explicit News(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -10365,7 +10365,7 @@ public:
          });
    }
    ~News() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -10387,9 +10387,9 @@ public:
    // News::NoLinesOfText
    class NoLinesOfText : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -10408,9 +10408,9 @@ public:
    // News::NoRelatedSym
    class NoRelatedSym : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 43;
 
    public:
@@ -10447,9 +10447,9 @@ public:
       // News::NoRelatedSym::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10468,9 +10468,9 @@ public:
       // News::NoRelatedSym::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -10490,9 +10490,9 @@ public:
    // News::NoRoutingIDs
    class NoRoutingIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -10511,9 +10511,9 @@ public:
    // News::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -10540,9 +10540,9 @@ public:
       // News::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10562,9 +10562,9 @@ public:
    // News::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -10601,9 +10601,9 @@ public:
       // News::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10622,9 +10622,9 @@ public:
       // News::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10645,10 +10645,10 @@ public:
 /// CollateralReport (BA), application, 106 fields, 11 groups.
 class CollateralReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 106;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 106;
 
 public:
    explicit CollateralReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -10669,7 +10669,7 @@ public:
          });
    }
    ~CollateralReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -10697,9 +10697,9 @@ public:
    // CollateralReport::NoDlvyInst
    class NoDlvyInst : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -10726,9 +10726,9 @@ public:
       // CollateralReport::NoDlvyInst::NoSettlPartyIDs
       class NoSettlPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -10755,9 +10755,9 @@ public:
          // CollateralReport::NoDlvyInst::NoSettlPartyIDs::NoSettlPartySubIDs
          class NoSettlPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -10778,9 +10778,9 @@ public:
    // CollateralReport::NoExecs
    class NoExecs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -10799,9 +10799,9 @@ public:
    // CollateralReport::NoMiscFees
    class NoMiscFees : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -10820,9 +10820,9 @@ public:
    // CollateralReport::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -10841,9 +10841,9 @@ public:
    // CollateralReport::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -10870,9 +10870,9 @@ public:
       // CollateralReport::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10892,9 +10892,9 @@ public:
    // CollateralReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -10913,9 +10913,9 @@ public:
    // CollateralReport::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -10942,9 +10942,9 @@ public:
       // CollateralReport::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -10964,9 +10964,9 @@ public:
    // CollateralReport::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -11003,9 +11003,9 @@ public:
       // CollateralReport::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11024,9 +11024,9 @@ public:
       // CollateralReport::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11046,9 +11046,9 @@ public:
    // CollateralReport::NoTrdRegTimestamps
    class NoTrdRegTimestamps : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -11067,9 +11067,9 @@ public:
    // CollateralReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -11088,9 +11088,9 @@ public:
    // CollateralReport::NoTrades
    class NoTrades : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -11110,10 +11110,10 @@ public:
 /// CollateralInquiry (BB), application, 105 fields, 11 groups.
 class CollateralInquiry : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 105;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 105;
 
 public:
    explicit CollateralInquiry(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -11134,7 +11134,7 @@ public:
          });
    }
    ~CollateralInquiry() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -11162,9 +11162,9 @@ public:
    // CollateralInquiry::NoDlvyInst
    class NoDlvyInst : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -11191,9 +11191,9 @@ public:
       // CollateralInquiry::NoDlvyInst::NoSettlPartyIDs
       class NoSettlPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -11220,9 +11220,9 @@ public:
          // CollateralInquiry::NoDlvyInst::NoSettlPartyIDs::NoSettlPartySubIDs
          class NoSettlPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -11243,9 +11243,9 @@ public:
    // CollateralInquiry::NoExecs
    class NoExecs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -11264,9 +11264,9 @@ public:
    // CollateralInquiry::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -11285,9 +11285,9 @@ public:
    // CollateralInquiry::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -11314,9 +11314,9 @@ public:
       // CollateralInquiry::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11336,9 +11336,9 @@ public:
    // CollateralInquiry::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -11357,9 +11357,9 @@ public:
    // CollateralInquiry::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -11386,9 +11386,9 @@ public:
       // CollateralInquiry::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11408,9 +11408,9 @@ public:
    // CollateralInquiry::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -11447,9 +11447,9 @@ public:
       // CollateralInquiry::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11468,9 +11468,9 @@ public:
       // CollateralInquiry::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11490,9 +11490,9 @@ public:
    // CollateralInquiry::NoTrdRegTimestamps
    class NoTrdRegTimestamps : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -11511,9 +11511,9 @@ public:
    // CollateralInquiry::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -11532,9 +11532,9 @@ public:
    // CollateralInquiry::NoTrades
    class NoTrades : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -11553,9 +11553,9 @@ public:
    // CollateralInquiry::NoCollInquiryQualifier
    class NoCollInquiryQualifier : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -11575,10 +11575,10 @@ public:
 /// NetworkCounterpartySystemStatusRequest (BC), application, 3 fields, 1 group.
 class NetworkCounterpartySystemStatusRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 3;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 3;
 
 public:
    explicit NetworkCounterpartySystemStatusRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -11587,7 +11587,7 @@ public:
          _groups.insert({936, new NoCompIDs });
    }
    ~NetworkCounterpartySystemStatusRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -11599,9 +11599,9 @@ public:
    // NetworkCounterpartySystemStatusRequest::NoCompIDs
    class NoCompIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -11621,10 +11621,10 @@ public:
 /// NetworkCounterpartySystemStatusResponse (BD), application, 5 fields, 1 group.
 class NetworkCounterpartySystemStatusResponse : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 5;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 5;
 
 public:
    explicit NetworkCounterpartySystemStatusResponse(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -11633,7 +11633,7 @@ public:
          _groups.insert({936, new NoCompIDs });
    }
    ~NetworkCounterpartySystemStatusResponse() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -11645,9 +11645,9 @@ public:
    // NetworkCounterpartySystemStatusResponse::NoCompIDs
    class NoCompIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 6;
 
    public:
@@ -11667,15 +11667,15 @@ public:
 /// UserRequest (BE), application, 7 fields, 0 groups.
 class UserRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 7;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 7;
 
 public:
    explicit UserRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~UserRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -11686,15 +11686,15 @@ public:
 /// UserResponse (BF), application, 4 fields, 0 groups.
 class UserResponse : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 4;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 4;
 
 public:
    explicit UserResponse(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~UserResponse() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -11705,10 +11705,10 @@ public:
 /// CollateralInquiryAck (BG), application, 82 fields, 8 groups.
 class CollateralInquiryAck : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 82;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 82;
 
 public:
    explicit CollateralInquiryAck(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -11726,7 +11726,7 @@ public:
          });
    }
    ~CollateralInquiryAck() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -11751,9 +11751,9 @@ public:
    // CollateralInquiryAck::NoExecs
    class NoExecs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -11772,9 +11772,9 @@ public:
    // CollateralInquiryAck::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -11801,9 +11801,9 @@ public:
       // CollateralInquiryAck::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11823,9 +11823,9 @@ public:
    // CollateralInquiryAck::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -11844,9 +11844,9 @@ public:
    // CollateralInquiryAck::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -11873,9 +11873,9 @@ public:
       // CollateralInquiryAck::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11895,9 +11895,9 @@ public:
    // CollateralInquiryAck::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -11934,9 +11934,9 @@ public:
       // CollateralInquiryAck::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11955,9 +11955,9 @@ public:
       // CollateralInquiryAck::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -11977,9 +11977,9 @@ public:
    // CollateralInquiryAck::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -11998,9 +11998,9 @@ public:
    // CollateralInquiryAck::NoTrades
    class NoTrades : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -12019,9 +12019,9 @@ public:
    // CollateralInquiryAck::NoCollInquiryQualifier
    class NoCollInquiryQualifier : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -12041,10 +12041,10 @@ public:
 /// ConfirmationRequest (BH), application, 13 fields, 1 group.
 class ConfirmationRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 13;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 13;
 
 public:
    explicit ConfirmationRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -12053,7 +12053,7 @@ public:
          _groups.insert({73, new NoOrders });
    }
    ~ConfirmationRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -12065,9 +12065,9 @@ public:
    // ConfirmationRequest::NoOrders
    class NoOrders : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 9;
 
    public:
@@ -12094,9 +12094,9 @@ public:
       // ConfirmationRequest::NoOrders::NoNested2PartyIDs
       class NoNested2PartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -12123,9 +12123,9 @@ public:
          // ConfirmationRequest::NoOrders::NoNested2PartyIDs::NoNested2PartySubIDs
          class NoNested2PartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -12147,10 +12147,10 @@ public:
 /// Email (C), application, 15 fields, 5 groups.
 class Email : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 15;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 15;
 
 public:
    explicit Email(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -12165,7 +12165,7 @@ public:
          });
    }
    ~Email() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -12187,9 +12187,9 @@ public:
    // Email::NoLinesOfText
    class NoLinesOfText : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -12208,9 +12208,9 @@ public:
    // Email::NoRelatedSym
    class NoRelatedSym : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 43;
 
    public:
@@ -12247,9 +12247,9 @@ public:
       // Email::NoRelatedSym::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12268,9 +12268,9 @@ public:
       // Email::NoRelatedSym::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -12290,9 +12290,9 @@ public:
    // Email::NoRoutingIDs
    class NoRoutingIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -12311,9 +12311,9 @@ public:
    // Email::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -12340,9 +12340,9 @@ public:
       // Email::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12362,9 +12362,9 @@ public:
    // Email::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -12401,9 +12401,9 @@ public:
       // Email::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12422,9 +12422,9 @@ public:
       // Email::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12445,10 +12445,10 @@ public:
 /// NewOrderSingle (D), application, 156 fields, 7 groups.
 class NewOrderSingle : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 156;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 156;
 
 public:
    explicit NewOrderSingle(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -12465,7 +12465,7 @@ public:
          });
    }
    ~NewOrderSingle() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -12489,9 +12489,9 @@ public:
    // NewOrderSingle::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 6;
 
    public:
@@ -12518,9 +12518,9 @@ public:
       // NewOrderSingle::NoAllocs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -12547,9 +12547,9 @@ public:
          // NewOrderSingle::NoAllocs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -12570,9 +12570,9 @@ public:
    // NewOrderSingle::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -12591,9 +12591,9 @@ public:
    // NewOrderSingle::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -12612,9 +12612,9 @@ public:
    // NewOrderSingle::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -12641,9 +12641,9 @@ public:
       // NewOrderSingle::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12663,9 +12663,9 @@ public:
    // NewOrderSingle::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -12684,9 +12684,9 @@ public:
    // NewOrderSingle::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -12723,9 +12723,9 @@ public:
       // NewOrderSingle::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12744,9 +12744,9 @@ public:
       // NewOrderSingle::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12766,9 +12766,9 @@ public:
    // NewOrderSingle::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -12788,10 +12788,10 @@ public:
 /// NewOrderList (E), application, 19 fields, 1 group.
 class NewOrderList : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 19;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 19;
 
 public:
    explicit NewOrderList(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -12800,7 +12800,7 @@ public:
          _groups.insert({73, new NoOrders });
    }
    ~NewOrderList() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -12812,9 +12812,9 @@ public:
    // NewOrderList::NoOrders
    class NoOrders : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 147;
 
    public:
@@ -12861,9 +12861,9 @@ public:
       // NewOrderList::NoOrders::NoAllocs
       class NoAllocs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 6;
 
       public:
@@ -12890,9 +12890,9 @@ public:
          // NewOrderList::NoOrders::NoAllocs::NoNestedPartyIDs
          class NoNestedPartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -12919,9 +12919,9 @@ public:
             // NewOrderList::NoOrders::NoAllocs::NoNestedPartyIDs::NoNestedPartySubIDs
             class NoNestedPartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -12942,9 +12942,9 @@ public:
       // NewOrderList::NoOrders::NoStipulations
       class NoStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12963,9 +12963,9 @@ public:
       // NewOrderList::NoOrders::NoTradingSessions
       class NoTradingSessions : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -12984,9 +12984,9 @@ public:
       // NewOrderList::NoOrders::NoPartyIDs
       class NoPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -13013,9 +13013,9 @@ public:
          // NewOrderList::NoOrders::NoPartyIDs::NoPartySubIDs
          class NoPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -13035,9 +13035,9 @@ public:
       // NewOrderList::NoOrders::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13056,9 +13056,9 @@ public:
       // NewOrderList::NoOrders::NoUnderlyings
       class NoUnderlyings : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 47;
 
       public:
@@ -13095,9 +13095,9 @@ public:
          // NewOrderList::NoOrders::NoUnderlyings::NoUnderlyingSecurityAltID
          class NoUnderlyingSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -13116,9 +13116,9 @@ public:
          // NewOrderList::NoOrders::NoUnderlyings::NoUnderlyingStips
          class NoUnderlyingStips : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -13138,9 +13138,9 @@ public:
       // NewOrderList::NoOrders::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -13161,10 +13161,10 @@ public:
 /// OrderCancelRequest (F), application, 75 fields, 4 groups.
 class OrderCancelRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 75;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 75;
 
 public:
    explicit OrderCancelRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -13178,7 +13178,7 @@ public:
          });
    }
    ~OrderCancelRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -13199,9 +13199,9 @@ public:
    // OrderCancelRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -13228,9 +13228,9 @@ public:
       // OrderCancelRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13250,9 +13250,9 @@ public:
    // OrderCancelRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -13271,9 +13271,9 @@ public:
    // OrderCancelRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -13310,9 +13310,9 @@ public:
       // OrderCancelRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13331,9 +13331,9 @@ public:
       // OrderCancelRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13353,9 +13353,9 @@ public:
    // OrderCancelRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -13375,10 +13375,10 @@ public:
 /// OrderCancelReplaceRequest (G), application, 155 fields, 6 groups.
 class OrderCancelReplaceRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 155;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 155;
 
 public:
    explicit OrderCancelReplaceRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -13394,7 +13394,7 @@ public:
          });
    }
    ~OrderCancelReplaceRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -13417,9 +13417,9 @@ public:
    // OrderCancelReplaceRequest::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 6;
 
    public:
@@ -13446,9 +13446,9 @@ public:
       // OrderCancelReplaceRequest::NoAllocs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -13475,9 +13475,9 @@ public:
          // OrderCancelReplaceRequest::NoAllocs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -13498,9 +13498,9 @@ public:
    // OrderCancelReplaceRequest::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -13519,9 +13519,9 @@ public:
    // OrderCancelReplaceRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -13548,9 +13548,9 @@ public:
       // OrderCancelReplaceRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13570,9 +13570,9 @@ public:
    // OrderCancelReplaceRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -13591,9 +13591,9 @@ public:
    // OrderCancelReplaceRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -13630,9 +13630,9 @@ public:
       // OrderCancelReplaceRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13651,9 +13651,9 @@ public:
       // OrderCancelReplaceRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13673,9 +13673,9 @@ public:
    // OrderCancelReplaceRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -13695,10 +13695,10 @@ public:
 /// OrderStatusRequest (H), application, 62 fields, 4 groups.
 class OrderStatusRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 62;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 62;
 
 public:
    explicit OrderStatusRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -13712,7 +13712,7 @@ public:
          });
    }
    ~OrderStatusRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -13733,9 +13733,9 @@ public:
    // OrderStatusRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -13762,9 +13762,9 @@ public:
       // OrderStatusRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13784,9 +13784,9 @@ public:
    // OrderStatusRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -13805,9 +13805,9 @@ public:
    // OrderStatusRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -13844,9 +13844,9 @@ public:
       // OrderStatusRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13865,9 +13865,9 @@ public:
       // OrderStatusRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -13887,9 +13887,9 @@ public:
    // OrderStatusRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -13909,10 +13909,10 @@ public:
 /// AllocationInstruction (J), application, 127 fields, 10 groups.
 class AllocationInstruction : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 127;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 127;
 
 public:
    explicit AllocationInstruction(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -13932,7 +13932,7 @@ public:
          });
    }
    ~AllocationInstruction() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -13959,9 +13959,9 @@ public:
    // AllocationInstruction::NoOrders
    class NoOrders : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 9;
 
    public:
@@ -13988,9 +13988,9 @@ public:
       // AllocationInstruction::NoOrders::NoNested2PartyIDs
       class NoNested2PartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -14017,9 +14017,9 @@ public:
          // AllocationInstruction::NoOrders::NoNested2PartyIDs::NoNested2PartySubIDs
          class NoNested2PartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -14040,9 +14040,9 @@ public:
    // AllocationInstruction::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 35;
 
    public:
@@ -14083,9 +14083,9 @@ public:
       // AllocationInstruction::NoAllocs::NoDlvyInst
       class NoDlvyInst : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 3;
 
       public:
@@ -14112,9 +14112,9 @@ public:
          // AllocationInstruction::NoAllocs::NoDlvyInst::NoSettlPartyIDs
          class NoSettlPartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -14141,9 +14141,9 @@ public:
             // AllocationInstruction::NoAllocs::NoDlvyInst::NoSettlPartyIDs::NoSettlPartySubIDs
             class NoSettlPartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -14164,9 +14164,9 @@ public:
       // AllocationInstruction::NoAllocs::NoMiscFees
       class NoMiscFees : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -14185,9 +14185,9 @@ public:
       // AllocationInstruction::NoAllocs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -14214,9 +14214,9 @@ public:
          // AllocationInstruction::NoAllocs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -14236,9 +14236,9 @@ public:
       // AllocationInstruction::NoAllocs::NoClearingInstructions
       class NoClearingInstructions : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 1;
 
       public:
@@ -14258,9 +14258,9 @@ public:
    // AllocationInstruction::NoExecs
    class NoExecs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 6;
 
    public:
@@ -14279,9 +14279,9 @@ public:
    // AllocationInstruction::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -14300,9 +14300,9 @@ public:
    // AllocationInstruction::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -14329,9 +14329,9 @@ public:
       // AllocationInstruction::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -14351,9 +14351,9 @@ public:
    // AllocationInstruction::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -14372,9 +14372,9 @@ public:
    // AllocationInstruction::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -14401,9 +14401,9 @@ public:
       // AllocationInstruction::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -14423,9 +14423,9 @@ public:
    // AllocationInstruction::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -14462,9 +14462,9 @@ public:
       // AllocationInstruction::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -14483,9 +14483,9 @@ public:
       // AllocationInstruction::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -14505,9 +14505,9 @@ public:
    // AllocationInstruction::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -14526,9 +14526,9 @@ public:
    // AllocationInstruction::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -14548,15 +14548,15 @@ public:
 /// ListCancelRequest (K), application, 7 fields, 0 groups.
 class ListCancelRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 7;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 7;
 
 public:
    explicit ListCancelRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~ListCancelRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -14567,15 +14567,15 @@ public:
 /// ListExecute (L), application, 7 fields, 0 groups.
 class ListExecute : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 7;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 7;
 
 public:
    explicit ListExecute(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~ListExecute() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -14586,15 +14586,15 @@ public:
 /// ListStatusRequest (M), application, 4 fields, 0 groups.
 class ListStatusRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 4;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 4;
 
 public:
    explicit ListStatusRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~ListStatusRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -14605,10 +14605,10 @@ public:
 /// ListStatus (N), application, 12 fields, 1 group.
 class ListStatus : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 12;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 12;
 
 public:
    explicit ListStatus(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -14617,7 +14617,7 @@ public:
          _groups.insert({73, new NoOrders });
    }
    ~ListStatus() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -14629,9 +14629,9 @@ public:
    // ListStatus::NoOrders
    class NoOrders : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 12;
 
    public:
@@ -14651,10 +14651,10 @@ public:
 /// AllocationInstructionAck (P), application, 16 fields, 2 groups.
 class AllocationInstructionAck : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 16;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 16;
 
 public:
    explicit AllocationInstructionAck(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -14666,7 +14666,7 @@ public:
          });
    }
    ~AllocationInstructionAck() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -14685,9 +14685,9 @@ public:
    // AllocationInstructionAck::NoAllocs
    class NoAllocs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 8;
 
    public:
@@ -14706,9 +14706,9 @@ public:
    // AllocationInstructionAck::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -14735,9 +14735,9 @@ public:
       // AllocationInstructionAck::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -14758,10 +14758,10 @@ public:
 /// DontKnowTrade (Q), application, 60 fields, 4 groups.
 class DontKnowTrade : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 60;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 60;
 
 public:
    explicit DontKnowTrade(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -14775,7 +14775,7 @@ public:
          });
    }
    ~DontKnowTrade() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -14796,9 +14796,9 @@ public:
    // DontKnowTrade::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -14817,9 +14817,9 @@ public:
    // DontKnowTrade::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -14846,9 +14846,9 @@ public:
       // DontKnowTrade::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -14868,9 +14868,9 @@ public:
    // DontKnowTrade::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -14907,9 +14907,9 @@ public:
       // DontKnowTrade::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -14928,9 +14928,9 @@ public:
       // DontKnowTrade::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -14950,9 +14950,9 @@ public:
    // DontKnowTrade::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -14972,10 +14972,10 @@ public:
 /// QuoteRequest (R), application, 8 fields, 1 group.
 class QuoteRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 8;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 8;
 
 public:
    explicit QuoteRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -14984,7 +14984,7 @@ public:
          _groups.insert({146, new NoRelatedSym });
    }
    ~QuoteRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -14996,9 +14996,9 @@ public:
    // QuoteRequest::NoRelatedSym
    class NoRelatedSym : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 100;
 
    public:
@@ -15045,9 +15045,9 @@ public:
       // QuoteRequest::NoRelatedSym::NoStipulations
       class NoStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -15066,9 +15066,9 @@ public:
       // QuoteRequest::NoRelatedSym::NoPartyIDs
       class NoPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -15095,9 +15095,9 @@ public:
          // QuoteRequest::NoRelatedSym::NoPartyIDs::NoPartySubIDs
          class NoPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -15117,9 +15117,9 @@ public:
       // QuoteRequest::NoRelatedSym::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -15138,9 +15138,9 @@ public:
       // QuoteRequest::NoRelatedSym::NoLegs
       class NoLegs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 53;
 
       public:
@@ -15179,9 +15179,9 @@ public:
          // QuoteRequest::NoRelatedSym::NoLegs::NoNestedPartyIDs
          class NoNestedPartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -15208,9 +15208,9 @@ public:
             // QuoteRequest::NoRelatedSym::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
             class NoNestedPartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -15230,9 +15230,9 @@ public:
          // QuoteRequest::NoRelatedSym::NoLegs::NoLegSecurityAltID
          class NoLegSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -15251,9 +15251,9 @@ public:
          // QuoteRequest::NoRelatedSym::NoLegs::NoLegStipulations
          class NoLegStipulations : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -15273,9 +15273,9 @@ public:
       // QuoteRequest::NoRelatedSym::NoUnderlyings
       class NoUnderlyings : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 47;
 
       public:
@@ -15312,9 +15312,9 @@ public:
          // QuoteRequest::NoRelatedSym::NoUnderlyings::NoUnderlyingSecurityAltID
          class NoUnderlyingSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -15333,9 +15333,9 @@ public:
          // QuoteRequest::NoRelatedSym::NoUnderlyings::NoUnderlyingStips
          class NoUnderlyingStips : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -15355,9 +15355,9 @@ public:
       // QuoteRequest::NoRelatedSym::NoQuoteQualifiers
       class NoQuoteQualifiers : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 1;
 
       public:
@@ -15376,9 +15376,9 @@ public:
       // QuoteRequest::NoRelatedSym::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -15399,10 +15399,10 @@ public:
 /// Quote (S), application, 125 fields, 7 groups.
 class Quote : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 125;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 125;
 
 public:
    explicit Quote(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -15419,7 +15419,7 @@ public:
          });
    }
    ~Quote() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -15443,9 +15443,9 @@ public:
    // Quote::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -15464,9 +15464,9 @@ public:
    // Quote::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -15493,9 +15493,9 @@ public:
       // Quote::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -15515,9 +15515,9 @@ public:
    // Quote::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -15536,9 +15536,9 @@ public:
    // Quote::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 56;
 
    public:
@@ -15577,9 +15577,9 @@ public:
       // Quote::NoLegs::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -15606,9 +15606,9 @@ public:
          // Quote::NoLegs::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -15628,9 +15628,9 @@ public:
       // Quote::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -15649,9 +15649,9 @@ public:
       // Quote::NoLegs::NoLegStipulations
       class NoLegStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -15671,9 +15671,9 @@ public:
    // Quote::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -15710,9 +15710,9 @@ public:
       // Quote::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -15731,9 +15731,9 @@ public:
       // Quote::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -15753,9 +15753,9 @@ public:
    // Quote::NoQuoteQualifiers
    class NoQuoteQualifiers : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -15774,9 +15774,9 @@ public:
    // Quote::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -15796,10 +15796,10 @@ public:
 /// SettlementInstructions (T), application, 10 fields, 1 group.
 class SettlementInstructions : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 10;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 10;
 
 public:
    explicit SettlementInstructions(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -15808,7 +15808,7 @@ public:
          _groups.insert({778, new NoSettlInst });
    }
    ~SettlementInstructions() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -15820,9 +15820,9 @@ public:
    // SettlementInstructions::NoSettlInst
    class NoSettlInst : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 25;
 
    public:
@@ -15859,9 +15859,9 @@ public:
       // SettlementInstructions::NoSettlInst::NoDlvyInst
       class NoDlvyInst : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 3;
 
       public:
@@ -15888,9 +15888,9 @@ public:
          // SettlementInstructions::NoSettlInst::NoDlvyInst::NoSettlPartyIDs
          class NoSettlPartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -15917,9 +15917,9 @@ public:
             // SettlementInstructions::NoSettlInst::NoDlvyInst::NoSettlPartyIDs::NoSettlPartySubIDs
             class NoSettlPartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -15940,9 +15940,9 @@ public:
       // SettlementInstructions::NoSettlInst::NoPartyIDs
       class NoPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -15969,9 +15969,9 @@ public:
          // SettlementInstructions::NoSettlInst::NoPartyIDs::NoPartySubIDs
          class NoPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -15993,10 +15993,10 @@ public:
 /// MarketDataRequest (V), application, 13 fields, 3 groups.
 class MarketDataRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 13;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 13;
 
 public:
    explicit MarketDataRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -16009,7 +16009,7 @@ public:
          });
    }
    ~MarketDataRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -16029,9 +16029,9 @@ public:
    // MarketDataRequest::NoRelatedSym
    class NoRelatedSym : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 45;
 
    public:
@@ -16072,9 +16072,9 @@ public:
       // MarketDataRequest::NoRelatedSym::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -16093,9 +16093,9 @@ public:
       // MarketDataRequest::NoRelatedSym::NoLegs
       class NoLegs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 42;
 
       public:
@@ -16122,9 +16122,9 @@ public:
          // MarketDataRequest::NoRelatedSym::NoLegs::NoLegSecurityAltID
          class NoLegSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -16144,9 +16144,9 @@ public:
       // MarketDataRequest::NoRelatedSym::NoUnderlyings
       class NoUnderlyings : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 47;
 
       public:
@@ -16183,9 +16183,9 @@ public:
          // MarketDataRequest::NoRelatedSym::NoUnderlyings::NoUnderlyingSecurityAltID
          class NoUnderlyingSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -16204,9 +16204,9 @@ public:
          // MarketDataRequest::NoRelatedSym::NoUnderlyings::NoUnderlyingStips
          class NoUnderlyingStips : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -16226,9 +16226,9 @@ public:
       // MarketDataRequest::NoRelatedSym::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -16248,9 +16248,9 @@ public:
    // MarketDataRequest::NoMDEntryTypes
    class NoMDEntryTypes : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -16269,9 +16269,9 @@ public:
    // MarketDataRequest::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -16291,10 +16291,10 @@ public:
 /// MarketDataSnapshotFullRefresh (W), application, 52 fields, 5 groups.
 class MarketDataSnapshotFullRefresh : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 52;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 52;
 
 public:
    explicit MarketDataSnapshotFullRefresh(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -16309,7 +16309,7 @@ public:
          });
    }
    ~MarketDataSnapshotFullRefresh() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -16331,9 +16331,9 @@ public:
    // MarketDataSnapshotFullRefresh::NoMDEntries
    class NoMDEntries : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 33;
 
    public:
@@ -16352,9 +16352,9 @@ public:
    // MarketDataSnapshotFullRefresh::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -16373,9 +16373,9 @@ public:
    // MarketDataSnapshotFullRefresh::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -16402,9 +16402,9 @@ public:
       // MarketDataSnapshotFullRefresh::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -16424,9 +16424,9 @@ public:
    // MarketDataSnapshotFullRefresh::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -16463,9 +16463,9 @@ public:
       // MarketDataSnapshotFullRefresh::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -16484,9 +16484,9 @@ public:
       // MarketDataSnapshotFullRefresh::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -16506,9 +16506,9 @@ public:
    // MarketDataSnapshotFullRefresh::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -16528,10 +16528,10 @@ public:
 /// MarketDataIncrementalRefresh (X), application, 4 fields, 1 group.
 class MarketDataIncrementalRefresh : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 4;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 4;
 
 public:
    explicit MarketDataIncrementalRefresh(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -16540,7 +16540,7 @@ public:
          _groups.insert({268, new NoMDEntries });
    }
    ~MarketDataIncrementalRefresh() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -16552,9 +16552,9 @@ public:
    // MarketDataIncrementalRefresh::NoMDEntries
    class NoMDEntries : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 85;
 
    public:
@@ -16595,9 +16595,9 @@ public:
       // MarketDataIncrementalRefresh::NoMDEntries::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -16616,9 +16616,9 @@ public:
       // MarketDataIncrementalRefresh::NoMDEntries::NoLegs
       class NoLegs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 42;
 
       public:
@@ -16645,9 +16645,9 @@ public:
          // MarketDataIncrementalRefresh::NoMDEntries::NoLegs::NoLegSecurityAltID
          class NoLegSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -16667,9 +16667,9 @@ public:
       // MarketDataIncrementalRefresh::NoMDEntries::NoUnderlyings
       class NoUnderlyings : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 47;
 
       public:
@@ -16706,9 +16706,9 @@ public:
          // MarketDataIncrementalRefresh::NoMDEntries::NoUnderlyings::NoUnderlyingSecurityAltID
          class NoUnderlyingSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -16727,9 +16727,9 @@ public:
          // MarketDataIncrementalRefresh::NoMDEntries::NoUnderlyings::NoUnderlyingStips
          class NoUnderlyingStips : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -16749,9 +16749,9 @@ public:
       // MarketDataIncrementalRefresh::NoMDEntries::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -16772,10 +16772,10 @@ public:
 /// MarketDataRequestReject (Y), application, 6 fields, 1 group.
 class MarketDataRequestReject : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 6;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 6;
 
 public:
    explicit MarketDataRequestReject(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -16784,7 +16784,7 @@ public:
          _groups.insert({816, new NoAltMDSource });
    }
    ~MarketDataRequestReject() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -16796,9 +16796,9 @@ public:
    // MarketDataRequestReject::NoAltMDSource
    class NoAltMDSource : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 1;
 
    public:
@@ -16818,10 +16818,10 @@ public:
 /// QuoteCancel (Z), application, 11 fields, 2 groups.
 class QuoteCancel : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 11;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 11;
 
 public:
    explicit QuoteCancel(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -16833,7 +16833,7 @@ public:
          });
    }
    ~QuoteCancel() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -16852,9 +16852,9 @@ public:
    // QuoteCancel::NoQuoteEntries
    class NoQuoteEntries : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 54;
 
    public:
@@ -16895,9 +16895,9 @@ public:
       // QuoteCancel::NoQuoteEntries::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -16916,9 +16916,9 @@ public:
       // QuoteCancel::NoQuoteEntries::NoLegs
       class NoLegs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 42;
 
       public:
@@ -16945,9 +16945,9 @@ public:
          // QuoteCancel::NoQuoteEntries::NoLegs::NoLegSecurityAltID
          class NoLegSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -16967,9 +16967,9 @@ public:
       // QuoteCancel::NoQuoteEntries::NoUnderlyings
       class NoUnderlyings : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 47;
 
       public:
@@ -17006,9 +17006,9 @@ public:
          // QuoteCancel::NoQuoteEntries::NoUnderlyings::NoUnderlyingSecurityAltID
          class NoUnderlyingSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -17027,9 +17027,9 @@ public:
          // QuoteCancel::NoQuoteEntries::NoUnderlyings::NoUnderlyingStips
          class NoUnderlyingStips : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -17049,9 +17049,9 @@ public:
       // QuoteCancel::NoQuoteEntries::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -17071,9 +17071,9 @@ public:
    // QuoteCancel::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -17100,9 +17100,9 @@ public:
       // QuoteCancel::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17123,10 +17123,10 @@ public:
 /// QuoteStatusRequest (a), application, 63 fields, 5 groups.
 class QuoteStatusRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 63;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 63;
 
 public:
    explicit QuoteStatusRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -17141,7 +17141,7 @@ public:
          });
    }
    ~QuoteStatusRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -17163,9 +17163,9 @@ public:
    // QuoteStatusRequest::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -17192,9 +17192,9 @@ public:
       // QuoteStatusRequest::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17214,9 +17214,9 @@ public:
    // QuoteStatusRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -17235,9 +17235,9 @@ public:
    // QuoteStatusRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -17264,9 +17264,9 @@ public:
       // QuoteStatusRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17286,9 +17286,9 @@ public:
    // QuoteStatusRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -17325,9 +17325,9 @@ public:
       // QuoteStatusRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17346,9 +17346,9 @@ public:
       // QuoteStatusRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17368,9 +17368,9 @@ public:
    // QuoteStatusRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -17390,10 +17390,10 @@ public:
 /// MassQuoteAcknowledgement (b), application, 14 fields, 2 groups.
 class MassQuoteAcknowledgement : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 14;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 14;
 
 public:
    explicit MassQuoteAcknowledgement(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -17405,7 +17405,7 @@ public:
          });
    }
    ~MassQuoteAcknowledgement() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -17424,9 +17424,9 @@ public:
    // MassQuoteAcknowledgement::NoQuoteSets
    class NoQuoteSets : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 51;
 
    public:
@@ -17465,9 +17465,9 @@ public:
       // MassQuoteAcknowledgement::NoQuoteSets::NoQuoteEntries
       class NoQuoteEntries : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait _traits[];
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-         static F8_SERUM_Trade_API const MsgType _msgtype;
+         static F8_SERUM_Data_API const FieldTrait _traits[];
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+         static F8_SERUM_Data_API const MsgType _msgtype;
          static const unsigned _fieldcnt = 69;
 
       public:
@@ -17506,9 +17506,9 @@ public:
          // MassQuoteAcknowledgement::NoQuoteSets::NoQuoteEntries::NoSecurityAltID
          class NoSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -17527,9 +17527,9 @@ public:
          // MassQuoteAcknowledgement::NoQuoteSets::NoQuoteEntries::NoLegs
          class NoLegs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 42;
 
          public:
@@ -17556,9 +17556,9 @@ public:
             // MassQuoteAcknowledgement::NoQuoteSets::NoQuoteEntries::NoLegs::NoLegSecurityAltID
             class NoLegSecurityAltID : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -17578,9 +17578,9 @@ public:
          // MassQuoteAcknowledgement::NoQuoteSets::NoQuoteEntries::NoEvents
          class NoEvents : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -17600,9 +17600,9 @@ public:
       // MassQuoteAcknowledgement::NoQuoteSets::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17621,9 +17621,9 @@ public:
       // MassQuoteAcknowledgement::NoQuoteSets::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17643,9 +17643,9 @@ public:
    // MassQuoteAcknowledgement::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -17672,9 +17672,9 @@ public:
       // MassQuoteAcknowledgement::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17695,10 +17695,10 @@ public:
 /// SecurityDefinitionRequest (c), application, 58 fields, 5 groups.
 class SecurityDefinitionRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 58;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 58;
 
 public:
    explicit SecurityDefinitionRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -17713,7 +17713,7 @@ public:
          });
    }
    ~SecurityDefinitionRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -17735,9 +17735,9 @@ public:
    // SecurityDefinitionRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -17756,9 +17756,9 @@ public:
    // SecurityDefinitionRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -17785,9 +17785,9 @@ public:
       // SecurityDefinitionRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17807,9 +17807,9 @@ public:
    // SecurityDefinitionRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -17846,9 +17846,9 @@ public:
       // SecurityDefinitionRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17867,9 +17867,9 @@ public:
       // SecurityDefinitionRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -17889,9 +17889,9 @@ public:
    // SecurityDefinitionRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -17910,9 +17910,9 @@ public:
    // SecurityDefinitionRequest::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -17932,10 +17932,10 @@ public:
 /// SecurityDefinition (d), application, 60 fields, 5 groups.
 class SecurityDefinition : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 60;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 60;
 
 public:
    explicit SecurityDefinition(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -17950,7 +17950,7 @@ public:
          });
    }
    ~SecurityDefinition() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -17972,9 +17972,9 @@ public:
    // SecurityDefinition::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -17993,9 +17993,9 @@ public:
    // SecurityDefinition::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -18022,9 +18022,9 @@ public:
       // SecurityDefinition::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18044,9 +18044,9 @@ public:
    // SecurityDefinition::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -18083,9 +18083,9 @@ public:
       // SecurityDefinition::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18104,9 +18104,9 @@ public:
       // SecurityDefinition::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18126,9 +18126,9 @@ public:
    // SecurityDefinition::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -18147,9 +18147,9 @@ public:
    // SecurityDefinition::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -18169,10 +18169,10 @@ public:
 /// SecurityStatusRequest (e), application, 53 fields, 5 groups.
 class SecurityStatusRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 53;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 53;
 
 public:
    explicit SecurityStatusRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -18187,7 +18187,7 @@ public:
          });
    }
    ~SecurityStatusRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -18209,9 +18209,9 @@ public:
    // SecurityStatusRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -18230,9 +18230,9 @@ public:
    // SecurityStatusRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -18259,9 +18259,9 @@ public:
       // SecurityStatusRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18281,9 +18281,9 @@ public:
    // SecurityStatusRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -18320,9 +18320,9 @@ public:
       // SecurityStatusRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18341,9 +18341,9 @@ public:
       // SecurityStatusRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18363,9 +18363,9 @@ public:
    // SecurityStatusRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -18384,9 +18384,9 @@ public:
    // SecurityStatusRequest::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -18406,10 +18406,10 @@ public:
 /// SecurityStatus (f), application, 69 fields, 5 groups.
 class SecurityStatus : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 69;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 69;
 
 public:
    explicit SecurityStatus(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -18424,7 +18424,7 @@ public:
          });
    }
    ~SecurityStatus() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -18446,9 +18446,9 @@ public:
    // SecurityStatus::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -18467,9 +18467,9 @@ public:
    // SecurityStatus::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -18496,9 +18496,9 @@ public:
       // SecurityStatus::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18518,9 +18518,9 @@ public:
    // SecurityStatus::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -18557,9 +18557,9 @@ public:
       // SecurityStatus::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18578,9 +18578,9 @@ public:
       // SecurityStatus::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18600,9 +18600,9 @@ public:
    // SecurityStatus::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -18621,9 +18621,9 @@ public:
    // SecurityStatus::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -18643,15 +18643,15 @@ public:
 /// TradingSessionStatusRequest (g), application, 6 fields, 0 groups.
 class TradingSessionStatusRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 6;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 6;
 
 public:
    explicit TradingSessionStatusRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~TradingSessionStatusRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -18662,15 +18662,15 @@ public:
 /// TradingSessionStatus (h), application, 17 fields, 0 groups.
 class TradingSessionStatus : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 17;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 17;
 
 public:
    explicit TradingSessionStatus(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~TradingSessionStatus() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -18681,10 +18681,10 @@ public:
 /// header (header), application, 27 fields, 1 group.
 class header : public MessageBase
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 27;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 27;
 
    begin_string *_begin_string;
    body_length *_body_length;
@@ -18716,9 +18716,9 @@ public:
    // header::NoHops
    class NoHops : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -18738,10 +18738,10 @@ public:
 /// MassQuote (i), application, 11 fields, 2 groups.
 class MassQuote : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 11;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 11;
 
 public:
    explicit MassQuote(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -18753,7 +18753,7 @@ public:
          });
    }
    ~MassQuote() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -18772,9 +18772,9 @@ public:
    // MassQuote::NoQuoteSets
    class NoQuoteSets : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 52;
 
    public:
@@ -18813,9 +18813,9 @@ public:
       // MassQuote::NoQuoteSets::NoQuoteEntries
       class NoQuoteEntries : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait _traits[];
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-         static F8_SERUM_Trade_API const MsgType _msgtype;
+         static F8_SERUM_Data_API const FieldTrait _traits[];
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+         static F8_SERUM_Data_API const MsgType _msgtype;
          static const unsigned _fieldcnt = 68;
 
       public:
@@ -18854,9 +18854,9 @@ public:
          // MassQuote::NoQuoteSets::NoQuoteEntries::NoSecurityAltID
          class NoSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -18875,9 +18875,9 @@ public:
          // MassQuote::NoQuoteSets::NoQuoteEntries::NoLegs
          class NoLegs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 42;
 
          public:
@@ -18904,9 +18904,9 @@ public:
             // MassQuote::NoQuoteSets::NoQuoteEntries::NoLegs::NoLegSecurityAltID
             class NoLegSecurityAltID : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -18926,9 +18926,9 @@ public:
          // MassQuote::NoQuoteSets::NoQuoteEntries::NoEvents
          class NoEvents : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -18948,9 +18948,9 @@ public:
       // MassQuote::NoQuoteSets::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18969,9 +18969,9 @@ public:
       // MassQuote::NoQuoteSets::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -18991,9 +18991,9 @@ public:
    // MassQuote::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -19020,9 +19020,9 @@ public:
       // MassQuote::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -19043,15 +19043,15 @@ public:
 /// BusinessMessageReject (j), application, 7 fields, 0 groups.
 class BusinessMessageReject : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 7;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 7;
 
 public:
    explicit BusinessMessageReject(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~BusinessMessageReject() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19062,10 +19062,10 @@ public:
 /// BidRequest (k), application, 29 fields, 2 groups.
 class BidRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 29;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 29;
 
 public:
    explicit BidRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -19077,7 +19077,7 @@ public:
          });
    }
    ~BidRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19096,9 +19096,9 @@ public:
    // BidRequest::NoBidDescriptors
    class NoBidDescriptors : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 11;
 
    public:
@@ -19117,9 +19117,9 @@ public:
    // BidRequest::NoBidComponents
    class NoBidComponents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 9;
 
    public:
@@ -19139,10 +19139,10 @@ public:
 /// BidResponse (l), application, 3 fields, 1 group.
 class BidResponse : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 3;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 3;
 
 public:
    explicit BidResponse(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -19151,7 +19151,7 @@ public:
          _groups.insert({420, new NoBidComponents });
    }
    ~BidResponse() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19163,9 +19163,9 @@ public:
    // BidResponse::NoBidComponents
    class NoBidComponents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 18;
 
    public:
@@ -19185,10 +19185,10 @@ public:
 /// ListStrikePrice (m), application, 5 fields, 2 groups.
 class ListStrikePrice : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 5;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 5;
 
 public:
    explicit ListStrikePrice(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -19200,7 +19200,7 @@ public:
          });
    }
    ~ListStrikePrice() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19219,9 +19219,9 @@ public:
    // ListStrikePrice::NoStrikes
    class NoStrikes : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 43;
 
    public:
@@ -19258,9 +19258,9 @@ public:
       // ListStrikePrice::NoStrikes::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -19279,9 +19279,9 @@ public:
       // ListStrikePrice::NoStrikes::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -19301,9 +19301,9 @@ public:
    // ListStrikePrice::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 56;
 
    public:
@@ -19340,9 +19340,9 @@ public:
       // ListStrikePrice::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -19361,9 +19361,9 @@ public:
       // ListStrikePrice::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -19388,7 +19388,7 @@ class XMLnonFIX : public Message
 public:
    explicit XMLnonFIX(bool deepctor=true) {}
    ~XMLnonFIX() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
    bool is_admin() const { return true; }
 
    static const MsgType& get_msgtype() { return _msgtype; }
@@ -19400,10 +19400,10 @@ public:
 /// RegistrationInstructions (o), application, 12 fields, 3 groups.
 class RegistrationInstructions : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 12;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 12;
 
 public:
    explicit RegistrationInstructions(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -19416,7 +19416,7 @@ public:
          });
    }
    ~RegistrationInstructions() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19436,9 +19436,9 @@ public:
    // RegistrationInstructions::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -19465,9 +19465,9 @@ public:
       // RegistrationInstructions::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -19487,9 +19487,9 @@ public:
    // RegistrationInstructions::NoRegistDtls
    class NoRegistDtls : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 8;
 
    public:
@@ -19516,9 +19516,9 @@ public:
       // RegistrationInstructions::NoRegistDtls::NoNestedPartyIDs
       class NoNestedPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -19545,9 +19545,9 @@ public:
          // RegistrationInstructions::NoRegistDtls::NoNestedPartyIDs::NoNestedPartySubIDs
          class NoNestedPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -19568,9 +19568,9 @@ public:
    // RegistrationInstructions::NoDistribInsts
    class NoDistribInsts : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 8;
 
    public:
@@ -19590,10 +19590,10 @@ public:
 /// RegistrationInstructionsResponse (p), application, 10 fields, 1 group.
 class RegistrationInstructionsResponse : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 10;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 10;
 
 public:
    explicit RegistrationInstructionsResponse(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -19602,7 +19602,7 @@ public:
          _groups.insert({453, new NoPartyIDs });
    }
    ~RegistrationInstructionsResponse() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19614,9 +19614,9 @@ public:
    // RegistrationInstructionsResponse::NoPartyIDs
    class NoPartyIDs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -19643,9 +19643,9 @@ public:
       // RegistrationInstructionsResponse::NoPartyIDs::NoPartySubIDs
       class NoPartySubIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -19666,10 +19666,10 @@ public:
 /// OrderMassCancelRequest (q), application, 100 fields, 4 groups.
 class OrderMassCancelRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 100;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 100;
 
 public:
    explicit OrderMassCancelRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -19683,7 +19683,7 @@ public:
          });
    }
    ~OrderMassCancelRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19704,9 +19704,9 @@ public:
    // OrderMassCancelRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -19725,9 +19725,9 @@ public:
    // OrderMassCancelRequest::NoUnderlyingSecurityAltID
    class NoUnderlyingSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -19746,9 +19746,9 @@ public:
    // OrderMassCancelRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -19767,9 +19767,9 @@ public:
    // OrderMassCancelRequest::NoUnderlyingStips
    class NoUnderlyingStips : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -19789,10 +19789,10 @@ public:
 /// OrderMassCancelReport (r), application, 106 fields, 5 groups.
 class OrderMassCancelReport : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 106;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 106;
 
 public:
    explicit OrderMassCancelReport(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -19807,7 +19807,7 @@ public:
          });
    }
    ~OrderMassCancelReport() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19829,9 +19829,9 @@ public:
    // OrderMassCancelReport::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -19850,9 +19850,9 @@ public:
    // OrderMassCancelReport::NoUnderlyingSecurityAltID
    class NoUnderlyingSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -19871,9 +19871,9 @@ public:
    // OrderMassCancelReport::NoAffectedOrders
    class NoAffectedOrders : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 3;
 
    public:
@@ -19892,9 +19892,9 @@ public:
    // OrderMassCancelReport::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -19913,9 +19913,9 @@ public:
    // OrderMassCancelReport::NoUnderlyingStips
    class NoUnderlyingStips : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -19935,10 +19935,10 @@ public:
 /// NewOrderCross (s), application, 110 fields, 7 groups.
 class NewOrderCross : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 110;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 110;
 
 public:
    explicit NewOrderCross(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -19955,7 +19955,7 @@ public:
          });
    }
    ~NewOrderCross() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -19979,9 +19979,9 @@ public:
    // NewOrderCross::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -20000,9 +20000,9 @@ public:
    // NewOrderCross::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -20021,9 +20021,9 @@ public:
    // NewOrderCross::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -20042,9 +20042,9 @@ public:
    // NewOrderCross::NoSides
    class NoSides : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 40;
 
    public:
@@ -20081,9 +20081,9 @@ public:
       // NewOrderCross::NoSides::NoAllocs
       class NoAllocs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 6;
 
       public:
@@ -20110,9 +20110,9 @@ public:
          // NewOrderCross::NoSides::NoAllocs::NoNestedPartyIDs
          class NoNestedPartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -20139,9 +20139,9 @@ public:
             // NewOrderCross::NoSides::NoAllocs::NoNestedPartyIDs::NoNestedPartySubIDs
             class NoNestedPartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -20162,9 +20162,9 @@ public:
       // NewOrderCross::NoSides::NoPartyIDs
       class NoPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -20191,9 +20191,9 @@ public:
          // NewOrderCross::NoSides::NoPartyIDs::NoPartySubIDs
          class NoPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -20214,9 +20214,9 @@ public:
    // NewOrderCross::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -20243,9 +20243,9 @@ public:
       // NewOrderCross::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -20265,9 +20265,9 @@ public:
    // NewOrderCross::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -20304,9 +20304,9 @@ public:
       // NewOrderCross::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -20325,9 +20325,9 @@ public:
       // NewOrderCross::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -20347,9 +20347,9 @@ public:
    // NewOrderCross::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -20369,10 +20369,10 @@ public:
 /// CrossOrderCancelReplaceRequest (t), application, 112 fields, 7 groups.
 class CrossOrderCancelReplaceRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 112;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 112;
 
 public:
    explicit CrossOrderCancelReplaceRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -20389,7 +20389,7 @@ public:
          });
    }
    ~CrossOrderCancelReplaceRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -20413,9 +20413,9 @@ public:
    // CrossOrderCancelReplaceRequest::NoStipulations
    class NoStipulations : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -20434,9 +20434,9 @@ public:
    // CrossOrderCancelReplaceRequest::NoTradingSessions
    class NoTradingSessions : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -20455,9 +20455,9 @@ public:
    // CrossOrderCancelReplaceRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -20476,9 +20476,9 @@ public:
    // CrossOrderCancelReplaceRequest::NoSides
    class NoSides : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 40;
 
    public:
@@ -20515,9 +20515,9 @@ public:
       // CrossOrderCancelReplaceRequest::NoSides::NoAllocs
       class NoAllocs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 6;
 
       public:
@@ -20544,9 +20544,9 @@ public:
          // CrossOrderCancelReplaceRequest::NoSides::NoAllocs::NoNestedPartyIDs
          class NoNestedPartyIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 4;
 
          public:
@@ -20573,9 +20573,9 @@ public:
             // CrossOrderCancelReplaceRequest::NoSides::NoAllocs::NoNestedPartyIDs::NoNestedPartySubIDs
             class NoNestedPartySubIDs : public GroupBase // depth: 4
             {
-               static F8_SERUM_Trade_API const FieldTrait *_traits;
-               static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-               static F8_SERUM_Trade_API const MsgType& _msgtype;
+               static F8_SERUM_Data_API const FieldTrait *_traits;
+               static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+               static F8_SERUM_Data_API const MsgType& _msgtype;
                static const unsigned _fieldcnt = 2;
 
             public:
@@ -20596,9 +20596,9 @@ public:
       // CrossOrderCancelReplaceRequest::NoSides::NoPartyIDs
       class NoPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -20625,9 +20625,9 @@ public:
          // CrossOrderCancelReplaceRequest::NoSides::NoPartyIDs::NoPartySubIDs
          class NoPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -20648,9 +20648,9 @@ public:
    // CrossOrderCancelReplaceRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -20677,9 +20677,9 @@ public:
       // CrossOrderCancelReplaceRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -20699,9 +20699,9 @@ public:
    // CrossOrderCancelReplaceRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -20738,9 +20738,9 @@ public:
       // CrossOrderCancelReplaceRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -20759,9 +20759,9 @@ public:
       // CrossOrderCancelReplaceRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -20781,9 +20781,9 @@ public:
    // CrossOrderCancelReplaceRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -20803,10 +20803,10 @@ public:
 /// trailer (trailer), application, 3 fields, 0 groups.
 class trailer : public MessageBase
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 3;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 3;
 
    check_sum *_check_sum;
 
@@ -20831,10 +20831,10 @@ public:
 /// CrossOrderCancelRequest (u), application, 52 fields, 5 groups.
 class CrossOrderCancelRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 52;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 52;
 
 public:
    explicit CrossOrderCancelRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -20849,7 +20849,7 @@ public:
          });
    }
    ~CrossOrderCancelRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -20871,9 +20871,9 @@ public:
    // CrossOrderCancelRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -20892,9 +20892,9 @@ public:
    // CrossOrderCancelRequest::NoSides
    class NoSides : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 18;
 
    public:
@@ -20921,9 +20921,9 @@ public:
       // CrossOrderCancelRequest::NoSides::NoPartyIDs
       class NoPartyIDs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -20950,9 +20950,9 @@ public:
          // CrossOrderCancelRequest::NoSides::NoPartyIDs::NoPartySubIDs
          class NoPartySubIDs : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -20973,9 +20973,9 @@ public:
    // CrossOrderCancelRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -21002,9 +21002,9 @@ public:
       // CrossOrderCancelRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21024,9 +21024,9 @@ public:
    // CrossOrderCancelRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -21063,9 +21063,9 @@ public:
       // CrossOrderCancelRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21084,9 +21084,9 @@ public:
       // CrossOrderCancelRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21106,9 +21106,9 @@ public:
    // CrossOrderCancelRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -21128,15 +21128,15 @@ public:
 /// SecurityTypeRequest (v), application, 9 fields, 0 groups.
 class SecurityTypeRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 9;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 9;
 
 public:
    explicit SecurityTypeRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha) {}
    ~SecurityTypeRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -21147,10 +21147,10 @@ public:
 /// SecurityTypes (w), application, 12 fields, 1 group.
 class SecurityTypes : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 12;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 12;
 
 public:
    explicit SecurityTypes(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -21159,7 +21159,7 @@ public:
          _groups.insert({558, new NoSecurityTypes });
    }
    ~SecurityTypes() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -21171,9 +21171,9 @@ public:
    // SecurityTypes::NoSecurityTypes
    class NoSecurityTypes : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -21193,10 +21193,10 @@ public:
 /// SecurityListRequest (x), application, 66 fields, 5 groups.
 class SecurityListRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 66;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 66;
 
 public:
    explicit SecurityListRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -21211,7 +21211,7 @@ public:
          });
    }
    ~SecurityListRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -21233,9 +21233,9 @@ public:
    // SecurityListRequest::NoSecurityAltID
    class NoSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -21254,9 +21254,9 @@ public:
    // SecurityListRequest::NoLegs
    class NoLegs : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 42;
 
    public:
@@ -21283,9 +21283,9 @@ public:
       // SecurityListRequest::NoLegs::NoLegSecurityAltID
       class NoLegSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21305,9 +21305,9 @@ public:
    // SecurityListRequest::NoUnderlyings
    class NoUnderlyings : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 47;
 
    public:
@@ -21344,9 +21344,9 @@ public:
       // SecurityListRequest::NoUnderlyings::NoUnderlyingSecurityAltID
       class NoUnderlyingSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21365,9 +21365,9 @@ public:
       // SecurityListRequest::NoUnderlyings::NoUnderlyingStips
       class NoUnderlyingStips : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21387,9 +21387,9 @@ public:
    // SecurityListRequest::NoEvents
    class NoEvents : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 4;
 
    public:
@@ -21408,9 +21408,9 @@ public:
    // SecurityListRequest::NoInstrAttrib
    class NoInstrAttrib : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -21430,10 +21430,10 @@ public:
 /// SecurityList (y), application, 6 fields, 1 group.
 class SecurityList : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 6;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 6;
 
 public:
    explicit SecurityList(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -21442,7 +21442,7 @@ public:
          _groups.insert({146, new NoRelatedSym });
    }
    ~SecurityList() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -21454,9 +21454,9 @@ public:
    // SecurityList::NoRelatedSym
    class NoRelatedSym : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait _traits[];
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-      static F8_SERUM_Trade_API const MsgType _msgtype;
+      static F8_SERUM_Data_API const FieldTrait _traits[];
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+      static F8_SERUM_Data_API const MsgType _msgtype;
       static const unsigned _fieldcnt = 81;
 
    public:
@@ -21501,9 +21501,9 @@ public:
       // SecurityList::NoRelatedSym::NoStipulations
       class NoStipulations : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21522,9 +21522,9 @@ public:
       // SecurityList::NoRelatedSym::NoSecurityAltID
       class NoSecurityAltID : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21543,9 +21543,9 @@ public:
       // SecurityList::NoRelatedSym::NoLegs
       class NoLegs : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait _traits[];
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha;
-         static F8_SERUM_Trade_API const MsgType _msgtype;
+         static F8_SERUM_Data_API const FieldTrait _traits[];
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha;
+         static F8_SERUM_Data_API const MsgType _msgtype;
          static const unsigned _fieldcnt = 50;
 
       public:
@@ -21582,9 +21582,9 @@ public:
          // SecurityList::NoRelatedSym::NoLegs::NoLegSecurityAltID
          class NoLegSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -21603,9 +21603,9 @@ public:
          // SecurityList::NoRelatedSym::NoLegs::NoLegStipulations
          class NoLegStipulations : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -21625,9 +21625,9 @@ public:
       // SecurityList::NoRelatedSym::NoUnderlyings
       class NoUnderlyings : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 47;
 
       public:
@@ -21664,9 +21664,9 @@ public:
          // SecurityList::NoRelatedSym::NoUnderlyings::NoUnderlyingSecurityAltID
          class NoUnderlyingSecurityAltID : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -21685,9 +21685,9 @@ public:
          // SecurityList::NoRelatedSym::NoUnderlyings::NoUnderlyingStips
          class NoUnderlyingStips : public GroupBase // depth: 3
          {
-            static F8_SERUM_Trade_API const FieldTrait *_traits;
-            static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-            static F8_SERUM_Trade_API const MsgType& _msgtype;
+            static F8_SERUM_Data_API const FieldTrait *_traits;
+            static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+            static F8_SERUM_Data_API const MsgType& _msgtype;
             static const unsigned _fieldcnt = 2;
 
          public:
@@ -21707,9 +21707,9 @@ public:
       // SecurityList::NoRelatedSym::NoEvents
       class NoEvents : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 4;
 
       public:
@@ -21728,9 +21728,9 @@ public:
       // SecurityList::NoRelatedSym::NoInstrAttrib
       class NoInstrAttrib : public GroupBase // depth: 2
       {
-         static F8_SERUM_Trade_API const FieldTrait *_traits;
-         static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-         static F8_SERUM_Trade_API const MsgType& _msgtype;
+         static F8_SERUM_Data_API const FieldTrait *_traits;
+         static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+         static F8_SERUM_Data_API const MsgType& _msgtype;
          static const unsigned _fieldcnt = 2;
 
       public:
@@ -21751,10 +21751,10 @@ public:
 /// DerivativeSecurityListRequest (z), application, 57 fields, 2 groups.
 class DerivativeSecurityListRequest : public Message
 {
-   static F8_SERUM_Trade_API const FieldTrait _traits[];
-   static F8_SERUM_Trade_API const FieldTrait_Hash_Array _ftha; 
-   static F8_SERUM_Trade_API const MsgType _msgtype;
-   static F8_SERUM_Trade_API const unsigned _fieldcnt = 57;
+   static F8_SERUM_Data_API const FieldTrait _traits[];
+   static F8_SERUM_Data_API const FieldTrait_Hash_Array _ftha; 
+   static F8_SERUM_Data_API const MsgType _msgtype;
+   static F8_SERUM_Data_API const unsigned _fieldcnt = 57;
 
 public:
    explicit DerivativeSecurityListRequest(bool deepctor=true) : Message(ctx(), _msgtype(), _traits, _fieldcnt, &_ftha)
@@ -21766,7 +21766,7 @@ public:
          });
    }
    ~DerivativeSecurityListRequest() = default;
-   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Trade_Router&>(rt))(this); }
+   bool process(Router& rt) const { return (static_cast<FIX8_SERUM_Data_Router&>(rt))(this); }
 
    static const MsgType& get_msgtype() { return _msgtype; }
    static const FieldTrait *get_traits() { return _traits; };
@@ -21785,9 +21785,9 @@ public:
    // DerivativeSecurityListRequest::NoUnderlyingSecurityAltID
    class NoUnderlyingSecurityAltID : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -21806,9 +21806,9 @@ public:
    // DerivativeSecurityListRequest::NoUnderlyingStips
    class NoUnderlyingStips : public GroupBase // depth: 1
    {
-      static F8_SERUM_Trade_API const FieldTrait *_traits;
-      static F8_SERUM_Trade_API const FieldTrait_Hash_Array& _ftha;
-      static F8_SERUM_Trade_API const MsgType& _msgtype;
+      static F8_SERUM_Data_API const FieldTrait *_traits;
+      static F8_SERUM_Data_API const FieldTrait_Hash_Array& _ftha;
+      static F8_SERUM_Data_API const MsgType& _msgtype;
       static const unsigned _fieldcnt = 2;
 
    public:
@@ -21826,6 +21826,6 @@ public:
 
 //-------------------------------------------------------------------------------------------------
 
-} // namespace SERUM_Trade
+} // namespace SERUM_Data
 } // namespace FIX8
-#endif // FIX8_464958385F534552554D5F54726164655F636C61737365732E687070_
+#endif // FIX8_464958385F534552554D5F446174615F636C61737365732E687070_

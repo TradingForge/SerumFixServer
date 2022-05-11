@@ -48,6 +48,9 @@ tar -xzf fix8-1.4.1.tar.gz && cd fix8-1.4.1/
 ./bootstrap && ./configure && make
 sudo make install
 sudo ldconfig
+
+#compile error: need  fix https://stackoverflow.com/questions/46916875/error-when-building-fix-8
+#You have to explicitly #include <functional> in logger.hpp.
 ``
 
 
