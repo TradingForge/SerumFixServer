@@ -1,35 +1,22 @@
-# This Python file uses the following encoding: utf-8
-import os
-from pathlib import Path
-import sys
 
-from PySide2.QtWidgets import QApplication, QWidget
-from PySide2.QtCore import QFile
-from PySide2.QtUiTools import QUiLoader
-from logger import Logger
-from events import EventHandler
+import sys
+from PyQt5 import QtWidgets
+from ui import design
+from ui.logger import Logger
+from ui.events import EventHandler
 from serum_modules.wrapper import Wrapper
 from serum_modules.config import KEYPAIR_PHANTOM
 from serum_modules.models import *
 
-class Widget(QWidget):
+class MainApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
     def __init__(self):
-        super(Widget, self).__init__()
-        self.load_ui()
+        super().__init__()
+        self.setupUi(self) 
         self.load_wrapper()
         self.connect()
 
-    def load_ui(self):
-        loader = QUiLoader()
-        path = os.fspath(Path(__file__).resolve().parent / "UI/form.ui")
-        ui_file = QFile(path)
-        ui_file.open(QFile.ReadOnly)
-        self.ui = loader.load(ui_file, self)
-        ui_file.close()
-
-
     def load_wrapper(self):
-        self.__logger = Logger(self.ui.LoggerBox)
+        self.__logger = Logger(self.LoggerBox)
         self.__event_handler = EventHandler(self.__logger)
         self.__wr = Wrapper(
             KEYPAIR_PHANTOM,
@@ -42,56 +29,65 @@ class Widget(QWidget):
 
     
     def connect(self):
-        self.ui.SubscribeLevel1.clicked.connect(self.subscribe_lv1_event)
-        self.ui.UnsubscribeLevel1.clicked.connect(self.unsubscribe_lv1_event)
+        self.SubscribeTop.clicked.connect(self.subscribe_top_event)
+        self.UnsubscribeTop.clicked.connect(self.unsubscribe_top_event)
 
-        self.ui.SubscribeLevel2.clicked.connect(self.subscribe_lv2_event)
-        self.ui.UnsubscribeLevel2.clicked.connect(self.unsubscribe_lv2_event)
+        self.SubscribeDepth.clicked.connect(self.subscribe_depth_event)
+        self.UnsubscribeDepth.clicked.connect(self.unsubscribe_depth_event)
         
         
-    def subscribe_lv1_event(self):
-        if self.ui.Base.text() == "" or self.ui.Quote.text() == "":
-            self.__logger.error("Input fields must not be empty")
+    def subscribe_top_event(self):
+        instr = self.__get_instrument_from_widget()
+        if instr == None:
             return
 
         self.__wr.subscribe(
             Channels.Level1, 
-            Instrument(self.ui.Base.text().upper(), self.ui.Quote.text().upper())
+            instr
         )
 
-    def unsubscribe_lv1_event(self):
-        if self.ui.Base.text() == "" or self.ui.Quote.text() == "":
-            self.__logger.error("Input fields must not be empty")
+    def unsubscribe_top_event(self):
+        instr = self.__get_instrument_from_widget()
+        if instr == None:
             return
 
         self.__wr.unsubscribe(
             Channels.Level1, 
-            Instrument(self.ui.Base.text().upper(), self.ui.Quote.text().upper())
+            instr
         )
 
-    def subscribe_lv2_event(self):
-        if self.ui.Base.text() == "" or self.ui.Quote.text() == "":
-            self.__logger.error("Input fields must not be empty")
+    def subscribe_depth_event(self):
+        instr = self.__get_instrument_from_widget()
+        if instr == None:
             return
 
         self.__wr.subscribe(
             Channels.Level2, 
-            Instrument(self.ui.Base.text().upper(), self.ui.Quote.text().upper())
+            instr
         )
 
-    def unsubscribe_lv2_event(self):
-        if self.ui.Base.text() == "" or self.ui.Quote.text() == "":
-            self.__logger.error("Input fields must not be empty")
+    def unsubscribe_depth_event(self):
+        instr = self.__get_instrument_from_widget()
+        if instr == None:
             return
 
         self.__wr.unsubscribe(
             Channels.Level2, 
-            Instrument(self.ui.Base.text().upper(), self.ui.Quote.text().upper())
+            instr
         )
 
+    def __get_instrument_from_widget(self):
+        if self.Base.text() == "" or self.Quote.text() == "":
+            self.__logger.error("Input fields must not be empty")
+            return None
+        
+        return Instrument(self.Base.text().strip().upper(), self.Quote.text().strip().upper())
 
-if __name__ == "__main__":
-    app = QApplication([])
-    widget = Widget()
-    widget.show()
-    sys.exit(app.exec_())
+def main():
+    app = QtWidgets.QApplication(sys.argv)  
+    window = MainApp() 
+    window.show()  
+    app.exec_()  
+
+if __name__ == '__main__':  
+    main()
