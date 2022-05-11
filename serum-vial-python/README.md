@@ -1,6 +1,6 @@
 Preinstall
 ```console
-$ pip install websocket-client sortedcontainers base58 solana pyserum pyqt5 PySide2
+$ pip install websocket-client sortedcontainers base58 solana pyserum pyqt5
 $ sudo apt install python3-pyqt5
 ```
 
