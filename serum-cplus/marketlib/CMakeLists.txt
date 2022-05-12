@@ -5,8 +5,8 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 find_package(P7 REQUIRED)
 
-target_include_directories(${MARKETLIB_NAME} PRIVATE
-    ".."
-    "include"
-    ${P7_INCLUDE_DIRS}
-    )
+#target_include_directories(${MARKETLIB_NAME} PRIVATE
+#    ".."
+#    "include"
+#    ${P7_INCLUDE_DIRS}
+#    )
