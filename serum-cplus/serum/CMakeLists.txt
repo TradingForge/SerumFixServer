@@ -1,5 +1,5 @@
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-add_library("${LMAX_NAME}" STATIC
+add_library("${SERUM_NAME}" STATIC
         FIX8_SERUM_Data_classes.cpp
         FIX8_SERUM_Data_traits.cpp
         FIX8_SERUM_Data_types.cpp
@@ -11,7 +11,7 @@ add_library("${LMAX_NAME}" STATIC
 find_package(Fix8 REQUIRED)
 find_package(P7 REQUIRED)
 
-target_include_directories(${LMAX_NAME} PRIVATE
+target_include_directories(${SERUM_NAME} PRIVATE
         "include"
         ".."
         ${FIX8_INCLUDE_DIRS}

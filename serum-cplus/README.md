@@ -3,7 +3,7 @@ OS: Ubuntu Linux 18.04 LTS
 IP: 185.95.16.202  
 SSH user: user  
 SSH pass: MBDzNq3q2h  
-SSH port: 2222  
+SSH por
 
 ```bash
 ssh user@185.95.16.202 -p 2222
@@ -48,22 +48,12 @@ sudo ldconfig
 
 # Cloning and compiling the source
 ```bash
-git clone --recurse-submodules https://github.com/TradingForge/news-engine.git
-cd news-engine
+git clone --recurse-submodules https://github.com/TradingForge/SerumFixServer.git
+cd serum_cplus
 mkdir build && cd build
 cmake ..
 cmake --build . --config Debug --target all -- -j 6
 ctest
-```
-
-```log
-Test project C:/Users/Mykola/Documents/src/news-engine/build
-    Start 1: newsenginetest
-1/1 Test #1: newsenginetest ...................   Passed    0.02 sec
-
-100% tests passed, 0 tests failed out of 1
-
-Total Test time (real) =   0.03 sec
 ```
 
 ```
@@ -96,16 +86,16 @@ ExternalProject_Add(
 
 add_dependencies(Fix8 POCO)
 
-string(CONCAT NEWSENGINE_NAME "${PROJECT_NAME}" "lib")
+string(CONCAT FIXSERVER_NAME "${PROJECT_NAME}" "lib")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-add_library("${NEWSENGINE_NAME}" STATIC
+add_library("${FIXSERVER_NAME}" STATIC
     calc.cpp)
 
-add_dependencies("${NEWSENGINE_NAME}" Fix8)
+add_dependencies("${FIXSERVER_NAME}" Fix8)
 
-target_include_directories("${NEWSENGINE_NAME}" PRIVATE "${3RD_PARTY_INSTALL_PREFIX}/include")
-target_link_libraries("${NEWSENGINE_NAME}" STATIC "${3RD_PARTY_INSTALL_PREFIX}/lib/libfix8.a")
+target_include_directories("${FIXSERVER_NAME}" PRIVATE "${3RD_PARTY_INSTALL_PREFIX}/include")
+target_link_libraries("${FIXSERVER_NAME}" STATIC "${3RD_PARTY_INSTALL_PREFIX}/lib/libfix8.a")
 
-target_include_directories("${NEWSENGINE_NAME}" PRIVATE "cmake-build-release/newsengine/include")
+target_include_directories("${FIXSERVER_NAME}" PRIVATE "cmake-build-release/serum_cplus/include")
 ```

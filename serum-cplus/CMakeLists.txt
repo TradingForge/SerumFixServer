@@ -20,10 +20,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 message(CMAKE_MODULE_PATH:${CMAKE_MODULE_PATH}\n)
 
-string(CONCAT LMAX_NAME ${PROJECT_NAME} "fixserver")
-
-set(SHAREDLIB_NAME "sharedlib")
-set(MARKETLIB_NAME "marketlib")
+string(CONCAT SERUM_NAME ${PROJECT_NAME} "serum")
+string(CONCAT CLI_NAME ${PROJECT_NAME} "cli")
+set(SHAREDLIB_NAME "shared")
+set(MARKETLIB_NAME "market")
 
 # c++ 17
 set (CMAKE_CXX_STANDARD 17)
