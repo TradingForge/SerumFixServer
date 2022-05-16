@@ -1,18 +1,15 @@
+
+
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <chrono>
 #include <ctime>
+#include <sharedlib/include/Logger.h>
 
 int main(int argc, char **argv)
 {
-  try {
-     LoggerPtr logger = Logger::Create(/*channel_name: */ TM("[test_haawks]"));
-     logger->LOG_INFO("Hello FixServer");
-    }
-    catch(std::exception& ex)
-    {
-        logger->LOG_INFO("exception : %s", ex.what());
-    }
+     printf("Hello FixServer");
     return 0;
 }
