@@ -226,7 +226,7 @@ class Client:
 
 if __name__ == '__main__':
     try:
-        logic = Client('stream.cfg')
+        logic = Client('client_stream_template.cfg')
         price_initiator = fix.SocketInitiator(logic.price_application, logic.price_storeFactory, logic.price_settings,
                                               logic.price_logFactory)
         price_initiator.start()
