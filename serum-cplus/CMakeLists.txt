@@ -3,9 +3,13 @@
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 cmake_minimum_required(VERSION 3.10)
+
 project(fixserver
     LANGUAGES C CXX 
     VERSION 0.1.0)
+
+# c++ 17
+set (CMAKE_CXX_STANDARD 17)
 
 include(ExternalProject)
 
@@ -19,34 +23,11 @@ ExternalProject_Add(
     INSTALL_COMMAND "")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
-set(FIX8_INCLUDE_DIRS /usr/local/include/fix8)
-#set(P7_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/libP7Client_v5.3/Sources)
-#set(P7_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/libP7Client_v5.3/Headers ${CMAKE_SOURCE_DIR}/libP7Client_v5.3/Shared ${CMAKE_SOURCE_DIR}/libP7Client_v5.3/Sources)
-#set(P7_LIBRARY_STATIC ${CMAKE_SOURCE_DIR}/libP7Client_v5.3/Binaries/libP7.a)
 
 string(CONCAT SERUM_NAME ${PROJECT_NAME} "serum")
 string(CONCAT CLI_NAME ${PROJECT_NAME} "cli")
 set(SHAREDLIB_NAME "shared")
 set(MARKETLIB_NAME "market")
-
-message(STATUS CMAKE_SOURCE_DIR:${CMAKE_SOURCE_DIR})
-message(STATUS CMAKE_MODULE_PATH:${CMAKE_MODULE_PATH})
-message(STATUS PROJECT_NAME:${PROJECT_NAME})
-message(STATUS SERUM_NAME:${SERUM_NAME})
-message(STATUS CLI_NAME:${CLI_NAME})
-message(STATUS FIX8_INCLUDE_DIRS:${FIX8_INCLUDE_DIRS})
-message(STATUS P7_INCLUDE_DIRS:${P7_INCLUDE_DIRS})
-message(STATUS P7_LIBRARY_STATIC:${P7_LIBRARY_STATIC})
-message(STATUS PROJECT_SOURCE_DIR:${PROJECT_SOURCE_DIR})
-message(STATUS PROJECT_BINARY_DIR:${PROJECT_BINARY_DIR})
-
-message(STATUS "\n")
-
-# c++ 17
-set (CMAKE_CXX_STANDARD 17)
-
-# boost v. latest
-#enable_testing()
 
 add_subdirectory(serum)
 add_subdirectory(marketlib)

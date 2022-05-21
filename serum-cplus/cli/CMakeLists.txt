@@ -5,16 +5,20 @@ find_package(Poco REQUIRED Util XML JSON Net Foundation)
 find_package(Fix8 REQUIRED)
 find_package(P7 REQUIRED)
 
-add_executable(fixserver main.cpp)
+add_executable(${PROJECT_NAME} main.cpp)
 
-target_include_directories(fixserver PRIVATE
+message(STATUS P7_INCLUDE_DIRS:${P7_INCLUDE_DIRS})
+message(STATUS P7_LIBRARY_STATIC:${P7_LIBRARY_STATIC})
+
+target_include_directories(${PROJECT_NAME} PRIVATE
         ".."
         ${FIX8_INCLUDE_DIRS}
         ${P7_INCLUDE_DIRS}
         )
 
-target_link_libraries(fixserver PRIVATE
-    ${SERUM_NAME}
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/build/serum/libfixserverserum.a
+    ${PROJECT_BINARY_DIR}/serum
 #    ${MARKETLIB_NAME}
 #    ${SHAREDLIB_NAME}
     ${CMAKE_THREAD_LIBS_INIT}
@@ -23,7 +27,7 @@ target_link_libraries(fixserver PRIVATE
     PocoJSON
     PocoNet
     PocoFoundation
-    ${FIX8_LIBRARIES}
+    ${FIX8_LIBRARY}
     ${P7_LIBRARY_STATIC}
     )
 
