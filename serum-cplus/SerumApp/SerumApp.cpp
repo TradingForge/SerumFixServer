@@ -13,20 +13,20 @@ using namespace BrokerModels;
 
 void SerumApp::onOpen() {
 #ifdef SERUM_DEBUG
-logger->debug("> SerumApp::onOpen");
+logger->Debug("> SerumApp::onOpen");
 #endif
 	application->onEvent(getName(), BrokerEvent::SessionLogon, "Logon: " + getName());
 }
 void SerumApp::onClose() {
 #ifdef SERUM_DEBUG
-	logger->debug("> SerumApp::onClose");
+	logger->Debug("> SerumApp::onClose");
 #endif
 	application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
 	clearMarkets();
 }
 void SerumApp::onFail() {
 #ifdef SERUM_DEBUG
-logger->debug("> SerumApp::onFail");
+logger->Debug("> SerumApp::onFail");
 #endif
 	application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
 	clearMarkets();
@@ -43,12 +43,15 @@ void SerumApp::onEventHandler(const string &message) {
 	// logger->Info(message.c_str());
 
 	auto parsed_data = boost::json::parse(message);
-
 	string type = parsed_data.at("type").as_string().c_str();
-	if (type == "subscribe" || type == "unsubscribe") {
-		logger->Debug(message.c_str());
-	} 
-	else if (type == "quote") {
+
+#ifdef SERUM_DEBUG
+if (type == "subscribe" || type == "unsubscribe") {
+	logger->Debug(message.c_str());
+} 
+#endif
+	
+	if (type == "quote") {
 
 		application->onReport(
 			name, 
@@ -147,7 +150,7 @@ bool SerumApp::isConnected() const {
 
 void SerumApp::clearMarkets() {
 #ifdef SERUM_DEBUG
-	logger->debug("> SerumApp::clearMarkets");
+	logger->Debug("> SerumApp::clearMarkets");
 #endif
 	depth_snapshot.clear();
 }
