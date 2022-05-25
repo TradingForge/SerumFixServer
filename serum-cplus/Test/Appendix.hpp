@@ -1,12 +1,10 @@
 #pragma once
 
 #include "BrokerLib/IBrokerApplication.h"
-#include "BrokerLib/BrokerModels.h"
 #include "BrokerLib/ISettings.h"
 #include "sharedlib/include/ILogger.h"
 #include <boost/format.hpp>
-using namespace std;
-using namespace BrokerModels;
+
 class Logger: public ILogger
 {
 private:
@@ -89,7 +87,6 @@ public:
     void onEvent(const string &exchangeName, BrokerEvent, const string &details) override;
 	void onReport(const string &exchangeName, const string &symbol, const BrokerModels::MarketBook&) override;
     void onReport(const string &exchangeName, const string &symbol, const BrokerModels::DepthSnapshot&) override;
-    void onReport(const string& exchangeName, const BrokerModels::ExecutionReport&) override;
 	~BrokerNullApplication() = default;
 
 };
@@ -126,15 +123,3 @@ void BrokerNullApplication::onReport(const string &exchangeName, const string &s
     logger->Info(strs.str().c_str());
 };
 
-void BrokerNullApplication::onReport(const string& exchangeName, const BrokerModels::ExecutionReport& report) {
-    logger->Info((boost::format("Symbol(%1%)\nType(%2%)\nSide(%3%)\nPrice(%4%)\nAmountExecuted(%5%)\nAmountRemaining(%6%)\nStatus(%7%)\nExchId(%8%)\n\n") 
-        % report.symbol
-        % orderTypeToString(report.ordType)
-        % orderSideToString(report.side)
-        % report.price 
-        % report.amountExecuted
-        % report.amountRemaining
-        % orderStateToString(report.ordStatus)
-        % report.exchId
-    ).str().c_str());
-}

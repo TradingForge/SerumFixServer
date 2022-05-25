@@ -17,7 +17,7 @@ public:
 	virtual void onEvent(const string &exchangeName, BrokerEvent, const string &details) = 0;
 	virtual void onReport(const string &exchangeName, const string &symbol, const BrokerModels::MarketBook&) = 0;
 	virtual void onReport(const string &exchangeName, const string &symbol, const BrokerModels::DepthSnapshot&) = 0;
-	virtual void onReport(const string& exchangeName, const BrokerModels::ExecutionReport&) = 0;
+
 	virtual ~IBrokerApplication() = default;
 
 };

@@ -10,8 +10,6 @@
 using namespace std;
 using namespace BrokerModels;
 
-
-
 int main () {
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
@@ -49,3 +47,4 @@ int main () {
         }
     }
 }
+

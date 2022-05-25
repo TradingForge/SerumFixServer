@@ -17,6 +17,7 @@ public:
                       FIX8::Persister *persist=nullptr,
                       FIX8::Logger *logger=nullptr,
                       FIX8::Logger *plogger=nullptr);
+     //~SERUM_Data_session();
 
     void setConfig(const XmlElement * session_cfg)noexcept{_session_cfg=session_cfg;}
     void setLogger(const LoggerPtr& logger){_logger=logger;}

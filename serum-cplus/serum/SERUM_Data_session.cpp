@@ -12,7 +12,15 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
         Session(ctx, sci, persist, logger, plogger),
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
         _session_cfg(nullptr){
+    std::cout << "SERUM_Data_session: SERUM_Data_session constructor " << std::endl;
 }
+
+
+/* SERUM_Data_session::~SERUM_Data_session()
+{
+    std::cout << "SERUM_Data_session:  destructor " << std::endl;
+}*/
+
 
 bool SERUM_Data_session::handle_application(const unsigned seqnum, const FIX8::Message *&msg)
 {
@@ -27,29 +35,31 @@ bool SERUM_Data_session::handle_application(const unsigned seqnum, const FIX8::M
         detach(msg);
     return true;
     */
+    std::cout << "SERUM_Data_session: handle_application\n";
     return enforce(seqnum, msg) || msg->process(*this);
 }
 
 FIX8::Message *SERUM_Data_session::generate_logon(const unsigned heartbeat_interval, const FIX8::f8String davi)
 {
+    std::cout << "SERUM_Data_session: generate_logon\n";
     FIX8::Message* logon = FIX8::Session::generate_logon(heartbeat_interval, davi);
     std::string username;
-    if (_session_cfg->GetAttr("username", username))
+    /*if (_session_cfg->GetAttr("username", username))
     {
-       // *logon << new FIX8::LMAXTrade::Username(username);
+       *logon << new FIX8::LMAXTrade::Username(username);
     }
     std::string password;
     if (_session_cfg->GetAttr("password", password))
     {
-        //*logon << new FIX8::LMAXTrade::Password(password);
-    }
+        *logon << new FIX8::LMAXTrade::Password(password);
+    }*/
     return logon;
 }
 
 bool SERUM_Data_session::handle_logon(const unsigned seqnum, const FIX8::Message *msg)
 {
-    //std::cout << "LMAXTrade_session: handle_logon\n";
-    _logger->LOG_INFO("LMAXTrade_session: handle_logon\n");
+    std::cout << "SERUM_Data_session: handle_logon, " << std::endl;
+    //_logger->LOG_INFO("SERUM_Data_session: handle_logon\n");
    // _is_connected=true;
    // _channel_listener->onEvent(_name, marketlib::channel_info::ci_logon,"");
     return FIX8::Session::handle_logon(seqnum, msg);
@@ -57,8 +67,8 @@ bool SERUM_Data_session::handle_logon(const unsigned seqnum, const FIX8::Message
 
 bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Message *msg)
 {
-    // std::cout << "LMAXTrade_session: handle_logout\n";
-    _logger->LOG_INFO("LMAXTrade_session: handle_logout\n");
+    std::cout << "SERUM_Data_session: handle_logout\n";
+    //_logger->LOG_INFO("LMAXTrade_session: handle_logout\n");
     //_is_connected=false;
    // _channel_listener->onEvent(_name, marketlib::channel_info::ci_logout,"");
     return FIX8::Session::handle_logon(seqnum, msg);
@@ -66,7 +76,7 @@ bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Messag
 
 void SERUM_Data_session::modify_outbound(FIX8::Message *msg)
 {
-
+    std::cout << "SERUM_Data_session: modify_outbound, " << std::endl;
     if(_display_debug) {
         // std::ostringstream stream;
         // msg->print(stream);
@@ -77,9 +87,11 @@ void SERUM_Data_session::modify_outbound(FIX8::Message *msg)
 
 bool SERUM_Data_session::process(const FIX8::f8String& from)
 {
+    std::cout << "SERUM_Data_session: process, " << from.c_str() << std::endl;
     if(_display_debug) {
         if(from.find("35=0") == -1)
-            _logger->LOG_INFO("<--- %s\n", from.c_str());
+            //_logger->LOG_INFO("<--- %s\n", from.c_str());
+            std::cout << "<--- " << from.c_str() << std::endl;
     }
     return FIX8::Session::process(from);
 }
@@ -105,7 +117,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::SecurityListR
         reqTypeStr = reqTypeStr;
     }
 
-    printf("Request pools: %s, %s", reqIdStr.c_str(), reqTypeStr.c_str());
+    printf("SERUM_Data_session: Request pools: %s, %s", reqIdStr.c_str(), reqTypeStr.c_str());
     return false;
 }
 
@@ -187,13 +199,13 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
     };
 
     if(subscr_type==marketlib::subscription_type::shapshot_update)
-        printf("MD subscribe to %s:%s, depth(%d), update type(%d)",
+        printf("SERUM_Data_session: MD subscribe to %s:%s, depth(%d), update type(%d)",
                request.engine.c_str(),
                request.symbol.c_str(),
                request.depth,
                request.update_type);
     else if(subscr_type==marketlib::subscription_type::snapshot_update_disable)
-        printf("MD unsubscribe to %s:%s, depth(%d), update type(%d)",
+        printf("SERUM_Data_session: MD unsubscribe to %s:%s, depth(%d), update type(%d)",
                request.engine.c_str(),
                request.symbol.c_str(),
                request.depth,
