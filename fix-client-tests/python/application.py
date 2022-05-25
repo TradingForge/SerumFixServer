@@ -4,7 +4,6 @@ import quickfix as fix
 import quickfix44 as fix44
 import traceback
 
-
 class BrokerEvent:
     SessionLogon = "SessionLogon"
     SessionLogout = "SessionLogout"
@@ -204,7 +203,7 @@ class Client:
     def on_event(self, data):
         print('! {}-{}'.format(data["broker"], data["event"]))
         if data["event"] is BrokerEvent.SessionLogon:
-            #self.price_application.get_instruments()
+            self.price_application.get_instruments()
             self.price_application.subscribe(self.instrument, True)
 
     def on_instrument(self, broker, instr):
@@ -236,6 +235,9 @@ if __name__ == '__main__':
             message = input('enter e to exit the app\n')
             if message == "e":
                 break
+
+        price_initiator.stop()
+        time.sleep(1)
 
     except Exception as e:
         print("Exception error: '%s'." % e)
