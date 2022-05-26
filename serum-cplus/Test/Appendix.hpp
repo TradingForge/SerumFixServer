@@ -2,7 +2,7 @@
 
 #include "BrokerLib/IBrokerApplication.h"
 #include "BrokerLib/ISettings.h"
-#include "sharedlib/include/ILogger.h"
+#include <sharedlib/include/ILogger.h>
 #include <boost/format.hpp>
 
 class Logger: public ILogger
