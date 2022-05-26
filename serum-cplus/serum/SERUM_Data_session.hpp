@@ -9,6 +9,7 @@
 
 #include <marketlib/include/market.h>
 #include <sharedlib/include/Logger.h>
+#include <BrokerLib/BrokerModels.h>
 
 class SERUM_Data_session : public FIX8::Session , public FIX8::SERUM_Data::FIX8_SERUM_Data_Router {
 public:
@@ -40,6 +41,11 @@ private:
     virtual bool operator() (const class Logon *msg) const { return true; }
     bool operator() (const class FIX8::SERUM_Data::SecurityListRequest *msg) const override;
     bool operator() (const class FIX8::SERUM_Data::MarketDataRequest *msg) const override;
+
+    void securityList(const std::string& reqId, marketlib::security_request_result_t , const std::list<marketlib::instrument_descr_t>& pools) ;
+    void marketReject(const std::string& reqId, marketlib::ord_rej_reason reason) ;
+    void fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id, const BrokerModels::MarketBook&);
+    void fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id, const BrokerModels::DepthSnapshot&) ;
 
 private:
     const XmlElement * _session_cfg;
