@@ -7,8 +7,8 @@ find_package(P7 REQUIRED)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-message(STATUS P7_INCLUDE_DIRS:${P7_INCLUDE_DIRS})
-message(STATUS P7_LIBRARY_STATIC:${P7_LIBRARY_STATIC})
+#message(STATUS P7_INCLUDE_DIRS:${P7_INCLUDE_DIRS})
+#message(STATUS P7_LIBRARY_STATIC:${P7_LIBRARY_STATIC})
 
 target_include_directories(${PROJECT_NAME} PRIVATE
         ".."
