@@ -52,8 +52,6 @@ tar -xzf websocketpp-0.8.2.tar.gz && cd websocketpp-0.8.2
 cmake .
 sudo make install
 
-#compile error: need  fix https://stackoverflow.com/questions/46916875/error-when-building-fix-8
-#You
 
 # Cloning and compiling the source
 ```bash
