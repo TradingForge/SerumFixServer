@@ -4,24 +4,26 @@
 #include <memory>
 #include <set>
 
-#include "BrokerLib/IListener.h"
-#include "BrokerLib/IBrokerApplication.h"
-#include "Utility/ConnectionWrapper.h"
-#include "BrokerLib/ISettings.h"
-#include "BrokerLib/BrokerModels.h"
+#include <sharedlib/include/IBrokerClient.h>
+#include <sharedlib/include/IBrokerApplication.h>
+#include <sharedlib/include/ConnectionWrapper.h>
+#include <sharedlib/include/ISettings.h>
+#include <marketlib/include/BrokerModels.h>
+#include <marketlib/include/enums.h>
 
-class SerumListener : public IListener
-{
+class SerumApp : public IBrokerClient {
+
 private:
 
-	friend ConnectionWrapper < SerumListener >;
+	friend ConnectionWrapper < SerumApp >;
 
 	typedef std::string string;
 	typedef std::shared_ptr < ILogger > logger_ptr;
 	typedef std::shared_ptr < ISettings > settings_ptr;
 	typedef std::shared_ptr < IBrokerApplication > application_ptr;
 	typedef BrokerModels::Market Market;
-	typedef std::map < string,  std::list<BrokerModels::Order> > orders_map;
+	typedef std::map < string,  BrokerModels::DepthSnapshot > depth_snapshots;
+	typedef marketlib::market_depth_t SubscriptionModel;
 
 protected:
 
@@ -34,10 +36,11 @@ protected:
 	};
 
 	logger_ptr logger;
-	application_ptr application;
 	settings_ptr settings;
-	ConnectionWrapper < SerumListener > connection;
-	orders_map orders;
+	application_ptr application;
+	ConnectionWrapper < SerumApp > connection;
+	depth_snapshots depth_snapshot;
+	string name;
 	
 
 	void onOpen();
@@ -55,18 +58,19 @@ protected:
 	bool activeCheck() const;
 
 public:
-	SerumListener(logger_ptr, application_ptr, settings_ptr);
+	SerumApp(logger_ptr, application_ptr, settings_ptr);
 
 	bool isEnabled() const override;
 	bool isConnected() const override;
-	// string getName() const override;
+	string getName() const override;
 
 	void start() override;
 	void stop() override;
 
-	void listen(const BrokerModels::Instrument&) override;
-	void unlisten(const BrokerModels::Instrument&) override;
+	void subscribe(const BrokerModels::Instrument&, SubscriptionModel) override;
+	void unsubscribe(const BrokerModels::Instrument&, SubscriptionModel) override;
 
-	~SerumListener();
+	~SerumApp();
 
 };
+

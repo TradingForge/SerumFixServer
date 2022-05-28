@@ -1,12 +1,14 @@
 #pragma once
 
 #include <string>
-#include <sharedlib/include/ILogger.h>
-#include "BrokerModels.h"
+#include "ILogger.h"
+#include <marketlib/include/BrokerModels.h>
+#include <marketlib/include/enums.h>
 
 class IBrokerClient {
 private:
 	typedef std::string string;
+	typedef marketlib::market_depth_t SubscriptionModel;
 public:
 
 	enum class BrokerEvent {
@@ -23,10 +25,10 @@ public:
 		CoinUnsubscribedFault,
 		SubscribedCoinIsNotValid
 	};
-	enum class SubscriptionModel {
-		TopBook,
-		FullBook
-	};
+	// enum class SubscriptionModel {
+	// 	TopBook,
+	// 	FullBook
+	// };
 
 	IBrokerClient() {}
 	IBrokerClient(const IBrokerClient&) = delete;

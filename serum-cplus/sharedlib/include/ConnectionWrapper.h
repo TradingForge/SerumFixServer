@@ -14,7 +14,7 @@
 #include <websocketpp/common/memory.hpp>
 #include <websocketpp/common/platforms.hpp>
 
-#include "sharedlib/include/ILogger.h"
+#include "ILogger.h"
 
 //	#define WEBSOCKET_DEBUG
 
