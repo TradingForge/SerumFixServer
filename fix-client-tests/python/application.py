@@ -18,7 +18,7 @@ class FixApp(fix.Application):
         self.event_func = None
         self.snapshot_func = None
         self.incremental_func = None
-        self.instrument_func = None
+        self.instruments_func = None
         self.__reqId = 1
         super(FixApp, self).__init__()
 
@@ -61,8 +61,8 @@ class FixApp(fix.Application):
         msgType = fix.MsgType()
         message.getHeader().getField(msgType)
         try:
-            if msgType.getValue() == fix.MsgType_SecurityDefinition:
-                self.onSecurityDefinition(message, sessionID)
+            if msgType.getValue() == fix.MsgType_SecurityList:
+                self.onInstruments(message, sessionID)
             if msgType.getValue() == fix.MsgType_MarketDataSnapshotFullRefresh:
                 self.onFullSnapshot(message, sessionID)
             if msgType.getValue() == fix.MsgType_MarketDataIncrementalRefresh:
@@ -178,8 +178,24 @@ class FixApp(fix.Application):
         self.event_func(data)
         pass
 
-    def onInstrument(self, message, sessionID):
-        pass
+    def onInstruments(self, message, sessionID):
+        req_result = fix.SecurityRequestResult()
+        result = message.getField(req_result).getString()
+        pools = []
+        if result == "0":
+            symbolGroup = fix.NoRelatedSym()
+            count = int(message.getField(symbolGroup).getString())
+            for item in range(1, count + 1):
+                group = fix44.SecurityList.NoRelatedSym()
+                message.getGroup(item, group)
+
+                symbol = fix.Symbol()
+                exchange = fix.SecurityExchange()
+                pools.append({
+                    'Symbol': group.getField(symbol).getString(),
+                    'SecurityExchange':  group.getField(exchange).getString(),
+                })
+        self.instruments_func(self.my_name, pools)
 
 class Client:
     def __init__(self, config):
@@ -188,7 +204,7 @@ class Client:
         self.price_logFactory = fix.FileLogFactory(self.price_settings)
         self.price_application = FixApp('serum')
         self.price_application.event_func = self.on_event
-        self.price_application.instrument_func = self.on_instrument
+        self.price_application.instruments_func = self.on_instruments
         self.price_application.snapshot_func = self.on_full_snapshot
         self.price_application.incremental_func = self.on_incremental_snapshot
         self.instrument = {
@@ -206,8 +222,9 @@ class Client:
             self.price_application.get_instruments()
             self.price_application.subscribe(self.instrument, True)
 
-    def on_instrument(self, broker, instr):
-        print("{}: {}".format(broker, instr['Symbol']))
+    def on_instruments(self, broker, pools):
+        for pool in pools:
+            print("POOL {}: {}".format(pool['SecurityExchange'], pool['Symbol']))
 
     def on_full_snapshot(self, broker, snapshot):
         print("{} | full for {}, rows {}".format(broker, snapshot['pool'], len(snapshot['data'])))

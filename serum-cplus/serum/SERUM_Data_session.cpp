@@ -117,7 +117,25 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::SecurityListR
         reqTypeStr = reqTypeStr;
     }
 
-    printf("SERUM_Data_session: Request pools: %s, %s", reqIdStr.c_str(), reqTypeStr.c_str());
+    /*
+     *
+       const std::string   engine;
+        std::string     sec_id;
+        std::string    symbol;
+        std::string     currency;
+        int            tick_precision;
+    */
+
+    // test security list  response//
+    std::list<marketlib::instrument_descr_t> pools{
+        {.engine="SERUM", .sec_id="BTCUSDT", .symbol="BTCUSDT", .currency="USDT", .tick_precision=5},
+        { .engine = "SERUM",.sec_id = "ETHUSDT",.symbol = "ETHUSDT",.currency = "USDT",.tick_precision = 5 },
+    };
+    auto* _sess = const_cast<SERUM_Data_session*>(this);
+    _sess->securityList(reqIdStr,marketlib::security_request_result_t::srr_valid,pools);
+    /////
+
+    printf("SERUM_Data_session: Request pools: %s, %s\n", reqIdStr.c_str(), reqTypeStr.c_str());
     return false;
 }
 
@@ -199,17 +217,188 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
     };
 
     if(subscr_type==marketlib::subscription_type::shapshot_update)
-        printf("SERUM_Data_session: MD subscribe to %s:%s, depth(%d), update type(%d)",
+        printf("SERUM_Data_session: MD subscribe to %s:%s, depth(%d), update type(%d)\n",
                request.engine.c_str(),
                request.symbol.c_str(),
                request.depth,
                request.update_type);
     else if(subscr_type==marketlib::subscription_type::snapshot_update_disable)
-        printf("SERUM_Data_session: MD unsubscribe to %s:%s, depth(%d), update type(%d)",
+        printf("SERUM_Data_session: MD unsubscribe to %s:%s, depth(%d), update type(%d)\n",
                request.engine.c_str(),
                request.symbol.c_str(),
                request.depth,
                request.update_type);
 
     return false;
+}
+
+void SERUM_Data_session::securityList(const std::string &reqId, marketlib::security_request_result_t result,
+                                      const std::list<marketlib::instrument_descr_t>& pools)
+{
+    /*
+    320	SecurityReqID	Y	Y
+    322	SecurityResponseID	Y	Y	Identifier for the Security List (y) message
+    560	SecurityRequestResult	Y	Y	The results returned to a Security Request (v) message
+    Valid values:
+    '0' 	Valid request
+    '1' 	Invalid or unsupported request
+    '2' 	No instruments found that match selection criteria
+    '3' 	Not authorized to retrieve instrument data
+    '4' 	Instrument data temporarily unavailable
+    '5' 	Request for instrument data not supported
+    component block  <Instrument>	N N
+     */
+    auto *mdr(new FIX8::SERUM_Data::SecurityList);
+
+    *mdr    << new FIX8::SERUM_Data::SecurityReqID(reqId)
+            << new FIX8::SERUM_Data::SecurityResponseID("resp" + reqId)
+            << new FIX8::SERUM_Data::SecurityRequestResult(result)
+            << new FIX8::SERUM_Data::NoRelatedSym(pools.size()) ;
+
+    FIX8::GroupBase *noin(mdr->find_group<FIX8::SERUM_Data::SecurityList::NoRelatedSym >());
+    for(const auto& pool_info : pools)
+    {
+        FIX8::MessageBase *noin_sym(noin->create_group());
+        *noin_sym << new FIX8::SERUM_Data::SecurityExchange(pool_info.engine)
+                  << new FIX8::SERUM_Data::Symbol (pool_info.symbol);
+        *noin << noin_sym;
+    }
+    *mdr << noin;
+
+    std::ostringstream str;
+    mdr->print(str);
+    std::cout << "--> " << str.str() << std::endl;
+    FIX8::Session::send(mdr);
+}
+
+void SERUM_Data_session::marketReject(const std::string& reqId, marketlib::ord_rej_reason reason)
+{
+    /*
+     Header 	Y 	Standard header, with 35=Y.
+        MDReqID 	Y 	The ID of the Market Data Request.
+        MDRecRejReason 	Y 	The reason for the rejection of the Market Data request.
+        Text 	Y 	Message.
+     */
+
+    auto *mdr(new FIX8::SERUM_Data::MarketDataRequest);
+
+    *mdr    << new FIX8::SERUM_Data::MDReqID(reqId)
+            << new FIX8::SERUM_Data::MDReqRejReason (reason)
+            ;
+
+    FIX8::Session::send(mdr);
+}
+
+void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id,
+                                 const BrokerModels::MarketBook & book)
+{
+    /*
+        262 	MDReqID 	Y 	The ID of the Market Data Request that triggered sending this snapshot.
+        55 	    Symbol 	Y 	The pool expressed as CCY1/CCY2. For example, “DOT/USDT”.
+        268 	NoMDEntries 	Y 	The number of market data entries in this message.
+                    Begin Repeating Group
+        269 	MDEntryType 	Y 	Supported values:
+
+        0	= Bid
+        1	= Ask
+        2	= Trade
+
+
+        270 	MDEntryPx 	Y 	The market data entry price.
+        271 	MDEntrySize 	Y 	The market data entry volume.
+        64 	    SettlDate 	Y 	The Settlement date expressed as YYYYMMDD. For example, “19701231”
+        278 	MDEntryID 	Y 	The unique ID for this market data.
+                    End Repeating Group
+     */
+     auto *mdr(new FIX8::SERUM_Data::MarketDataSnapshotFullRefresh);
+     *mdr   << new FIX8::SERUM_Data::Symbol (sec_id.symbol)
+            << new FIX8::SERUM_Data::NoMDEntries(1)
+            ;
+
+    {
+        FIX8::GroupBase *nomd(mdr->find_group< FIX8::SERUM_Data::MarketDataSnapshotFullRefresh::NoMDEntries >());
+
+        time_t update_time = std::chrono::system_clock::to_time_t(book.time);
+        char* update_time_str = ctime(&update_time);
+        FIX8::MessageBase *nomd_bid(nomd->create_group());
+        *nomd_bid << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_BID); // bids
+        *nomd_bid << new FIX8::SERUM_Data::MDEntryPx(book.bidPrice); // bids
+        *nomd_bid << new FIX8::SERUM_Data::MDEntrySize(book.bidSize); // bids
+        *nomd_bid << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
+        *nomd_bid << new FIX8::SERUM_Data::MDEntryID("1"); // bids
+        *nomd << nomd_bid;
+
+        FIX8::MessageBase *nomd_ask(nomd->create_group());
+        *nomd_ask << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_OFFER); // offers
+        *nomd_bid << new FIX8::SERUM_Data::MDEntryPx(book.askPrice); // bids
+        *nomd_bid << new FIX8::SERUM_Data::MDEntrySize(book.askSize); // bids
+        *nomd_bid << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
+        *nomd_bid << new FIX8::SERUM_Data::MDEntryID("2"); // bids
+        *nomd << nomd_ask;
+
+        FIX8::MessageBase *nomd_trade(nomd->create_group());
+        *nomd_trade << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_TRADE); // trades
+        *nomd_bid << new FIX8::SERUM_Data::MDEntryPx(book.lastPrice); // bids
+        *nomd_bid << new FIX8::SERUM_Data::MDEntrySize(book.lastSize); // bids
+        *nomd_bid << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
+        *nomd_bid << new FIX8::SERUM_Data::MDEntryID("3"); // bids
+        *nomd << nomd_trade;
+        *mdr << nomd;
+    }
+
+    FIX8::Session::send(mdr);
+}
+
+void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id,
+                                  const BrokerModels::DepthSnapshot & depth)
+{
+    /*
+        262 	MDReqID 	Y 	The ID of the Market Data Request that triggered sending this snapshot.
+        55 	Symbol 	Y 	The pool expressed as CCY1/CCY2. For example, “DOT/USDT”.
+        268 	NoMDEntries 	Y 	The number of market data entries in this message.
+                    Begin Repeating Group
+        269 	MDEntryType 	Y 	Supported values:
+
+        0	= Bid
+        1	= Ask
+        2	= Trade
+
+
+        270 	MDEntryPx 	Y 	The market data entry price.
+        271 	MDEntrySize 	Y 	The market data entry volume.
+        64 	SettlDate 	Y 	The Settlement date expressed as YYYYMMDD. For example, “19701231”
+        278 	MDEntryID 	Y 	The unique ID for this market data.
+                    End Repeating Group
+     */
+
+    auto *mdr(new FIX8::SERUM_Data::MarketDataSnapshotFullRefresh);
+    *mdr   << new FIX8::SERUM_Data::Symbol (sec_id.symbol)
+           << new FIX8::SERUM_Data::NoMDEntries(depth.asks.size() + depth.bids.size())
+            ;
+
+    {
+        FIX8::GroupBase *nomd(mdr->find_group< FIX8::SERUM_Data::MarketDataSnapshotFullRefresh::NoMDEntries >());
+        time_t update_time = std::chrono::system_clock::to_time_t(depth.time);
+        char *update_time_str = ctime(&update_time);
+        for(auto bid: depth.bids) {
+            FIX8::MessageBase *nomd_bid(nomd->create_group());
+            *nomd_bid << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_BID); // bids
+            *nomd_bid << new FIX8::SERUM_Data::MDEntryPx(bid.price); // bids
+            *nomd_bid << new FIX8::SERUM_Data::MDEntrySize(bid.volume); // bids
+            *nomd_bid << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
+            *nomd_bid << new FIX8::SERUM_Data::MDEntryID(bid.entryId); // bids
+            *nomd << nomd_bid;
+        }
+        for(auto ask: depth.asks) {
+            FIX8::MessageBase *nomd_ask(nomd->create_group());
+            *nomd_ask << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_OFFER); // offers
+            *nomd_ask << new FIX8::SERUM_Data::MDEntryPx(ask.price); // bids
+            *nomd_ask << new FIX8::SERUM_Data::MDEntrySize(ask.volume); // bids
+            *nomd_ask << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
+            *nomd_ask << new FIX8::SERUM_Data::MDEntryID(ask.entryId); // bids
+            *nomd << nomd_ask;
+        }
+    }
+
+    FIX8::Session::send(mdr);
 }
