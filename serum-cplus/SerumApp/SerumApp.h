@@ -35,7 +35,7 @@ protected:
 
 	logger_ptr logger;
 	settings_ptr settings;
-	application_ptr application;
+    IBrokerApplication* application;
 	ConnectionWrapper < SerumApp > connection;
 	depth_snapshots depth_snapshot;
 	string name;
@@ -56,7 +56,7 @@ protected:
 	bool activeCheck() const;
 
 public:
-	SerumApp(logger_ptr, application_ptr, settings_ptr);
+	SerumApp(logger_ptr,  IBrokerApplication*, settings_ptr);
 
 	bool isEnabled() const override;
 	bool isConnected() const override;

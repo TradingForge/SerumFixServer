@@ -16,8 +16,8 @@ public:
 	void Info(const char *content, ...) override;
 	void Debug(const char *content, ...) override;
 	void Error(const char *content, ...) override;
-	void Warn(const char *content, ...) override;
     void Critical(const char *content, ...) override;
+	void Warn(const char *content, ...) override;
     void Trace(const char *content, ...) override;
 
 	~Logger() = default;

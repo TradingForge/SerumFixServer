@@ -4,6 +4,66 @@
 
 #include "SERUM_Data_session.hpp"
 
+bool _display_debug = true;
+
+ class TestLogger: public ILogger
+ {
+ private:
+
+     typedef std::string string;
+
+ public:
+
+     void Info(const char *content, ...) override;
+     void Debug(const char *content, ...) override;
+     void Error(const char *content, ...) override;
+     void Critical(const char *content, ...) override;
+     void Warn(const char *content, ...) override;
+     void Trace(const char *content, ...) override;
+
+     ~TestLogger() = default;
+ };
+
+void TestLogger::Info(const char *content, ...) {
+    std::cout << "INFO | " << content << "\n";
+}
+void TestLogger::Debug(const char *content, ...) {
+    std::cout << "INFO | " << content << "\n";
+}
+void TestLogger::Error(const char *content, ...) {
+    std::cout << "INFO | " << content << "\n";
+}
+void TestLogger::Warn(const char *content, ...) {
+    std::cout << "INFO | " << content << "\n";
+}
+void TestLogger::Critical(const char *content, ...) {
+    std::cout << "CRITICAL | " << content << "\n";
+}
+void TestLogger::Trace(const char *content, ...) {
+    std::cout << "TRACE | " << content << "\n";
+}
+
+class SerumSettings : public ISettings {
+
+private:
+
+    typedef std::string string;
+
+public:
+
+    string get(Property property) const override {
+        switch (property) {
+            case Property::ExchangeName:
+                return "Serum";
+            case Property::WebsocketEndpoint:
+                return "wss://api.serum-vial.dev/v1/ws";
+            default:
+                return "";
+        }
+    }
+};
+
+
 SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
                                        const FIX8::sender_comp_id& sci,
                                      FIX8::Persister *persist,
@@ -11,10 +71,12 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
                                      FIX8::Logger *plogger):
         Session(ctx, sci, persist, logger, plogger),
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
-        _session_cfg(nullptr){
+        _logger(new TestLogger),
+        _settings(new SerumSettings),
+        _client( std::shared_ptr <SerumApp>(new SerumApp(_logger, this,_settings) ))
+{
     std::cout << "SERUM_Data_session: SERUM_Data_session constructor " << std::endl;
 }
-
 
 /* SERUM_Data_session::~SERUM_Data_session()
 {
@@ -62,7 +124,14 @@ bool SERUM_Data_session::handle_logon(const unsigned seqnum, const FIX8::Message
     //_logger->LOG_INFO("SERUM_Data_session: handle_logon\n");
    // _is_connected=true;
    // _channel_listener->onEvent(_name, marketlib::channel_info::ci_logon,"");
-    return FIX8::Session::handle_logon(seqnum, msg);
+   try {
+       _client->start();
+   }
+   catch(std::exception& ex)
+   {
+       std::cout << "SERUM_Data_session, starting serumDEX " << ex.what() << std::endl;
+   }
+   return FIX8::Session::handle_logon(seqnum, msg);
 }
 
 bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Message *msg)
@@ -71,6 +140,13 @@ bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Messag
     //_logger->LOG_INFO("LMAXTrade_session: handle_logout\n");
     //_is_connected=false;
    // _channel_listener->onEvent(_name, marketlib::channel_info::ci_logout,"");
+    try {
+        _client->stop();
+    }
+    catch(std::exception& ex)
+    {
+        std::cout << "SERUM_Data_session, stopping serumDEX " << ex.what() << std::endl;
+    }
     return FIX8::Session::handle_logon(seqnum, msg);
 }
 
@@ -88,7 +164,8 @@ void SERUM_Data_session::modify_outbound(FIX8::Message *msg)
 bool SERUM_Data_session::process(const FIX8::f8String& from)
 {
     std::cout << "SERUM_Data_session: process, " << from.c_str() << std::endl;
-    if(_display_debug) {
+    if(_display_debug)
+    {
         if(from.find("35=0") == -1)
             //_logger->LOG_INFO("<--- %s\n", from.c_str());
             std::cout << "<--- " << from.c_str() << std::endl;
@@ -116,15 +193,6 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::SecurityListR
     if(msg->get(reqType)){
         reqTypeStr = reqTypeStr;
     }
-
-    /*
-     *
-       const std::string   engine;
-        std::string     sec_id;
-        std::string    symbol;
-        std::string     currency;
-        int            tick_precision;
-    */
 
     // test security list  response//
     std::list<marketlib::instrument_descr_t> pools{
@@ -168,10 +236,10 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
         0	= Full book, unlimited depth
         1	= Top of Book only
      */
-    marketlib::market_depth_t depth;
+    marketlib::market_depth_t mk_depth;
     FIX8::SERUM_Data::MarketDepth  depth_model;
     if(msg->get(depth_model)){
-        depth = (marketlib::market_depth_t)depth_model.get();
+        mk_depth = (marketlib::market_depth_t)depth_model.get();
     }
 
     /*
@@ -212,22 +280,44 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
     marketlib::market_data_request_t request{
         "SERUM",
         symbol.get(),
-        depth,
+        mk_depth,
         update_type
     };
 
-    if(subscr_type==marketlib::subscription_type::shapshot_update)
+    IBrokerClient::SubscriptionModel model = mk_depth ==
+                                             marketlib::market_depth_t::top?
+                                             IBrokerClient::SubscriptionModel::TopBook:
+                                             IBrokerClient::SubscriptionModel::FullBook;
+    BrokerModels::Instrument pool {.exchange = "SERUM", .symbol=symbol.get()};
+    if(subscr_type==marketlib::subscription_type::shapshot_update) {
         printf("SERUM_Data_session: MD subscribe to %s:%s, depth(%d), update type(%d)\n",
                request.engine.c_str(),
                request.symbol.c_str(),
                request.depth,
                request.update_type);
-    else if(subscr_type==marketlib::subscription_type::snapshot_update_disable)
+        try{
+            _client->subscribe(pool, model);
+        }
+        catch(std::exception& ex)
+        {
+            std::cout << "SERUM_Data_session, DEX Subscribe to " << symbol <<std::endl;
+        }
+    }
+    if(subscr_type==marketlib::subscription_type::snapshot_update_disable) {
         printf("SERUM_Data_session: MD unsubscribe to %s:%s, depth(%d), update type(%d)\n",
                request.engine.c_str(),
                request.symbol.c_str(),
                request.depth,
                request.update_type);
+        try
+        {
+            _client->unsubscribe(pool, model);
+        }
+        catch(std::exception& ex)
+        {
+            std::cout << "SERUM_Data_session, DEX Unsubscribe to " << symbol <<std::endl;
+        }
+    }
 
     return false;
 }
@@ -289,6 +379,7 @@ void SERUM_Data_session::marketReject(const std::string& reqId, marketlib::ord_r
     FIX8::Session::send(mdr);
 }
 
+
 void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id,
                                  const BrokerModels::MarketBook & book)
 {
@@ -312,6 +403,7 @@ void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib:
      */
      auto *mdr(new FIX8::SERUM_Data::MarketDataSnapshotFullRefresh);
      *mdr   << new FIX8::SERUM_Data::Symbol (sec_id.symbol)
+            << new FIX8::SERUM_Data::SecurityExchange (sec_id.engine)
             << new FIX8::SERUM_Data::NoMDEntries(1)
             ;
 
@@ -373,6 +465,7 @@ void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib:
 
     auto *mdr(new FIX8::SERUM_Data::MarketDataSnapshotFullRefresh);
     *mdr   << new FIX8::SERUM_Data::Symbol (sec_id.symbol)
+           << new FIX8::SERUM_Data::SecurityExchange (sec_id.engine)
            << new FIX8::SERUM_Data::NoMDEntries(depth.asks.size() + depth.bids.size())
             ;
 
@@ -402,3 +495,40 @@ void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib:
 
     FIX8::Session::send(mdr);
 }
+
+// IBrokerApplication
+
+void SERUM_Data_session::onEvent(const std::string &exchangeName, IBrokerClient::BrokerEvent, const std::string &details)
+{
+    _logger->Debug((boost::format("> DEX::onEvent => Exchange '%1%'") % exchangeName).str().c_str());
+    _logger->Info(details.c_str());
+}
+
+void SERUM_Data_session::onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::MarketBook&marketBook)
+{
+    _logger->Info((boost::format("%1%\nAsk(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%)")
+                  % symbol
+                  % marketBook.askPrice
+                  % marketBook.askSize
+                  % marketBook.bidPrice
+                  % marketBook.bidSize).str().c_str());
+
+   // fullSnapshot("123",marketlib::instrument_descr_t{.engine="SERUM",.symbol=symbol},marketBook);
+}
+
+void SERUM_Data_session::onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::DepthSnapshot&depth)
+{
+    int count = 7;
+    std::ostringstream strs;
+    strs << symbol << "\nAsks\n";
+    for (auto ask = depth.asks.begin() + count - 1; ask >= depth.asks.begin(); ask--) {
+        strs << (*ask).volume << "  " << (*ask).price << std::endl;
+    }
+    strs << "\nBids\n";
+    for (auto bid = depth.bids.begin(); bid < depth.bids.begin() + count; bid++) {
+        strs << (*bid).volume << "  " << (*bid).price << std::endl;
+    }
+    _logger->Info(strs.str().c_str());
+    //fullSnapshot("123",marketlib::instrument_descr_t{.engine="SERUM",.symbol=symbol},depth);
+}
+
