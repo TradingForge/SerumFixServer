@@ -125,6 +125,7 @@ bool SERUM_Data_session::handle_logon(const unsigned seqnum, const FIX8::Message
    // _is_connected=true;
    // _channel_listener->onEvent(_name, marketlib::channel_info::ci_logon,"");
    try {
+       std::cout << "SERUM_Data_session, DEX client start" << std::endl;
        _client->start();
    }
    catch(std::exception& ex)
@@ -141,6 +142,7 @@ bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Messag
     //_is_connected=false;
    // _channel_listener->onEvent(_name, marketlib::channel_info::ci_logout,"");
     try {
+        std::cout << "SERUM_Data_session, DEX client stop" << std::endl;
         _client->stop();
     }
     catch(std::exception& ex)
@@ -288,7 +290,8 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
                                              marketlib::market_depth_t::top?
                                              IBrokerClient::SubscriptionModel::TopBook:
                                              IBrokerClient::SubscriptionModel::FullBook;
-    BrokerModels::Instrument pool {.exchange = "SERUM", .symbol=symbol.get()};
+    //BrokerModels::Instrument pool {.exchange = "Serum", .symbol=symbol.get()};
+    BrokerModels::Instrument pool{"Serum", "ETHUSDC", "ETH", "USDC" };
     if(subscr_type==marketlib::subscription_type::shapshot_update) {
         printf("SERUM_Data_session: MD subscribe to %s:%s, depth(%d), update type(%d)\n",
                request.engine.c_str(),
@@ -300,10 +303,10 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
         }
         catch(std::exception& ex)
         {
-            std::cout << "SERUM_Data_session, DEX Subscribe to " << symbol <<std::endl;
+            std::cout << "SERUM_Data_session, DEX Subscribe to " <<  symbol << ","<< ex.what() << std::endl;
         }
     }
-    if(subscr_type==marketlib::subscription_type::snapshot_update_disable) {
+    else if(subscr_type==marketlib::subscription_type::snapshot_update_disable) {
         printf("SERUM_Data_session: MD unsubscribe to %s:%s, depth(%d), update type(%d)\n",
                request.engine.c_str(),
                request.symbol.c_str(),
@@ -315,9 +318,10 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
         }
         catch(std::exception& ex)
         {
-            std::cout << "SERUM_Data_session, DEX Unsubscribe to " << symbol <<std::endl;
+            std::cout << "SERUM_Data_session, DEX Unsubscribe to " << symbol << ","<< ex.what()<< std::endl;
         }
     }
+    else std::cout << "SERUM_Data_session, DEX Incorrect subsvribe/unsubscribe to " << symbol <<std::endl;
 
     return false;
 }
@@ -401,41 +405,39 @@ void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib:
         278 	MDEntryID 	Y 	The unique ID for this market data.
                     End Repeating Group
      */
+
+    time_t update_time = std::chrono::system_clock::to_time_t(book.time);
+    tm *_tm = gmtime(&update_time);
+    std::chrono::system_clock::duration duration = book.time.time_since_epoch();
+    auto milli_total = std::chrono::duration_cast<std::chrono::milliseconds> (duration).count();
+    char buff[64];
+    sprintf(buff, "%.2d:%.2d:%.2d.%.3ld", _tm->tm_hour,_tm->tm_min, _tm->tm_sec, milli_total % 1000);
+
      auto *mdr(new FIX8::SERUM_Data::MarketDataSnapshotFullRefresh);
      *mdr   << new FIX8::SERUM_Data::Symbol (sec_id.symbol)
             << new FIX8::SERUM_Data::SecurityExchange (sec_id.engine)
-            << new FIX8::SERUM_Data::NoMDEntries(1)
+            << new FIX8::SERUM_Data::NoMDEntries(2)
+            << new FIX8::SERUM_Data::MDReqID (reqId)
             ;
-
     {
         FIX8::GroupBase *nomd(mdr->find_group< FIX8::SERUM_Data::MarketDataSnapshotFullRefresh::NoMDEntries >());
-
-        time_t update_time = std::chrono::system_clock::to_time_t(book.time);
-        char* update_time_str = ctime(&update_time);
         FIX8::MessageBase *nomd_bid(nomd->create_group());
-        *nomd_bid << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_BID); // bids
-        *nomd_bid << new FIX8::SERUM_Data::MDEntryPx(book.bidPrice); // bids
-        *nomd_bid << new FIX8::SERUM_Data::MDEntrySize(book.bidSize); // bids
-        *nomd_bid << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
-        *nomd_bid << new FIX8::SERUM_Data::MDEntryID("1"); // bids
+        *nomd_bid << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_BID) // bids
+                  << new FIX8::SERUM_Data::MDEntryPx(book.bidPrice) // bids
+                  << new FIX8::SERUM_Data::MDEntrySize(book.bidSize) // bids
+                  << new FIX8::SERUM_Data::MDEntryDate((tm&)(*_tm))
+                  << new FIX8::SERUM_Data::MDEntryTime(buff)
+                  ;
         *nomd << nomd_bid;
 
         FIX8::MessageBase *nomd_ask(nomd->create_group());
-        *nomd_ask << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_OFFER); // offers
-        *nomd_bid << new FIX8::SERUM_Data::MDEntryPx(book.askPrice); // bids
-        *nomd_bid << new FIX8::SERUM_Data::MDEntrySize(book.askSize); // bids
-        *nomd_bid << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
-        *nomd_bid << new FIX8::SERUM_Data::MDEntryID("2"); // bids
+        *nomd_ask << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_OFFER) // offers
+                  << new FIX8::SERUM_Data::MDEntryPx(book.askPrice) // bids
+                  << new FIX8::SERUM_Data::MDEntrySize(book.askSize) // bids
+                  << new FIX8::SERUM_Data::MDEntryDate((tm&)(*_tm))
+                  << new FIX8::SERUM_Data::MDEntryTime(buff)
+                  ;
         *nomd << nomd_ask;
-
-        FIX8::MessageBase *nomd_trade(nomd->create_group());
-        *nomd_trade << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_TRADE); // trades
-        *nomd_bid << new FIX8::SERUM_Data::MDEntryPx(book.lastPrice); // bids
-        *nomd_bid << new FIX8::SERUM_Data::MDEntrySize(book.lastSize); // bids
-        *nomd_bid << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
-        *nomd_bid << new FIX8::SERUM_Data::MDEntryID("3"); // bids
-        *nomd << nomd_trade;
-        *mdr << nomd;
     }
 
     FIX8::Session::send(mdr);
@@ -467,28 +469,37 @@ void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib:
     *mdr   << new FIX8::SERUM_Data::Symbol (sec_id.symbol)
            << new FIX8::SERUM_Data::SecurityExchange (sec_id.engine)
            << new FIX8::SERUM_Data::NoMDEntries(depth.asks.size() + depth.bids.size())
+           << new FIX8::SERUM_Data::MDReqID (reqId)
             ;
 
     {
         FIX8::GroupBase *nomd(mdr->find_group< FIX8::SERUM_Data::MarketDataSnapshotFullRefresh::NoMDEntries >());
+
         time_t update_time = std::chrono::system_clock::to_time_t(depth.time);
-        char *update_time_str = ctime(&update_time);
+        tm *_tm = gmtime(&update_time);
+        std::chrono::system_clock::duration duration = depth.time.time_since_epoch();
+        auto milli_total = std::chrono::duration_cast<std::chrono::milliseconds> (duration).count();
+        char buff[64];
+        sprintf(buff, "%.2d:%.2d:%.2d.%.3ld", _tm->tm_hour,_tm->tm_min, _tm->tm_sec, milli_total % 1000);
+
         for(auto bid: depth.bids) {
             FIX8::MessageBase *nomd_bid(nomd->create_group());
-            *nomd_bid << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_BID); // bids
-            *nomd_bid << new FIX8::SERUM_Data::MDEntryPx(bid.price); // bids
-            *nomd_bid << new FIX8::SERUM_Data::MDEntrySize(bid.volume); // bids
-            *nomd_bid << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
-            *nomd_bid << new FIX8::SERUM_Data::MDEntryID(bid.entryId); // bids
+            *nomd_bid << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_BID) // bids
+                      << new FIX8::SERUM_Data::MDEntryPx(bid.price) // bids
+                      << new FIX8::SERUM_Data::MDEntrySize(bid.volume) // bids
+                      << new FIX8::SERUM_Data::MDEntryDate((tm&)(*_tm))
+                      << new FIX8::SERUM_Data::MDEntryTime(buff)
+                      ;
             *nomd << nomd_bid;
         }
         for(auto ask: depth.asks) {
             FIX8::MessageBase *nomd_ask(nomd->create_group());
-            *nomd_ask << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_OFFER); // offers
-            *nomd_ask << new FIX8::SERUM_Data::MDEntryPx(ask.price); // bids
-            *nomd_ask << new FIX8::SERUM_Data::MDEntrySize(ask.volume); // bids
-            *nomd_ask << new FIX8::SERUM_Data::SettlDate(update_time_str); // bids
-            *nomd_ask << new FIX8::SERUM_Data::MDEntryID(ask.entryId); // bids
+            *nomd_ask << new FIX8::SERUM_Data::MDEntryType(FIX8::SERUM_Data::MDEntryType_OFFER) // offers
+                      << new FIX8::SERUM_Data::MDEntryPx(ask.price) // bids
+                      << new FIX8::SERUM_Data::MDEntrySize(ask.volume) // bids
+                      << new FIX8::SERUM_Data::MDEntryDate((tm&)(*_tm))
+                      << new FIX8::SERUM_Data::MDEntryTime(buff)
+                      ;
             *nomd << nomd_ask;
         }
     }
@@ -506,14 +517,14 @@ void SERUM_Data_session::onEvent(const std::string &exchangeName, IBrokerClient:
 
 void SERUM_Data_session::onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::MarketBook&marketBook)
 {
-    _logger->Info((boost::format("%1%\nAsk(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%)")
+    _logger->Info((boost::format("top: %1%\nAsk(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%)")
                   % symbol
                   % marketBook.askPrice
                   % marketBook.askSize
                   % marketBook.bidPrice
                   % marketBook.bidSize).str().c_str());
 
-   // fullSnapshot("123",marketlib::instrument_descr_t{.engine="SERUM",.symbol=symbol},marketBook);
+    fullSnapshot("123",marketlib::instrument_descr_t{.engine="Serum",.sec_id=symbol,.symbol=symbol},marketBook);
 }
 
 void SERUM_Data_session::onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::DepthSnapshot&depth)
@@ -529,6 +540,7 @@ void SERUM_Data_session::onReport(const std::string &exchangeName, const std::st
         strs << (*bid).volume << "  " << (*bid).price << std::endl;
     }
     _logger->Info(strs.str().c_str());
-    //fullSnapshot("123",marketlib::instrument_descr_t{.engine="SERUM",.symbol=symbol},depth);
+
+    fullSnapshot("123",marketlib::instrument_descr_t{.engine="Serum",.sec_id=symbol,.symbol=symbol},depth);
 }
 
