@@ -226,6 +226,7 @@ class Client:
             time.sleep(2)
             self.price_application.get_instruments()
             self.price_application.subscribe(self.instrument, True, True)
+            self.price_application.subscribe(self.instrument, True, False)
 
     def on_incremental_snapshot(self, broker, snapshot):
         print("{} | incr for {}, data {}".format(broker, snapshot['pool'], snapshot['data']))
