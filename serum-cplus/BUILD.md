@@ -53,6 +53,14 @@ sudo ldconfig
 #You have to explicitly #include <functional> in logger.hpp.
 
 
+## Websocketpp
+```bash
+curl -L https://github.com/zaphoyd/websocketpp/archive/refs/tags/0.8.2.tar.gz -o websocketpp-0.8.2.tar.gz
+tar -xzf websocketpp-0.8.2.tar.gz && cd websocketpp-0.8.2
+cmake .
+sudo make install
+
+
 # Cloning and compiling the project's source
 ```bash
 git clone --recurse-submodules https://github.com/TradingForge/SerumFixServer.git

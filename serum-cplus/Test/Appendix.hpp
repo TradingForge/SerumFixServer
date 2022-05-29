@@ -1,9 +1,15 @@
 #pragma once
 
-#include "BrokerLib/IBrokerApplication.h"
-#include "BrokerLib/ISettings.h"
+#include <sharedlib/include/IBrokerApplication.h>
+#include <sharedlib/include/ISettings.h>
 #include <sharedlib/include/ILogger.h>
+#include <marketlib/include/market.h>
 #include <boost/format.hpp>
+
+using namespace std;
+using namespace marketlib;
+using namespace BrokerModels;
+
 
 class Logger: public ILogger
 {
@@ -76,6 +82,7 @@ private:
 	typedef std::string string;
 	typedef BrokerModels::Market Market;
     typedef IBrokerClient::BrokerEvent BrokerEvent;
+    typedef marketlib::execution_report_t ExecutionReport;
 
 protected:
 
@@ -87,6 +94,7 @@ public:
     void onEvent(const string &exchangeName, BrokerEvent, const string &details) override;
 	void onReport(const string &exchangeName, const string &symbol, const BrokerModels::MarketBook&) override;
     void onReport(const string &exchangeName, const string &symbol, const BrokerModels::DepthSnapshot&) override;
+    void onReport(const string& exchangeName, const string &symbol, const ExecutionReport&) override;
 	~BrokerNullApplication() = default;
 
 };
@@ -134,3 +142,30 @@ void BrokerNullApplication::onReport(const string &exchangeName, const string &s
     logger->Info(strs.str().c_str());
 };
 
+void BrokerNullApplication::onReport(const string& exchangeName, const string &symbol, const ExecutionReport& report) {
+    std::string state = "";
+    if ( report.state == order_state_t::ost_New ) {
+        state = "new";
+    }
+    else if ( report.state == order_state_t::ost_Filled ) {
+        state = "filled";
+    }
+    else if ( report.state == order_state_t::ost_Canceled ) {
+        state = "cancelled";
+    }
+    else if ( report.state == order_state_t::ost_Replaced ) {
+        state = "replaced";
+    }
+
+
+    logger->Info((boost::format("Symbol(%1%)\nType(%2%)\nSide(%3%)\nPrice(%4%)\nAmountExecuted(%5%)\nAmountRemaining(%6%)\nStatus(%7%)\nExchId(%8%)\n\n") 
+        % symbol
+        % (report.orderType == order_type_t::ot_Limit ? "limit" : "market")
+        % (report.side == order_side_t::os_Buy ? "buy" : "sell")
+        % report.limitPrice 
+        % report.cumQty
+        % report.leavesQty
+        % state
+        % report.exchId
+    ).str().c_str());
+}

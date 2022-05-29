@@ -4,11 +4,13 @@
 #include <memory>
 #include <set>
 
-#include "BrokerLib/IListener.h"
-#include "BrokerLib/IBrokerApplication.h"
-#include "Utility/ConnectionWrapper.h"
-#include "BrokerLib/ISettings.h"
-#include "BrokerLib/BrokerModels.h"
+#include <sharedlib/include/IBrokerApplication.h>
+#include <sharedlib/include/ConnectionWrapper.h>
+#include <sharedlib/include/ISettings.h>
+#include <sharedlib/include/IListener.h>
+#include <marketlib/include/BrokerModels.h>
+#include <marketlib/include/market.h>
+
 
 class SerumListener : public IListener
 {
@@ -21,7 +23,9 @@ private:
 	typedef std::shared_ptr < ISettings > settings_ptr;
 	typedef std::shared_ptr < IBrokerApplication > application_ptr;
 	typedef BrokerModels::Market Market;
-	typedef std::map < string,  std::list<BrokerModels::Order> > orders_map;
+	typedef marketlib::order_t Order;
+	typedef marketlib::execution_report_t ExecutionReport;
+	typedef std::map < string, std::list< Order > > orders_map;
 
 protected:
 

@@ -4,22 +4,36 @@ find_package(Boost 1.79.0 REQUIRED)
 find_package(Websocketpp REQUIRED)
 find_package(OpenSSL REQUIRED)
 
-add_executable(${SERUM_TEST} SerumAppTest.cpp)
-
-#message(STATUS P7_INCLUDE_DIRS:${P7_INCLUDE_DIRS})
-#message(STATUS P7_LIBRARY_STATIC:${P7_LIBRARY_STATIC})
-
-target_include_directories(${SERUM_TEST} PRIVATE
+set(DEX_INCLUDES 
         ".."
-        ${CMAKE_SOURCE_DIR}/BrokerLib
-        ${CMAKE_SOURCE_DIR}/Utility
-        ${CMAKE_SOURCE_DIR}/SerumApp
+        ${CMAKE_SOURCE_DIR}/sharedlib
+        ${CMAKE_SOURCE_DIR}/marketlib
         ${OPENSSL_INCLUDE_DIR}
         )
 
-target_link_libraries(${SERUM_TEST} PRIVATE
-    ${CMAKE_SOURCE_DIR}/build/SerumApp/libfixserverSerumApp.a
-    ${CMAKE_THREAD_LIBS_INIT}
-    ${OPENSSL_CRYPTO_LIBRARY}
-    ${OPENSSL_LIBRARIES}
+set(DEX_LIBRARIES 
+        ${CMAKE_THREAD_LIBS_INIT}
+        ${OPENSSL_CRYPTO_LIBRARY}
+        ${OPENSSL_LIBRARIES}
+        )
+
+
+add_executable("SerumMDTest" SerumMDTest.cpp)
+target_include_directories("SerumMDTest" PRIVATE
+        ${DEX_INCLUDES}
+        ${CMAKE_SOURCE_DIR}/SerumDEX
+        )
+target_link_libraries("SerumMDTest" PRIVATE
+    ${DEX_LIBRARIES}
+    ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
+    )
+
+add_executable("SerumTradeTest" SerumTradeTest.cpp)
+target_include_directories("SerumTradeTest" PRIVATE
+        ${DEX_INCLUDES}
+        ${CMAKE_SOURCE_DIR}/SerumDEX
+        )
+target_link_libraries("SerumTradeTest" PRIVATE
+    ${DEX_LIBRARIES}
+    ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
     )

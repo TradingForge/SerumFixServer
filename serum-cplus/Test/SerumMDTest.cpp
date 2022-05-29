@@ -2,14 +2,14 @@
 #include <string>
 #include <atomic>
 
-#include "SerumApp/SerumListener.h"
-#include "SerumApp/SerumListener.cpp"
-#include "BrokerLib/BrokerModels.h"
+#include <SerumDEX/SerumMD.h>
+#include <marketlib/include/BrokerModels.h>
+#include <marketlib/include/enums.h>
 #include "Appendix.hpp"
 
 using namespace std;
 using namespace BrokerModels;
-
+using namespace marketlib;
 
 
 int main () {
@@ -17,9 +17,9 @@ int main () {
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IBrokerApplication > application(new BrokerNullApplication(logger));
 
-    SerumListener client(
+    SerumApp client(
         logger,
-        application,
+        application.get(),
         settings
     );
 
@@ -38,10 +38,15 @@ int main () {
             client.stop();
         } else if (cmd == "quit") {
             break;
-        } else if (cmd == "lst") {
-            client.listen(instrument);
-        } else if (cmd == "ulst") {
-            client.unlisten(instrument);
-        } 
+        } else if (cmd == "st") {
+            client.subscribe(instrument, market_depth_t::top);
+        } else if (cmd == "ut") {
+            client.unsubscribe(instrument, market_depth_t::top);
+        } else if (cmd == "sd") {
+            client.subscribe(instrument, market_depth_t::full);
+        } else if (cmd == "ud") {
+            client.unsubscribe(instrument, market_depth_t::full);
+        }
     }
 }
+

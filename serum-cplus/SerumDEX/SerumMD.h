@@ -4,11 +4,12 @@
 #include <memory>
 #include <set>
 
-#include "BrokerLib/IBrokerClient.h"
-#include "BrokerLib/IBrokerApplication.h"
-#include "Utility/ConnectionWrapper.h"
-#include "BrokerLib/ISettings.h"
-#include "BrokerLib/BrokerModels.h"
+#include <sharedlib/include/IBrokerClient.h>
+#include <sharedlib/include/IBrokerApplication.h>
+#include <sharedlib/include/ConnectionWrapper.h>
+#include <sharedlib/include/ISettings.h>
+#include <marketlib/include/BrokerModels.h>
+#include <marketlib/include/enums.h>
 
 class SerumApp : public IBrokerClient {
 
@@ -22,6 +23,7 @@ private:
 	typedef std::shared_ptr < IBrokerApplication > application_ptr;
 	typedef BrokerModels::Market Market;
 	typedef std::map < string,  BrokerModels::DepthSnapshot > depth_snapshots;
+	typedef marketlib::market_depth_t SubscriptionModel;
 
 protected:
 

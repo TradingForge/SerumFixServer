@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include <sharedlib/include/ILogger.h>
-#include "BrokerModels.h"
+#include "ILogger.h"
+#include <marketlib/include/BrokerModels.h>
 
 class IListener {
 private:

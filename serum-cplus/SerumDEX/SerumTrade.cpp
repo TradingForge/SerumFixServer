@@ -1,15 +1,17 @@
-#include "SerumListener.h"
+#include "SerumTrade.h"
 #include "SerumAdapter.h"
 #include <fstream>
 
-#include "BrokerLib/BrokerModels.h"
-
+#include <marketlib/include/BrokerModels.h>
+#include <marketlib/include/market.h>
+#include <marketlib/include/enums.h>
 // #define SERUM_LISTENER_DEBUG
 
 using namespace std;
 using namespace std::chrono;
 using namespace SerumAdapter;
-using namespace BrokerModels; 
+using namespace BrokerModels;
+using namespace marketlib;
 
 void SerumListener::onOpen() {
 #ifdef SERUM_LISTENER_DEBUG
@@ -54,29 +56,24 @@ if (type == "subscribed" || type == "unsubscribed") {
 		return;
 	std::string market = parsed_data.at("market").as_string().c_str();
 	if (type  == "l3snapshot" || type  == "open") {
-		std::string timestamp = parsed_data.at("timestamp").as_string().c_str();
-		auto ind = market.find('/');
-		std::string first = market.substr(0,ind);
-		std::string second = market.substr(ind + 1);
-		auto addOrderToList = [&](const boost::json::value& set, std::list<BrokerModels::Order>& vec) {
+		auto addOrderToList = [&](const boost::json::value& set, std::list<Order>& vec) {
 			vec.push_back(Order{
-				OrderType::Limit,
-				OrderState::Open,
-				stringToOrderSide(set.at("side").as_string().c_str()),
-				stod(set.at("size").as_string().c_str()),
-				stod(set.at("price").as_string().c_str()),
-				set.at("clientId").as_string().c_str(),
-				set.at("orderId").as_string().c_str(),
-				timestamp,
-				this->settings->get(ISettings::Property::ExchangeName),
-				market,
-				first,
-				second
+				clId: set.at("clientId").as_string().c_str(),
+				exchId: set.at("orderId").as_string().c_str(),
+				secId: "",
+				original_qty: stod(set.at("size").as_string().c_str()),
+				remaining_qty: stod(set.at("size").as_string().c_str()),
+				price: stod(set.at("price").as_string().c_str()),
+				stopPrice: 0.0,
+				side: stringToOrderSide(set.at("side").as_string().c_str()),
+				state: order_state_t::ost_New,
+				tif: time_in_force_t::tf_Undefined,
+				type: order_type_t::ot_Limit
 			});
 		};
 
 		if (type  == "l3snapshot") {
-			orders[market] = std::list<BrokerModels::Order>{};
+			orders[market] = std::list<Order>{};
 			auto& orders_list = orders[market];
 			for (const auto &set : parsed_data.at("asks").as_array()) {
 				addOrderToList(set, orders_list);
@@ -92,36 +89,36 @@ if (type == "subscribed" || type == "unsubscribed") {
 	} else if (type  == "change") {
 		auto& orders_lst = orders[market];
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [id = parsed_data.at("orderId").as_string().c_str()](auto a) {
-			return a.exchangeId == id;
+			return a.exchId == id;
 		});
-		order->orderSide = stringToOrderSide(parsed_data.at("side").as_string().c_str());
-		order->amount = stod(parsed_data.at("size").as_string().c_str());
+		order->side = stringToOrderSide(parsed_data.at("side").as_string().c_str());
+		order->original_qty = stod(parsed_data.at("size").as_string().c_str());
+		order->remaining_qty = stod(parsed_data.at("size").as_string().c_str());
 		order->price = stod(parsed_data.at("price").as_string().c_str());
-		order->clientId = parsed_data.at("clientId").as_string().c_str();
-		order->initDate = parsed_data.at("timestamp").as_string().c_str();
+		order->clId = parsed_data.at("clientId").as_string().c_str();
 
-		application->onReport(settings->get(ISettings::Property::ExchangeName), ExecutionReport{
-			order->clientId,
-			order->exchangeId,
-			order->symbol,
-			order->orderSide,
-			OrderState::Replaced,
-			order->orderType,
-			order->price,
-			0.,
-			order->amount
-		});
+		auto report = ExecutionReport();
+		report.clId = order->clId;
+		report.exchId = order->exchId;
+		report.orderType = order->type;
+		report.type = report_type_t::rt_replaced;
+		report.state = order->state;
+		report.side = order->side;
+		report.limitPrice = order->price;
+		report.leavesQty = order->original_qty;
+
+		application->onReport(settings->get(ISettings::Property::ExchangeName), market, std::move(report));
 	}
 	else if (type == "done") {
 		auto& orders_lst = orders[market];
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [id = parsed_data.at("orderId").as_string().c_str()](auto a) {
-			return a.exchangeId == id;
+			return a.exchId == id;
 		});
 		order = find_if(
 			orders_lst.begin(), 
 			orders_lst.end(), 
 			[id = parsed_data.at("orderId").as_string().c_str()](auto a) {
-				return a.exchangeId == id;
+				return a.exchId == id;
 			}
 		);
 
@@ -129,43 +126,39 @@ if (type == "subscribed" || type == "unsubscribed") {
 		in the first place (ImmediateOrCancel orders for example)*/
 		bool is_canceled = string(parsed_data.at("reason").as_string().c_str()) == string("canceled");
 		if (order == orders_lst.end()) {
-			application->onReport(settings->get(ISettings::Property::ExchangeName), ExecutionReport{
-				parsed_data.at("clientId").as_string().c_str(),
-				parsed_data.at("orderId").as_string().c_str(),
-				parsed_data.at("market").as_string().c_str(),
-				stringToOrderSide(parsed_data.at("side").as_string().c_str()),
-				is_canceled ? OrderState::Canceled : OrderState::Filled,
-				OrderType::Market,
-				0,
-				0,
-				0
-			});
+			auto report = ExecutionReport();
+			report.clId = parsed_data.at("clientId").as_string().c_str();
+			report.exchId = parsed_data.at("orderId").as_string().c_str();
+			report.orderType = order_type_t::ot_Market;
+			report.type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill;
+			report.state = is_canceled ? order_state_t::ost_Canceled : order_state_t::ost_Filled;
+			report.side = stringToOrderSide(parsed_data.at("side").as_string().c_str());
+
+			application->onReport(settings->get(ISettings::Property::ExchangeName), market, std::move(report));
 			return;
 		}
-		logger->Info(message.c_str());
+		// logger->Info(message.c_str());
 		double remaining = is_canceled ? stod(parsed_data.at("sizeRemaining").as_string().c_str()) : 0;
-		application->onReport(settings->get(ISettings::Property::ExchangeName), ExecutionReport{
-			order->clientId,
-			order->exchangeId,
-			order->symbol,
-			order->orderSide,
-			is_canceled ? OrderState::Canceled : OrderState::Filled,
-			order->orderType,
-			order->price,
-			order->amount - remaining,
-			remaining
-		});
+		auto report = ExecutionReport();
+		report.clId = order->clId;
+		report.exchId = order->exchId;
+		report.orderType = order->type;
+		report.type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill;
+		report.state = is_canceled ? order_state_t::ost_Canceled : order_state_t::ost_Filled;
+		report.side = order->side;
+		report.limitPrice = order->price;
+		report.leavesQty = order->original_qty - remaining;
+		report.cumQty = remaining;
+		application->onReport(settings->get(ISettings::Property::ExchangeName), market, std::move(report));
 		orders_lst.erase(
 			find_if(
 				orders_lst.begin(), 
 				orders_lst.end(), 
 				[id = parsed_data.at("orderId").as_string().c_str()](auto a) {
-					return a.exchangeId == id;
+					return a.exchId == id;
 				}
 			)
 		);
-
-		auto tt = 0;
 	}
 }
 
