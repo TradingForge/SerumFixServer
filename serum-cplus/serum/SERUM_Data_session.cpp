@@ -238,10 +238,10 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
         0	= Full book, unlimited depth
         1	= Top of Book only
      */
-    marketlib::market_depth_t mk_depth;
-    FIX8::SERUM_Data::MarketDepth  depth_model;
-    if(msg->get(depth_model)){
-        mk_depth = (marketlib::market_depth_t)depth_model.get();
+    marketlib::market_depth_t depth;
+    FIX8::SERUM_Data::MarketDepth  market_depth;
+    if(msg->get(market_depth)){
+        depth = (marketlib::market_depth_t)market_depth.get();
     }
 
     /*
@@ -282,14 +282,10 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
     marketlib::market_data_request_t request{
         "SERUM",
         symbol.get(),
-        mk_depth,
+        depth,
         update_type
     };
 
-    IBrokerClient::SubscriptionModel model = mk_depth ==
-                                             marketlib::market_depth_t::top?
-                                             IBrokerClient::SubscriptionModel::TopBook:
-                                             IBrokerClient::SubscriptionModel::FullBook;
     //BrokerModels::Instrument pool {.exchange = "Serum", .symbol=symbol.get()};
     BrokerModels::Instrument pool{"Serum", "ETHUSDC", "ETH", "USDC" };
     if(subscr_type==marketlib::subscription_type::shapshot_update) {
@@ -299,7 +295,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
                request.depth,
                request.update_type);
         try{
-            _client->subscribe(pool, model);
+            _client->subscribe(pool, depth);
         }
         catch(std::exception& ex)
         {
@@ -314,7 +310,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
                request.update_type);
         try
         {
-            _client->unsubscribe(pool, model);
+            _client->unsubscribe(pool, depth);
         }
         catch(std::exception& ex)
         {

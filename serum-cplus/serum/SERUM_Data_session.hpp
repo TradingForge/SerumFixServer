@@ -8,13 +8,14 @@
 #include "FIX8_SERUM_Data_types.hpp"
 #include "FIX8_SERUM_Data_classes.hpp"
 
-#include <marketlib/include/market.h>
 #include <sharedlib/include/Logger.h>
-#include <BrokerLib/BrokerModels.h>
+#include <marketlib/include/market.h>
+#include <marketlib/include/BrokerModels.h>
+#include <SerumDEX/SerumMD.h>
 
-#include "SerumApp/SerumApp.h"
-#include "BrokerLib/BrokerModels.h"
-
+std::shared_ptr < ILogger > _logger;
+std::shared_ptr < ISettings > _settings;
+std::shared_ptr < SerumApp > _client;
 
 class SERUM_Data_session :
         public FIX8::Session ,
@@ -51,14 +52,15 @@ private:
     void fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id, const BrokerModels::MarketBook&);
     void fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id, const BrokerModels::DepthSnapshot&);
 
-    void onEvent(const std::string &exchangeName, IBrokerClient::BrokerEvent, const std::string &details) override;
+    void onEvent (const std::string &exchangeName, IBrokerClient::BrokerEvent, const std::string &details) override;
     void onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::MarketBook&) override;
     void onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::DepthSnapshot&) override;
+    void onReport(const std::string& exchangeName, const std::string &symbol, const marketlib::execution_report_t&) override{}
 
 private:
     std::shared_ptr < ILogger > _logger;
     std::shared_ptr < ISettings > _settings;
-    std::shared_ptr <SerumApp> _client;
+    std::shared_ptr < SerumApp > _client;
 };
 
 
