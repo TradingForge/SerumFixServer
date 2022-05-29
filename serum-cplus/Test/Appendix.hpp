@@ -99,13 +99,24 @@ void BrokerNullApplication::onEvent(const string &exchangeName, BrokerEvent, con
 	logger->Info(details.c_str());
 }
 
-void BrokerNullApplication::onReport(const string &exchangeName, const string &symbol, const MarketBook &marketBook) {    
-    logger->Info((boost::format("%1%\nAsk(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%)") 
+void BrokerNullApplication::onReport(const string &exchangeName, const string &symbol, const MarketBook &marketBook) {
+    time_t update_time = std::chrono::system_clock::to_time_t(marketBook.time);
+    struct tm *_tm = gmtime(&update_time);
+    std::chrono::system_clock::duration duration = marketBook.time.time_since_epoch();
+    auto milli_total = std::chrono::duration_cast<std::chrono::milliseconds> (duration).count();
+    int milli_since = milli_total % 1000;
+    char buff[64];
+    //  "timestamp": "2021-03-24 01:00:55.586",
+    sprintf(buff, "%.4d%.2d%.2d %.2d:%.2d:%.2d.%.3d",
+            _tm->tm_year+1900, _tm->tm_mon, _tm->tm_mday,_tm->tm_hour,_tm->tm_min,_tm->tm_sec, milli_since);
+
+    logger->Info((boost::format("%1%\nAsk(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%), update_time(%6%)")
         % symbol 
         % marketBook.askPrice 
         % marketBook.askSize 
         % marketBook.bidPrice 
-        % marketBook.bidSize).str().c_str());
+        % marketBook.bidSize
+        % buff).str().c_str());
 }
 
 void BrokerNullApplication::onReport(const string &exchangeName, const string &symbol, const BrokerModels::DepthSnapshot& depth){
