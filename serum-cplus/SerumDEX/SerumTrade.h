@@ -12,11 +12,11 @@
 #include <marketlib/include/market.h>
 
 
-class SerumListener : public IListener
+class SerumTrade : public IListener
 {
 private:
 
-	friend ConnectionWrapper < SerumListener >;
+	friend ConnectionWrapper < SerumTrade >;
 
 	typedef std::string string;
 	typedef std::shared_ptr < ILogger > logger_ptr;
@@ -26,21 +26,23 @@ private:
 	typedef marketlib::order_t Order;
 	typedef marketlib::execution_report_t ExecutionReport;
 	typedef std::map < string, std::list< Order > > orders_map;
+	typedef marketlib::instrument_descr_t Instrument;
+
 
 protected:
 
-	struct SubscribeChannel {
-		string id;
-		string name;
-		string pair;
-		BrokerModels::Instrument instrument;
-		std::shared_ptr < Market > market;
-	};
+	// struct SubscribeChannel {
+	// 	string id;
+	// 	string name;
+	// 	string pair;
+	// 	BrokerModels::Instrument instrument;
+	// 	std::shared_ptr < Market > market;
+	// };
 
 	logger_ptr logger;
 	application_ptr application;
 	settings_ptr settings;
-	ConnectionWrapper < SerumListener > connection;
+	ConnectionWrapper < SerumTrade > connection;
 	orders_map orders;
 	
 
@@ -59,7 +61,7 @@ protected:
 	bool activeCheck() const;
 
 public:
-	SerumListener(logger_ptr, application_ptr, settings_ptr);
+	SerumTrade(logger_ptr, application_ptr, settings_ptr);
 
 	bool isEnabled() const override;
 	bool isConnected() const override;
@@ -68,9 +70,9 @@ public:
 	void start() override;
 	void stop() override;
 
-	void listen(const BrokerModels::Instrument&) override;
-	void unlisten(const BrokerModels::Instrument&) override;
+	void listen(const Instrument&) override;
+	void unlisten(const Instrument&) override;
 
-	~SerumListener();
+	~SerumTrade();
 
 };

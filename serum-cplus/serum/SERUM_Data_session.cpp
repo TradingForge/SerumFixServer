@@ -78,7 +78,7 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
         _logger(new TestLogger),
         _settings(new SerumSettings),
-        _client( std::shared_ptr <IBrokerClient>(new SerumApp(_logger, this,_settings) ))
+        _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger, this,_settings) ))
 {
     std::cout << "SERUM_Data_session: SERUM_Data_session constructor " << std::endl;
 }
@@ -294,7 +294,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
     };
 
     //BrokerModels::Instrument pool {.exchange = "Serum", .symbol=symbol.get()};
-    BrokerModels::Instrument pool{"Serum", "ETHUSDC", "ETH", "USDC" };
+    marketlib::instrument_descr_t pool{"Serum", "", "ETH/USDC", "USDC" };
     if(subscr_type==marketlib::subscription_type::shapshot_update) {
         printf("SERUM_Data_session: MD subscribe to %s:%s, depth(%d), update type(%d)\n",
                request.engine.c_str(),

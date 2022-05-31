@@ -10,6 +10,7 @@
 using namespace std;
 using namespace BrokerModels;
 using namespace marketlib;
+typedef marketlib::instrument_descr_t Instrument;
 
 
 int main () {
@@ -17,13 +18,13 @@ int main () {
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IBrokerApplication > application(new BrokerNullApplication(logger));
 
-    SerumApp client(
+    SerumMD client(
         logger,
         application.get(),
         settings
     );
 
-    Instrument instrument{"Serum", "ETHUSDC", "ETH", "USDC" };
+    Instrument instrument{"", "", "ETH/USDC", "USDC" };
 
     client.start();
     
@@ -46,6 +47,11 @@ int main () {
             client.subscribe(instrument, market_depth_t::full);
         } else if (cmd == "ud") {
             client.unsubscribe(instrument, market_depth_t::full);
+        } else if (cmd == "inst") {
+            auto instruments = client.getInstruments();
+            for(auto instr : instruments) {
+                cout << "Exch: " << instr.engine << "  Market: " << instr.symbol << "  Currency: "  << instr.currency << endl;
+            }
         }
     }
 }

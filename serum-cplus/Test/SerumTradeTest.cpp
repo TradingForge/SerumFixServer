@@ -8,6 +8,7 @@
 
 using namespace std;
 using namespace BrokerModels;
+typedef marketlib::instrument_descr_t Instrument;
 
 
 
@@ -16,13 +17,13 @@ int main () {
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IBrokerApplication > application(new BrokerNullApplication(logger));
 
-    SerumListener client(
+    SerumTrade client(
         logger,
         application,
         settings
     );
 
-    Instrument instrument{"Serum", "ETHUSDC", "ETH", "USDC" };
+    Instrument instrument{"", "", "ETH/USDC", "USDC" };
 
     client.start();
     

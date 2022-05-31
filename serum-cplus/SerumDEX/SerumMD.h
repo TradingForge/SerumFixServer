@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <memory>
 #include <set>
+#include <vector>
 
 #include <sharedlib/include/IBrokerClient.h>
 #include <sharedlib/include/IBrokerApplication.h>
@@ -11,11 +12,11 @@
 #include <marketlib/include/BrokerModels.h>
 #include <marketlib/include/enums.h>
 
-class SerumApp : public IBrokerClient {
+class SerumMD : public IBrokerClient {
 
 private:
 
-	friend ConnectionWrapper < SerumApp >;
+	friend ConnectionWrapper < SerumMD >;
 
 	typedef std::string string;
 	typedef std::shared_ptr < ILogger > logger_ptr;
@@ -24,21 +25,22 @@ private:
 	typedef BrokerModels::Market Market;
 	typedef std::map < string,  BrokerModels::DepthSnapshot > depth_snapshots;
 	typedef marketlib::market_depth_t SubscriptionModel;
+	typedef marketlib::instrument_descr_t instrument;
 
 protected:
 
-	struct SubscribeChannel {
-		string id;
-		string name;
-		string pair;
-		BrokerModels::Instrument instrument;
-		std::shared_ptr < Market > market;
-	};
+	// struct SubscribeChannel {
+	// 	string id;
+	// 	string name;
+	// 	string pair;
+	// 	BrokerModels::Instrument instrument;
+	// 	std::shared_ptr < Market > market;
+	// };
 
 	logger_ptr logger;
 	settings_ptr settings;
     IBrokerApplication* application;
-	ConnectionWrapper < SerumApp > connection;
+	ConnectionWrapper < SerumMD > connection;
 	depth_snapshots depth_snapshot;
 	string name;
 	
@@ -58,7 +60,7 @@ protected:
 	bool activeCheck() const;
 
 public:
-	SerumApp(logger_ptr,  IBrokerApplication*, settings_ptr);
+	SerumMD(logger_ptr,  IBrokerApplication*, settings_ptr);
 
 	bool isEnabled() const override;
 	bool isConnected() const override;
@@ -67,10 +69,11 @@ public:
 	void start() override;
 	void stop() override;
 
-	void subscribe(const BrokerModels::Instrument&, SubscriptionModel) override;
-	void unsubscribe(const BrokerModels::Instrument&, SubscriptionModel) override;
+	void subscribe(const instrument&, SubscriptionModel) override;
+	void unsubscribe(const instrument&, SubscriptionModel) override;
+	std::vector< instrument > getInstruments() override;
 
-	~SerumApp();
+	~SerumMD();
 
 };
 

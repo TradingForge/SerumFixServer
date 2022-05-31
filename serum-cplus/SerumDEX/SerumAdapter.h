@@ -13,10 +13,11 @@
 namespace SerumAdapter {
 	typedef marketlib::market_depth_t SubscriptionModel;
 	typedef marketlib::order_side_t OrderSide;
+	typedef marketlib::instrument_descr_t instrument;
 
 	static std::string subscriptionModelToString(SubscriptionModel model) {
 		static const std::string values[]{
-			"level1", "level2"
+			"level2", "level1"
 		};
 		return values[static_cast < int > (model)];
 	}
@@ -29,9 +30,5 @@ namespace SerumAdapter {
 			return OrderSide::os_Sell;
 		}
 		return OrderSide::os_Undefined;
-	}
-
-	static std::string getMarket(const BrokerModels::Instrument& instr) {
-		return instr.first + "/" + instr.second;
 	}
 };

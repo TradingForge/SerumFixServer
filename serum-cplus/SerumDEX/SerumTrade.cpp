@@ -13,27 +13,27 @@ using namespace SerumAdapter;
 using namespace BrokerModels;
 using namespace marketlib;
 
-void SerumListener::onOpen() {
+void SerumTrade::onOpen() {
 #ifdef SERUM_LISTENER_DEBUG
-logger->Debug("> SerumListener::onOpen");
+logger->Debug("> SerumTrade::onOpen");
 #endif
 	// application->onEvent(getName(), BrokerEvent::SessionLogon, "Logon: " + getName());
 }
-void SerumListener::onClose() {
+void SerumTrade::onClose() {
 #ifdef SERUM_LISTENER_DEBUG
-	logger->Debug("> SerumListener::onClose");
+	logger->Debug("> SerumTrade::onClose");
 #endif
 	// application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
 	// clearMarkets();
 }
-void SerumListener::onFail() {
+void SerumTrade::onFail() {
 #ifdef SERUM_LISTENER_DEBUG
-logger->Debug("> SerumListener::onFail");
+logger->Debug("> SerumTrade::onFail");
 #endif
 	// application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
 	// clearMarkets();
 }
-void SerumListener::onMessage(const string& message) {
+void SerumTrade::onMessage(const string& message) {
 	if (message.find("filled")!= std::string::npos) {
 		auto tt = 0;
 	}
@@ -44,7 +44,7 @@ void SerumListener::onMessage(const string& message) {
 	}
 }
 
-void SerumListener::onEventHandler(const string &message) {
+void SerumTrade::onEventHandler(const string &message) {
 	auto parsed_data = boost::json::parse(message);
 	std::string type = parsed_data.at("type").as_string().c_str();
 #ifdef SERUM_LISTENER_DEBUG
@@ -162,71 +162,71 @@ if (type == "subscribed" || type == "unsubscribed") {
 	}
 }
 
-void SerumListener::onUpdateHandler(const string &message) {
+void SerumTrade::onUpdateHandler(const string &message) {
 	
 }
 
-bool SerumListener::enabledCheck() const {
+bool SerumTrade::enabledCheck() const {
 	if (!isEnabled()) {
 		logger->Warn("Attempt to request disabled client");
 	}
 	return isEnabled();
 }
 
-bool SerumListener::connectedCheck() const {
+bool SerumTrade::connectedCheck() const {
 	if (!isConnected()) {
 		logger->Warn("Attempt to request disconnected client");
 	}
 	return isConnected();
 }
 
-bool SerumListener::activeCheck() const {
+bool SerumTrade::activeCheck() const {
 	return enabledCheck() && connectedCheck();
 }
 
-SerumListener::SerumListener(logger_ptr _logger, application_ptr application, settings_ptr _settings):
+SerumTrade::SerumTrade(logger_ptr _logger, application_ptr application, settings_ptr _settings):
 	logger(_logger), application(application), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
 	settings(_settings) {}
 
-bool SerumListener::isEnabled() const {
+bool SerumTrade::isEnabled() const {
 	return connection.enabled;
 }
 
-bool SerumListener::isConnected() const {
+bool SerumTrade::isConnected() const {
 	return connection.connected;
 }
 
-// void SerumListener::clearMarkets() {
+// void SerumTrade::clearMarkets() {
 // #ifdef SERUM_LISTENER_DEBUG
-// 	logger->debug("> SerumListener::clearMarkets");
+// 	logger->debug("> SerumTrade::clearMarkets");
 // #endif
 // 	depth_snapshot.clear();
 // }
 
-void SerumListener::start() {
+void SerumTrade::start() {
 	connection.async_start();
 }
-void SerumListener::stop() {
+void SerumTrade::stop() {
 	connection.async_stop();
 }
 
-void SerumListener::listen(const BrokerModels::Instrument& instr) {
+void SerumTrade::listen(const SerumTrade::Instrument& instr) {
 	connection.async_send((boost::format(R"({
 			"op": "subscribe",
 			"channel": "level3",
 			"markets": ["%1%"]
-		})") % getMarket(instr)).str());
+		})") % instr.symbol).str());
 }
 
-void SerumListener::unlisten(const BrokerModels::Instrument& instr) {
+void SerumTrade::unlisten(const SerumTrade::Instrument& instr) {
 	connection.async_send((boost::format(R"({
 			"op": "unsubscribe",
 			"channel": "level3",
 			"markets": ["%1%"]
-		})") % getMarket(instr)).str());
+		})") % instr.symbol).str());
 }
 
-SerumListener::~SerumListener() {
+SerumTrade::~SerumTrade() {
 	connection.async_stop();
 	while (isConnected()) continue;
 }

@@ -7,6 +7,8 @@
 class IListener {
 private:
 	typedef std::string string;
+	typedef marketlib::instrument_descr_t Instrument;
+
 public:
 
 	IListener() {}
@@ -20,8 +22,8 @@ public:
 	virtual void start() = 0;
 	virtual void stop() = 0;
 
-	virtual void listen(const BrokerModels::Instrument&) = 0;
-	virtual void unlisten(const BrokerModels::Instrument&) = 0;
+	virtual void listen(const Instrument&) = 0;
+	virtual void unlisten(const Instrument&) = 0;
 
 	virtual ~IListener() = default;
 };
