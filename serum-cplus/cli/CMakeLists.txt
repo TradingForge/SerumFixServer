@@ -6,6 +6,7 @@ find_package(P7 REQUIRED)
 find_package(Boost 1.79.0 REQUIRED)
 find_package(Websocketpp REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(CURL REQUIRED)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
@@ -17,6 +18,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ${FIX8_INCLUDE_DIRS}
         ${P7_INCLUDE_DIRS}
         ${OPENSSL_INCLUDE_DIR}
+        ${CURL_INCLUDE_DIRS}
         )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -35,6 +37,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${P7_LIBRARY_STATIC}
     ${OPENSSL_CRYPTO_LIBRARY}
     ${OPENSSL_LIBRARIES}
+    ${CURL_LIBRARIES}
     )
 
 
