@@ -4,6 +4,11 @@
 
 #include "SERUM_Data_session.hpp"
 
+#include <sharedlib/include/Logger.h>
+
+#include <SerumDEX/SerumMD.h>
+
+
 bool _display_debug = true;
 
  class TestLogger: public ILogger
@@ -73,15 +78,15 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
         _logger(new TestLogger),
         _settings(new SerumSettings),
-        _client( std::shared_ptr <SerumApp>(new SerumApp(_logger, this,_settings) ))
+        _client( std::shared_ptr <IBrokerClient>(new SerumApp(_logger, this,_settings) ))
 {
     std::cout << "SERUM_Data_session: SERUM_Data_session constructor " << std::endl;
 }
 
-/* SERUM_Data_session::~SERUM_Data_session()
+SERUM_Data_session::~SERUM_Data_session()
 {
     std::cout << "SERUM_Data_session:  destructor " << std::endl;
-}*/
+}
 
 
 bool SERUM_Data_session::handle_application(const unsigned seqnum, const FIX8::Message *&msg)
@@ -147,9 +152,11 @@ bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Messag
     }
     catch(std::exception& ex)
     {
-        std::cout << "SERUM_Data_session, stopping serumDEX " << ex.what() << std::endl;
+        std::cout << "SERUM_Data_session, stopping serumDEX " << ex
+        .what() << std::endl;
     }
-    return FIX8::Session::handle_logon(seqnum, msg);
+    //return FIX8::Session::handle_logon(seqnum, msg);
+    return true;
 }
 
 void SERUM_Data_session::modify_outbound(FIX8::Message *msg)
