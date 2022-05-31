@@ -73,7 +73,7 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
         _logger(new TestLogger),
         _settings(new SerumSettings),
-        _client( std::shared_ptr <SerumApp>(new SerumApp(_logger, this,_settings) ))
+        _client( std::shared_ptr <SerumMD>(new SerumMD(_logger, this,_settings) ))
 {
     std::cout << "SERUM_Data_session: SERUM_Data_session constructor " << std::endl;
 }

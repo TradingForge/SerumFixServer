@@ -12,11 +12,11 @@
 #include <marketlib/include/market.h>
 
 
-class SerumListener : public IListener
+class SerumTrade : public IListener
 {
 private:
 
-	friend ConnectionWrapper < SerumListener >;
+	friend ConnectionWrapper < SerumTrade >;
 
 	typedef std::string string;
 	typedef std::shared_ptr < ILogger > logger_ptr;
@@ -42,7 +42,7 @@ protected:
 	logger_ptr logger;
 	application_ptr application;
 	settings_ptr settings;
-	ConnectionWrapper < SerumListener > connection;
+	ConnectionWrapper < SerumTrade > connection;
 	orders_map orders;
 	
 
@@ -61,7 +61,7 @@ protected:
 	bool activeCheck() const;
 
 public:
-	SerumListener(logger_ptr, application_ptr, settings_ptr);
+	SerumTrade(logger_ptr, application_ptr, settings_ptr);
 
 	bool isEnabled() const override;
 	bool isConnected() const override;
@@ -73,6 +73,6 @@ public:
 	void listen(const Instrument&) override;
 	void unlisten(const Instrument&) override;
 
-	~SerumListener();
+	~SerumTrade();
 
 };

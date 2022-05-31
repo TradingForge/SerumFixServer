@@ -18,7 +18,7 @@ int main () {
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IBrokerApplication > application(new BrokerNullApplication(logger));
 
-    SerumApp client(
+    SerumMD client(
         logger,
         application.get(),
         settings

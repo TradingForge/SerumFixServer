@@ -21,7 +21,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/build/serum/libfixserverserum.a
-    ${CMAKE_SOURCE_DIR}/build/SerumApp/libfixserverSerumApp.a
+    ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
 #    ${PROJECT_BINARY_DIR}/serum
 #    ${MARKETLIB_NAME}
 #    ${SHAREDLIB_NAME}

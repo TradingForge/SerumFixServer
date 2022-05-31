@@ -11,27 +11,27 @@ using namespace std::chrono;
 using namespace SerumAdapter;
 using namespace BrokerModels; 
 
-void SerumApp::onOpen() {
+void SerumMD::onOpen() {
 #ifdef SERUM_DEBUG
-logger->debug("> SerumApp::onOpen");
+logger->debug("> SerumMD::onOpen");
 #endif
 	application->onEvent(getName(), BrokerEvent::SessionLogon, "Logon: " + getName());
 }
-void SerumApp::onClose() {
+void SerumMD::onClose() {
 #ifdef SERUM_DEBUG
-	logger->debug("> SerumApp::onClose");
+	logger->debug("> SerumMD::onClose");
 #endif
 	application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
 	clearMarkets();
 }
-void SerumApp::onFail() {
+void SerumMD::onFail() {
 #ifdef SERUM_DEBUG
-logger->debug("> SerumApp::onFail");
+logger->debug("> SerumMD::onFail");
 #endif
 	application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
 	clearMarkets();
 }
-void SerumApp::onMessage(const string& message) {
+void SerumMD::onMessage(const string& message) {
 	if (message[0] == '{') {
 		onEventHandler(message);
 	} else {
@@ -39,7 +39,7 @@ void SerumApp::onMessage(const string& message) {
 	}
 }
 
-void SerumApp::onEventHandler(const string &message) {
+void SerumMD::onEventHandler(const string &message) {
 	// logger->Info(message.c_str());
 
 	auto parsed_data = boost::json::parse(message);
@@ -111,55 +111,55 @@ void SerumApp::onEventHandler(const string &message) {
 	}
 }
 
-void SerumApp::onUpdateHandler(const string &message) {
+void SerumMD::onUpdateHandler(const string &message) {
 	
 }
 
-bool SerumApp::enabledCheck() const {
+bool SerumMD::enabledCheck() const {
 	if (!isEnabled()) {
 		logger->Warn("Attempt to request disabled client");
 	}
 	return isEnabled();
 }
 
-bool SerumApp::connectedCheck() const {
+bool SerumMD::connectedCheck() const {
 	if (!isConnected()) {
 		logger->Warn("Attempt to request disconnected client");
 	}
 	return isConnected();
 }
 
-bool SerumApp::activeCheck() const {
+bool SerumMD::activeCheck() const {
 	return enabledCheck() && connectedCheck();
 }
 
-SerumApp::SerumApp(logger_ptr _logger, IBrokerApplication* application, settings_ptr _settings):
+SerumMD::SerumMD(logger_ptr _logger, IBrokerApplication* application, settings_ptr _settings):
 	logger(_logger), application(application), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
 	depth_snapshot(depth_snapshots()), settings(_settings) {}
 
-bool SerumApp::isEnabled() const {
+bool SerumMD::isEnabled() const {
 	return connection.enabled;
 }
 
-bool SerumApp::isConnected() const {
+bool SerumMD::isConnected() const {
 	return connection.connected;
 }
 
-void SerumApp::clearMarkets() {
+void SerumMD::clearMarkets() {
 #ifdef SERUM_DEBUG
-	logger->debug("> SerumApp::clearMarkets");
+	logger->debug("> SerumMD::clearMarkets");
 #endif
 	depth_snapshot.clear();
 }
 
-void SerumApp::start() {
+void SerumMD::start() {
 	connection.async_start();
 }
-void SerumApp::stop() {
+void SerumMD::stop() {
 	connection.async_stop();
 }
 
-void SerumApp::subscribe(const instrument& instr, SubscriptionModel model) {
+void SerumMD::subscribe(const instrument& instr, SubscriptionModel model) {
 	connection.async_send((boost::format(R"({
 			"op": "subscribe",
 			"channel": "%1%",
@@ -167,7 +167,7 @@ void SerumApp::subscribe(const instrument& instr, SubscriptionModel model) {
 		})") % subscriptionModelToString(model) % instr.symbol).str());
 }
 
-void SerumApp::unsubscribe(const instrument& instr, SubscriptionModel model) {
+void SerumMD::unsubscribe(const instrument& instr, SubscriptionModel model) {
 	connection.async_send((boost::format(R"({
 			"op": "unsubscribe",
 			"channel": "%1%",
@@ -180,7 +180,7 @@ static size_t writeCallback(void* content, size_t size, size_t count, void* resu
 	return size * count;
 }
 
-std::vector< SerumApp::instrument > SerumApp::getInstruments() {
+std::vector< SerumMD::instrument > SerumMD::getInstruments() {
 	CURL *curl;
 	CURLcode result;
 	string response;
@@ -208,10 +208,10 @@ std::vector< SerumApp::instrument > SerumApp::getInstruments() {
 		}
 	}
 	catch(int e) {
-		return vector< SerumApp::instrument >();
+		return vector< SerumMD::instrument >();
 	}
 	
-	auto instruments = vector< SerumApp::instrument > ();
+	auto instruments = vector< SerumMD::instrument > ();
     auto parsed_data = boost::json::parse(response);
     for( auto market_ : parsed_data.at("data").as_array()) {
         auto ind = market_.as_string().find("/");
@@ -220,7 +220,7 @@ std::vector< SerumApp::instrument > SerumApp::getInstruments() {
         }
 
         string market = market_.as_string().c_str();
-		instruments.push_back(SerumApp::instrument{this->getName(), "", market, market.erase(0, ind + 1)});
+		instruments.push_back(SerumMD::instrument{this->getName(), "", market, market.erase(0, ind + 1)});
     }
 
 
@@ -228,11 +228,11 @@ std::vector< SerumApp::instrument > SerumApp::getInstruments() {
 }
 
 
-string SerumApp::getName() const {
+string SerumMD::getName() const {
 	return settings->get(ISettings::Property::ExchangeName);
 }
 
-SerumApp::~SerumApp() {
+SerumMD::~SerumMD() {
 	connection.async_stop();
 	while (isConnected()) continue;
 }

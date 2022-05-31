@@ -12,11 +12,11 @@
 #include <marketlib/include/BrokerModels.h>
 #include <marketlib/include/enums.h>
 
-class SerumApp : public IBrokerClient {
+class SerumMD : public IBrokerClient {
 
 private:
 
-	friend ConnectionWrapper < SerumApp >;
+	friend ConnectionWrapper < SerumMD >;
 
 	typedef std::string string;
 	typedef std::shared_ptr < ILogger > logger_ptr;
@@ -40,7 +40,7 @@ protected:
 	logger_ptr logger;
 	settings_ptr settings;
     IBrokerApplication* application;
-	ConnectionWrapper < SerumApp > connection;
+	ConnectionWrapper < SerumMD > connection;
 	depth_snapshots depth_snapshot;
 	string name;
 	
@@ -60,7 +60,7 @@ protected:
 	bool activeCheck() const;
 
 public:
-	SerumApp(logger_ptr,  IBrokerApplication*, settings_ptr);
+	SerumMD(logger_ptr,  IBrokerApplication*, settings_ptr);
 
 	bool isEnabled() const override;
 	bool isConnected() const override;
@@ -73,7 +73,7 @@ public:
 	void unsubscribe(const instrument&, SubscriptionModel) override;
 	std::vector< instrument > getInstruments() override;
 
-	~SerumApp();
+	~SerumMD();
 
 };
 

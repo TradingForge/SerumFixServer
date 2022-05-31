@@ -17,7 +17,7 @@ int main () {
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IBrokerApplication > application(new BrokerNullApplication(logger));
 
-    SerumListener client(
+    SerumTrade client(
         logger,
         application,
         settings

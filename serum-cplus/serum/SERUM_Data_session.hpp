@@ -57,7 +57,7 @@ private:
 private:
     std::shared_ptr < ILogger > _logger;
     std::shared_ptr < ISettings > _settings;
-    std::shared_ptr <SerumApp> _client;
+    std::shared_ptr <SerumMD> _client;
 };
 
 
