@@ -1,7 +1,7 @@
 #include "SerumMD.h"
 #include "SerumAdapter.h"
 #include <fstream>
-
+#include <curl/curl.h>
 #include <marketlib/include/BrokerModels.h>
 
 // #define SERUM_DEBUG
@@ -159,21 +159,74 @@ void SerumApp::stop() {
 	connection.async_stop();
 }
 
-void SerumApp::subscribe(const BrokerModels::Instrument& instr, SubscriptionModel model) {
+void SerumApp::subscribe(const instrument& instr, SubscriptionModel model) {
 	connection.async_send((boost::format(R"({
 			"op": "subscribe",
 			"channel": "%1%",
 			"markets": ["%2%"]
-		})") % subscriptionModelToString(model) % getMarket(instr)).str());
+		})") % subscriptionModelToString(model) % instr.symbol).str());
 }
 
-void SerumApp::unsubscribe(const BrokerModels::Instrument& instr, SubscriptionModel model) {
+void SerumApp::unsubscribe(const instrument& instr, SubscriptionModel model) {
 	connection.async_send((boost::format(R"({
 			"op": "unsubscribe",
 			"channel": "%1%",
 			"markets": ["%2%"]
-		})") % subscriptionModelToString(model) % getMarket(instr)).str());
+		})") % subscriptionModelToString(model) % instr.symbol).str());
 }
+
+static size_t writeCallback(void* content, size_t size, size_t count, void* result) {
+	((string*)result)->append((char*)content, size * count);
+	return size * count;
+}
+
+std::vector< SerumApp::instrument > SerumApp::getInstruments() {
+	CURL *curl;
+	CURLcode result;
+	string response;
+	curl_global_init(CURL_GLOBAL_DEFAULT);
+	try{
+		
+
+		curl = curl_easy_init();
+		if (curl) {
+
+			curl_easy_setopt(curl, CURLOPT_URL, "https://serum-api.bonfida.com/pairs");
+			curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
+			curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+			result = curl_easy_perform(curl);
+			// Error check
+			if (result != CURLE_OK) {
+				logger->Error("curl_easy_perform() error");
+				response.clear();
+			}
+
+			curl_easy_cleanup(curl);
+		} else {
+			logger->Error("curl_easy_init() error");
+		}
+	}
+	catch(int e) {
+		return vector< SerumApp::instrument >();
+	}
+	
+	auto instruments = vector< SerumApp::instrument > ();
+    auto parsed_data = boost::json::parse(response);
+    for( auto market_ : parsed_data.at("data").as_array()) {
+        auto ind = market_.as_string().find("/");
+        if (ind == -1) {
+            break;
+        }
+
+        string market = market_.as_string().c_str();
+		instruments.push_back(SerumApp::instrument{this->getName(), "", market, market.erase(0, ind + 1)});
+    }
+
+
+    return instruments;
+}
+
 
 string SerumApp::getName() const {
 	return settings->get(ISettings::Property::ExchangeName);

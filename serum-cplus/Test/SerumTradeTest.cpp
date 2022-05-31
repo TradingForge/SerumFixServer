@@ -8,6 +8,7 @@
 
 using namespace std;
 using namespace BrokerModels;
+typedef marketlib::instrument_descr_t Instrument;
 
 
 
@@ -22,7 +23,7 @@ int main () {
         settings
     );
 
-    Instrument instrument{"Serum", "ETHUSDC", "ETH", "USDC" };
+    Instrument instrument{"", "", "ETH/USDC", "USDC" };
 
     client.start();
     

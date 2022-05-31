@@ -210,20 +210,20 @@ void SerumListener::stop() {
 	connection.async_stop();
 }
 
-void SerumListener::listen(const BrokerModels::Instrument& instr) {
+void SerumListener::listen(const SerumListener::Instrument& instr) {
 	connection.async_send((boost::format(R"({
 			"op": "subscribe",
 			"channel": "level3",
 			"markets": ["%1%"]
-		})") % getMarket(instr)).str());
+		})") % instr.symbol).str());
 }
 
-void SerumListener::unlisten(const BrokerModels::Instrument& instr) {
+void SerumListener::unlisten(const SerumListener::Instrument& instr) {
 	connection.async_send((boost::format(R"({
 			"op": "unsubscribe",
 			"channel": "level3",
 			"markets": ["%1%"]
-		})") % getMarket(instr)).str());
+		})") % instr.symbol).str());
 }
 
 SerumListener::~SerumListener() {

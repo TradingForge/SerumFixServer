@@ -6,14 +6,14 @@
 #include <vector>
 
 namespace BrokerModels {
-    struct Instrument {
-        std::string exchange;
-        std::string symbol;
-        std::string first;
-        std::string second;
-        std::string description;
-        int decimals;
-    };
+    // struct Instrument {
+    //     std::string exchange;
+    //     std::string symbol;
+    //     std::string first;
+    //     std::string second;
+    //     std::string description;
+    //     int decimals;
+    // };
 
 
     struct MarketBook {

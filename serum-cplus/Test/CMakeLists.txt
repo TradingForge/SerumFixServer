@@ -3,18 +3,21 @@ find_package(Threads REQUIRED)
 find_package(Boost 1.79.0 REQUIRED)
 find_package(Websocketpp REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(CURL REQUIRED) 
 
 set(DEX_INCLUDES 
         ".."
         ${CMAKE_SOURCE_DIR}/sharedlib
         ${CMAKE_SOURCE_DIR}/marketlib
         ${OPENSSL_INCLUDE_DIR}
+        ${CURL_INCLUDE_DIRS}
         )
 
 set(DEX_LIBRARIES 
         ${CMAKE_THREAD_LIBS_INIT}
         ${OPENSSL_CRYPTO_LIBRARY}
         ${OPENSSL_LIBRARIES}
+        ${CURL_LIBRARIES}
         )
 
 

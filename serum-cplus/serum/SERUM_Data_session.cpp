@@ -286,12 +286,9 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
         update_type
     };
 
-    IBrokerClient::SubscriptionModel model = mk_depth ==
-                                             marketlib::market_depth_t::top?
-                                             IBrokerClient::SubscriptionModel::TopBook:
-                                             IBrokerClient::SubscriptionModel::FullBook;
+    marketlib::market_depth_t model = mk_depth;
     //BrokerModels::Instrument pool {.exchange = "Serum", .symbol=symbol.get()};
-    BrokerModels::Instrument pool{"Serum", "ETHUSDC", "ETH", "USDC" };
+    marketlib::instrument_descr_t pool{"Serum", "", "ETH/USDC", "USDC" };
     if(subscr_type==marketlib::subscription_type::shapshot_update) {
         printf("SERUM_Data_session: MD subscribe to %s:%s, depth(%d), update type(%d)\n",
                request.engine.c_str(),
