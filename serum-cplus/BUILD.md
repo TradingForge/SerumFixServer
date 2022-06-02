@@ -60,6 +60,8 @@ tar -xzf websocketpp-0.8.2.tar.gz && cd websocketpp-0.8.2
 cmake .
 sudo make install
 
+## libcurl4-openssl-dev
+sudo apt-get install libcurl4-openssl-dev
 
 # Cloning and compiling the project's source
 ```bash
