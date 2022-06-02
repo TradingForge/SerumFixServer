@@ -49,8 +49,11 @@ int main () {
             client.unsubscribe(instrument, market_depth_t::full);
         } else if (cmd == "inst") {
             auto instruments = client.getInstruments();
+            cout << "Instr count: " << instruments.size() << endl;
             for(auto instr : instruments) {
-                cout << "Exch: " << instr.engine << "  Market: " << instr.symbol << "  Currency: "  << instr.currency << endl;
+                cout << "Exch: " << instr.engine << "  Market: " << instr.symbol <<
+                "  Currency: "  << instr.currency << "  sec_id: "  << instr.sec_id << "  precision: "  << instr.tick_precision << endl;
+
             }
         }
     }

@@ -62,7 +62,10 @@ private:
     void fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id, const BrokerModels::MarketBook&);
     void fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id, const BrokerModels::DepthSnapshot&);
 
+    const std::string& sess_id();
 
+    // execute(connection)->process(session)->handle_application(session)->process(FIX8::Message)->Route(Router)
+    //     must                return true       return true
 private:
     std::shared_ptr < ILogger > _logger;
     std::shared_ptr < ISettings > _settings;
