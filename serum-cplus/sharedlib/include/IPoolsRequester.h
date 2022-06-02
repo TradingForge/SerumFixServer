@@ -16,6 +16,7 @@ protected:
 
 public:
     virtual std::vector<Instrument> getPools() = 0;
+    virtual void loadPools() = 0;
     virtual ~IPoolsRequester() = default;
 };
 

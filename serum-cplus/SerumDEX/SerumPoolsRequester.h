@@ -14,6 +14,7 @@ private:
 
 public:
     SerumPoolsRequester(logger_ptr, settings_ptr);
+    void loadPools() override;
     std::vector<Instrument> getPools() override;
     ~SerumPoolsRequester(){};
 
