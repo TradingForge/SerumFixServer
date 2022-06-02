@@ -23,7 +23,7 @@ int main () {
         settings
     );
 
-    Instrument instrument{"", "", "ETH/USDC", "USDC" };
+    Instrument instrument{"", "", "ETH/USDC", "ETH", "USDC" };
 
     client.start();
     

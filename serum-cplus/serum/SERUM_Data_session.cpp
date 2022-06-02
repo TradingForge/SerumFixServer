@@ -7,6 +7,7 @@
 #include <sharedlib/include/Logger.h>
 
 #include <SerumDEX/SerumMD.h>
+#include <SerumDex/SerumPoolsRequester.h>
 
 
 bool _display_debug = true;
@@ -78,7 +79,7 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
         _logger(new TestLogger),
         _settings(new SerumSettings),
-        _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger, this,_settings) ))
+        _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger, this,_settings, std::make_shared< SerumPoolsRequester >( _logger, _settings ) ) ))
 {
     std::cout << "SERUM_Data_session: SERUM_Data_session constructor " << std::endl;
 }
@@ -205,8 +206,8 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::SecurityListR
 
     // test security list  response//
     std::list<marketlib::instrument_descr_t> pools{
-        {.engine="SERUM", .sec_id="BTCUSDT", .symbol="BTCUSDT", .currency="USDT", .tick_precision=5},
-        { .engine = "SERUM",.sec_id = "ETHUSDT",.symbol = "ETHUSDT",.currency = "USDT",.tick_precision = 5 },
+        {.engine="SERUM", .sec_id="BTCUSDT", .symbol="BTCUSDT", .base="BTC", .quote="USDT"},
+        { .engine = "SERUM",.sec_id = "ETHUSDT",.symbol = "ETHUSDT",.base="ETH", .quote = "USDT"},
     };
     auto* _sess = const_cast<SERUM_Data_session*>(this);
     _sess->securityList(reqIdStr,marketlib::security_request_result_t::srr_valid,pools);

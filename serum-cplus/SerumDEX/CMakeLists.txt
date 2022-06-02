@@ -3,6 +3,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_library("${SERUM_DEX_NAME}" STATIC
         SerumMD.cpp
         SerumTrade.cpp
+        SerumPoolsRequester.cpp
 )
 
 find_package(Fix8 REQUIRED)
