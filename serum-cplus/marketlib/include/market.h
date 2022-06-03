@@ -25,8 +25,8 @@ namespace marketlib
         const std::string   engine;
         std::string     sec_id;
         std::string     symbol;
-        std::string     base;
-        std::string     quote;
+        std::string     base_currency;
+        std::string     quote_currency;
         std::string     address;
         std::string     program_id;
         std::string     base_mint_address;
@@ -34,7 +34,6 @@ namespace marketlib
         int             tick_precision;
         double          min_order_size;
         bool            deprecated;
-        int             version = 0; 
         const std::string& hash () const		{ return  sec_id;}
     };
 
