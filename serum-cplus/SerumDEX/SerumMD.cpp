@@ -1,7 +1,6 @@
 #include "SerumMD.h"
 #include "SerumAdapter.h"
 #include <fstream>
-#include <curl/curl.h>
 #include <marketlib/include/BrokerModels.h>
 
 // #define SERUM_DEBUG
@@ -133,9 +132,11 @@ bool SerumMD::activeCheck() const {
 	return enabledCheck() && connectedCheck();
 }
 
-SerumMD::SerumMD(logger_ptr _logger, IBrokerApplication* application, settings_ptr _settings):
+SerumMD::SerumMD(logger_ptr _logger, IBrokerApplication* application, settings_ptr _settings, pools_ptr pools_):
 	logger(_logger), application(application), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
-	depth_snapshot(depth_snapshots()), settings(_settings) {}
+	depth_snapshot(depth_snapshots()), settings(_settings), pools(pools_) {
+		pools->loadPools();
+	}
 
 bool SerumMD::isEnabled() const {
 	return connection.enabled;
@@ -181,50 +182,7 @@ static size_t writeCallback(void* content, size_t size, size_t count, void* resu
 }
 
 std::vector< SerumMD::instrument > SerumMD::getInstruments() {
-	CURL *curl;
-	CURLcode result;
-	string response;
-	curl_global_init(CURL_GLOBAL_DEFAULT);
-	try{
-		
-
-		curl = curl_easy_init();
-		if (curl) {
-
-			curl_easy_setopt(curl, CURLOPT_URL, "https://serum-api.bonfida.com/pairs");
-			curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
-			curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-
-			result = curl_easy_perform(curl);
-			// Error check
-			if (result != CURLE_OK) {
-				logger->Error("curl_easy_perform() error");
-				response.clear();
-			}
-
-			curl_easy_cleanup(curl);
-		} else {
-			logger->Error("curl_easy_init() error");
-		}
-	}
-	catch(int e) {
-		return vector< SerumMD::instrument >();
-	}
-	
-	auto instruments = vector< SerumMD::instrument > ();
-    auto parsed_data = boost::json::parse(response);
-    for( auto market_ : parsed_data.at("data").as_array()) {
-        auto ind = market_.as_string().find("/");
-        if (ind == -1) {
-            break;
-        }
-
-        string market = market_.as_string().c_str();
-		instruments.push_back(SerumMD::instrument{this->getName(), "", market, market.erase(0, ind + 1)});
-    }
-
-
-    return instruments;
+    return pools->getPools();
 }
 
 
