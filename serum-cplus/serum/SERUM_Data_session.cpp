@@ -7,7 +7,7 @@
 #include <sharedlib/include/Logger.h>
 
 #include <SerumDEX/SerumMD.h>
-#include <SerumDex/SerumPoolsRequester.h>
+#include <SerumDEX/SerumPoolsRequester.h>
 
 const char* CONN_NAME="Serum";
 
@@ -185,14 +185,10 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::SecurityListR
 
     _logger->Info((boost::format("Session | SecurityListRequest, SecurityReqID (%1%)") % reqIdStr).str().c_str());
 
-    // test security list  response//
-    std::list<marketlib::instrument_descr_t> pools{
-        {.engine=CONN_NAME, .sec_id="BTCUSDT", .symbol="BTCUSDT", .currency="USDT", .tick_precision=5},
-        { .engine = CONN_NAME,.sec_id = "ETHUSDT",.symbol = "ETHUSDT",.currency = "USDT",.tick_precision = 5 },
-    };
-    /////
+    auto pools = _client->getInstruments();
 
     _logger->Info( (boost::format("Session | --> 35=y, count = %1%") % (int)pools.size() ).str().c_str() );
+
     auto* _sess = const_cast<SERUM_Data_session*>(this);
     _sess->securityList(reqIdStr,marketlib::security_request_result_t::srr_valid,pools);
 
@@ -315,8 +311,25 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
 }
 
 void SERUM_Data_session::securityList(const std::string &reqId, marketlib::security_request_result_t result,
-                                      const std::list<marketlib::instrument_descr_t>& pools)
+                                      const std::vector<marketlib::instrument_descr_t>& pools)
 {
+
+    // test security list  response//
+    /*
+      {
+        "name": "BTC/USDC",
+        "baseCurrency": "BTC",
+        "quoteCurrency": "USDC",
+        "version": 3,
+        "address": "A8YFbxQYFVqKZaoYJLLUVcQiWP7G2MeEgW5wsAQgMvFw",
+        "programId": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+        "baseMintAddress": "9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E",
+        "quoteMintAddress": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "tickSize": 0.1,
+        "minOrderSize": 0.0001,
+        "deprecated": false
+      }
+
     /*
     320	SecurityReqID	Y	Y
     322	SecurityResponseID	Y	Y	Identifier for the Security List (y) message
@@ -342,7 +355,11 @@ void SERUM_Data_session::securityList(const std::string &reqId, marketlib::secur
     {
         FIX8::MessageBase *noin_sym(noin->create_group());
         *noin_sym << new FIX8::SERUM_Data::SecurityExchange(pool_info.engine)
-                  << new FIX8::SERUM_Data::Symbol (pool_info.symbol);
+                  << new FIX8::SERUM_Data::Symbol (pool_info.symbol)
+                  << new FIX8::SERUM_Data::Currency (pool_info.quote_currency)
+                  //<< new FIX8::SERUM_Data::MinQty (pool_info.tick_precision)
+                  //<< new FIX8::SERUM_Data::PriceDelta (pool_info.tick_precision)
+                  ;
         *noin << noin_sym;
     }
     *mdr << noin;
