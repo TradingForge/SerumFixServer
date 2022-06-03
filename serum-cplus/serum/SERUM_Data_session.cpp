@@ -97,20 +97,19 @@ const std::string& SERUM_Data_session::sess_id()
 bool SERUM_Data_session::handle_application(const unsigned seqnum, const FIX8::Message *&msg)
 {
     _logger->Debug((boost::format("Session | handle_application ")).str().c_str());
-
-    /*if(enforce(seqnum,msg))
-    {
-        std::cout << " enforce checking problem\n";
+    if(enforce(seqnum,msg)){
         _logger->Error("Session | enforce checking problem ");
         return false;
-    }*/
-    /*
-    if(!msg->process(*this) )
-        detach(msg);
-    return true;
-    */
-
-    return enforce(seqnum, msg) || msg->process(*this);
+    }
+    try{return msg->process(*this) ;}
+    catch(std::exception& ex)
+    {
+        _logger->Error((boost::format("Session | handle_application exception (%1%) ") % ex.what()).str().c_str());
+        //detach(msg);
+        //msg = 0;
+        throw;
+    }
+    //return enforce(seqnum, msg) || msg->process(*this);
 }
 
 FIX8::Message *SERUM_Data_session::generate_logon(const unsigned heartbeat_interval, const FIX8::f8String davi)
@@ -196,7 +195,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::SecurityListR
     auto* _sess = const_cast<SERUM_Data_session*>(this);
     _sess->securityList(reqIdStr,marketlib::security_request_result_t::srr_valid,pools);
 
-    return false;
+    return true;
 }
 
 bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataRequest *msg) const
@@ -311,7 +310,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
         _sess->marketReject(reqIdStr, marketlib::ord_rej_reason::rr_broker);
     }
 
-    return false;
+    return true;
 }
 
 void SERUM_Data_session::securityList(const std::string &reqId, marketlib::security_request_result_t result,
