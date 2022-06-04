@@ -57,12 +57,15 @@ private:
     void onReport(const std::string& exchangeName, const std::string &symbol, const marketlib::execution_report_t&) override{}
 
     // FIX response implementation
-    void securityList(const std::string& reqId, marketlib::security_request_result_t , const std::list<marketlib::instrument_descr_t>& pools) ;
+    void securityList(const std::string& reqId, marketlib::security_request_result_t , const std::vector<marketlib::instrument_descr_t>& pools) ;
     void marketReject(const std::string& reqId, marketlib::ord_rej_reason reason) ;
     void fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id, const BrokerModels::MarketBook&);
     void fullSnapshot(const std::string& reqId, const marketlib::instrument_descr_t& sec_id, const BrokerModels::DepthSnapshot&);
 
+    const std::string& sess_id();
 
+    // execute(connection)->process(session)->handle_application(session)->process(FIX8::Message)->Route(Router)
+    //     must                return true       return true
 private:
     std::shared_ptr < ILogger > _logger;
     std::shared_ptr < ISettings > _settings;

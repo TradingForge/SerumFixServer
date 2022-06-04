@@ -52,9 +52,76 @@ int main () {
             client.unsubscribe(instrument, market_depth_t::full);
         } else if (cmd == "inst") {
             auto instruments = client.getInstruments();
+            cout << "Instr count: " << instruments.size() << endl;
+
+            /*
+             {
+              "name": string,
+              "baseMintAddress": string,
+              "quoteMintAddress": string,
+              "version": number,
+              "address": string,
+              "programId": string,
+              "baseCurrency": string,
+              "quoteCurrency": string,
+              "tickSize": number,
+              "minOrderSize": number,
+              "deprecated": boolean
+            }[]
+            sample response
+            [
+              {
+                "name": "BTC/USDC",
+                "baseCurrency": "BTC",
+                "quoteCurrency": "USDC",
+                "version": 3,
+                "address": "A8YFbxQYFVqKZaoYJLLUVcQiWP7G2MeEgW5wsAQgMvFw",
+                "programId": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+                "baseMintAddress": "9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E",
+                "quoteMintAddress": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+                "tickSize": 0.1,
+                "minOrderSize": 0.0001,
+                "deprecated": false
+              }
+            ]
+             */
             for(auto instr : instruments) {
-                cout << "Exch: " << instr.engine << "  Market: " << instr.symbol << "  tick_precision: "  << instr.tick_precision << endl;
+                cout << "Exch: "
+                << instr.engine
+                << "  Market: "
+                << instr.symbol
+                <<"  Currency: "
+                << instr.quote_currency
+                << "  sec_id: "
+                << instr.sec_id
+                << "  precision: "
+                << instr.tick_precision
+                << " address "
+                << instr.address
+                << " base_min_addr "
+                << instr.base_mint_address
+                << " quote_mint_addr "
+                << instr.quote_mint_address
+                << "min_order_size "
+                << instr.min_order_size
+                << endl;
+
             }
+
+            /*
+                const std::string   engine;
+                std::string     sec_id;
+                std::string     symbol;
+                std::string     base_currency;
+                std::string     quote_currency;
+                std::string     address;
+                std::string     program_id;
+                std::string     base_mint_address;
+                std::string     quote_mint_address;
+                int             tick_precision;
+                double          min_order_size;
+                bool            deprecated;
+             */
         }
     }
 }

@@ -192,10 +192,13 @@ class FixApp(fix.Application):
 
                 symbol = fix.Symbol()
                 exchange = fix.SecurityExchange()
+                currency = fix.Currency()
                 pools.append({
                     'Symbol': group.getField(symbol).getString(),
                     'SecurityExchange':  group.getField(exchange).getString(),
+                    'Currency': group.getField(currency).getString(),
                 })
+
         self.instruments_func(self.my_name, pools)
 
 
@@ -238,7 +241,8 @@ class Client:
 
     def on_instruments(self, broker, pools):
         for pool in pools:
-            print("POOL {}: {}".format(pool['SecurityExchange'], pool['Symbol']))
+            print("POOL {}: {}, Currency: {}".format(pool['SecurityExchange'], pool['Symbol'], pool['Currency']))
+
 
 if __name__ == '__main__':
     try:
