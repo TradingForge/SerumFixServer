@@ -9,6 +9,7 @@ find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED)
 
 add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME}_daemon daemon.cpp)
 
 #message(STATUS P7_INCLUDE_DIRS:${P7_INCLUDE_DIRS})
 #message(STATUS P7_LIBRARY_STATIC:${P7_LIBRARY_STATIC})
@@ -41,7 +42,29 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     )
 
 
+target_include_directories(${PROJECT_NAME}_daemon PRIVATE
+".."
+${FIX8_INCLUDE_DIRS}
+${P7_INCLUDE_DIRS}
+${OPENSSL_INCLUDE_DIR}
+${CURL_INCLUDE_DIRS}
+)
 
-
-
-
+target_link_libraries(${PROJECT_NAME}_daemon PRIVATE
+${CMAKE_SOURCE_DIR}/build/serum/libfixserverserum.a
+${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
+#    ${PROJECT_BINARY_DIR}/serum
+#    ${MARKETLIB_NAME}
+#    ${SHAREDLIB_NAME}
+${CMAKE_THREAD_LIBS_INIT}
+PocoUtil
+PocoXML
+PocoJSON
+PocoNet
+PocoFoundation
+${FIX8_LIBRARY}
+${P7_LIBRARY_STATIC}
+${OPENSSL_CRYPTO_LIBRARY}
+${OPENSSL_LIBRARIES}
+${CURL_LIBRARIES}
+)

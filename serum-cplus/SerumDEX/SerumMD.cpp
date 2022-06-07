@@ -14,20 +14,20 @@ void SerumMD::onOpen() {
 #ifdef SERUM_DEBUG
 logger->debug("> SerumMD::onOpen");
 #endif
-	application->onEvent(getName(), BrokerEvent::SessionLogon, "Logon: " + getName());
+	application->onEvent(getName(), BrokerEvent::SessionLogon, "MDLogon: " + getName());
 }
 void SerumMD::onClose() {
 #ifdef SERUM_DEBUG
 	logger->debug("> SerumMD::onClose");
 #endif
-	application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
+	application->onEvent(getName(), BrokerEvent::SessionLogout, "MDLogout: " + getName());
 	clearMarkets();
 }
 void SerumMD::onFail() {
 #ifdef SERUM_DEBUG
 logger->debug("> SerumMD::onFail");
 #endif
-	application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
+	application->onEvent(getName(), BrokerEvent::SessionLogout, "MDLogout: " + getName());
 	clearMarkets();
 }
 void SerumMD::onMessage(const string& message) {

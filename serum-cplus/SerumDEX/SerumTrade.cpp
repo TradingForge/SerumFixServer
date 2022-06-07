@@ -17,20 +17,20 @@ void SerumTrade::onOpen() {
 #ifdef SERUM_LISTENER_DEBUG
 logger->Debug("> SerumTrade::onOpen");
 #endif
-	// application->onEvent(getName(), BrokerEvent::SessionLogon, "Logon: " + getName());
+	// application->onEvent(getName(), BrokerEvent::SessionLogon, "TradeLogon: " + getName());
 }
 void SerumTrade::onClose() {
 #ifdef SERUM_LISTENER_DEBUG
 	logger->Debug("> SerumTrade::onClose");
 #endif
-	// application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
+	// application->onEvent(getName(), BrokerEvent::SessionLogout, "TradeLogout: " + getName());
 	// clearMarkets();
 }
 void SerumTrade::onFail() {
 #ifdef SERUM_LISTENER_DEBUG
 logger->Debug("> SerumTrade::onFail");
 #endif
-	// application->onEvent(getName(), BrokerEvent::SessionLogout, "Logon: " + getName());
+	// application->onEvent(getName(), BrokerEvent::SessionLogout, "TradeLogout: " + getName());
 	// clearMarkets();
 }
 void SerumTrade::onMessage(const string& message) {
