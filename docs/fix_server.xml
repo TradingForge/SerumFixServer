@@ -15,6 +15,45 @@
 			    tcp_send_buffer="100663296"
 			    session_log="session_log_md"
 			    protocol_log="protocol_log_md"
+                            reset_sequence_numbers="true"
+			    persist="mem0"
+			    process_model="threaded" />
+
+        <session name="SERUM_ORD"
+				role = "acceptor"
+				fix_version="4400"
+			    no_chksum="true"
+				active="true"
+				heartbeat_interval="10"
+				ip="0.0.0.0" 
+				port="11002"
+				sender_comp_id="Lagrange-fi"
+			    target_comp_id="Lagrange-fi-client"
+				tcp_nodelay="true"
+			    tcp_recv_buffer="100663296"
+			    tcp_send_buffer="100663296"
+			    session_log="session_log_ord"
+			    protocol_log="protocol_log_ord"
+                            reset_sequence_numbers="false"
+			    persist="mem0"
+			    process_model="threaded" />
+
+           <session name="SERUM_ORD_SSL"
+				role = "acceptor"
+				fix_version="4400"
+			    no_chksum="true"
+				active="true"
+				heartbeat_interval="10"
+				ip="0.0.0.0" 
+				port="11003"
+				sender_comp_id="Lagrange-fi"
+			    target_comp_id="Lagrange-fi-client"
+				tcp_nodelay="true"
+			    tcp_recv_buffer="100663296"
+			    tcp_send_buffer="100663296"
+			    session_log="session_log_ord_ssl"
+			    protocol_log="protocol_log_ord_ssl"
+                            reset_sequence_numbers="false"
 			    persist="mem0"
 			    process_model="threaded" />
 
@@ -30,7 +69,7 @@
 			type="session"
 			filename="./logs_md/fix8_session.log"
 			flags="timestamp|sequence|compress|thread"/>
-s
+
 	<log 	name="protocol_log_md"
 			type="protocol"
 			filename="./logs_md/fix8_protocol.log"
