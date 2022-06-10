@@ -27,23 +27,15 @@ private:
 	typedef marketlib::execution_report_t ExecutionReport;
 	typedef std::map < string, std::list< Order > > orders_map;
 	typedef marketlib::instrument_descr_t Instrument;
-
+	typedef std::function <void(const string&, const string&, const ExecutionReport&)> callback_t;
 
 protected:
-
-	// struct SubscribeChannel {
-	// 	string id;
-	// 	string name;
-	// 	string pair;
-	// 	BrokerModels::Instrument instrument;
-	// 	std::shared_ptr < Market > market;
-	// };
-
 	logger_ptr logger;
 	application_ptr application;
 	settings_ptr settings;
 	ConnectionWrapper < SerumTrade > connection;
 	orders_map orders;
+	SubscribedChannels channels;
 	
 
 	void onOpen();
@@ -70,8 +62,8 @@ public:
 	void start() override;
 	void stop() override;
 
-	void listen(const Instrument&) override;
-	void unlisten(const Instrument&) override;
+	void listen(const Instrument&, const string&, callback_t) override;
+	void unlisten(const Instrument&, const string&) override;
 
 	~SerumTrade();
 

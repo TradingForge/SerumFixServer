@@ -4,6 +4,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include <list>
 
 #include <sharedlib/include/IBrokerClient.h>
 #include <sharedlib/include/IBrokerApplication.h>
@@ -28,6 +29,7 @@ private:
 	typedef std::map < string,  BrokerModels::DepthSnapshot > depth_snapshots;
 	typedef marketlib::market_depth_t SubscriptionModel;
 	typedef marketlib::instrument_descr_t instrument;
+	typedef std::function <void(const string&, const string&, const std::any&)> callback_t;
 
 protected:
 
@@ -42,7 +44,8 @@ protected:
 	logger_ptr logger;
 	settings_ptr settings;
 	pools_ptr pools;
-    IBrokerApplication* application;
+	SubscribedChannels channels;
+    application_ptr application;
 	ConnectionWrapper < SerumMD > connection;
 	depth_snapshots depth_snapshot;
 	string name;
@@ -72,8 +75,8 @@ public:
 	void start() override;
 	void stop() override;
 
-	void subscribe(const instrument&, SubscriptionModel) override;
-	void unsubscribe(const instrument&, SubscriptionModel) override;
+	void subscribe(const instrument&, SubscriptionModel, const string&, callback_t) override;
+	void unsubscribe(const instrument&, SubscriptionModel, const string&) override;
 	std::vector< instrument > getInstruments() override;
 
 	~SerumMD();

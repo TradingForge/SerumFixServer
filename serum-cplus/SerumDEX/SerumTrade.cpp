@@ -107,7 +107,18 @@ if (type == "subscribed" || type == "unsubscribed") {
 		report.limitPrice = order->price;
 		report.leavesQty = order->original_qty;
 
-		application->onReport(settings->get(ISettings::Property::ExchangeName), market, std::move(report));
+		// application->onReport(settings->get(ISettings::Property::ExchangeName), market, std::move(report));
+		auto chnls = channels
+			.get<SubscribeChannelsByMarket>()
+			.equal_range(boost::make_tuple(market));
+		while(chnls.first != chnls.second) {
+			chnls.first->callback(
+				settings->get(ISettings::Property::ExchangeName),
+				market,
+				report
+			);
+			++chnls.first;
+  		}
 	}
 	else if (type == "done") {
 		auto& orders_lst = orders[market];
@@ -134,7 +145,17 @@ if (type == "subscribed" || type == "unsubscribed") {
 			report.state = is_canceled ? order_state_t::ost_Canceled : order_state_t::ost_Filled;
 			report.side = stringToOrderSide(parsed_data.at("side").as_string().c_str());
 
-			application->onReport(settings->get(ISettings::Property::ExchangeName), market, std::move(report));
+			auto chnls = channels
+			.get<SubscribeChannelsByMarket>()
+			.equal_range(boost::make_tuple(market));
+			while(chnls.first != chnls.second) {
+				chnls.first->callback(
+					settings->get(ISettings::Property::ExchangeName),
+					market,
+					report
+				);
+				++chnls.first;
+			}
 			return;
 		}
 		// logger->Info(message.c_str());
@@ -149,7 +170,18 @@ if (type == "subscribed" || type == "unsubscribed") {
 		report.limitPrice = order->price;
 		report.leavesQty = order->original_qty - remaining;
 		report.cumQty = remaining;
-		application->onReport(settings->get(ISettings::Property::ExchangeName), market, std::move(report));
+		
+		auto chnls = channels
+			.get<SubscribeChannelsByMarket>()
+			.equal_range(boost::make_tuple(market));
+		while(chnls.first != chnls.second) {
+			chnls.first->callback(
+				settings->get(ISettings::Property::ExchangeName),
+				market,
+				report
+			);
+			++chnls.first;
+  		}
 		orders_lst.erase(
 			find_if(
 				orders_lst.begin(), 
@@ -210,20 +242,55 @@ void SerumTrade::stop() {
 	connection.async_stop();
 }
 
-void SerumTrade::listen(const SerumTrade::Instrument& instr) {
-	connection.async_send((boost::format(R"({
+void SerumTrade::listen(const SerumTrade::Instrument& instr, const string& clientId, callback_t callback) {
+	auto chnls = channels
+		.get<SubscribeChannelsByMarket>()
+		.equal_range(boost::make_tuple(
+			getMarketFromInstrument(instr)
+		));
+
+	if (chnls.first == chnls.second) {
+		connection.async_send((boost::format(R"({
 			"op": "subscribe",
 			"channel": "level3",
 			"markets": ["%1%"]
-		})") % instr.symbol).str());
+		})") % getMarketFromInstrument(instr)).str());
+	}
+	channels.insert(
+		SubscribeChannel{
+			clientId,
+			getMarketFromInstrument(instr),
+			callback
+		}
+	);
 }
 
-void SerumTrade::unlisten(const SerumTrade::Instrument& instr) {
-	connection.async_send((boost::format(R"({
+void SerumTrade::unlisten(const SerumTrade::Instrument& instr, const string& clientId) {
+	auto chnl = channels
+		.get<SubscribeChannelsByClientAndMarket>()
+		.find(boost::make_tuple(
+			clientId,
+			getMarketFromInstrument(instr)
+		));
+
+	if (chnl == channels.end()) {
+		logger->Error("Subscription not found");
+		return;
+	}
+
+	channels.erase(chnl);
+	auto chnls = channels
+		.get<SubscribeChannelsByMarket>()
+		.equal_range(boost::make_tuple(
+			getMarketFromInstrument(instr)
+		));
+	if (chnls.first == chnls.second) {
+		connection.async_send((boost::format(R"({
 			"op": "unsubscribe",
 			"channel": "level3",
 			"markets": ["%1%"]
-		})") % instr.symbol).str());
+		})") % getMarketFromInstrument(instr)).str());
+	}
 }
 
 SerumTrade::~SerumTrade() {
