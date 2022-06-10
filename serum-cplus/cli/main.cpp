@@ -23,7 +23,15 @@ int main(int argc, char **argv) {
 
     printf("Hello FixServer\n");
 
-    std::string conf_file = "hf_server.xml";
+    std::string conf_file = "fix_server.xml";
+    bool order_part = false;
+    bool md_part = false;
+    for (int i = 0; i < argc; i++){
+        auto arg = std::string(argv[i]);
+        if (arg =="-md")md_part = true;
+        if (arg == "-o")order_part = true;
+    }
+
     std::unique_ptr<FIX8::ServerSessionBase> ms(
             new FIX8::ServerSession<SERUM_Data_session>(FIX8::SERUM_Data::ctx(), conf_file, "SERUM_MD"));
 
