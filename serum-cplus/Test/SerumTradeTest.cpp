@@ -39,9 +39,13 @@ int main () {
         } else if (cmd == "quit") {
             break;
         } else if (cmd == "lst") {
-            client.listen(instrument);
+            client.listen(instrument, "Cli_1", [&logger](const string& exch, const string& id, const execution_report_t& report) 
+            {
+                logger->Info("Cli_1");
+                logger->Info(formatExecutionReport(exch, id, report).c_str());
+            });
         } else if (cmd == "ulst") {
-            client.unlisten(instrument);
+            client.unlisten(instrument, "Cli_1");
         } 
     }
 }

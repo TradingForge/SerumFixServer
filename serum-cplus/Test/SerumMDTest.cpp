@@ -43,13 +43,29 @@ int main () {
         } else if (cmd == "quit") {
             break;
         } else if (cmd == "st") {
-            client.subscribe(instrument, market_depth_t::top);
+            client.subscribe(instrument, market_depth_t::top, "Cli_1", [&logger](const string& exch, const string& pair, const std::any& data)
+            {
+                logger->Info("Cli_1");
+                logger->Info(formatTopInfo(exch, pair, any_cast<MarketBook>(data)).c_str());
+            });
         } else if (cmd == "ut") {
-            client.unsubscribe(instrument, market_depth_t::top);
-        } else if (cmd == "sd") {
-            client.subscribe(instrument, market_depth_t::full);
+            client.unsubscribe(instrument, market_depth_t::top, "Cli_1");
+        } else if (cmd == "st2") {
+            client.subscribe(instrument, market_depth_t::top, "Cli_2", [&logger](const string& exch, const string& pair, const std::any& data)
+            {
+                logger->Info("Cli_2");
+                logger->Info(formatTopInfo(exch, pair, any_cast<MarketBook>(data)).c_str());
+            });
+        } else if (cmd == "ut2") {
+            client.unsubscribe(instrument, market_depth_t::top, "Cli_2");
+        }else if (cmd == "sd") {
+            client.subscribe(instrument, market_depth_t::full, "Cli_1", [&logger](const string& exch, const string& pair, const std::any& data)
+            {
+                logger->Info("Cli_1");
+                logger->Info(formatDepthInfo(exch, pair, any_cast<DepthSnapshot>(data)).c_str());
+            });
         } else if (cmd == "ud") {
-            client.unsubscribe(instrument, market_depth_t::full);
+            client.unsubscribe(instrument, market_depth_t::full, "Cli_1");
         } else if (cmd == "inst") {
             auto instruments = client.getInstruments();
             cout << "Instr count: " << instruments.size() << endl;
