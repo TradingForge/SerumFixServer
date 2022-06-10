@@ -5,7 +5,7 @@
 #include <marketlib/include/BrokerModels.h>
 #include <marketlib/include/market.h>
 #include <marketlib/include/enums.h>
-// #define SERUM_LISTENER_DEBUG
+#define SERUM_LISTENER_DEBUG
 
 using namespace std;
 using namespace std::chrono;
@@ -216,8 +216,8 @@ bool SerumTrade::activeCheck() const {
 	return enabledCheck() && connectedCheck();
 }
 
-SerumTrade::SerumTrade(logger_ptr _logger, application_ptr application, settings_ptr _settings):
-	logger(_logger), application(application), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
+SerumTrade::SerumTrade(logger_ptr _logger, settings_ptr _settings):
+	logger(_logger), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
 	settings(_settings) {}
 
 bool SerumTrade::isEnabled() const {

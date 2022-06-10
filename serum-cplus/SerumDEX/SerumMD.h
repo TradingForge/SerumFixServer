@@ -7,7 +7,6 @@
 #include <list>
 
 #include <sharedlib/include/IBrokerClient.h>
-#include <sharedlib/include/IBrokerApplication.h>
 #include <sharedlib/include/ConnectionWrapper.h>
 #include <sharedlib/include/ISettings.h>
 #include <sharedlib/include/IPoolsRequester.h>
@@ -24,7 +23,6 @@ private:
 	typedef std::shared_ptr < ILogger > logger_ptr;
 	typedef std::shared_ptr < ISettings > settings_ptr;
 	typedef std::shared_ptr < IPoolsRequester > pools_ptr;
-	typedef std::shared_ptr < IBrokerApplication > application_ptr;
 	typedef BrokerModels::Market Market;
 	typedef std::map < string,  BrokerModels::DepthSnapshot > depth_snapshots;
 	typedef marketlib::market_depth_t SubscriptionModel;
@@ -45,7 +43,6 @@ protected:
 	settings_ptr settings;
 	pools_ptr pools;
 	SubscribedChannels channels;
-    application_ptr application;
 	ConnectionWrapper < SerumMD > connection;
 	depth_snapshots depth_snapshot;
 	string name;
@@ -66,7 +63,7 @@ protected:
 	bool activeCheck() const;
 
 public:
-	SerumMD(logger_ptr,  IBrokerApplication*, settings_ptr, pools_ptr);
+	SerumMD(logger_ptr, settings_ptr, pools_ptr);
 
 	bool isEnabled() const override;
 	bool isConnected() const override;

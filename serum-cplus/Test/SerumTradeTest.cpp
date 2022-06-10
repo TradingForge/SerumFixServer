@@ -15,11 +15,9 @@ typedef marketlib::instrument_descr_t Instrument;
 int main () {
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
-    shared_ptr < IBrokerApplication > application(new BrokerNullApplication(logger));
 
     SerumTrade client(
         logger,
-        application,
         settings
     );
 

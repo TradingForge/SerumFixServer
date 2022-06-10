@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <marketlib/include/BrokerModels.h>
 
-// #define SERUM_DEBUG
+#define SERUM_DEBUG
 
 using namespace std;
 using namespace std::chrono;
@@ -16,20 +16,20 @@ void SerumMD::onOpen() {
 #ifdef SERUM_DEBUG
 logger->Debug("> SerumMD::onOpen");
 #endif
-	application->onEvent(getName(), BrokerEvent::SessionLogon, "Serum DEX Logon: " + getName());
+	// application->onEvent(getName(), BrokerEvent::SessionLogon, "Serum DEX Logon: " + getName());
 }
 void SerumMD::onClose() {
 #ifdef SERUM_DEBUG
 	logger->Debug("> SerumMD::onClose");
 #endif
-	application->onEvent(getName(), BrokerEvent::SessionLogout, "Serum DEX Logout: " + getName());
+	// application->onEvent(getName(), BrokerEvent::SessionLogout, "Serum DEX Logout: " + getName());
 	clearMarkets();
 }
 void SerumMD::onFail() {
 #ifdef SERUM_DEBUG
 logger->Debug("> SerumMD::onFail");
 #endif
-	application->onEvent(getName(), BrokerEvent::SessionLogout, "Serum DEX Logout: " + getName());
+	// application->onEvent(getName(), BrokerEvent::SessionLogout, "Serum DEX Logout: " + getName());
 	clearMarkets();
 }
 void SerumMD::onMessage(const string& message) {
@@ -178,8 +178,8 @@ bool SerumMD::activeCheck() const {
 	return enabledCheck() && connectedCheck();
 }
 
-SerumMD::SerumMD(logger_ptr _logger, IBrokerApplication* application, settings_ptr _settings, pools_ptr pools_):
-	logger(_logger), application(application), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
+SerumMD::SerumMD(logger_ptr _logger, settings_ptr _settings, pools_ptr pools_):
+	logger(_logger), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
 	depth_snapshot(depth_snapshots()), settings(_settings), pools(pools_) {
 		pools->loadPools();
 	}
@@ -194,7 +194,7 @@ bool SerumMD::isConnected() const {
 
 void SerumMD::clearMarkets() {
 #ifdef SERUM_DEBUG
-	logger->debug("> SerumMD::clearMarkets");
+	logger->Debug("> SerumMD::clearMarkets");
 #endif
 	depth_snapshot.clear();
 }

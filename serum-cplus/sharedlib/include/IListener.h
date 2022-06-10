@@ -2,7 +2,12 @@
 
 #include <string>
 #include "ILogger.h"
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/member.hpp>
+#include <boost/multi_index/hashed_index.hpp>
+#include <boost/multi_index/composite_key.hpp>
 #include <marketlib/include/BrokerModels.h>
+#include <marketlib/include/market.h>
 
 class IListener {
 private:

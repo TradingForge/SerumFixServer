@@ -17,12 +17,10 @@ typedef marketlib::instrument_descr_t Instrument;
 int main () {
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
-    shared_ptr < IBrokerApplication > application(new BrokerNullApplication(logger));
     shared_ptr < IPoolsRequester > pools(new SerumPoolsRequester(logger, settings));
 
     SerumMD client(
         logger,
-        application.get(),
         settings,
         pools
     );
