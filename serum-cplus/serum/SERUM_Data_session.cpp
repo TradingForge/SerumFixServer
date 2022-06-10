@@ -1,7 +1,5 @@
-#include <chrono>
-#include <string.h>
 #include <functional>
-
+#include <ctime>
 #include "SERUM_Data_session.hpp"
 
 #include <sharedlib/include/Logger.h>
@@ -30,22 +28,40 @@ const char* CONN_NAME="Serum";
  };
 
 void TestLogger::Info(const char *content, ...) {
-    std::cout << "INFO | " << content << "\n";
+    time_t curr_time;
+    curr_time = time(NULL);
+    tm *tm_local = localtime(&curr_time);
+    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | INFO | " << content << "\n";
 }
 void TestLogger::Debug(const char *content, ...) {
-    std::cout << "DEBUG | " << content << "\n";
+    time_t curr_time;
+    curr_time = time(NULL);
+    tm *tm_local = localtime(&curr_time);
+    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec  << " | DEBUG | " << content << "\n";
 }
 void TestLogger::Error(const char *content, ...) {
-    std::cout << "ERROR | " << content << "\n";
+    time_t curr_time;
+    curr_time = time(NULL);
+    tm *tm_local = localtime(&curr_time);
+    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec  << " | ERROR | " << content << "\n";
 }
 void TestLogger::Warn(const char *content, ...) {
-    std::cout << "WARN | " << content << "\n";
+    time_t curr_time;
+    curr_time = time(NULL);
+    tm *tm_local = localtime(&curr_time);
+    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | WARN | " << content << "\n";
 }
 void TestLogger::Critical(const char *content, ...) {
-    std::cout << "CRIT | " << content << "\n";
+    time_t curr_time;
+    curr_time = time(NULL);
+    tm *tm_local = localtime(&curr_time);
+    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | CRIT | " << content << "\n";
 }
 void TestLogger::Trace(const char *content, ...) {
-    std::cout << "TRACE | " << content << "\n";
+    time_t curr_time;
+    curr_time = time(NULL);
+    tm *tm_local = localtime(&curr_time);
+    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | TRACE | " << content << "\n";
 }
 
 class SerumSettings : public ISettings {
@@ -115,7 +131,7 @@ bool SERUM_Data_session::handle_application(const unsigned seqnum, const FIX8::M
 
 FIX8::Message *SERUM_Data_session::generate_logon(const unsigned heartbeat_interval, const FIX8::f8String davi)
 {
-    _logger->Debug((boost::format("Session | generate_logon ")).str().c_str());
+    // _logger->Debug((boost::format("Session | generate_logon ")).str().c_str());
     FIX8::Message* logon = FIX8::Session::generate_logon(heartbeat_interval, davi);
     return logon;
 }
@@ -140,6 +156,10 @@ bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Messag
     try {
         _logger->Info((boost::format("Session | Serum DEX stop ")).str().c_str());
         _client->stop();
+         while(_client->isConnected())
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        this->stop();
+        // _control |= shutdown;
     }
     catch(std::exception& ex)
     {
@@ -152,6 +172,7 @@ void SERUM_Data_session::modify_outbound(FIX8::Message *msg)
 {
     return FIX8::Session::modify_outbound(msg);
 }
+
 
 bool SERUM_Data_session::process(const FIX8::f8String& from)
 {

@@ -23,6 +23,7 @@ class FixApp(fix.Application):
         super(FixApp, self).__init__()
 
     def onCreate(self, sessionID):
+        print("onCreate:")
         return
 
     def onLogon(self, sessionID):
@@ -200,7 +201,6 @@ class FixApp(fix.Application):
                 })
 
         self.instruments_func(self.my_name, pools)
-
 
 class Client:
     def __init__(self, config):

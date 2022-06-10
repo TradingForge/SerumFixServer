@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <syslog.h>
+#include <thread>
 
 
 #include <iostream>
@@ -39,26 +40,37 @@ int main(int argc, char **argv) {
 
     typedef std::shared_ptr<FIX8::SessionInstanceBase> ClientSession;
     std::vector<ClientSession> sessions;
-   // sessions[0]->session_ptr()->shutdown();
-    while(!go_exit) {
-        if (!ms->poll())
-        {
-         /*   sessions.erase(
-        std::remove_if(sessions.begin(),sessions.end(),[](ClientSession& sess)
-                {
-                    return sess->session_ptr()->is_shutdown();
-                })
-            )*/;
-            continue;
+
+    while(!go_exit)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        if(!sessions.empty()) {
+            int count = sessions.size();
+            sessions.erase(
+                    std::remove_if(sessions.begin(), sessions.end(), [](ClientSession &sess) {
+                        if (sess->session_ptr()->is_shutdown())
+                            printf("Erase session: %s\n", sess->session_ptr()->get_sid().get_id().c_str());
+                        return sess->session_ptr()->is_shutdown();
+                    }),
+                    sessions.end()
+            );
+            if(count != sessions.size()) {
+                printf("Session removed, count= %d\n", (int) sessions.size());
+            }
         }
-        std::shared_ptr<FIX8::SessionInstanceBase> inst(ms->create_server_instance());
-        sessions.push_back(inst);
-        //inst->session_ptr()->control() |= FIX8::Session::print;
-        //FIX8::GlobalLogger::log("global_logger");
-        const FIX8::ProcessModel pm(ms->get_process_model(ms->_ses));
-        inst->start(true);
+        if (ms->poll())
+        {
+            std::shared_ptr<FIX8::SessionInstanceBase> inst(ms->create_server_instance());
+            sessions.push_back(inst);
+            printf("Session added, count= %d\n", (int)sessions.size());
+            //inst->session_ptr()->control() |= FIX8::Session::print;
+            //FIX8::GlobalLogger::log("global_logger");
+            //const FIX8::ProcessModel pm(ms->get_process_model(ms->_ses));
+            inst->start(false);
+        }
     }
 
+    //  deinitialize all services
     std::for_each(sessions.begin(),sessions.end(),[](ClientSession& sess)
     {
         if(!sess->session_ptr()->is_shutdown())
@@ -66,6 +78,7 @@ int main(int argc, char **argv) {
             sess->session_ptr()->stop();
         }
     });
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
     closelog();
 }
