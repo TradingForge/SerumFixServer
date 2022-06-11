@@ -18,6 +18,14 @@
 #include <sharedlib/include/Logger.h>
 #include <serum/SERUM_Data_session.hpp>
 
+/*
+    to stop the daemon, find its PID using the command 
+        ps -ef
+    
+    then send him the SIGINT command
+        kill -2 <PID>
+*/
+
 volatile bool go_exit = false;
 
 void sigint_handler(int sig)
