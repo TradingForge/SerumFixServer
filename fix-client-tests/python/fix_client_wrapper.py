@@ -1,4 +1,3 @@
-import random
 import time
 import quickfix as fix
 import quickfix44 as fix44
@@ -19,6 +18,7 @@ class FixApp(fix.Application):
         self.snapshot_func = None
         self.incremental_func = None
         self.instruments_func = None
+        self.report_func = None
         self.__reqId = 1
         super(FixApp, self).__init__()
 
@@ -70,6 +70,8 @@ class FixApp(fix.Application):
                 self.onIncrementalSnapshot(message, sessionID)
             if msgType.getValue() == fix.MsgType_MarketDataRequestReject:
                 self.onMarketDataReject(message, sessionID)
+            if msgType.getValue() == fix.MsgType_ExecutionReport:
+                self.onReport(message, sessionID)
         except Exception as exc:
             print("fromApp: " + exc + " for " + message)
 
@@ -202,64 +204,6 @@ class FixApp(fix.Application):
 
         self.instruments_func(self.my_name, pools)
 
-class Client:
-    def __init__(self, config):
-        self.price_settings = fix.SessionSettings(config)
-        self.price_storeFactory = fix.MemoryStoreFactory()
-        self.price_logFactory = fix.FileLogFactory(self.price_settings)
-        self.price_application = FixApp('serum')
-        self.price_application.event_func = self.on_event
-        self.price_application.instruments_func = self.on_instruments
-        self.price_application.snapshot_func = self.on_full_snapshot
-        self.price_application.incremental_func = self.on_incremental_snapshot
-        self.instrument = {
-            'First': "ETH",
-            'Second': "USDC",
-            'Symbol': "ETHUSDC",
-            'SecurityID': "ETHUSDC",
-            'SecurityType': "COIN",
-            'SecurityExchange': "Serum",
-        }
-
-    def on_event(self, data):
-        print('! {}-{}'.format(data["broker"], data["event"]))
-        if data["event"] is BrokerEvent.SessionLogon:
-
-            # do some logic
-            time.sleep(2)
-            self.price_application.get_instruments()
-            self.price_application.subscribe(self.instrument, True, True)
-            self.price_application.subscribe(self.instrument, True, False)
-
-    def on_incremental_snapshot(self, broker, snapshot):
-        print("{} | incr for {}, data {}".format(broker, snapshot['pool'], snapshot['data']))
-
-    def on_full_snapshot(self, broker, snapshot):
-        print("{} | full for {}, rows {}".format(broker, snapshot['pool'], len(snapshot['data'])))
-        for item in snapshot['data']:
-            print(item)
-
-    def on_instruments(self, broker, pools):
-        for pool in pools:
-            print("POOL {}: {}, Currency: {}".format(pool['SecurityExchange'], pool['Symbol'], pool['Currency']))
-
-
-if __name__ == '__main__':
-    try:
-        logic = Client('client_stream_template.cfg')
-        price_initiator = fix.SocketInitiator(logic.price_application, logic.price_storeFactory, logic.price_settings,
-                                              logic.price_logFactory)
-        price_initiator.start()
-
-        message = ''
-        while True:
-            message = input('enter e to exit the app\n')
-            if message == "e":
-                break
-
-        price_initiator.stop()
-        time.sleep(1)
-
-    except Exception as e:
-        print("Exception error: '%s'." % e)
-        traceback.print_exc()
+    def onReport(self, message, sessionID):
+        # self.report_func
+        pass

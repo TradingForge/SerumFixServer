@@ -10,7 +10,6 @@
 
 #include <marketlib/include/market.h>
 #include <marketlib/include/BrokerModels.h>
-#include <sharedlib/include/IBrokerApplication.h>
 
 class ILogger;
 class ISettings;
