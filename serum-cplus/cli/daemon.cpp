@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    //  deinitialize all services
+    // deinitialize all services
     std::for_each(sessions.begin(),sessions.end(),[](ClientSession& sess)
     {
         if(!sess->session_ptr()->is_shutdown())

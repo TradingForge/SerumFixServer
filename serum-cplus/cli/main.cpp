@@ -8,7 +8,7 @@
 #include <memory>
 #include <sharedlib/include/Logger.h>
 #include <serum/SERUM_Data_session.hpp>
-
+#include <serum/SERUM_Order_sandbox_session.hpp>
 
 bool go_exit = false;
 
@@ -32,8 +32,10 @@ int main(int argc, char **argv) {
         if (arg == "-o")order_part = true;
     }
 
-    std::unique_ptr<FIX8::ServerSessionBase> ms(
+    std::unique_ptr<FIX8::ServerSessionBase> ms_md(
             new FIX8::ServerSession<SERUM_Data_session>(FIX8::SERUM_Data::ctx(), conf_file, "SERUM_MD"));
+    std::unique_ptr<FIX8::ServerSessionBase> ms_ord_sand(
+            new FIX8::ServerSession<SERUM_Order_sandbox_session>(FIX8::SERUM_Data::ctx(), conf_file, "SERUM_ORD_SAND"));
 
     typedef std::shared_ptr<FIX8::SessionInstanceBase> ClientSession;
     std::vector<ClientSession> sessions;
@@ -43,23 +45,31 @@ int main(int argc, char **argv) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         if(!sessions.empty()) {
             int count = sessions.size();
-            sessions.erase(
-                    std::remove_if(sessions.begin(), sessions.end(), [](ClientSession &sess) {
-                        if (sess->session_ptr()->is_shutdown())
-                            printf("Erase session: %s\n", sess->session_ptr()->get_sid().get_id().c_str());
-                        return sess->session_ptr()->is_shutdown();
-                    }),
-                    sessions.end()
+            sessions.erase(std::remove_if(sessions.begin(), sessions.end(), [](ClientSession &sess) {
+                    if (sess->session_ptr()->is_shutdown())
+                        printf("Erase session: %s\n", sess->session_ptr()->get_sid().get_id().c_str());
+                    return sess->session_ptr()->is_shutdown();
+                }),sessions.end()
             );
             if(count != sessions.size()) {
                 printf("Session removed, count= %d\n", (int) sessions.size());
             }
         }
-        if (ms->poll())
+        if (ms_md->poll())
         {
-            std::shared_ptr<FIX8::SessionInstanceBase> inst(ms->create_server_instance());
+            std::shared_ptr<FIX8::SessionInstanceBase> inst(ms_md->create_server_instance());
             sessions.push_back(inst);
             printf("Session added, count= %d\n", (int)sessions.size());
+            //inst->session_ptr()->control() |= FIX8::Session::print;
+            //FIX8::GlobalLogger::log("global_logger");
+            //const FIX8::ProcessModel pm(ms->get_process_model(ms->_ses));
+            inst->start(false);
+        }
+        if (ms_ord_sand->poll())
+        {
+            std::shared_ptr<FIX8::SessionInstanceBase> inst(ms_ord_sand->create_server_instance());
+            sessions.push_back(inst);
+            printf("OSession added, count= %d\n", (int)sessions.size());
             //inst->session_ptr()->control() |= FIX8::Session::print;
             //FIX8::GlobalLogger::log("global_logger");
             //const FIX8::ProcessModel pm(ms->get_process_model(ms->_ses));
@@ -74,6 +84,6 @@ int main(int argc, char **argv) {
             sess->session_ptr()->stop();
         }
     });
-    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 

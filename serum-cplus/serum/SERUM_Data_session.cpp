@@ -170,7 +170,7 @@ bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Messag
 
 void SERUM_Data_session::modify_outbound(FIX8::Message *msg)
 {
-    return FIX8::Session::modify_outbound(msg);
+    FIX8::Session::modify_outbound(msg);
 }
 
 
