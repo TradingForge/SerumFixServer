@@ -17,21 +17,21 @@ void SerumTrade::onOpen() {
 #ifdef SERUM_LISTENER_DEBUG
 logger->Debug("> SerumTrade::onOpen");
 #endif
-	// application->onEvent(getName(), BrokerEvent::SessionLogon, "TradeLogon: " + getName());
+	onEvent(getName(), broker_event::session_logon, "TradeLogon: " + getName());
 }
 void SerumTrade::onClose() {
 #ifdef SERUM_LISTENER_DEBUG
 	logger->Debug("> SerumTrade::onClose");
 #endif
-	// application->onEvent(getName(), BrokerEvent::SessionLogout, "TradeLogout: " + getName());
-	// clearMarkets();
+	onEvent(getName(), broker_event::session_logout, "TradeLogout: " + getName());
+	clearMarkets();
 }
 void SerumTrade::onFail() {
 #ifdef SERUM_LISTENER_DEBUG
 logger->Debug("> SerumTrade::onFail");
 #endif
-	// application->onEvent(getName(), BrokerEvent::SessionLogout, "TradeLogout: " + getName());
-	// clearMarkets();
+	onEvent(getName(), broker_event::session_logout, "TradeLogout: " + getName());
+	clearMarkets();
 }
 void SerumTrade::onMessage(const string& message) {
 	if (message.find("filled")!= std::string::npos) {
@@ -216,9 +216,9 @@ bool SerumTrade::activeCheck() const {
 	return enabledCheck() && connectedCheck();
 }
 
-SerumTrade::SerumTrade(logger_ptr _logger, settings_ptr _settings):
+SerumTrade::SerumTrade(logger_ptr _logger, settings_ptr _settings, callback_on_event _OnEvent):
 	logger(_logger), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
-	settings(_settings) {}
+	settings(_settings), onEvent(_OnEvent) {}
 
 bool SerumTrade::isEnabled() const {
 	return connection.enabled;
@@ -228,18 +228,20 @@ bool SerumTrade::isConnected() const {
 	return connection.connected;
 }
 
-// void SerumTrade::clearMarkets() {
-// #ifdef SERUM_LISTENER_DEBUG
-// 	logger->debug("> SerumTrade::clearMarkets");
-// #endif
-// 	depth_snapshot.clear();
-// }
+void SerumTrade::clearMarkets() {
+#ifdef SERUM_LISTENER_DEBUG
+	logger->Debug("> SerumTrade::clearMarkets");
+#endif
+	orders.clear();
+	channels.clear();
+}
 
 void SerumTrade::start() {
 	connection.async_start();
 }
 void SerumTrade::stop() {
 	connection.async_stop();
+	clearMarkets();
 }
 
 void SerumTrade::listen(const SerumTrade::Instrument& instr, const string& clientId, callback_t callback) {
@@ -260,6 +262,7 @@ void SerumTrade::listen(const SerumTrade::Instrument& instr, const string& clien
 		SubscribeChannel{
 			clientId,
 			getMarketFromInstrument(instr),
+			instr,
 			callback
 		}
 	);
@@ -291,6 +294,23 @@ void SerumTrade::unlisten(const SerumTrade::Instrument& instr, const string& cli
 			"markets": ["%1%"]
 		})") % getMarketFromInstrument(instr)).str());
 	}
+}
+
+void SerumTrade::unlistenForClientId(const string& clientId) {
+	auto chnls = channels
+		.get<SubscribeChannelsByClient>()
+		.equal_range(boost::make_tuple(
+			clientId
+		));
+
+	while(chnls.first != chnls.second) {
+		unlisten(chnls.first->instr, clientId);
+		++chnls.first;
+	}
+}
+
+string SerumTrade::getName() const {
+	return settings->get(ISettings::Property::ExchangeName);
 }
 
 SerumTrade::~SerumTrade() {
