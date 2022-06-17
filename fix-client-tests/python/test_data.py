@@ -18,8 +18,8 @@ class Client:
         self.instrument = {
             'First': "ETH",
             'Second': "USDC",
-            'Symbol': "ETHUSDC",
-            'SecurityID': "ETHUSDC",
+            'Symbol': "ETH/USDC",
+            'SecurityID': "ETH/USDC",
             'SecurityType': "COIN",
             'SecurityExchange': "Serum",
         }
@@ -29,10 +29,10 @@ class Client:
         if data["event"] is BrokerEvent.SessionLogon:
 
             # do some logic
-            time.sleep(2)
+            time.sleep(5)
             self.price_application.get_instruments()
-            self.price_application.subscribe(self.instrument, True, True)
             self.price_application.subscribe(self.instrument, True, False)
+            #self.price_application.subscribe(self.instrument, True, True)
 
     def on_incremental_snapshot(self, broker, snapshot):
         print("{} | incr for {}, data {}".format(broker, snapshot['pool'], snapshot['data']))
