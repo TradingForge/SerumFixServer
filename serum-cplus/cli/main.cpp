@@ -21,17 +21,19 @@ void signal_callback_handler(int signum) {
 
 int main(int argc, char **argv) {
 
-    printf("Hello FixServer\n");
-
-    std::string conf_file = "fix_server.xml";
     bool order_part = false;
     bool md_part = false;
     for (int i = 0; i < argc; i++){
         auto arg = std::string(argv[i]);
-        if (arg =="-md")md_part = true;
-        if (arg == "-o")order_part = true;
+        if (arg == "-m")md_part = true;
+        if (arg == "-t")order_part = true;
     }
+    if(order_part)
+        printf("Hello Trade FixServer\n");
+    if(md_part)
+        printf("Hello Stream FixServer\n");
 
+    std::string conf_file = "fix_server.xml";
     std::unique_ptr<FIX8::ServerSessionBase> ms_md(
             new FIX8::ServerSession<SERUM_Data_session>(FIX8::SERUM_Data::ctx(), conf_file, "SERUM_MD"));
     std::unique_ptr<FIX8::ServerSessionBase> ms_ord_sand(
@@ -55,6 +57,7 @@ int main(int argc, char **argv) {
                 printf("Session removed, count= %d\n", (int) sessions.size());
             }
         }
+        if(md_part)
         if (ms_md->poll())
         {
             std::shared_ptr<FIX8::SessionInstanceBase> inst(ms_md->create_server_instance());
@@ -65,6 +68,7 @@ int main(int argc, char **argv) {
             //const FIX8::ProcessModel pm(ms->get_process_model(ms->_ses));
             inst->start(false);
         }
+        if(order_part)
         if (ms_ord_sand->poll())
         {
             std::shared_ptr<FIX8::SessionInstanceBase> inst(ms_ord_sand->create_server_instance());
