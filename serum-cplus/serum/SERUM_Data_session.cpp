@@ -93,9 +93,10 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
         _logger(new TestLogger),
         _settings(new SerumSettings),
-        _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger, this,_settings, std::make_shared< SerumPoolsRequester >( _logger, _settings ) ) ))
+        _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger,_settings, std::make_shared< SerumPoolsRequester >( _logger, _settings ) )) )
 {
     _logger->Debug((boost::format("Session | construct ")).str().c_str());
+    _clientId = std::to_string((long)this);
     //slogger->send((boost::format("Session | construct ")).str());
     //plogger->send((boost::format("Session | construct ")).str());
 }
@@ -293,18 +294,43 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
         update_type
     };
 
-    marketlib::instrument_descr_t pool{CONN_NAME, "", "ETH/USDC", "USDC" };
+    //marketlib::instrument_descr_t pool{CONN_NAME, "", "ETH/USDC", "USDC" };
+    marketlib::instrument_descr_t pool {.engine=CONN_NAME,.sec_id=symbol.get(),.symbol=symbol.get()};
     if(subscr_type==marketlib::subscription_type::shapshot_update)
     {
         _logger->Info((boost::format("Session | MD subscribe to %1% : %2%, depth(%3%), update type(%4%)")
                     % request.engine % request.symbol % request.depth % request.update_type).str().c_str());
         try{
-            _client->subscribe(pool, depth);
+            //_client->subscribe(pool, depth, _clientId, );
+            if(depth == marketlib::market_depth_t::top){
+                _client->subscribe(pool,depth,_clientId,[this, reqIdStr, pool] (const std::string &exch, const std::string &pair, const std::any &data) {
+                       auto marketBook = std::any_cast<BrokerModels::MarketBook>(data);
+                       _logger->Debug((boost::format("Session | --> 35=W, %1%, Ask(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%)")
+                                       % pair % marketBook.askPrice% marketBook.askSize% marketBook.bidPrice% marketBook.bidSize).str().c_str());
+                       auto* _sess = const_cast<SERUM_Data_session*>(this);
+                        _sess->fullSnapshot(reqIdStr, pool, marketBook);
+               });
+            }
+            else if(depth == marketlib::market_depth_t::full){
+                _client->subscribe(pool, depth, _clientId,
+                        [this, reqIdStr, pool] (const std::string &exch, const std::string &pair, const std::any &data) {
+                            auto marketDepth = std::any_cast<BrokerModels::DepthSnapshot>(data);
+                            _logger->Debug((boost::format("Session | --> 35=W, %1% , count = %2%")
+                                            % pair % (marketDepth.bids.size() + marketDepth.asks.size()) ).str().c_str());
+                            auto* _sess = const_cast<SERUM_Data_session*>(this);
+                            _sess->fullSnapshot(reqIdStr, pool, marketDepth);
+                        }
+                );
+            }
         }
         catch(std::exception& ex)
         {
-            _logger->Info((boost::format("Session | !!! Subscribe to %1%, exception %2%")
+            _logger->Error((boost::format("Session | !!! Subscribe to %1%, exception %2%")
                     % symbol % ex.what()).str().c_str());
+            _logger->Error((boost::format("Session | Incorrect Subscribe/Unsubscribe to %1% : %2%, depth(%3%), update type(%4%)")
+                           % request.engine % request.symbol % request.depth % request.update_type).str().c_str());
+            auto* _sess = const_cast<SERUM_Data_session*>(this);
+            _sess->marketReject(reqIdStr, marketlib::ord_rej_reason::rr_broker);
         }
     }
     else if(subscr_type==marketlib::subscription_type::snapshot_update_disable)
@@ -313,7 +339,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
                        % request.engine % request.symbol % request.depth % request.update_type).str().c_str());
         try
         {
-            _client->unsubscribe(pool, depth);
+            _client->unsubscribe(pool,depth,_clientId);
         }
         catch(std::exception& ex)
         {
@@ -531,7 +557,7 @@ void SERUM_Data_session::fullSnapshot(const std::string& reqId, const marketlib:
 
 // IBrokerApplication
 
-void SERUM_Data_session::onEvent(const std::string &exchangeName, IBrokerClient::BrokerEvent data, const std::string &details)
+/*void SERUM_Data_session::onEvent(const std::string &exchangeName, IBrokerClient::BrokerEvent data, const std::string &details)
 {
     static const char* eventStr[]=
     {
@@ -550,7 +576,8 @@ void SERUM_Data_session::onEvent(const std::string &exchangeName, IBrokerClient:
     };
     _logger->Info((boost::format("Session | DEX::onEvent from exch('%1%'), event(%2%), details(%3%)")
             % exchangeName, eventStr[(int)data], details).c_str());
-}
+}*/
+/*
 
 void SERUM_Data_session::onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::MarketBook&marketBook)
 {
@@ -570,4 +597,5 @@ void SERUM_Data_session::onReport(const std::string &exchangeName, const std::st
                     % symbol % (depth.bids.size() + depth.asks.size()) ).str().c_str());
     fullSnapshot("123",marketlib::instrument_descr_t{.engine="Serum",.sec_id=symbol,.symbol=symbol},depth);
 }
+*/
 
