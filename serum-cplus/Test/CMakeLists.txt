@@ -40,3 +40,13 @@ target_link_libraries("SerumTradeTest" PRIVATE
     ${DEX_LIBRARIES}
     ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
     )
+
+add_executable("SerumMarketTest" SerumMarketTest.cpp)
+target_include_directories("SerumMarketTest" PRIVATE
+    ${DEX_INCLUDES}
+    ${CMAKE_SOURCE_DIR}/SerumDEX
+    )
+target_link_libraries("SerumMarketTest" PRIVATE
+    ${DEX_LIBRARIES}
+    ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
+   )

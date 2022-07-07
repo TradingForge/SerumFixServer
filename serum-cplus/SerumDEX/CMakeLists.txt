@@ -4,6 +4,7 @@ add_library("${SERUM_DEX_NAME}" STATIC
         SerumMD.cpp
         SerumTrade.cpp
         SerumPoolsRequester.cpp
+        SerumMarket/market.cpp
 )
 
 find_package(Fix8 REQUIRED)

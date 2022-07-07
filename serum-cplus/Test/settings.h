@@ -1,0 +1,4 @@
+#pragma once 
+
+#define PUBKEY "GKvwL3FmQRHuB9mcZ3WuqTuVjbGDzdW51ec8fYdeHae1"
+#define SECRETKEY "4rhy9iZJPrBH7x17EXhzj55NQre1y4FQMc7NzBWFRwmuvCjgKPWqqk8brnhLvxGPaZRAfrpgJdtVkGRUQVVHwa13"
