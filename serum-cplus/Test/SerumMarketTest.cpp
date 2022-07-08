@@ -2,17 +2,34 @@
 #include <string>
 #include <atomic>
 
-#include <SerumDEX/SerumMD.h>
+#include <SerumDEX/SerumMarket/market.h>
 #include <SerumDEX/SerumPoolsRequester.h>
-// #include <SerumDEX/SerumAdapter.h>
 #include <marketlib/include/BrokerModels.h>
 #include <marketlib/include/enums.h>
 #include "Appendix.hpp"
+#include "settings.h"
 
 using namespace std;
 using namespace BrokerModels;
 using namespace marketlib;
-typedef marketlib::instrument_descr_t Instrument;
+typedef instrument_descr_t Instrument;
+// typedef order_t Order;
 
 
-int main () {}
+int main () 
+{
+    shared_ptr < ILogger > logger(new Logger);
+    shared_ptr < ISettings > settings(new SerumSettings);
+    shared_ptr < IPoolsRequester > pools(new SerumPoolsRequester(logger, settings));
+    // cout << "sdfdsfgsdfggg" << endl;
+    auto market = SerumMarket(PUBKEY, SECRETKEY, "https://solana-api.projectserum.com", pools);
+
+
+    Instrument instrument{"", "", "SOL/USDC", "SOL", "USDC" };
+    order_t order;
+    order.side = order_side_t::os_Buy;
+
+    market.send_new_order(instrument, order);
+}
+
+// /usr/bin/c++     CMakeFiles/SerumMarketTest.dir/SerumMarketTest.cpp.o  -o SerumMarketTest -lpthread /usr/lib/x86_64-linux-gnu/libcrypto.so /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcurl.so ../SerumDEX/libfixserverSerumDEX.a

@@ -2,13 +2,21 @@
 
 #include "enums.h"
 #include "structs.h"
+// #include "instruments.h"
 #include "sol_sdk/pubkey.h"
-#include <marketlib/include/market.h>
+
+#include <boost/json.hpp>
+#include <boost/format.hpp>
+#include <algorithm>
 #include <string>
 #include <map>
-#include <boost/json/src.hpp>
-#include <boost/json.hpp>
+
+#include <marketlib/include/enums.h>
+#include <marketlib/include/market.h>
 #include <sharedlib/include/IPoolsRequester.h>
+#include <sharedlib/include/HTTPClient.h>
+
+
 
 
 class SerumMarket

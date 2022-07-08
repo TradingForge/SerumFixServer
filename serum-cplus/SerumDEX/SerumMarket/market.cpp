@@ -1,10 +1,5 @@
 #include "market.h"
-#include <boost/format.hpp>
-#include <sharedlib/include/HTTPClient.h>
-#include "instruments.h"
-#include "enums.h"
-#include <marketlib/include/enums.h>
-#include <algorithm>
+
 
 SerumMarket::SerumMarket(const string& pubkey_, const string& secretkey_, const string& address_, pools_ptr pools_) 
 : pubkey(pubkey_), secretkey(secretkey_), address(address_), pools(pools_)
@@ -48,9 +43,15 @@ void SerumMarket::place_order(
 void SerumMarket::send_new_order(const Instrument& instrument, const Order& order) 
 {
     string payer;
+    auto pls = pools->getPools();
+    auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
+            return instrument.base_currency == i.base_currency && 
+                instrument.quote_currency == i.quote_currency;
+        });
+
     if (order.side == marketlib::order_side_t::os_Buy) {
         try {
-            payer = get_token_account_by_owner(pubkey, instrument.quote_currency);
+            payer = get_token_account_by_owner(pubkey, pool.quote_mint_address);
         }
         catch (std::exception e ) {
 
@@ -59,30 +60,26 @@ void SerumMarket::send_new_order(const Instrument& instrument, const Order& orde
     else 
         payer = pubkey;
 
-    auto pls = pools->getPools();
-    auto t = std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
-            return instrument.base_currency == i.base_currency && 
-                instrument.quote_currency == i.quote_currency;
-        });
+    // auto pls = pools->getPools();
 
     // TODO place_order_open_order_account if open_order_account not exist
     string open_order_account = get_token_program_account(
         "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
-        t->address,
+        pool.address,
         pubkey
     );
 
-    place_order(
-        base58str_to_pubkey(pubkey),
-        base58str_to_keypair(secretkey),
-        base58str_to_pubkey(open_order_account),
-        OrderType::LIMIT,
-        order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
-        order.price,
-        order.original_qty,
-        // TODO Cli_id
-        1234
-    );
+    // place_order(
+    //     base58str_to_pubkey(pubkey),
+    //     base58str_to_keypair(secretkey),
+    //     base58str_to_pubkey(open_order_account),
+    //     OrderType::LIMIT,
+    //     order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
+    //     order.price,
+    //     order.original_qty,
+    //     // TODO Cli_id
+    //     1234
+    // );
 }
 
 void SerumMarket::get_mint_addresses()

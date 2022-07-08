@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <curl/curl.h>
+#include <iostream>
 // #include <cppcodec/base64_rfc4648.hpp>
 
 class HttpClient 

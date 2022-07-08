@@ -1,10 +1,5 @@
 #include "SerumTrade.h"
-#include "SerumAdapter.h"
-#include <fstream>
 
-#include <marketlib/include/BrokerModels.h>
-#include <marketlib/include/market.h>
-#include <marketlib/include/enums.h>
 #define SERUM_LISTENER_DEBUG
 
 using namespace std;

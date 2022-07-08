@@ -1,10 +1,4 @@
 #include "SerumMD.h"
-#include "SerumAdapter.h"
-#include <fstream>
-#include <iterator>
-#include <algorithm>
-#include <marketlib/include/BrokerModels.h>
-#include <marketlib/include/enums.h>
 
 #define SERUM_DEBUG
 #define DATA_CHANNEL_CAST_TO_TOP_DATA(x) ((TopDataChannel*)&(*x))

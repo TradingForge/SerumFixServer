@@ -1,10 +1,15 @@
 #pragma once
+#include "SerumAdapter.h"
 
 #include <unordered_map>
 #include <memory>
 #include <set>
 #include <vector>
 #include <list>
+#include <fstream>
+#include <iterator>
+#include <algorithm>
+
 
 #include <sharedlib/include/IBrokerClient.h>
 #include <sharedlib/include/ConnectionWrapper.h>

@@ -4,6 +4,7 @@ find_package(Boost 1.79.0 REQUIRED)
 find_package(Websocketpp REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED) 
+# find_package(GMP REQUIRED) 
 
 set(DEX_INCLUDES 
         ".."

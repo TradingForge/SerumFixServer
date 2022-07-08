@@ -4,11 +4,15 @@
 #include <memory>
 #include <set>
 
+#include "SerumAdapter.h"
+#include <fstream>
+
 #include <sharedlib/include/ConnectionWrapper.h>
 #include <sharedlib/include/ISettings.h>
 #include <sharedlib/include/IListener.h>
 #include <marketlib/include/BrokerModels.h>
 #include <marketlib/include/market.h>
+#include <marketlib/include/enums.h>
 
 
 class SerumTrade : public IListener
