@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sol_sdk/pubkey.h"
+#include "sol_sdk/key.h"
 #include "sol_sdk/cpi.h"
 #include "enums.h"
 #include "constants.h"
@@ -26,40 +26,43 @@ struct NewOrderV3Params
     OrderType order_type;
     SelfTradeBehavior self_trade_behavior;
     uint64_t limit;
-    uint64_t client_id;
-    SolPubkey program_id;
+    uint64_t client_id = 0;
+    SolPubkey program_id = base58str_to_pubkey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin");
 };
 
-// SolInstruction new_order_v3(const NewOrderV3Params& params) {
-//     auto touched_keys = {
-//         SolAccountMeta { pubkey: params.market, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.request_queue, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.payer, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.owner, is_writable: false, is_signer: true },
-//         SolAccountMeta { pubkey: params.base_vault, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.quote_vault, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: TOKEN_PROGRAM_ID, is_writable: false, is_signer: false },
-//         SolAccountMeta { pubkey: SYSVAR_RENT_PUBKEY, is_writable: false, is_signer: false }
-//     }
+SolInstruction new_order_v3(NewOrderV3Params params) 
+{
+    SolAccountMeta touched_keys[12] = {
+        SolAccountMeta { pubkey: &params.market, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &params.open_orders, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &params.request_queue, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &params.event_queue, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &params.bids, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &params.asks, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &params.payer, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &params.owner, is_writable: false, is_signer: true },
+        SolAccountMeta { pubkey: &params.base_vault, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &params.quote_vault, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: &TOKEN_PROGRAM_ID, is_writable: false, is_signer: false },
+        SolAccountMeta { pubkey: &SYSVAR_RENT_PUBKEY, is_writable: false, is_signer: false }
+    };
 
-//     return SolInstruction {
-//         program_id: params.program_id,
-//         accounts: touched_keys,
-//         account_len: 12,
-//         data: NewOrderV3 {
-//             side: params.side,
-//             limit_price: params.limit_price,
-//             max_base_quantity: params.max_base_quantity,
-//             max_quote_quantity: params.max_quote_quantity,
-//             self_trade_behavior: params.self_trade_behavior,
-//             order_type: params.order_type,
-//             client_id: params.client_id,
-//             limit: 65535
-//         }
-//         data_len: sizeof(NewOrderV3)
-//     }
-// }
+    return SolInstruction {
+        program_id: &params.program_id,
+        accounts: touched_keys,
+        account_len: 12,
+        data: 0,
+        //TODO: serialize new_order
+        // NewOrderV3 {
+        //     side: params.side,
+        //     limit_price: params.limit_price,
+        //     max_base_quantity: params.max_base_quantity,
+        //     max_quote_quantity: params.max_quote_quantity,
+        //     self_trade_behavior: params.self_trade_behavior,
+        //     order_type: params.order_type,
+        //     client_id: params.client_id,
+        //     limit: 65535
+        // }
+        data_len: sizeof(NewOrderV3)
+    };
+}

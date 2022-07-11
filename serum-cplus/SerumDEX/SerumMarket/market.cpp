@@ -1,8 +1,9 @@
 #include "market.h"
+#include "instructions.h"
 
-
-SerumMarket::SerumMarket(const string& pubkey_, const string& secretkey_, const string& address_, pools_ptr pools_) 
-: pubkey(pubkey_), secretkey(secretkey_), address(address_), pools(pools_)
+SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, const Callback& callback) 
+: pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback),
+  decoded_pubkey_(base58str_to_pubkey(pubkey)), decoded_secretkey_(base58str_to_keypair(secretkey))
 {
     get_mint_addresses();
     // std::cout << get_token_program_account(
@@ -13,7 +14,7 @@ SerumMarket::SerumMarket(const string& pubkey_, const string& secretkey_, const 
 }
 SerumMarket::~SerumMarket()
 {
-    mint_addresses.clear();
+    mint_addresses_.clear();
 }
 
 
@@ -26,60 +27,78 @@ SerumMarket::~SerumMarket()
 // }
 
 void SerumMarket::place_order(
-    const SolPubkey& payer,
-    const SolKeyPair& owner,
-    const SolPubkey& open_order,
+    const MarketChannel& info,
     OrderType order_type,
     Side side,
     double limit_price,
     double max_quantity,
     uint64_t client_id
-){
+)
+{
+    auto order_instruction = NewOrderV3Params
+    {
+        market: info.market_address,
+        open_orders: info.open_order_account,
+        payer: side == Side::BUY ? info.payer_buy : info.payer_sell,
+        owner: decoded_pubkey_,
 
+    };
 
 
 }
 
 void SerumMarket::send_new_order(const Instrument& instrument, const Order& order) 
 {
-    string payer;
-    auto pls = pools->getPools();
-    auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
-            return instrument.base_currency == i.base_currency && 
-                instrument.quote_currency == i.quote_currency;
-        });
+    auto market_info = markets_info.get<MarketChannelsByPool>()
+		.find(boost::make_tuple(
+			instrument.base_currency,
+			instrument.quote_currency
+		));
 
-    if (order.side == marketlib::order_side_t::os_Buy) {
-        try {
-            payer = get_token_account_by_owner(pubkey, pool.quote_mint_address);
-        }
-        catch (std::exception e ) {
+    if (market_info == markets_info.end()) {
+        auto pls = pools_->getPools();
+        auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
+                return instrument.base_currency == i.base_currency && 
+                    instrument.quote_currency == i.quote_currency;
+            });
 
-        }
+        markets_info.insert(create_market_info(pool));
+        market_info = markets_info.begin();
     }
-    else 
-        payer = pubkey;
 
-    // auto pls = pools->getPools();
+    auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
+
+    place_order(
+        *market_info,
+        OrderType::LIMIT,
+        order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
+        order.price,
+        order.original_qty,
+        // TODO Cli_id
+        1234
+    );
+}
+
+SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& instr)
+{
+    auto payer = get_token_account_by_owner(pubkey_, instr.quote_mint_address);
 
     // TODO place_order_open_order_account if open_order_account not exist
-    string open_order_account = get_token_program_account(
+    auto open_order_account = get_token_program_account(
         "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
-        pool.address,
-        pubkey
+        instr.address,
+        pubkey_
     );
 
-    // place_order(
-    //     base58str_to_pubkey(pubkey),
-    //     base58str_to_keypair(secretkey),
-    //     base58str_to_pubkey(open_order_account),
-    //     OrderType::LIMIT,
-    //     order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
-    //     order.price,
-    //     order.original_qty,
-    //     // TODO Cli_id
-    //     1234
-    // );
+    return MarketChannel {
+        base: instr.base_currency,
+        quote: instr.quote_currency,
+        instr: instr,
+        market_address: base58str_to_pubkey(instr.address),
+        payer_sell: base58str_to_pubkey(pubkey_),
+        payer_buy: base58str_to_pubkey(payer),
+        open_order_account: base58str_to_pubkey(open_order_account)
+    };
 }
 
 void SerumMarket::get_mint_addresses()
@@ -98,7 +117,7 @@ void SerumMarket::get_mint_addresses()
 
     auto data = boost::json::parse(data_str).as_array();
     for(const auto& el : data) {
-        mint_addresses[el.at("name").as_string().c_str()] = el.at("address").as_string().c_str();
+        mint_addresses_[el.at("name").as_string().c_str()] = el.at("address").as_string().c_str();
     }
 }
 
@@ -117,7 +136,7 @@ std::string SerumMarket::get_token_account_by_owner(const string& owner_pubkey, 
                     {"commitment": "finalized", "encoding": "base64"}
                 ]
             })") % owner_pubkey % token_address).str(), 
-            address, 
+            http_address_, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
         );
@@ -152,7 +171,7 @@ std::string SerumMarket::get_token_program_account(const string& market_key, con
                     "commitment": "recent"}
                 ]
             })") % market_key % pool_key % pubkey_owner).str(), 
-            address, 
+            http_address_, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
         );

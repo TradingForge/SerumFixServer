@@ -1,5 +1,5 @@
 #pragma once
-#include "sol_sdk/pubkey.h"
+#include "sol_sdk/key.h"
 #include "instruments.h"
 
 // Public key of the synthetic account that serves the current network time.

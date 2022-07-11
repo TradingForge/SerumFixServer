@@ -1,5 +1,5 @@
 #pragma once
-#include "sol_sdk/pubkey.h"
+#include "sol_sdk/key.h"
 #include "instruments.h"
 
 // Data length of a token mint account.

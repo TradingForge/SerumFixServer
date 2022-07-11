@@ -3,7 +3,7 @@
 #include <vector>
 #include <base58/base58.h>
 #include "sol_sdk/types.h"
-#include "sol_sdk/pubkey.h"
+#include "sol_sdk/key.h"
 #include "enums.h"
 #include "structs.h"
 

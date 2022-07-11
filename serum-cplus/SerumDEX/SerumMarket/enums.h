@@ -1,19 +1,19 @@
 #pragma once 
-
-enum Side 
+#include "sol_sdk/types.h"
+enum Side : uint32_t
 {
     BUY = 0,
     SELL = 1,
 };
 
-enum OrderType 
+enum OrderType : uint32_t
 {
     LIMIT = 0,
     IOC = 1,
     POST_ONLY = 2
 };
 
-enum SelfTradeBehavior
+enum SelfTradeBehavior : uint32_t
 {
     DECREMENT_TAKE = 0,
     CANCEL_PROVIDE = 1,
