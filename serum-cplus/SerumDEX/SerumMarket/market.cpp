@@ -1,7 +1,8 @@
 #include "market.h"
 #include "instructions.h"
+#include "../../base64/base64.h"
 
-SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, const Callback& callback) 
+SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback) 
 : pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback),
   decoded_pubkey_(base58str_to_pubkey(pubkey)), decoded_secretkey_(base58str_to_keypair(secretkey))
 {
@@ -11,6 +12,9 @@ SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const st
     //     "9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT", 
     //     "GKvwL3FmQRHuB9mcZ3WuqTuVjbGDzdW51ec8fYdeHae1"
     // ) << std::endl;
+
+    auto t = base64_decode(get_account_info("9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT"));
+    auto tt = 0;
 }
 SerumMarket::~SerumMarket()
 {
@@ -44,6 +48,11 @@ void SerumMarket::place_order(
 
     };
 
+
+}
+
+void SerumMarket::cancel_order(const Instrument& instr, const Order& order)
+{
 
 }
 
@@ -143,6 +152,7 @@ std::string SerumMarket::get_token_account_by_owner(const string& owner_pubkey, 
     }
     catch(std::exception e) {
 
+        return "";
     }
 
     return boost::json::parse(data_str).at("result").at("value").as_array()[0].at("pubkey").as_string().c_str();
@@ -178,7 +188,36 @@ std::string SerumMarket::get_token_program_account(const string& market_key, con
     }
     catch(std::exception e) {
 
+        return "";
     }
 
     return boost::json::parse(data_str).at("result").as_array()[0].at("pubkey").as_string().c_str();
+}
+
+//'{"jsonrpc": "2.0", "id": 1, "method": "getAccountInfo", "params": ["9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT", {"encoding": "base64", "commitment": "finalized"}]}'
+std::string SerumMarket::get_account_info(const string& account)
+{
+    string data_str;
+    try{
+        data_str = HttpClient::request(
+            (boost::format(R"({
+                "jsonrpc": "2.0", 
+                "id": 1, 
+                "method": "getAccountInfo", 
+                "params": [
+                    "%1%", 
+                    {"encoding": "jsonParsed", "commitment": "finalized"}
+                ]
+            })") % account).str(), 
+            http_address_, 
+            HttpClient::HTTPMethod::POST,
+            std::vector<string>({"Content-Type: application/json"})
+        );
+    }
+    catch(std::exception e) {
+
+        return "";
+    }
+
+    return boost::json::parse(data_str).at("result").at("value").at("data").as_array()[0].as_string().c_str();
 }

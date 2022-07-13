@@ -27,7 +27,7 @@ private:
     typedef std::shared_ptr < IPoolsRequester > pools_ptr;
     typedef marketlib::order_t Order;
     typedef marketlib::instrument_descr_t Instrument;
-    typedef std::function <void(const string&, const Instrument&, const string& info)> Callback;
+    typedef std::function <void(const string&, const Instrument&, const string&)> Callback;
 
     struct MarketChannel
     {
@@ -76,12 +76,15 @@ private:
     );
     void get_mint_addresses();
     MarketChannel create_market_info(const Instrument&);
+    string get_account_info(const string& account);
     string get_token_account_by_owner(const string& owner_pubkey, const string& token_address);
     string get_token_program_account(const string& market_key, const string& pool_key, const string& pubkey_owner);
 public:
-    SerumMarket(const string&, const string&, const string&, pools_ptr, const Callback&);
-    ~SerumMarket();
+    SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);
+    SerumMarket(const SerumMarket & market) {};
 
     void send_new_order(const Instrument&, const Order&) override;
     void cancel_order(const Instrument&, const Order&) override;
+
+    ~SerumMarket();
 };

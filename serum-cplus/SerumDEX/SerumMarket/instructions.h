@@ -33,18 +33,18 @@ struct NewOrderV3Params
 SolInstruction new_order_v3(NewOrderV3Params params) 
 {
     SolAccountMeta touched_keys[12] = {
-        SolAccountMeta { pubkey: &params.market, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &params.open_orders, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &params.request_queue, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &params.event_queue, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &params.bids, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &params.asks, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &params.payer, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &params.owner, is_writable: false, is_signer: true },
-        SolAccountMeta { pubkey: &params.base_vault, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &params.quote_vault, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: &TOKEN_PROGRAM_ID, is_writable: false, is_signer: false },
-        SolAccountMeta { pubkey: &SYSVAR_RENT_PUBKEY, is_writable: false, is_signer: false }
+        // SolAccountMeta { pubkey: &params.market, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &params.open_orders, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &params.request_queue, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &params.event_queue, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &params.bids, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &params.asks, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &params.payer, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &params.owner, is_writable: false, is_signer: true },
+        // SolAccountMeta { pubkey: &params.base_vault, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &params.quote_vault, is_writable: true, is_signer: false },
+        // SolAccountMeta { pubkey: &TOKEN_PROGRAM_ID, is_writable: false, is_signer: false },
+        // SolAccountMeta { pubkey: &SYSVAR_RENT_PUBKEY, is_writable: false, is_signer: false }
     };
 
     return SolInstruction {

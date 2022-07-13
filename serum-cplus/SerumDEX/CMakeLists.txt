@@ -9,6 +9,7 @@ add_library("${SERUM_DEX_NAME}" STATIC
 
 find_package(Fix8 REQUIRED)
 find_package(P7 REQUIRED)
+# find_package(GMP REQUIRED)
 
 target_include_directories(${SERUM_DEX_NAME} PRIVATE
         "include"
