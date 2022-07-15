@@ -31,6 +31,7 @@ set(SHAREDLIB_NAME "shared")
 set(MARKETLIB_NAME "market")
 
 add_subdirectory(serum)
+add_subdirectory(base64)
 add_subdirectory(SerumDEX)
 add_subdirectory(marketlib)
 add_subdirectory(sharedlib)

@@ -1,11 +1,36 @@
 #pragma once
 #include "sol_sdk/types.h"
+#include "sol_sdk/key.h"
 #include "enums.h"
 #include <string>
 #define VERSION 0
 
 
-
+struct MarketLayout
+{
+    // uint8_t serum[5];
+    uint64_t account_flags;
+    SolPubkey own_address;
+    uint64_t vault_signer_nonce;
+    SolPubkey base_mint;
+    SolPubkey quote_mint;
+    SolPubkey base_vault;
+    uint64_t base_deposits_total;
+    uint64_t base_fees_accrued;
+    SolPubkey quote_vault;
+    uint64_t quote_deposits_total;
+    uint64_t quote_fees_accrued;
+    uint64_t quote_dust_threshold;
+    SolPubkey request_queue;
+    SolPubkey event_queue;
+    SolPubkey bids;
+    SolPubkey asks;
+    uint64_t base_lot_size;
+    uint64_t quote_lot_size;
+    uint64_t fee_rate_bps;
+    uint64_t referrer_rebate_accrued;
+    // uint8_t padding[7];
+};
 
 struct Order
 {

@@ -20,7 +20,7 @@ public:
 
     IMarket() {}
 	IMarket(const IMarket&) = delete;
-	IMarket& operator = (const IMarket&) = delete;
+	IMarket& operator=(const IMarket&) = delete;
     virtual ~IMarket() = default;
 
     virtual void send_new_order(const Instrument& instrument, const Order& order) = 0;

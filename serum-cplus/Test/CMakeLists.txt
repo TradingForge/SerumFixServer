@@ -50,4 +50,5 @@ target_include_directories("SerumMarketTest" PRIVATE
 target_link_libraries("SerumMarketTest" PRIVATE
     ${DEX_LIBRARIES}
     ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
+    ${CMAKE_SOURCE_DIR}/build/base64/libbase64.a
    )

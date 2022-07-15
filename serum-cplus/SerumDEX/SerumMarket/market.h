@@ -38,6 +38,7 @@ private:
         SolPubkey payer_sell;
         SolPubkey payer_buy;
         SolPubkey open_order_account;
+        MarketLayout parsed_market;
     };
 
     using MarketChannels = boost::multi_index::multi_index_container<
@@ -76,12 +77,13 @@ private:
     );
     void get_mint_addresses();
     MarketChannel create_market_info(const Instrument&);
-    string get_account_info(const string& account);
-    string get_token_account_by_owner(const string& owner_pubkey, const string& token_address);
-    string get_token_program_account(const string& market_key, const string& pool_key, const string& pubkey_owner);
+    MarketLayout deserialize_market_info(const char*, size_t);
+    string get_account_info(const string&);
+    string get_token_account_by_owner(const string&, const string&);
+    string get_token_program_account(const string&, const string&, const string&);
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);
-    SerumMarket(const SerumMarket & market) {};
+    SerumMarket(const SerumMarket&) {};
 
     void send_new_order(const Instrument&, const Order&) override;
     void cancel_order(const Instrument&, const Order&) override;

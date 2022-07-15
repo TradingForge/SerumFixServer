@@ -3,6 +3,7 @@
 #include <atomic>
 
 #include <SerumDEX/SerumMarket/market.h>
+#include <SerumDEX/SerumMarket/structs.h>
 #include <SerumDEX/SerumPoolsRequester.h>
 #include <marketlib/include/BrokerModels.h>
 #include <marketlib/include/enums.h>
@@ -22,9 +23,9 @@ int main ()
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IPoolsRequester > pools(new SerumPoolsRequester(logger, settings));
     // cout << "sdfdsfgsdfggg" << endl;
-    auto market = SerumMarket(PUBKEY, SECRETKEY, "https://solana-api.projectserum.com", pools);
+    auto market = SerumMarket(PUBKEY, SECRETKEY, "https://solana-api.projectserum.com", pools, [](const string& a, const Instrument& b, const string& info){});
 
-
+    cout << sizeof(MarketLayout) << endl;
     Instrument instrument{"", "", "SOL/USDC", "SOL", "USDC" };
     order_t order;
     order.side = order_side_t::os_Buy;
