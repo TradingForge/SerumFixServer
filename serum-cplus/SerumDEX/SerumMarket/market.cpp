@@ -1,26 +1,16 @@
 #include "market.h"
 #include "instructions.h"
-#include "../../base64/base64.h"
+#include "instruments.h"
+#include <base64/base64.h>
+#include "sysvar.h"
 #include <iostream>
+#include <cmath>
 
 SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback) 
 : pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback),
   decoded_pubkey_(base58str_to_pubkey(pubkey)), decoded_secretkey_(base58str_to_keypair(secretkey))
 {
     get_mint_addresses();
-    // std::cout << get_token_program_account(
-    //     "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin", 
-    //     "9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT", 
-    //     "GKvwL3FmQRHuB9mcZ3WuqTuVjbGDzdW51ec8fYdeHae1"
-    // ) << std::endl;
-
-    // auto t = base64_decode(get_account_info("9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT"));
-    // char buffer[376];
-    // t.copy(buffer, 376, 5);
-    // MarketLayout tmp; //Re-make the struct
-    // memcpy(&tmp, buffer, sizeof(tmp));
-    // // std::cout<< buffer << std::endl;
-    // auto ttt = 0;
 }
 SerumMarket::~SerumMarket()
 {
@@ -42,10 +32,10 @@ void SerumMarket::place_order(
     Side side,
     double limit_price,
     double max_quantity,
-    uint64_t client_id
+    uint64_t client_id = 0 
 )
 {
-    auto order_instruction = NewOrderV3Params
+    struct NewOrderV3Params order_instruction = 
     {
         market: info.market_address,
         open_orders: info.open_order_account,
@@ -58,16 +48,22 @@ void SerumMarket::place_order(
         base_vault: info.parsed_market.asks,
         quote_vault: info.parsed_market.quote_vault,
         side: side,
-        // TODO: to make functions to recalculate coins
-        limit_price: 0,
-        max_base_quantity: 0, 
-        max_quote_quantity: 0,
+        // // TODO: to make functions to recalculate coins
+        limit_price: price_number_to_lots(limit_price, info),
+        max_base_quantity: base_size_number_to_lots(max_quantity, info), 
+        max_quote_quantity: base_size_number_to_lots(max_quantity, info) 
+        * info.parsed_market.quote_lot_size
+        * price_number_to_lots(limit_price, info),
         order_type: order_type,
+        self_trade_behavior: SelfTradeBehavior::DECREMENT_TAKE,
+        limit: 65535,
         client_id: client_id,
         program_id: base58str_to_pubkey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
     };
 
-
+    SolInstruction instruction;
+    new_order_v3(order_instruction, instruction);
+    
 }
 
 void SerumMarket::cancel_order(const Instrument& instr, const Order& order)
@@ -118,7 +114,26 @@ SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& ins
         pubkey_
     );
 
-    auto account_data = base64_decode(get_account_info(instr.address));
+    return MarketChannel {
+        base: instr.base_currency,
+        quote: instr.quote_currency,
+        instr: instr,
+        market_address: base58str_to_pubkey(instr.address),
+        payer_sell: base58str_to_pubkey(pubkey_),
+        payer_buy: base58str_to_pubkey(payer_buy),
+        open_order_account: base58str_to_pubkey(open_order_account),
+        parsed_market: get_market_layout(instr.address),
+        base_spl_token_multiplier: static_cast<uint64_t>(pow(10, get_mint_decimals(instr.base_mint_address))),
+        quote_spl_token_multiplier: static_cast<uint64_t>(pow(10, get_mint_decimals(instr.quote_mint_address)))
+    };
+}
+
+MarketLayout SerumMarket::get_market_layout(const string& market_address)
+{
+    auto account_data = base64_decode(
+        string(boost::json::parse(get_account_info(market_address)).at("result").at("value").at("data").as_array()[0].as_string().c_str())
+    );
+    // auto account_data = base64_decode(get_account_info(market_address));
     // ignore the first 5 bytes (the word 'serum') and the last 7 bytes (the word 'padding')
     // example of data after decoding:
     // "serum\003\000\000\000\000\000\000\000\204\302\373\030\256\326\031\365Fc&S\357\006\002\237\002\250d\277
@@ -135,17 +150,23 @@ SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& ins
     auto buffer_size = account_data.size() - 5 - 7;
     char buffer[buffer_size];
     account_data.copy(buffer, buffer_size, 5);
+    MarketLayout tmp; 
+    deserialize(buffer, &tmp, buffer_size);
+    return tmp;
+}
 
-    return MarketChannel {
-        base: instr.base_currency,
-        quote: instr.quote_currency,
-        instr: instr,
-        market_address: base58str_to_pubkey(instr.address),
-        payer_sell: base58str_to_pubkey(pubkey_),
-        payer_buy: base58str_to_pubkey(payer_buy),
-        open_order_account: base58str_to_pubkey(open_order_account),
-        parsed_market: deserialize_market_info(buffer, buffer_size)
-    };
+uint8_t SerumMarket::get_mint_decimals(const string& mint_address)
+{
+    if (mint_address == WRAPPED_SOL_MINT) 
+        return 9;
+
+    return (uint8_t)boost::json::parse(get_account_info(mint_address))
+        .at("result")
+        .at("value")
+        .at("data")
+        .at("parsed")
+        .at("info")
+        .at("decimals").as_int64();
 }
 
 void SerumMarket::get_mint_addresses()
@@ -257,15 +278,71 @@ std::string SerumMarket::get_account_info(const string& account)
         return "";
     }
 
-    return boost::json::parse(data_str).at("result").at("value").at("data").as_array()[0].as_string().c_str();
+    return data_str;
 }
 
-MarketLayout SerumMarket::deserialize_market_info(const char* data, size_t data_size)
+void SerumMarket::new_order_v3(const NewOrderV3Params& params, SolInstruction& instruction) 
 {
-    if (sizeof(MarketLayout) != data_size) {
-        throw std::exception();
-    }
-    MarketLayout tmp;
-    memcpy(&tmp, data, data_size);
-    return tmp;
+    // instruction.program_id = params.program_id;
+    instruction.accounts = new SolAccountMeta[12] {
+        SolAccountMeta { pubkey: params.market, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.request_queue, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.payer, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.owner, is_writable: false, is_signer: true },
+        SolAccountMeta { pubkey: params.base_vault, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.quote_vault, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: base58str_to_pubkey(TOKEN_PROGRAM_ID), is_writable: false, is_signer: false },
+        SolAccountMeta { pubkey: base58str_to_pubkey(SYSVAR_RENT_PUBKEY), is_writable: false, is_signer: false }
+    };
+    instruction.account_len = 12;
+
+    auto order = NewOrderV3 {
+            side: params.side,
+            limit_price: params.limit_price,
+            max_base_quantity: params.max_base_quantity,
+            max_quote_quantity: params.max_quote_quantity,
+            self_trade_behavior: params.self_trade_behavior,
+            order_type: params.order_type,
+            client_id: params.client_id,
+            limit: 65535
+        };
+
+    serialize(
+        &order, 
+        instruction.data, 
+        sizeof(NewOrderV3)
+    );
+    instruction.data_len = sizeof(NewOrderV3);
+}
+
+void SerumMarket::deserialize(const char* data, void* str, size_t data_size)
+{
+    // if (sizeof(MarketLayout) != data_size) {
+    //     throw std::exception();
+    // }
+    memcpy(str, data, data_size);
+}
+
+void serialize(const void* str, char* data, size_t data_size)
+{
+    memcpy(data, str, data_size);
+}
+
+uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChannel& info)
+{
+    return static_cast<uint64_t>(
+        (price * info.quote_spl_token_multiplier * info.parsed_market.base_lot_size) 
+        / (info.base_spl_token_multiplier * info.parsed_market.quote_lot_size)
+    ); 
+}
+
+uint64_t SerumMarket::base_size_number_to_lots(long double size, const MarketChannel& info)
+{
+    return static_cast<uint64_t>(
+        std::floor(size * info.base_spl_token_multiplier) / info.parsed_market.quote_lot_size
+    );
 }

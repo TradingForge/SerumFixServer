@@ -2,8 +2,12 @@
 
 #include "enums.h"
 #include "structs.h"
-// #include "instruments.h"
+
+#include "constants.h"
 #include "sol_sdk/key.h"
+#include "sol_sdk/types.h"
+#include "sol_sdk/cpi.h"
+#include "sol_sdk/entrypoint.h"
 
 #include <boost/json.hpp>
 #include <boost/format.hpp>
@@ -39,6 +43,8 @@ private:
         SolPubkey payer_buy;
         SolPubkey open_order_account;
         MarketLayout parsed_market;
+        uint64_t base_spl_token_multiplier;
+        uint64_t quote_spl_token_multiplier;
     };
 
     using MarketChannels = boost::multi_index::multi_index_container<
@@ -75,12 +81,25 @@ private:
         double,
         uint64_t
     );
+
+    // create market info
     void get_mint_addresses();
     MarketChannel create_market_info(const Instrument&);
-    MarketLayout deserialize_market_info(const char*, size_t);
+    MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
     string get_token_account_by_owner(const string&, const string&);
     string get_token_program_account(const string&, const string&, const string&);
+    uint8_t get_mint_decimals(const string&);
+
+    void deserialize(const char*, void*, size_t);
+    void serialize(const void*, uint8_t*, size_t);
+
+    void new_order_v3(const NewOrderV3Params&, SolInstruction&);
+
+    // precision
+    uint64_t price_number_to_lots(long double price, const MarketChannel& info);
+    uint64_t base_size_number_to_lots(long double price, const MarketChannel& info);
+
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);
     SerumMarket(const SerumMarket&) {};

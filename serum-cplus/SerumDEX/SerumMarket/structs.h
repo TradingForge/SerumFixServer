@@ -32,6 +32,62 @@ struct MarketLayout
     // uint8_t padding[7];
 };
 
+// struct MarketLayout
+// {
+//     // uint8_t serum[5];
+//     uint64_t account_flags;
+//     uint8_t own_address[32];
+//     uint64_t vault_signer_nonce;
+//     uint8_t base_mint[32];
+//     uint8_t quote_mint[32];
+//     uint8_t base_vault[32];
+//     uint64_t base_deposits_total;
+//     uint64_t base_fees_accrued;
+//     uint8_t quote_vault[32];
+//     uint64_t quote_deposits_total;
+//     uint64_t quote_fees_accrued;
+//     uint64_t quote_dust_threshold;
+//     uint8_t request_queue[32];
+//     uint8_t event_queue[32];
+//     uint8_t bids[32];
+//     uint8_t asks[32];
+//     uint64_t base_lot_size;
+//     uint64_t quote_lot_size;
+//     uint64_t fee_rate_bps;
+//     uint64_t referrer_rebate_accrued;
+//     // uint8_t padding[7];
+// };
+
+struct Mintlayout
+{
+    uint8_t padding_1[44];
+    uint8_t decimals;
+    uint8_t padding_2[37];
+};
+
+struct NewOrderV3Params 
+{
+    SolPubkey market;
+    SolPubkey open_orders;
+    SolPubkey payer;
+    SolPubkey owner;
+    SolPubkey request_queue;
+    SolPubkey event_queue;
+    SolPubkey bids;
+    SolPubkey asks;
+    SolPubkey base_vault;
+    SolPubkey quote_vault;
+    Side side;
+    uint64_t limit_price;
+    uint64_t max_base_quantity;
+    uint64_t max_quote_quantity;
+    OrderType order_type;
+    SelfTradeBehavior self_trade_behavior;
+    uint64_t limit;
+    uint64_t client_id;
+    SolPubkey program_id;//= base58str_to_pubkey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin");
+};
+
 struct Order
 {
   std::string first;
