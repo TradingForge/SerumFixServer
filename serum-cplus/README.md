@@ -59,6 +59,17 @@ cmake .
 sudo make install
 ```
 
+## Nacl
+```bash
+wget https://hyperelliptic.org/nacl/nacl-20110221.tar.bz2
+bunzip2 < nacl-20110221.tar.bz2 | tar -xf -
+cd nacl-20110221
+./do
+sudo cp -i ./build/KOMPUTER/bin/* /usr/bin/
+mv ./build/KOMPUTER/include/amd64 ./build/KOMPUTER/include/nacl  && sudo cp -ir ./build/KOMPUTER/include/* /usr/include/
+mv ./build/KOMPUTER/lib/amd64 ./build/KOMPUTER/lib/nacl && sudo cp -ir ./build/KOMPUTER/lib/* /usr/lib/
+```
+
 # Cloning and compiling the source
 ```bash
 git clone --recurse-submodules https://github.com/TradingForge/SerumFixServer.git
