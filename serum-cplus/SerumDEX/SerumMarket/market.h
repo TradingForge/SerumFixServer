@@ -21,6 +21,8 @@
 #include <sharedlib/include/HTTPClient.h>
 #include <sharedlib/include/IMarket.h>
 
+#include <functional>
+
 
 
 
@@ -83,16 +85,22 @@ private:
     );
 
     // create market info
+
     void get_mint_addresses();
     MarketChannel create_market_info(const Instrument&);
     MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
+    string get_latest_blockhash();
     string get_token_account_by_owner(const string&, const string&);
     string get_token_program_account(const string&, const string&, const string&);
     uint8_t get_mint_decimals(const string&);
 
-    void deserialize(const char*, void*, size_t);
-    void serialize(const void*, uint8_t*, size_t);
+    // translating a data structure into bytes 
+    std::function<void(uint8_t *, const void *, size_t)> serialize = std::memcpy;
+
+
+    // translating bytes into a data structure
+    std::function<void(void *, const uint8_t *, size_t)> deserialize = std::memcpy;
 
     void new_order_v3(const NewOrderV3Params&, SolInstruction&);
 

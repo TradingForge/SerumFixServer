@@ -129,6 +129,7 @@ struct CancelOrderByClient
     uint64_t client_id;
 };
 
+#pragma pack(push,1)
 struct NewOrderV3
 {
     uint32_t side;
@@ -141,6 +142,14 @@ struct NewOrderV3
     uint16_t limit;
 };
 
+struct InstructionLayoutOrderV3
+{
+    uint8_t version {0};
+    uint64_t type {10};
+    NewOrderV3 order;
+};
+#pragma pack(pop)
+
 struct CancelOrderV2
 {
     uint32_t side;
@@ -152,18 +161,35 @@ struct CancelOrderByClientV2
     uint64_t client_id;
 };
 
-struct InstructionLayout
-{
-    const uint8_t version = VERSION;
-    uint32_t instruction_type;
-};
+// struct InstructionLayout
+// {
+//     const uint8_t version = VERSION;
+//     uint32_t instruction_type;
+// };
 
-struct InstructionLayoutNewOrderV3 : InstructionLayout
-{
-    NewOrderV3 args;
-};
+// struct InstructionLayoutNewOrderV3 : InstructionLayout
+// {
+//     NewOrderV3 args;
+// };
 
-struct InstructionLayoutCancelOrderV2 : InstructionLayout
-{
-    CancelOrderV2 args;
-};
+// struct InstructionLayoutCancelOrderV2 : InstructionLayout
+// {
+//     CancelOrderV2 args;
+// };
+
+
+#define SIZE_HASH 32
+#define SIZE_SIGNATURE 32
+/**
+ * Signature
+ */
+typedef struct {
+    uint8_t x[SIZE_SIGNATURE];
+} Signature;
+
+/**
+ * Hash
+ */
+typedef struct {
+    uint8_t x[SIZE_HASH];
+} Hash;

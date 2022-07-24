@@ -1,10 +1,11 @@
 #include "market.h"
-#include "instructions.h"
 #include "instruments.h"
 #include <base64/base64.h>
 #include "sysvar.h"
 #include <iostream>
 #include <cmath>
+#include "transaction.h"
+// #include <nacl/crypto_stream.h>
 
 SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback) 
 : pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback),
@@ -12,6 +13,7 @@ SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const st
 {
     get_mint_addresses();
 }
+
 SerumMarket::~SerumMarket()
 {
     mint_addresses_.clear();
@@ -45,7 +47,7 @@ void SerumMarket::place_order(
         event_queue: info.parsed_market.event_queue,
         bids: info.parsed_market.bids,
         asks: info.parsed_market.asks,
-        base_vault: info.parsed_market.asks,
+        base_vault: info.parsed_market.base_vault,
         quote_vault: info.parsed_market.quote_vault,
         side: side,
         // // TODO: to make functions to recalculate coins
@@ -63,7 +65,12 @@ void SerumMarket::place_order(
 
     SolInstruction instruction;
     new_order_v3(order_instruction, instruction);
-    
+
+    Transaction txn;
+    txn.add_instruction(instruction);
+    txn.set_recent_blockhash(get_latest_blockhash());
+    txn.get_message_for_sign();
+    auto tt = 0;
 }
 
 void SerumMarket::cancel_order(const Instrument& instr, const Order& order)
@@ -99,7 +106,7 @@ void SerumMarket::send_new_order(const Instrument& instrument, const Order& orde
         order.price,
         order.original_qty,
         // TODO Cli_id
-        1234
+        7849659000233099250
     );
 }
 
@@ -151,7 +158,7 @@ MarketLayout SerumMarket::get_market_layout(const string& market_address)
     char buffer[buffer_size];
     account_data.copy(buffer, buffer_size, 5);
     MarketLayout tmp; 
-    deserialize(buffer, &tmp, buffer_size);
+    deserialize((void*)&tmp, (uint8_t*)buffer, buffer_size);
     return tmp;
 }
 
@@ -187,6 +194,25 @@ void SerumMarket::get_mint_addresses()
     for(const auto& el : data) {
         mint_addresses_[el.at("name").as_string().c_str()] = el.at("address").as_string().c_str();
     }
+}
+
+std::string SerumMarket::get_latest_blockhash()
+{
+    string data_str;
+    try{
+        data_str = HttpClient::request(
+            R"({"jsonrpc": "2.0", "id": 1, "method": "getLatestBlockhash", "params": [{"commitment": "finalized"}]})", 
+            http_address_, 
+            HttpClient::HTTPMethod::POST,
+            std::vector<string>({"Content-Type: application/json"})
+        );
+    }
+    catch(std::exception e) {
+
+        return "";
+    }
+
+    return boost::json::parse(data_str).at("result").at("value").at("blockhash").as_string().c_str();
 }
 
 std::string SerumMarket::get_token_account_by_owner(const string& owner_pubkey, const string& token_address) 
@@ -283,7 +309,7 @@ std::string SerumMarket::get_account_info(const string& account)
 
 void SerumMarket::new_order_v3(const NewOrderV3Params& params, SolInstruction& instruction) 
 {
-    // instruction.program_id = params.program_id;
+    instruction.program_id = params.program_id;
     instruction.accounts = new SolAccountMeta[12] {
         SolAccountMeta { pubkey: params.market, is_writable: true, is_signer: false },
         SolAccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
@@ -300,7 +326,21 @@ void SerumMarket::new_order_v3(const NewOrderV3Params& params, SolInstruction& i
     };
     instruction.account_len = 12;
 
-    auto order = NewOrderV3 {
+    // auto order = NewOrderV3 {
+    //         side: params.side,
+    //         limit_price: params.limit_price,
+    //         max_base_quantity: params.max_base_quantity,
+    //         max_quote_quantity: params.max_quote_quantity,
+    //         self_trade_behavior: params.self_trade_behavior,
+    //         order_type: params.order_type,
+    //         client_id: params.client_id,
+    //         limit: 65535
+    //     };
+
+    auto ord_layout = InstructionLayoutOrderV3 {
+        0,
+        10,
+        NewOrderV3 {
             side: params.side,
             limit_price: params.limit_price,
             max_base_quantity: params.max_base_quantity,
@@ -309,28 +349,25 @@ void SerumMarket::new_order_v3(const NewOrderV3Params& params, SolInstruction& i
             order_type: params.order_type,
             client_id: params.client_id,
             limit: 65535
-        };
-
-    serialize(
-        &order, 
-        instruction.data, 
-        sizeof(NewOrderV3)
+        }
+    };
+    serialize( 
+        instruction.data,
+        &ord_layout,  
+        sizeof(InstructionLayoutOrderV3)
     );
-    instruction.data_len = sizeof(NewOrderV3);
+    instruction.data_len = sizeof(InstructionLayoutOrderV3);
 }
 
-void SerumMarket::deserialize(const char* data, void* str, size_t data_size)
-{
-    // if (sizeof(MarketLayout) != data_size) {
-    //     throw std::exception();
-    // }
-    memcpy(str, data, data_size);
-}
+// void SerumMarket::deserialize(char* dest, void* src, size_t data_size)
+// {
+//     memcpy(str, data, data_size);
+// }
 
-void serialize(const void* str, char* data, size_t data_size)
-{
-    memcpy(data, str, data_size);
-}
+// void SerumMarket::serialize(char* dest, const void* src, size_t data_size)
+// {
+//     memcpy(dest, src, data_size);
+// }
 
 uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChannel& info)
 {
@@ -343,6 +380,6 @@ uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChanne
 uint64_t SerumMarket::base_size_number_to_lots(long double size, const MarketChannel& info)
 {
     return static_cast<uint64_t>(
-        std::floor(size * info.base_spl_token_multiplier) / info.parsed_market.quote_lot_size
+        std::floor(size * info.base_spl_token_multiplier) / info.parsed_market.base_lot_size
     );
 }

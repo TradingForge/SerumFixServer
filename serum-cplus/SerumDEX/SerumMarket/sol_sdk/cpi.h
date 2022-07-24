@@ -24,8 +24,3 @@ typedef struct {
   uint8_t *data; /** Opaque data passed to the instruction processor */
   uint64_t data_len; /** Length of the data in bytes */
 } SolInstruction;
-
-typedef struct {
-  uint64_t recent_blockhash;
-  std::vector<SolInstruction> instructions;
-} SolTransaction;
