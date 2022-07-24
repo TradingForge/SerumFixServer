@@ -5,7 +5,7 @@
 #include "alphabets.h"
 #include <gmpxx.h>
 
-std::vector<uint8_t> base58_decode(const std::string& vec_, const std::map<char, uint8_t>& alphabet_map = BITCOIN_ALPHABET_MAP);
+std::string base58_decode(const std::string& vec_, const std::map<char, uint8_t>& alphabet_map = BITCOIN_ALPHABET_MAP);
 
 // class Base58
 // {
