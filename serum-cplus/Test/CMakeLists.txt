@@ -51,5 +51,6 @@ target_link_libraries("SerumMarketTest" PRIVATE
     ${DEX_LIBRARIES}
     ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
     ${CMAKE_SOURCE_DIR}/build/base64/libbase64.a
-    ${CMAKE_SOURCE_DIR}/build/base64/libbase58.a
+    ${CMAKE_SOURCE_DIR}/build/base58/libbase58.a
+    /usr/lib/libgmp.a
    )

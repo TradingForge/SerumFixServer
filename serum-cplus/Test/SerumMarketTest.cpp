@@ -22,13 +22,15 @@ int main ()
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IPoolsRequester > pools(new SerumPoolsRequester(logger, settings));
-    // cout << "sdfdsfgsdfggg" << endl;
     auto market = SerumMarket(PUBKEY, SECRETKEY, "https://solana-api.projectserum.com", pools, [](const string& a, const Instrument& b, const string& info){});
 
-    cout << sizeof(MarketLayout) << endl;
+    cout << sizeof(NewOrderV3) << endl;
     Instrument instrument{"", "", "SOL/USDC", "SOL", "USDC" };
     order_t order;
+    order.price = 82.34;
+    order.original_qty = 0.1;
     order.side = order_side_t::os_Buy;
+
 
     market.send_new_order(instrument, order);
 }
