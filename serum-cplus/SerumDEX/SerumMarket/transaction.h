@@ -34,6 +34,9 @@ private:
     // string get_message_for_sign();
     bool compare_key(const SolPubkey&, const SolPubkey&);
     void add_keys(std::vector<uint8_t>&, const std::vector<SolPubkey*>, size_t);
+    uint8_t index_of_pub_key(const SolPubkey& , const std::vector<uint8_t>&);
+    std::vector<uint8_t> compile_instruction(const SolInstruction&, const std::vector<uint8_t>&);
+    std::vector<uint8_t> get_message_from_instructions(const Instructions&, const std::vector<uint8_t>&);
 public:
     string get_message_for_sign();
     // void add_account_key(SolPubkey);

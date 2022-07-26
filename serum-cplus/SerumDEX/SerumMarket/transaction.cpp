@@ -32,15 +32,15 @@ void Transaction::set_recent_blockhash(const string& blockhash)
 
 std::string Transaction::get_message_for_sign()
 {
-    size_t datas_len = std::accumulate(
-        instructions.begin(), 
-        instructions.end(), 
-        0, 
-        [](size_t sum, const SolInstruction& a) {return sum + a.data_len;}
-    );
+    // size_t datas_len = std::accumulate(
+    //     instructions.begin(), 
+    //     instructions.end(), 
+    //     0, 
+    //     [](size_t sum, const SolInstruction& a) {return sum + a.data_len;}
+    // );
 
-    _message.data = std::vector<uint8_t>(datas_len, 0);
-    size_t occupied = 0;
+    // _message.data = std::vector<uint8_t>(datas_len, 0);
+    // size_t occupied = 0;
 
     std::vector<SolPubkey*> signed_writable_accounts;
     std::vector<SolPubkey*> signed_accounts;
@@ -71,9 +71,11 @@ std::string Transaction::get_message_for_sign()
                 }
             }
         }
-        memcpy(_message.data.data() + occupied, instr.data, instr.data_len);
-        occupied += instr.data_len;
+        // memcpy(_message.data.data() + occupied, instr.data, instr.data_len);
+        // occupied += instr.data_len;
     }
+
+    // TODO add all program id
     other_accounts.push_back(&instructions[0].program_id);
     // _message.header.num_accounts = _message.header.num_required_signatures 
     //     + _message.header.num_readonly_signed_accounts 
@@ -96,18 +98,84 @@ std::string Transaction::get_message_for_sign()
     add_keys(_message.account_keys, other_accounts, shift);
     shift += other_accounts.size() * SIZE_PUBKEY;
 
-    size_t size = 4+_message.account_keys.size()+SIZE_HASH+_message.data.size();
-    uint8_t messag[size];
+    auto compiled_instructions = get_message_from_instructions(instructions, _message.account_keys);
+
+    size_t size = 4+_message.account_keys.size()+SIZE_HASH+compiled_instructions.size();
+    uint8_t msg[size];
 
     shift = 0;
-    memcpy(messag, &_message.header, 4); shift += 4;
-    memcpy(messag + shift, _message.account_keys.data(), _message.account_keys.size()); shift += _message.account_keys.size();
-    memcpy(messag + shift, &_message.recent_blockhash, SIZE_HASH); shift += SIZE_HASH;
-    memcpy(messag + shift, _message.data.data(), _message.data.size()); shift += _message.data.size();
+    memcpy(msg, &_message.header, 4); 
+    shift += 4;
+    memcpy(msg + shift, _message.account_keys.data(), _message.account_keys.size()); 
+    shift += _message.account_keys.size();
+    memcpy(msg + shift, &_message.recent_blockhash, SIZE_HASH); 
+    shift += SIZE_HASH;
+    memcpy(msg + shift, compiled_instructions.data(), compiled_instructions.size()); 
+    shift += compiled_instructions.size();
 
-    auto tt = to_hex(messag, 498);
-    std::cout << tt << std::endl;
-    return "";
+    // auto tt = to_hex(msg, size);
+    // std::cout << tt << std::endl;
+    return msg;
+}
+
+std::vector<uint8_t> Transaction::get_message_from_instructions(const Instructions &instructions, const std::vector<uint8_t> &keys)
+{
+    std::vector<uint8_t> msg = std::vector<uint8_t>();
+    // TODO Compact-Array Format
+    msg.push_back(instructions.size());
+    for (const auto& instr: instructions) {
+        auto compiled_instruction = compile_instruction(instr, keys);
+        msg.insert(msg.end(), compiled_instruction.begin(), compiled_instruction.end());
+    }
+
+    return msg;
+}
+
+
+std::vector<uint8_t> Transaction::compile_instruction(const SolInstruction& instr, const std::vector<uint8_t>& keys)
+{
+    // TODO Compact-Array Format
+
+    uint64_t size = 1 // the program id shift
+    + 1 // num_accounts
+    + instr.account_len // accounts shift
+    + 1 // data size
+    + instr.data_len;
+    
+    std::vector<uint8_t> compiled_instruction = std::vector<uint8_t>(size);
+
+    uint64_t shift = 0;
+    memset(compiled_instruction.data(), index_of_pub_key(instr.program_id, keys), 1); 
+    shift += 1;
+
+    // TODO account_len into a Compact-Array Format
+    memset(compiled_instruction.data() + shift, static_cast<uint8_t>(instr.account_len), 1); 
+    shift += 1;
+
+    for (uint64_t  i = 0; i < instr.account_len; i++) {
+        memset(compiled_instruction.data() + shift, index_of_pub_key(instr.accounts[i].pubkey, keys), 1);
+        shift += 1;
+    }
+
+    // TODO data_size into a Compact-Array Format
+    memset(compiled_instruction.data() + shift, instr.data_len, 1);
+    shift += 1;
+
+    memcpy(compiled_instruction.data() + shift, instr.data, instr.data_len); 
+    shift += instr.data_len;
+
+    return compiled_instruction;
+}
+
+uint8_t Transaction::index_of_pub_key(const SolPubkey& pubkey, const std::vector<uint8_t>& keys)
+{
+    uint8_t count = static_cast<uint8_t>(keys.size() / SIZE_PUBKEY);
+    for (uint8_t i = 0; i < count; i++) {
+        if (memcmp(&pubkey, keys.data() + i*SIZE_PUBKEY, SIZE_PUBKEY) == 0) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 void Transaction::add_keys(std::vector<uint8_t>& data, const std::vector<SolPubkey*> new_keys, size_t shift)

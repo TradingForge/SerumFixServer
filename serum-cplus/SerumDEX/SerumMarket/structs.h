@@ -107,14 +107,14 @@ struct InitializeMarket
     uint64_t quote_dust_threshold;
 };
 
-struct NewOrder
-{
-    uint32_t side;
-    uint64_t limit_price;
-    uint64_t max_quantity;
-    uint32_t order_type;
-    uint64_t client_id;
-};
+// struct NewOrder
+// {
+//     uint32_t side;
+//     uint64_t limit_price;
+//     uint64_t max_quantity;
+//     uint32_t order_type;
+//     uint64_t client_id;
+// };
 
 struct CancelOrder
 {
@@ -145,7 +145,7 @@ struct NewOrderV3
 struct InstructionLayoutOrderV3
 {
     uint8_t version {0};
-    uint64_t type {10};
+    uint32_t type {10};
     NewOrderV3 order;
 };
 #pragma pack(pop)

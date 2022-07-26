@@ -318,7 +318,7 @@ void SerumMarket::new_order_v3(const NewOrderV3Params& params, SolInstruction& i
         SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
         SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
         SolAccountMeta { pubkey: params.payer, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.owner, is_writable: false, is_signer: true },
+        SolAccountMeta { pubkey: params.owner, is_writable: true, is_signer: true },
         SolAccountMeta { pubkey: params.base_vault, is_writable: true, is_signer: false },
         SolAccountMeta { pubkey: params.quote_vault, is_writable: true, is_signer: false },
         SolAccountMeta { pubkey: base58str_to_pubkey(TOKEN_PROGRAM_ID), is_writable: false, is_signer: false },
