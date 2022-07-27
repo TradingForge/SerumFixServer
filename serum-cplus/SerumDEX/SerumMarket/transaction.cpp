@@ -5,6 +5,9 @@
 #include <numeric>
 #include <string.h>
 #include <iostream>
+#include <openssl/x509.h>
+#include <cryptopp/xed25519.h>
+#include <cryptopp/osrng.h>
 
 
 std::string to_hex(const uint8_t* vec, size_t len)
@@ -28,6 +31,45 @@ void Transaction::add_instruction(const SolInstruction& instruction)
 void Transaction::set_recent_blockhash(const string& blockhash)
 {
     _message.recent_blockhash = base58str_to_hash(blockhash);
+}
+
+std::string Transaction::serialize()
+{
+    string msg = "";
+
+    //TODO compact array
+    msg.push_back(static_cast<char>(signatures.size()));
+
+    for (const auto& sign: signatures)
+        msg.insert(msg.end(), sign.begin(), sign.end());
+
+    msg.insert(msg.end(), serialized_message.begin(), serialized_message.end());
+    return msg;
+}
+
+void Transaction::sign(const SolKeyPair& private_key)
+{
+    
+    CryptoPP::byte raw_private_key[SIZE_PUBKEY];
+    CryptoPP::byte raw_public_key[SIZE_PUBKEY];
+    memcpy(raw_private_key, &(private_key.x), SIZE_PUBKEY);
+    memcpy(raw_public_key, &(private_key.x) + SIZE_PUBKEY, SIZE_PUBKEY);
+    CryptoPP::ed25519::Signer signer(raw_public_key, raw_private_key);
+
+    if (serialized_message.size() == 0) 
+        serialized_message = get_message_for_sign();
+    string signature;
+
+    CryptoPP::AutoSeededRandomPool prng;
+    // Determine maximum signature size
+    size_t siglen = signer.MaxSignatureLength();
+    signature.resize(siglen);
+
+    // Sign, and trim signature to actual size
+    siglen = signer.SignMessage(prng, (const CryptoPP::byte*)&serialized_message[0], serialized_message.size(), (CryptoPP::byte*)&signature[0]);
+    signature.resize(siglen);
+
+    signatures.push_back(signature);
 }
 
 std::string Transaction::get_message_for_sign()
@@ -115,7 +157,7 @@ std::string Transaction::get_message_for_sign()
 
     // auto tt = to_hex(msg, size);
     // std::cout << tt << std::endl;
-    return msg;
+    return string((char*)msg, size);
 }
 
 std::vector<uint8_t> Transaction::get_message_from_instructions(const Instructions &instructions, const std::vector<uint8_t> &keys)

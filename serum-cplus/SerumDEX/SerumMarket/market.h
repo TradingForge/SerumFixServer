@@ -22,7 +22,7 @@
 #include <sharedlib/include/IMarket.h>
 
 #include <functional>
-
+#include "transaction.h"
 
 
 
@@ -103,10 +103,12 @@ private:
     std::function<void(void *, const uint8_t *, size_t)> deserialize = std::memcpy;
 
     void new_order_v3(const NewOrderV3Params&, SolInstruction&);
+    void new_cancel_order_v2(const CancelOrderV2Params&, SolInstruction&);
 
     // precision
     uint64_t price_number_to_lots(long double price, const MarketChannel& info);
     uint64_t base_size_number_to_lots(long double price, const MarketChannel& info);
+    string send_transaction(Transaction& transaction, const std::vector<SolKeyPair>&);
 
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);

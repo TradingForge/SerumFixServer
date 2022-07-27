@@ -68,14 +68,89 @@ void SerumMarket::place_order(
 
     Transaction txn;
     txn.add_instruction(instruction);
-    txn.set_recent_blockhash(get_latest_blockhash());
-    txn.get_message_for_sign();
-    auto tt = 0;
+    std::vector<SolKeyPair> signers;
+    signers.push_back(decoded_secretkey_);
+
+    auto res = send_transaction(txn, signers);
 }
 
-void SerumMarket::cancel_order(const Instrument& instr, const Order& order)
+void SerumMarket::new_cancel_order_v2(const CancelOrderV2Params& params, SolInstruction& instruction)
 {
-    throw std::exception();
+    instruction.program_id = params.program_id;
+    instruction.accounts = new SolAccountMeta[6] {
+        SolAccountMeta { pubkey: params.market, is_writable: false, is_signer: false },
+        SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
+        SolAccountMeta { pubkey: params.owner, is_writable: false, is_signer: true },
+        SolAccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false }
+    };
+    instruction.account_len = 6;
+
+    CancelOrderV2 cancel_order_v2;
+    cancel_order_v2.side = params.side;
+    memcpy(cancel_order_v2.order_id, params.order_id, 16);
+
+    auto ord_layout = InstructionLayoutCancelOrderV2 {
+        0,
+        11,
+        cancel_order_v2
+    };
+
+    serialize( 
+        instruction.data,
+        &ord_layout,  
+        sizeof(InstructionLayoutCancelOrderV2)
+    );
+
+    instruction.data_len = sizeof(InstructionLayoutCancelOrderV2);
+}
+
+void SerumMarket::cancel_order(const Instrument& instrument, const Order& order)
+{
+    auto market_info = markets_info.get<MarketChannelsByPool>()
+		.find(boost::make_tuple(
+			instrument.base_currency,
+			instrument.quote_currency
+		));
+
+    if (market_info == markets_info.end()) {
+        auto pls = pools_->getPools();
+        auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
+                return instrument.base_currency == i.base_currency && 
+                    instrument.quote_currency == i.quote_currency;
+            });
+
+        markets_info.insert(create_market_info(pool));
+        market_info = markets_info.begin();
+    }
+
+    auto info = *market_info;
+
+
+
+    CancelOrderV2Params params {
+        market: info.market_address,
+        bids: info.parsed_market.bids,
+        asks: info.parsed_market.asks,
+        event_queue: info.parsed_market.event_queue,
+        open_orders: info.open_order_account,
+        owner: decoded_pubkey_,
+        side: marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
+        // order_id: 7849659000233099250,
+        // // open_orders_slot: 0,
+        // program_id: base58str_to_pubkey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
+    };
+
+    params.program_id = base58str_to_pubkey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin");
+
+    SolInstruction instruction;
+    new_cancel_order_v2(params, instruction);
+    Transaction txn;
+    txn.add_instruction(instruction);
+    txn.set_recent_blockhash(get_latest_blockhash());
+    txn.get_message_for_sign();
+    txn.sign(decoded_secretkey_);
 }
 
 void SerumMarket::send_new_order(const Instrument& instrument, const Order& order) 
@@ -97,7 +172,7 @@ void SerumMarket::send_new_order(const Instrument& instrument, const Order& orde
         market_info = markets_info.begin();
     }
 
-    auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
+    // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
 
     place_order(
         *market_info,
@@ -304,6 +379,61 @@ std::string SerumMarket::get_account_info(const string& account)
         return "";
     }
 
+    return data_str;
+}
+
+/*
+
+{
+    "jsonrpc": "2.0", 
+    "id": 5, 
+    "method": "sendTransaction", 
+    "params": [
+        "AVkDoh1wcZqDMc1icCPVrg59yZdxfZR2P5bprZrW/jflXzRsWaOx0pHMGT6sUs/And7BShalLRcy/w3OVgB0LQcBAAMNisYu1t7X1daKhI9tQrdE/a5H4usgBan8UnExaoU/M/8A9CbhbrjPAxGRdfmAUUNElVzjcOdllA88KUOVRftFqR8m9fBGHEAQvVzIynBm3aWEpu5xeTTGd630wl+9FWotQCCJRlPP3fp7fmDJZmgnNqLbD4OFZJJbEQd6IeA215dTRCrS+Lwp+If/grXczBuog5QhNTg5wpvgIjESvWThqmrj7TJ6D4hJp3KUHZcFDzpujLjdOrzbFHCIfIK1TT82hML7GK7WGfVGYyZT7wYCnwKoZL84KYZxgbsg3x1xXDCN/Mj1ew/Oe3VmdZr272dUqDUqJsPkSWvNJ9t+1imW4qbf0VxQdwX5M5uVPBpN/bycwYbdL2LfSKlYBF4qdlJZ950Dg6qeKgK9KrodTPk+vLpUxguXcu5iK8RXxpKvmcgGp9UXGSxcUSGMyUw9SvF/WNruCJuh/UTj29mKAAAAAAbd9uHXZaGT2cvhRs7reawctIXtX1s3kTqM9YV+/wCphQ8tbgKkevgk0Jq2ncQtcMsoy/okn7fuV7nSVsEnYu/5BhhUacF5XhWELMujq2utWal/Fr1KPaTybEzGoKUSWwEMDAYEBwMBCAkAAgULCjMACgAAAAAAAACkQQEAAAAAAAEAAAAAAAAAEKR9AAAAAAAAAAAAAAAAAFzaUz9Wik8c//8=", 
+        {
+            "skipPreflight": true, 
+            "preflightCommitment": "finalized", 
+            "encoding": "base64"
+        }
+    ]
+}
+
+*/
+
+
+std::string SerumMarket::send_transaction(Transaction &txn, const std::vector<SolKeyPair> &signers)
+{
+
+    auto blhs = get_latest_blockhash();
+    txn.set_recent_blockhash(blhs);
+    txn.sign(signers[0]);
+    auto msg = txn.serialize();
+    auto decode_msg = base64_encode(msg);
+    string data_str;
+    try{
+        data_str = HttpClient::request(
+            (boost::format(R"({
+                "jsonrpc": "2.0", 
+                "id": 5, 
+                "method": "sendTransaction", 
+                "params": [
+                    "%1%", 
+                    {
+                        "skipPreflight": true, 
+                        "preflightCommitment": "finalized", 
+                        "encoding": "base64"
+                    }
+                ]
+            })") % decode_msg).str(), 
+            http_address_, 
+            HttpClient::HTTPMethod::POST,
+            std::vector<string>({"Content-Type: application/json"})
+        );
+    }
+    catch(std::exception e) {
+
+        return "";
+    }
     return data_str;
 }
 

@@ -8,7 +8,7 @@
 class Transaction {
 private:
     typedef std::string string;
-    typedef std::vector<Signature> Signatures;
+    typedef std::vector<string> Signatures;
     typedef std::vector<SolPubkey> Keys;
     typedef std::vector<SolInstruction> Instructions;
 
@@ -29,7 +29,7 @@ private:
     Signatures signatures;
     _Message _message;
     Instructions instructions;
-    // string serializemessage;
+    string serialized_message;
 
     // string get_message_for_sign();
     bool compare_key(const SolPubkey&, const SolPubkey&);
@@ -42,5 +42,6 @@ public:
     // void add_account_key(SolPubkey);
     void add_instruction(const SolInstruction&);
     void set_recent_blockhash(const string&);
-    void sign(const SolKeyPair&, const Hash&);
+    void sign(const SolKeyPair&);
+    string serialize();
 };

@@ -116,18 +116,7 @@ struct InitializeMarket
 //     uint64_t client_id;
 // };
 
-struct CancelOrder
-{
-    uint32_t side;
-    uint8_t order_id[16];
-    uint8_t open_orders[32];
-    uint8_t open_orders_slot;
-};
 
-struct CancelOrderByClient
-{
-    uint64_t client_id;
-};
 
 #pragma pack(push,1)
 struct NewOrderV3
@@ -148,7 +137,6 @@ struct InstructionLayoutOrderV3
     uint32_t type {10};
     NewOrderV3 order;
 };
-#pragma pack(pop)
 
 struct CancelOrderV2
 {
@@ -156,10 +144,51 @@ struct CancelOrderV2
     uint8_t order_id[16];
 };
 
-struct CancelOrderByClientV2
+struct InstructionLayoutCancelOrderV2
 {
-    uint64_t client_id;
+    uint8_t version {0};
+    uint32_t type {11};
+    CancelOrderV2 order;
 };
+#pragma pack(pop)
+
+// struct CancelOrder
+// {
+//     uint32_t side;
+//     uint8_t order_id[16];
+//     uint8_t open_orders[32];
+//     uint8_t open_orders_slot;
+// };
+
+struct CancelOrderV2Params
+{
+    SolPubkey market;
+    SolPubkey bids;
+    SolPubkey asks;
+    SolPubkey event_queue;
+    SolPubkey open_orders;
+    SolPubkey owner;
+    Side side;
+    uint8_t order_id[16];
+    // uint64_t open_orders_slot;
+    SolPubkey program_id;
+};
+
+// struct CancelOrderByClient
+// {
+//     uint64_t client_id;
+// };
+
+// struct CancelOrderV2
+// {
+//     uint32_t side;
+//     uint8_t order_id[16];
+// };
+
+// struct CancelOrderByClientV2
+// {
+//     uint64_t client_id;
+// };
 
 // struct InstructionLayout
 // {
@@ -183,9 +212,9 @@ struct CancelOrderByClientV2
 /**
  * Signature
  */
-typedef struct {
-    uint8_t x[SIZE_SIGNATURE];
-} Signature;
+// typedef struct {
+//     uint8_t x[SIZE_SIGNATURE];
+// } Signature;
 
 /**
  * Hash
