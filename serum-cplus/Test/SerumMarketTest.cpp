@@ -24,15 +24,13 @@ int main ()
     shared_ptr < IPoolsRequester > pools(new SerumPoolsRequester(logger, settings));
     auto market = SerumMarket(PUBKEY, SECRETKEY, "https://solana-api.projectserum.com", pools, [](const string& a, const Instrument& b, const string& info){});
 
-    cout << sizeof(NewOrderV3) << endl;
+    cout << sizeof(InstructionLayoutOrderV3) << endl;
     Instrument instrument{"", "", "SOL/USDC", "SOL", "USDC" };
     order_t order;
-    order.price = 82.34;
+    order.price = 3;
     order.original_qty = 0.1;
     order.side = order_side_t::os_Buy;
 
 
     market.send_new_order(instrument, order);
 }
-
-// /usr/bin/c++     CMakeFiles/SerumMarketTest.dir/SerumMarketTest.cpp.o  -o SerumMarketTest -lpthread /usr/lib/x86_64-linux-gnu/libcrypto.so /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcurl.so ../SerumDEX/libfixserverSerumDEX.a
