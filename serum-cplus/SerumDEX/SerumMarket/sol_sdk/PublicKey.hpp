@@ -4,7 +4,7 @@
 
 #define SIZE_PUBKEY 32
 
-class PubKey 
+class PublicKey 
 {
     typedef std::string string;
     typedef uint8_t byte;
@@ -16,20 +16,20 @@ class PubKey
 
     bytes _from_base58(const string&);
 public:
-    PubKey();
-    PubKey(const string&);
-    PubKey(const bytes&);
-    PubKey(const PubKey&);
-    PubKey(PubKey&&);
+    PublicKey();
+    PublicKey(const string&);
+    PublicKey(const bytes&);
+    PublicKey(const PublicKey&);
+    PublicKey(PublicKey&&);
   
 
     void from_base58(const string&);
     const uint8_t* data() {return key_b.data();}
     size_t size() {return key_b.size();}
 
-    friend bool operator==(const PubKey&, const PubKey&);
-    friend bool operator==(const PubKey&, const string&);
-    PubKey& operator=(const PubKey&);
-    PubKey& operator=(PubKey&&);
-    ~PubKey();
+    friend bool operator==(const PublicKey&, const PublicKey&);
+    friend bool operator==(const PublicKey&, const string&);
+    PublicKey& operator=(const PublicKey&);
+    PublicKey& operator=(PublicKey&&);
+    ~PublicKey();
 };

@@ -1,14 +1,14 @@
-#include "PubKey.hpp"
+#include "PublicKey.hpp"
 #include <string.h>
 #include <base58/base58.h>
 
-PubKey::PubKey() : key_str(), key_b(bytes(0))
+PublicKey::PublicKey() : key_str(), key_b(bytes(0))
 {}
 
-PubKey::PubKey(const string& key) : key_str(key), key_b(_from_base58(key_str))
+PublicKey::PublicKey(const string& key) : key_str(key), key_b(_from_base58(key_str))
 {}
 
-PubKey::PubKey(const bytes& key)
+PublicKey::PublicKey(const bytes& key)
 {
     if (key.size() != SIZE_PUBKEY) {
         throw -1;
@@ -18,25 +18,25 @@ PubKey::PubKey(const bytes& key)
     key_str = base58_encode(string((char*)key.data(), key.size()));
 } 
 
-PubKey::PubKey(const PubKey& other) : key_str(other.key_str), key_b(other.key_b)
+PublicKey::PublicKey(const PublicKey& other) : key_str(other.key_str), key_b(other.key_b)
 {}
 
-PubKey::PubKey(PubKey&& other) : key_str(other.key_str), key_b(other.key_b)
+PublicKey::PublicKey(PublicKey&& other) : key_str(other.key_str), key_b(other.key_b)
 {
     other.key_b = bytes(0);
     other.key_str = "";
 }
 
-PubKey::~PubKey()
+PublicKey::~PublicKey()
 {}
 
-void PubKey::from_base58(const string& key)
+void PublicKey::from_base58(const string& key)
 {
     key_str = key;
     key_b = _from_base58(key_str);
 }
 
-PubKey::bytes PubKey::_from_base58(const string& key)
+PublicKey::bytes PublicKey::_from_base58(const string& key)
 {
     auto decoded_key = base58_decode(key);
     auto res = bytes(SIZE_PUBKEY);
@@ -44,7 +44,7 @@ PubKey::bytes PubKey::_from_base58(const string& key)
     return res;
 }
 
-bool operator==(const PubKey &k1, const PubKey &k2)
+bool operator==(const PublicKey &k1, const PublicKey &k2)
 {
     if (k1.key_b.size() == 0 || k2.key_b.size() == 0) {
         throw -1;
@@ -53,7 +53,7 @@ bool operator==(const PubKey &k1, const PubKey &k2)
     return  0 == memcmp(k1.key_b.data(), k2.key_b.data(), SIZE_PUBKEY) ? true : false;
 }
 
-bool operator==(const PubKey &k1, const std::string &k2)
+bool operator==(const PublicKey &k1, const std::string &k2)
 {
     if (k1.key_str.size() == 0) {
         throw -1;
@@ -62,7 +62,7 @@ bool operator==(const PubKey &k1, const std::string &k2)
     return  k1.key_str == k2;
 }
 
-PubKey& PubKey::operator= (const PubKey &key)
+PublicKey& PublicKey::operator= (const PublicKey &key)
 {
     if (this == &key)
         return *this;
@@ -72,7 +72,7 @@ PubKey& PubKey::operator= (const PubKey &key)
     return *this;
 }
 
-PubKey& PubKey::operator= (PubKey &&key)
+PublicKey& PublicKey::operator= (PublicKey &&key)
 {
     if (this == &key)
         return *this;
