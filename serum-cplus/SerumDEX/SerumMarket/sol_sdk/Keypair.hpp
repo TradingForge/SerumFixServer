@@ -24,9 +24,9 @@ public:
   
 
     void from_base58(const string&);
-    PublicKey get_pubkey();
-    const uint8_t* data() {return key_b.data();}
-    size_t size() {return key_b.size();}
+    PublicKey get_pubkey() const;
+    const uint8_t* data() const  {return key_b.data();}
+    size_t size() const {return key_b.size();}
 
     friend bool operator==(const Keypair&, const Keypair&);
     friend bool operator==(const Keypair&, const string&);

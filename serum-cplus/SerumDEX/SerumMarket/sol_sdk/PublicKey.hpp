@@ -24,8 +24,8 @@ public:
   
 
     void from_base58(const string&);
-    const uint8_t* data() {return key_b.data();}
-    size_t size() {return key_b.size();}
+    const uint8_t* data() const {return key_b.data();}
+    size_t size() const {return key_b.size();}
 
     friend bool operator==(const PublicKey&, const PublicKey&);
     friend bool operator==(const PublicKey&, const string&);

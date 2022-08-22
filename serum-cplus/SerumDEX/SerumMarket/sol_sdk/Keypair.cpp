@@ -35,7 +35,7 @@ void Keypair::from_base58(const string& key)
     key_b = _from_base58(key_str);
 }
 
-PublicKey Keypair::get_pubkey()
+PublicKey Keypair::get_pubkey() const
 {
     auto vec = bytes(32);
     std::copy(key_b.end() - SIZE_PUBKEY, key_b.end(), vec.begin());
