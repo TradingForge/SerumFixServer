@@ -1,5 +1,6 @@
 #pragma once 
-#include "sol_sdk/types.h"
+#include <stdint.h>
+
 enum Side : uint32_t
 {
     BUY = 0,

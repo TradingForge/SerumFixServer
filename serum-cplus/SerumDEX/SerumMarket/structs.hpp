@@ -1,0 +1,128 @@
+#pragma once
+#include "sol_sdk/PublicKey.hpp"
+#include "enums.hpp"
+#include <string>
+#define VERSION 0
+
+struct Mintlayout
+{
+    uint8_t padding_1[44];
+    uint8_t decimals;
+    uint8_t padding_2[37];
+};
+
+struct NewOrderV3Params 
+{
+    PublicKey market;
+    PublicKey open_orders;
+    PublicKey payer;
+    PublicKey owner;
+    PublicKey request_queue;
+    PublicKey event_queue;
+    PublicKey bids;
+    PublicKey asks;
+    PublicKey base_vault;
+    PublicKey quote_vault;
+    Side side;
+    uint64_t limit_price;
+    uint64_t max_base_quantity;
+    uint64_t max_quote_quantity;
+    OrderType order_type;
+    SelfTradeBehavior self_trade_behavior;
+    uint64_t limit;
+    uint64_t client_id;
+    PublicKey program_id;
+};
+
+struct Order
+{
+  std::string first;
+  std::string second;
+  double amount;
+  double price;
+  Side side;
+  long long unsigned int client_id = 0;
+};
+
+struct InitializeMarket
+{
+    uint64_t base_lot_size;
+    uint64_t quote_lot_size;
+    uint16_t fee_rate_bps;
+    uint64_t vault_signer_nonce;
+    uint64_t quote_dust_threshold;
+};
+
+struct CancelOrderV2Params
+{
+    PublicKey market;
+    PublicKey bids;
+    PublicKey asks;
+    PublicKey event_queue;
+    PublicKey open_orders;
+    PublicKey owner;
+    Side side;
+    uint8_t order_id[16];
+    // uint64_t open_orders_slot;
+    PublicKey program_id;
+};
+
+#pragma pack(push,1)
+struct NewOrderV3
+{
+    uint32_t side;
+    uint64_t limit_price;
+    uint64_t max_base_quantity;
+    uint64_t max_quote_quantity;
+    uint32_t self_trade_behavior;
+    uint32_t order_type;
+    uint64_t client_id;
+    uint16_t limit;
+};
+
+struct InstructionLayoutOrderV3
+{
+    uint8_t version {0};
+    uint32_t type {10};
+    NewOrderV3 order;
+};
+
+struct CancelOrderV2
+{
+    uint32_t side;
+    uint8_t order_id[16];
+};
+
+struct InstructionLayoutCancelOrderV2
+{
+    uint8_t version {0};
+    uint32_t type {11};
+    CancelOrderV2 order;
+};
+
+struct MarketLayout
+{
+    uint8_t serum[5];
+    uint64_t account_flags;
+    PublicKey own_address;
+    uint64_t vault_signer_nonce;
+    PublicKey base_mint;
+    PublicKey quote_mint;
+    PublicKey base_vault;
+    uint64_t base_deposits_total;
+    uint64_t base_fees_accrued;
+    PublicKey quote_vault;
+    uint64_t quote_deposits_total;
+    uint64_t quote_fees_accrued;
+    uint64_t quote_dust_threshold;
+    PublicKey request_queue;
+    PublicKey event_queue;
+    PublicKey bids;
+    PublicKey asks;
+    uint64_t base_lot_size;
+    uint64_t quote_lot_size;
+    uint64_t fee_rate_bps;
+    uint64_t referrer_rebate_accrued;
+    uint8_t padding[7];
+};
+#pragma pack(pop)

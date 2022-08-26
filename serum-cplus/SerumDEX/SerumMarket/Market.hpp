@@ -1,13 +1,12 @@
 #pragma once 
 
-#include "enums.h"
-#include "structs.h"
+#include "enums.hpp"
+#include "structs.hpp"
+#include "constants.hpp"
 
-#include "constants.h"
-#include "sol_sdk/key.h"
-#include "sol_sdk/types.h"
-#include "sol_sdk/cpi.h"
-#include "sol_sdk/entrypoint.h"
+#include "sol_sdk/PublicKey.hpp"
+#include "sol_sdk/Keypair.hpp"
+#include "sol_sdk/Transaction.hpp"
 
 #include <boost/json.hpp>
 #include <boost/format.hpp>
@@ -22,7 +21,7 @@
 #include <sharedlib/include/IMarket.h>
 
 #include <functional>
-#include "transaction.h"
+
 
 
 
@@ -40,10 +39,10 @@ private:
         string base;
         string quote;
 		Instrument instr;
-        SolPubkey market_address;
-        SolPubkey payer_sell;
-        SolPubkey payer_buy;
-        SolPubkey open_order_account;
+        PublicKey market_address;
+        PublicKey payer_sell;
+        PublicKey payer_buy;
+        PublicKey open_order_account;
         MarketLayout parsed_market;
         uint64_t base_spl_token_multiplier;
         uint64_t quote_spl_token_multiplier;
@@ -64,10 +63,8 @@ private:
     >;
     // typedef std::shared_ptr < ILogger > logger_ptr;
 
-    string pubkey_;
-    SolPubkey decoded_pubkey_;
-    string secretkey_;
-    SolKeyPair decoded_secretkey_;
+    PublicKey pubkey_;
+    Keypair secretkey_;
     string http_address_;
     pools_ptr pools_;
     Callback callback_;
@@ -102,13 +99,13 @@ private:
     // translating bytes into a data structure
     std::function<void(void *, const uint8_t *, size_t)> deserialize = std::memcpy;
 
-    void new_order_v3(const NewOrderV3Params&, SolInstruction&);
-    void new_cancel_order_v2(const CancelOrderV2Params&, SolInstruction&);
+    void new_order_v3(const NewOrderV3Params&, Instruction&);
+    void new_cancel_order_v2(const CancelOrderV2Params&, Instruction&);
 
     // precision
     uint64_t price_number_to_lots(long double price, const MarketChannel& info);
     uint64_t base_size_number_to_lots(long double price, const MarketChannel& info);
-    string send_transaction(Transaction& transaction, const std::vector<SolKeyPair>&);
+    string send_transaction(Transaction& transaction, const std::vector<Keypair>&);
 
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);

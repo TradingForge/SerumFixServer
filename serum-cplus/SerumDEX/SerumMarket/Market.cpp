@@ -1,15 +1,13 @@
-#include "market.h"
-#include "instruments.h"
+#include "Market.hpp"
 #include <base64/base64.h>
-#include "sysvar.h"
 #include <iostream>
 #include <cmath>
-#include "transaction.h"
+#include "sol_sdk/Transaction.hpp"
+#include "sysvar.hpp"
 // #include <nacl/crypto_stream.h>
 
 SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback) 
-: pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback),
-  decoded_pubkey_(base58str_to_pubkey(pubkey)), decoded_secretkey_(base58str_to_keypair(secretkey))
+: pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback)
 {
     get_mint_addresses();
 }
@@ -77,7 +75,7 @@ void SerumMarket::place_order(
 void SerumMarket::new_cancel_order_v2(const CancelOrderV2Params& params, SolInstruction& instruction)
 {
     instruction.program_id = params.program_id;
-    instruction.accounts = new SolAccountMeta[6] {
+    instruction.accounts = new AccountMeta[6] {
         SolAccountMeta { pubkey: params.market, is_writable: false, is_signer: false },
         SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
         SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
