@@ -4,9 +4,13 @@ add_library("${SERUM_DEX_NAME}" STATIC
         SerumMD.cpp
         SerumTrade.cpp
         SerumPoolsRequester.cpp
-        SerumMarket/market.cpp
-        SerumMarket/instruments.cpp
-        SerumMarket/transaction.cpp
+        SerumMarket/Market.cpp
+        # SerumMarket/Instruments.cpp
+        SerumMarket/sol_sdk/Transaction.cpp
+        SerumMarket/sol_sdk/Hash.cpp
+        SerumMarket/sol_sdk/Instruction.cpp
+        SerumMarket/sol_sdk/Keypair.cpp
+        SerumMarket/sol_sdk/PublicKey.cpp
 )
 
 find_package(Fix8 REQUIRED)

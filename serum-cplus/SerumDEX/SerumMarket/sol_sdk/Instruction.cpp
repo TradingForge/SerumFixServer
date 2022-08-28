@@ -1,4 +1,5 @@
 #include "Instruction.hpp"
+#include <string.h>
 
 Instruction::Instruction(): program_id(PublicKey()), accounts(AccountMetas(0)), data(bytes(0))
 {}
@@ -34,6 +35,12 @@ void Instruction::set_data(bytes&& data)
     this->data = std::move(data);
 }
 
+void Instruction::set_data(const void* data, size_t size)
+{
+    this->data = bytes(size);
+    memcpy(this->data.data(), data, size);
+}
+
 void Instruction::set_accounts(const AccountMetas& accounts)
 {
     this->accounts = accounts;
@@ -44,15 +51,15 @@ void Instruction::set_accounts(AccountMetas&& accounts)
     this->accounts = std::move(accounts);
 }
 
-void Instruction::add_accounts(const AccountMetas& accounts)
-{
-    this->accounts.emplace_back(accounts);
-}
+// void Instruction::add_accounts(const AccountMetas& accounts)
+// {
+//     this->accounts.emplace_back(accounts);
+// }
 
-void Instruction::add_accounts(AccountMetas&& accounts)
-{
-    this->accounts.emplace_back(std::move(accounts));
-}
+// void Instruction::add_accounts(AccountMetas&& accounts)
+// {
+//     this->accounts.emplace_back(std::move(accounts));
+// }
 
 void Instruction::clear_accounts()
 {

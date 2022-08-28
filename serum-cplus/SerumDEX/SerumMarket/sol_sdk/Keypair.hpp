@@ -15,12 +15,14 @@ class Keypair
     bytes key_b;
 
     bytes _from_base58(const string&);
+    string _to_base58(const bytes&);
 public:
     Keypair();
     Keypair(const string&);
     Keypair(const bytes&);
     Keypair(const Keypair&);
     Keypair(Keypair&&);
+    Keypair(const byte[SIZE_KEYPAIR]);
   
 
     void from_base58(const string&);

@@ -1,5 +1,5 @@
 #pragma once
-#include <sol_sdk/PublicKey.hpp>
+#include "sol_sdk/PublicKey.hpp"
 // Public key of the synthetic account that serves the current network time.
 #define SYSVAR_CLOCK_PUBKEY PublicKey("SysvarC1ock11111111111111111111111111111111")
 // "SysvarC1ock11111111111111111111111111111111"

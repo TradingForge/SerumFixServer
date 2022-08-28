@@ -40,7 +40,7 @@ void SerumMarket::place_order(
         market: info.market_address,
         open_orders: info.open_order_account,
         payer: side == Side::BUY ? info.payer_buy : info.payer_sell,
-        owner: decoded_pubkey_,
+        owner: pubkey_,
         request_queue: info.parsed_market.request_queue,
         event_queue: info.parsed_market.event_queue,
         bids: info.parsed_market.bids,
@@ -58,97 +58,97 @@ void SerumMarket::place_order(
         self_trade_behavior: SelfTradeBehavior::DECREMENT_TAKE,
         limit: 65535,
         client_id: client_id,
-        program_id: base58str_to_pubkey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
+        program_id: MARKET_KEY
     };
 
-    SolInstruction instruction;
+    Instruction instruction;
     new_order_v3(order_instruction, instruction);
 
     Transaction txn;
     txn.add_instruction(instruction);
-    std::vector<SolKeyPair> signers;
-    signers.push_back(decoded_secretkey_);
+    std::vector<Keypair> signers;
+    signers.push_back(secretkey_);
 
     auto res = send_transaction(txn, signers);
 }
 
-void SerumMarket::new_cancel_order_v2(const CancelOrderV2Params& params, SolInstruction& instruction)
-{
-    instruction.program_id = params.program_id;
-    instruction.accounts = new AccountMeta[6] {
-        SolAccountMeta { pubkey: params.market, is_writable: false, is_signer: false },
-        SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.owner, is_writable: false, is_signer: true },
-        SolAccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false }
-    };
-    instruction.account_len = 6;
+// void SerumMarket::new_cancel_order_v2(const CancelOrderV2Params& params, SolInstruction& instruction)
+// {
+//     instruction.program_id = params.program_id;
+//     instruction.accounts = new AccountMeta[6] {
+//         SolAccountMeta { pubkey: params.market, is_writable: false, is_signer: false },
+//         SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
+//         SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
+//         SolAccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
+//         SolAccountMeta { pubkey: params.owner, is_writable: false, is_signer: true },
+//         SolAccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false }
+//     };
+//     instruction.account_len = 6;
 
-    CancelOrderV2 cancel_order_v2;
-    cancel_order_v2.side = params.side;
-    memcpy(cancel_order_v2.order_id, params.order_id, 16);
+//     CancelOrderV2 cancel_order_v2;
+//     cancel_order_v2.side = params.side;
+//     memcpy(cancel_order_v2.order_id, params.order_id, 16);
 
-    auto ord_layout = InstructionLayoutCancelOrderV2 {
-        0,
-        11,
-        cancel_order_v2
-    };
+//     auto ord_layout = InstructionLayoutCancelOrderV2 {
+//         0,
+//         11,
+//         cancel_order_v2
+//     };
 
-    serialize( 
-        instruction.data,
-        &ord_layout,  
-        sizeof(InstructionLayoutCancelOrderV2)
-    );
+//     serialize( 
+//         instruction.data,
+//         &ord_layout,  
+//         sizeof(InstructionLayoutCancelOrderV2)
+//     );
 
-    instruction.data_len = sizeof(InstructionLayoutCancelOrderV2);
-}
+//     instruction.data_len = sizeof(InstructionLayoutCancelOrderV2);
+// }
 
 void SerumMarket::cancel_order(const Instrument& instrument, const Order& order)
 {
-    auto market_info = markets_info.get<MarketChannelsByPool>()
-		.find(boost::make_tuple(
-			instrument.base_currency,
-			instrument.quote_currency
-		));
+    // auto market_info = markets_info.get<MarketChannelsByPool>()
+	// 	.find(boost::make_tuple(
+	// 		instrument.base_currency,
+	// 		instrument.quote_currency
+	// 	));
 
-    if (market_info == markets_info.end()) {
-        auto pls = pools_->getPools();
-        auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
-                return instrument.base_currency == i.base_currency && 
-                    instrument.quote_currency == i.quote_currency;
-            });
+    // if (market_info == markets_info.end()) {
+    //     auto pls = pools_->getPools();
+    //     auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
+    //             return instrument.base_currency == i.base_currency && 
+    //                 instrument.quote_currency == i.quote_currency;
+    //         });
 
-        markets_info.insert(create_market_info(pool));
-        market_info = markets_info.begin();
-    }
+    //     markets_info.insert(create_market_info(pool));
+    //     market_info = markets_info.begin();
+    // }
 
-    auto info = *market_info;
+    // auto info = *market_info;
 
 
 
-    CancelOrderV2Params params {
-        market: info.market_address,
-        bids: info.parsed_market.bids,
-        asks: info.parsed_market.asks,
-        event_queue: info.parsed_market.event_queue,
-        open_orders: info.open_order_account,
-        owner: decoded_pubkey_,
-        side: marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
-        // order_id: 7849659000233099250,
-        // // open_orders_slot: 0,
-        // program_id: base58str_to_pubkey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
-    };
+    // CancelOrderV2Params params {
+    //     market: info.market_address,
+    //     bids: info.parsed_market.bids,
+    //     asks: info.parsed_market.asks,
+    //     event_queue: info.parsed_market.event_queue,
+    //     open_orders: info.open_order_account,
+    //     owner: decoded_pubkey_,
+    //     side: marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
+    //     // order_id: 7849659000233099250,
+    //     // // open_orders_slot: 0,
+    //     // program_id: MARKET_KEY
+    // };
 
-    params.program_id = base58str_to_pubkey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin");
+    // params.program_id = MARKET_KEY;
 
-    SolInstruction instruction;
-    new_cancel_order_v2(params, instruction);
-    Transaction txn;
-    txn.add_instruction(instruction);
-    txn.set_recent_blockhash(get_latest_blockhash());
-    txn.get_message_for_sign();
-    txn.sign(decoded_secretkey_);
+    // SolInstruction instruction;
+    // new_cancel_order_v2(params, instruction);
+    // Transaction txn;
+    // txn.add_instruction(instruction);
+    // txn.set_recent_blockhash(get_latest_blockhash());
+    // txn.get_message_for_sign();
+    // txn.sign(decoded_secretkey_);
 }
 
 void SerumMarket::send_new_order(const Instrument& instrument, const Order& order) 
@@ -173,7 +173,7 @@ void SerumMarket::send_new_order(const Instrument& instrument, const Order& orde
     // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
 
     place_order(
-        *market_info,
+        **market_info,
         OrderType::LIMIT,
         order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
         order.price,
@@ -183,32 +183,32 @@ void SerumMarket::send_new_order(const Instrument& instrument, const Order& orde
     );
 }
 
-SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& instr)
+SerumMarket::MarketChannel* SerumMarket::create_market_info(const Instrument& instr)
 {
-    auto payer_buy = get_token_account_by_owner(pubkey_, instr.quote_mint_address);
+    auto payer_buy = get_token_account_by_owner(pubkey_.get_str_key(), instr.quote_mint_address);
 
     // TODO place_order_open_order_account if open_order_account not exist
     auto open_order_account = get_token_program_account(
-        "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+        MARKET_KEY.get_str_key(),
         instr.address,
-        pubkey_
+        pubkey_.get_str_key()
     );
 
-    return MarketChannel {
+    return new MarketChannel {
         base: instr.base_currency,
         quote: instr.quote_currency,
         instr: instr,
-        market_address: base58str_to_pubkey(instr.address),
-        payer_sell: base58str_to_pubkey(pubkey_),
-        payer_buy: base58str_to_pubkey(payer_buy),
-        open_order_account: base58str_to_pubkey(open_order_account),
+        market_address: instr.address,
+        payer_sell: pubkey_,
+        payer_buy: payer_buy,
+        open_order_account: open_order_account,
         parsed_market: get_market_layout(instr.address),
         base_spl_token_multiplier: static_cast<uint64_t>(pow(10, get_mint_decimals(instr.base_mint_address))),
         quote_spl_token_multiplier: static_cast<uint64_t>(pow(10, get_mint_decimals(instr.quote_mint_address)))
     };
 }
 
-MarketLayout SerumMarket::get_market_layout(const string& market_address)
+SerumMarket::MarketLayout SerumMarket::get_market_layout(const string& market_address)
 {
     auto account_data = base64_decode(
         string(boost::json::parse(get_account_info(market_address)).at("result").at("value").at("data").as_array()[0].as_string().c_str())
@@ -227,12 +227,22 @@ MarketLayout SerumMarket::get_market_layout(const string& market_address)
     // n\270\317\003\021\221u\371\200QCD\225\\\343p\347e\224\017<)C\225E\373E\251\246\337\321\\Pw\005\371\063\233\225<\032M\375
     // \274\234\301\206\335/b\337H\251X\004^*vRY\000\341\365\005\000\000\000\000d\000\000\000\000\000\000\000\000\000\000
     // \000\000\000\000\000`\330n\217\020\000\000\000padding"
-    auto buffer_size = account_data.size() - 5 - 7;
-    char buffer[buffer_size];
-    account_data.copy(buffer, buffer_size, 5);
-    MarketLayout tmp; 
-    deserialize((void*)&tmp, (uint8_t*)buffer, buffer_size);
-    return tmp;
+    // auto buffer_size = account_data.size() - 5 - 7;
+    // char buffer[buffer_size];
+    // account_data.copy(buffer, buffer_size, 5);
+    SolMarketLayout market; 
+    memcpy((void*)&market, account_data.data(), account_data.size());
+
+    return MarketLayout {
+        request_queue: PublicKey(market.request_queue),
+        event_queue: PublicKey(market.event_queue),
+        bids: PublicKey(market.bids),
+        asks: PublicKey(market.asks),
+        base_vault: PublicKey(market.base_vault),
+        quote_vault: PublicKey(market.quote_vault),
+        base_lot_size: market.base_lot_size,
+        quote_lot_size: market.quote_lot_size
+    };
 }
 
 uint8_t SerumMarket::get_mint_decimals(const string& mint_address)
@@ -399,7 +409,7 @@ std::string SerumMarket::get_account_info(const string& account)
 */
 
 
-std::string SerumMarket::send_transaction(Transaction &txn, const std::vector<SolKeyPair> &signers)
+std::string SerumMarket::send_transaction(Transaction &txn, const std::vector<Keypair> &signers)
 {
 
     auto blhs = get_latest_blockhash();
@@ -435,35 +445,23 @@ std::string SerumMarket::send_transaction(Transaction &txn, const std::vector<So
     return data_str;
 }
 
-void SerumMarket::new_order_v3(const NewOrderV3Params& params, SolInstruction& instruction) 
+void SerumMarket::new_order_v3(const NewOrderV3Params& params, Instruction& instruction) 
 {
-    instruction.program_id = params.program_id;
-    instruction.accounts = new SolAccountMeta[12] {
-        SolAccountMeta { pubkey: params.market, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.request_queue, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.payer, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.owner, is_writable: true, is_signer: true },
-        SolAccountMeta { pubkey: params.base_vault, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: params.quote_vault, is_writable: true, is_signer: false },
-        SolAccountMeta { pubkey: base58str_to_pubkey(TOKEN_PROGRAM_ID), is_writable: false, is_signer: false },
-        SolAccountMeta { pubkey: base58str_to_pubkey(SYSVAR_RENT_PUBKEY), is_writable: false, is_signer: false }
-    };
-    instruction.account_len = 12;
-
-    // auto order = NewOrderV3 {
-    //         side: params.side,
-    //         limit_price: params.limit_price,
-    //         max_base_quantity: params.max_base_quantity,
-    //         max_quote_quantity: params.max_quote_quantity,
-    //         self_trade_behavior: params.self_trade_behavior,
-    //         order_type: params.order_type,
-    //         client_id: params.client_id,
-    //         limit: 65535
-    //     };
+    instruction.set_account_id(params.program_id);
+    instruction.set_accounts( Instruction::AccountMetas({
+        Instruction::AccountMeta { pubkey: params.market, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.request_queue, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.payer, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.owner, is_writable: true, is_signer: true },
+        Instruction::AccountMeta { pubkey: params.base_vault, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.quote_vault, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: TOKEN_PROGRAM_ID, is_writable: false, is_signer: false },
+        Instruction::AccountMeta { pubkey: SYSVAR_RENT_PUBKEY, is_writable: false, is_signer: false }
+    }));
 
     auto ord_layout = InstructionLayoutOrderV3 {
         0,
@@ -479,23 +477,9 @@ void SerumMarket::new_order_v3(const NewOrderV3Params& params, SolInstruction& i
             limit: 65535
         }
     };
-    serialize( 
-        instruction.data,
-        &ord_layout,  
-        sizeof(InstructionLayoutOrderV3)
-    );
-    instruction.data_len = sizeof(InstructionLayoutOrderV3);
+
+    instruction.set_data(&ord_layout, sizeof(InstructionLayoutOrderV3));
 }
-
-// void SerumMarket::deserialize(char* dest, void* src, size_t data_size)
-// {
-//     memcpy(str, data, data_size);
-// }
-
-// void SerumMarket::serialize(char* dest, const void* src, size_t data_size)
-// {
-//     memcpy(dest, src, data_size);
-// }
 
 uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChannel& info)
 {

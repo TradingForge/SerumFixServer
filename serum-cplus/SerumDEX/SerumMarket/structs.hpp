@@ -100,25 +100,25 @@ struct InstructionLayoutCancelOrderV2
     CancelOrderV2 order;
 };
 
-struct MarketLayout
+struct SolMarketLayout
 {
     uint8_t serum[5];
     uint64_t account_flags;
-    PublicKey own_address;
+    uint8_t own_address[SIZE_PUBKEY];
     uint64_t vault_signer_nonce;
-    PublicKey base_mint;
-    PublicKey quote_mint;
-    PublicKey base_vault;
+    uint8_t base_mint[SIZE_PUBKEY];
+    uint8_t quote_mint[SIZE_PUBKEY];
+    uint8_t base_vault[SIZE_PUBKEY];
     uint64_t base_deposits_total;
     uint64_t base_fees_accrued;
-    PublicKey quote_vault;
+    uint8_t quote_vault[SIZE_PUBKEY];
     uint64_t quote_deposits_total;
     uint64_t quote_fees_accrued;
     uint64_t quote_dust_threshold;
-    PublicKey request_queue;
-    PublicKey event_queue;
-    PublicKey bids;
-    PublicKey asks;
+    uint8_t request_queue[SIZE_PUBKEY];
+    uint8_t event_queue[SIZE_PUBKEY];
+    uint8_t bids[SIZE_PUBKEY];
+    uint8_t asks[SIZE_PUBKEY];
     uint64_t base_lot_size;
     uint64_t quote_lot_size;
     uint64_t fee_rate_bps;

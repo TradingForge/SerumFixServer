@@ -14,7 +14,7 @@ Keypair::Keypair(const bytes& key)
     }
 
     key_b = key;
-    key_str = base58_encode(string((char*)key.data(), key.size()));
+    key_str = _to_base58(key_b);
 } 
 
 Keypair::Keypair(const Keypair& other) : key_str(other.key_str), key_b(other.key_b)
@@ -24,6 +24,11 @@ Keypair::Keypair(Keypair&& other) : key_str(other.key_str), key_b(other.key_b)
 {
     other.key_b = bytes(0);
     other.key_str = "";
+}
+
+Keypair:: Keypair(const byte key[SIZE_KEYPAIR]) : key_b(key, key + SIZE_KEYPAIR)
+{
+    key_str = _to_base58(key_b);
 }
 
 Keypair::~Keypair()
@@ -48,6 +53,11 @@ Keypair::bytes Keypair::_from_base58(const string& key)
     auto res = bytes(SIZE_KEYPAIR);
     memcpy(res.data(), decoded_key.data(), SIZE_KEYPAIR);
     return res;
+}
+
+Keypair::string Keypair::_to_base58(const bytes& key)
+{
+    return base58_encode(string((char*)key.data(), key.size()));
 }
 
 bool operator==(const Keypair &k1, const Keypair &k2)

@@ -15,16 +15,21 @@ PublicKey::PublicKey(const bytes& key)
     }
 
     key_b = key;
-    key_str = base58_encode(string((char*)key.data(), key.size()));
+    key_str = _to_base58(key_b);
 } 
 
 PublicKey::PublicKey(const PublicKey& other) : key_str(other.key_str), key_b(other.key_b)
 {}
 
-PublicKey::PublicKey(PublicKey&& other) : key_str(other.key_str), key_b(other.key_b)
+PublicKey::PublicKey(PublicKey&& other) : key_str(std::move(other.key_str)), key_b(std::move(other.key_b))
 {
-    other.key_b = bytes(0);
-    other.key_str = "";
+    // other.key_b = bytes(0);
+    // other.key_str = "";
+}
+
+PublicKey::PublicKey(const byte key[SIZE_PUBKEY]) : key_b(key, key + SIZE_PUBKEY)
+{
+    key_str = _to_base58(key_b);
 }
 
 PublicKey::~PublicKey()
@@ -42,6 +47,11 @@ PublicKey::bytes PublicKey::_from_base58(const string& key)
     auto res = bytes(SIZE_PUBKEY);
     memcpy(res.data(), decoded_key.data(), SIZE_PUBKEY);
     return res;
+}
+
+PublicKey::string PublicKey::_to_base58(const bytes& key)
+{
+    return base58_encode(string((char*)key.data(), key.size()));
 }
 
 bool operator==(const PublicKey &k1, const PublicKey &k2)

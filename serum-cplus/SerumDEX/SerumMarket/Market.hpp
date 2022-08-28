@@ -22,6 +22,7 @@
 
 #include <functional>
 
+#define MARKET_KEY PublicKey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
 
 
 
@@ -33,6 +34,18 @@ private:
     typedef marketlib::order_t Order;
     typedef marketlib::instrument_descr_t Instrument;
     typedef std::function <void(const string&, const Instrument&, const string&)> Callback;
+
+    struct MarketLayout
+    {
+        PublicKey request_queue;
+        PublicKey event_queue;
+        PublicKey bids;
+        PublicKey asks;
+        PublicKey base_vault;
+        PublicKey quote_vault;
+        uint64_t base_lot_size;
+        uint64_t quote_lot_size;
+    };
 
     struct MarketChannel
     {
@@ -49,7 +62,7 @@ private:
     };
 
     using MarketChannels = boost::multi_index::multi_index_container<
-        MarketChannel,
+        MarketChannel*,
         boost::multi_index::indexed_by<
             boost::multi_index::hashed_unique<
                 boost::multi_index::tag<struct MarketChannelsByPool>,
@@ -84,7 +97,7 @@ private:
     // create market info
 
     void get_mint_addresses();
-    MarketChannel create_market_info(const Instrument&);
+    MarketChannel* create_market_info(const Instrument&);
     MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
     string get_latest_blockhash();
@@ -92,12 +105,12 @@ private:
     string get_token_program_account(const string&, const string&, const string&);
     uint8_t get_mint_decimals(const string&);
 
-    // translating a data structure into bytes 
-    std::function<void(uint8_t *, const void *, size_t)> serialize = std::memcpy;
+    // // translating a data structure into bytes 
+    // std::function<void(uint8_t *, const void *, size_t)> serialize = std::memcpy;
 
 
-    // translating bytes into a data structure
-    std::function<void(void *, const uint8_t *, size_t)> deserialize = std::memcpy;
+    // // translating bytes into a data structure
+    // std::function<void(void *, const uint8_t *, size_t)> deserialize = std::memcpy;
 
     void new_order_v3(const NewOrderV3Params&, Instruction&);
     void new_cancel_order_v2(const CancelOrderV2Params&, Instruction&);
