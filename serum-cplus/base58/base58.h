@@ -5,8 +5,6 @@
 #include "alphabets.h"
 #include <gmpxx.h>
 
-#define BASE 58
-
 enum Alphabet
 {
     Bitcoin,
