@@ -2,8 +2,8 @@
 #include <string>
 #include <atomic>
 
-#include <SerumDEX/SerumMarket/market.h>
-#include <SerumDEX/SerumMarket/structs.h>
+#include <SerumDEX/SerumMarket/Market.hpp>
+#include <SerumDEX/SerumMarket/structs.hpp>
 #include <SerumDEX/SerumPoolsRequester.h>
 #include <marketlib/include/BrokerModels.h>
 #include <marketlib/include/enums.h>
