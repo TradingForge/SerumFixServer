@@ -98,6 +98,7 @@ private:
 
     void get_mint_addresses();
     MarketChannel* create_market_info(const Instrument&);
+    MarketChannel* get_market_info(const Instrument&);
     MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
     string get_latest_blockhash();
@@ -113,7 +114,8 @@ private:
     // std::function<void(void *, const uint8_t *, size_t)> deserialize = std::memcpy;
 
     void new_order_v3(const NewOrderV3Params&, Instruction&);
-    void new_cancel_order_v2(const CancelOrderV2Params&, Instruction&);
+    // void new_cancel_order_v2(const CancelOrderV2Params&, Instruction&);
+    void new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams& params, Instruction& instruction);
 
     // precision
     uint64_t price_number_to_lots(long double price, const MarketChannel& info);

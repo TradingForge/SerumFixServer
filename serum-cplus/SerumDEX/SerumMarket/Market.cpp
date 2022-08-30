@@ -32,7 +32,7 @@ void SerumMarket::place_order(
     Side side,
     double limit_price,
     double max_quantity,
-    uint64_t client_id = 0 
+    uint64_t client_id
 )
 {
     struct NewOrderV3Params order_instruction = 
@@ -61,6 +61,10 @@ void SerumMarket::place_order(
         program_id: MARKET_KEY
     };
 
+    // TODO: make wrapping
+    // bool should_wrap_sol = (side == Side::BUY && info.quote == WRAPPED_SOL_MINT) || 
+    // (side == Side::SELL && info.base == WRAPPED_SOL_MINT);
+
     Instruction instruction;
     new_order_v3(order_instruction, instruction);
 
@@ -72,86 +76,123 @@ void SerumMarket::place_order(
     auto res = send_transaction(txn, signers);
 }
 
-// void SerumMarket::new_cancel_order_v2(const CancelOrderV2Params& params, SolInstruction& instruction)
-// {
-//     instruction.program_id = params.program_id;
-//     instruction.accounts = new AccountMeta[6] {
-//         SolAccountMeta { pubkey: params.market, is_writable: false, is_signer: false },
-//         SolAccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
-//         SolAccountMeta { pubkey: params.owner, is_writable: false, is_signer: true },
-//         SolAccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false }
-//     };
-//     instruction.account_len = 6;
-
-//     CancelOrderV2 cancel_order_v2;
-//     cancel_order_v2.side = params.side;
-//     memcpy(cancel_order_v2.order_id, params.order_id, 16);
-
-//     auto ord_layout = InstructionLayoutCancelOrderV2 {
-//         0,
-//         11,
-//         cancel_order_v2
-//     };
-
-//     serialize( 
-//         instruction.data,
-//         &ord_layout,  
-//         sizeof(InstructionLayoutCancelOrderV2)
-//     );
-
-//     instruction.data_len = sizeof(InstructionLayoutCancelOrderV2);
-// }
-
 void SerumMarket::cancel_order(const Instrument& instrument, const Order& order)
 {
-    // auto market_info = markets_info.get<MarketChannelsByPool>()
-	// 	.find(boost::make_tuple(
-	// 		instrument.base_currency,
-	// 		instrument.quote_currency
-	// 	));
+    auto market_info = *get_market_info(instrument);
 
-    // if (market_info == markets_info.end()) {
-    //     auto pls = pools_->getPools();
-    //     auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
-    //             return instrument.base_currency == i.base_currency && 
-    //                 instrument.quote_currency == i.quote_currency;
-    //         });
+    CancelOrderV2ByClientIdParams params {
+        market: market_info.market_address,
+        bids: market_info.parsed_market.bids,
+        asks: market_info.parsed_market.asks,
+        event_queue: market_info.parsed_market.event_queue,
+        open_orders: market_info.open_order_account,
+        owner: pubkey_,
+        client_id: 7849659000233099250
+        // program_id: MARKET_KEY
+    };
 
-    //     markets_info.insert(create_market_info(pool));
-    //     market_info = markets_info.begin();
-    // }
+    params.program_id = MARKET_KEY;
 
-    // auto info = *market_info;
-
-
-
-    // CancelOrderV2Params params {
-    //     market: info.market_address,
-    //     bids: info.parsed_market.bids,
-    //     asks: info.parsed_market.asks,
-    //     event_queue: info.parsed_market.event_queue,
-    //     open_orders: info.open_order_account,
-    //     owner: decoded_pubkey_,
-    //     side: marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
-    //     // order_id: 7849659000233099250,
-    //     // // open_orders_slot: 0,
-    //     // program_id: MARKET_KEY
-    // };
-
-    // params.program_id = MARKET_KEY;
-
-    // SolInstruction instruction;
-    // new_cancel_order_v2(params, instruction);
-    // Transaction txn;
-    // txn.add_instruction(instruction);
+    Instruction instruction;
+    new_cancel_order_by_client_id_v2(params, instruction);
+    Transaction txn;
+    txn.add_instruction(instruction);
     // txn.set_recent_blockhash(get_latest_blockhash());
     // txn.get_message_for_sign();
-    // txn.sign(decoded_secretkey_);
+    std::vector<Keypair> signers;
+    signers.push_back(secretkey_);
+
+    auto res = send_transaction(txn, signers);
 }
 
 void SerumMarket::send_new_order(const Instrument& instrument, const Order& order) 
+{
+    auto market_info = get_market_info(instrument);
+
+    // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
+
+    place_order(
+        *market_info,
+        OrderType::LIMIT,
+        order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
+        order.price,
+        order.original_qty,
+        // TODO Cli_id
+        7849659000233099250
+    );
+}
+
+void SerumMarket::new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams& params, Instruction& instruction)
+{
+    instruction.set_account_id(params.program_id);
+    instruction.set_accounts( Instruction::AccountMetas({
+        Instruction::AccountMeta { pubkey: params.market, is_writable: false, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { params.owner, is_writable: true, is_signer: true },
+        Instruction::AccountMeta { params.event_queue, is_writable: true, is_signer: false }
+    }));
+
+    // CancelOrderByClientIdV2 cancel_order_v2{
+
+    // };
+    // cancel_order_v2.side = params.side;
+    // memcpy(cancel_order_v2.order_id, params.order_id, 16);
+
+    auto ord_layout = InstructionLayoutCancelOrderByClientIdV2 {
+        0,
+        InstructionType::CANCEL_ORDER_BY_CLIENT_ID_V2,
+        CancelOrderByClientIdV2{
+            order_id: params.client_id
+        }
+    };
+
+    instruction.set_data(&ord_layout, sizeof(InstructionLayoutCancelOrderByClientIdV2));
+    // serialize( 
+    //     instruction.data,
+    //     &ord_layout,  
+    //     sizeof(InstructionLayoutCancelOrderV2)
+    // );
+}
+
+void SerumMarket::new_order_v3(const NewOrderV3Params& params, Instruction& instruction) 
+{
+    instruction.set_account_id(params.program_id);
+    instruction.set_accounts( Instruction::AccountMetas({
+        Instruction::AccountMeta { pubkey: params.market, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.request_queue, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.payer, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.owner, is_writable: true, is_signer: true },
+        Instruction::AccountMeta { pubkey: params.base_vault, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params.quote_vault, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: TOKEN_PROGRAM_ID, is_writable: false, is_signer: false },
+        Instruction::AccountMeta { pubkey: SYSVAR_RENT_PUBKEY, is_writable: false, is_signer: false }
+    }));
+
+    auto ord_layout = InstructionLayoutOrderV3 {
+        0,
+        10,
+        NewOrderV3 {
+            side: params.side,
+            limit_price: params.limit_price,
+            max_base_quantity: params.max_base_quantity,
+            max_quote_quantity: params.max_quote_quantity,
+            self_trade_behavior: params.self_trade_behavior,
+            order_type: params.order_type,
+            client_id: params.client_id,
+            limit: 65535
+        }
+    };
+
+    instruction.set_data(&ord_layout, sizeof(InstructionLayoutOrderV3));
+}
+
+SerumMarket::MarketChannel* SerumMarket::get_market_info(const Instrument& instrument)
 {
     auto market_info = markets_info.get<MarketChannelsByPool>()
 		.find(boost::make_tuple(
@@ -170,17 +211,7 @@ void SerumMarket::send_new_order(const Instrument& instrument, const Order& orde
         market_info = markets_info.begin();
     }
 
-    // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
-
-    place_order(
-        **market_info,
-        OrderType::LIMIT,
-        order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
-        order.price,
-        order.original_qty,
-        // TODO Cli_id
-        7849659000233099250
-    );
+    return *market_info;
 }
 
 SerumMarket::MarketChannel* SerumMarket::create_market_info(const Instrument& instr)
@@ -409,6 +440,24 @@ std::string SerumMarket::get_account_info(const string& account)
 */
 
 
+
+// std::string to_hex_string(const std::string &input)
+// {
+//   static const char characters[] = "0123456789abcdef";
+
+//   // Zeroes out the buffer unnecessarily, can't be avoided for std::string.
+//   std::string ret;
+  
+//   // Hack... Against the rules but avoids copying the whole buffer.
+  
+//   for (const auto &oneInputByte : input)
+//   {
+//     ret.push_back(characters[(oneInputByte >> 4) & 0xf]);
+//     ret.push_back(characters[oneInputByte & 0xf]);
+//   }
+//   return ret;
+// }
+
 std::string SerumMarket::send_transaction(Transaction &txn, const std::vector<Keypair> &signers)
 {
 
@@ -416,6 +465,10 @@ std::string SerumMarket::send_transaction(Transaction &txn, const std::vector<Ke
     txn.set_recent_blockhash(blhs);
     txn.sign(signers[0]);
     auto msg = txn.serialize();
+
+    // auto hex_msg = to_hex_string(msg);
+    // std::cout << hex_msg << std::endl;
+
     auto decode_msg = base64_encode(msg);
     string data_str;
     try{
@@ -443,42 +496,6 @@ std::string SerumMarket::send_transaction(Transaction &txn, const std::vector<Ke
         return "";
     }
     return data_str;
-}
-
-void SerumMarket::new_order_v3(const NewOrderV3Params& params, Instruction& instruction) 
-{
-    instruction.set_account_id(params.program_id);
-    instruction.set_accounts( Instruction::AccountMetas({
-        Instruction::AccountMeta { pubkey: params.market, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: params.open_orders, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: params.request_queue, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: params.event_queue, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: params.bids, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: params.asks, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: params.payer, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: params.owner, is_writable: true, is_signer: true },
-        Instruction::AccountMeta { pubkey: params.base_vault, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: params.quote_vault, is_writable: true, is_signer: false },
-        Instruction::AccountMeta { pubkey: TOKEN_PROGRAM_ID, is_writable: false, is_signer: false },
-        Instruction::AccountMeta { pubkey: SYSVAR_RENT_PUBKEY, is_writable: false, is_signer: false }
-    }));
-
-    auto ord_layout = InstructionLayoutOrderV3 {
-        0,
-        10,
-        NewOrderV3 {
-            side: params.side,
-            limit_price: params.limit_price,
-            max_base_quantity: params.max_base_quantity,
-            max_quote_quantity: params.max_quote_quantity,
-            self_trade_behavior: params.self_trade_behavior,
-            order_type: params.order_type,
-            client_id: params.client_id,
-            limit: 65535
-        }
-    };
-
-    instruction.set_data(&ord_layout, sizeof(InstructionLayoutOrderV3));
 }
 
 uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChannel& info)

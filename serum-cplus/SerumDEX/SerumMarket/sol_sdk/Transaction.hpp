@@ -36,7 +36,7 @@ private:
 
     // string get_message_for_sign();
     bool compare_key(const PublicKey&, const PublicKey&);
-    void add_keys(bytes&, const std::vector<const PublicKey*>&, size_t);
+    void add_keys(bytes&, const std::vector< PublicKey>&, size_t);
     uint8_t index_of_pub_key(const PublicKey& , const bytes&);
     bytes compile_instruction(const Instruction&, const bytes&);
     bytes get_message_from_instructions(const Instructions&, const bytes&);

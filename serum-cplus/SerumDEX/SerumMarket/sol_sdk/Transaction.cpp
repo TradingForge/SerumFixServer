@@ -48,6 +48,19 @@ std::string Transaction::serialize() const
     return msg;
 }
 
+std::string to_hex_string(const std::string &input)
+{
+  static const char characters[] = "0123456789abcdef";
+  std::string ret;
+  
+  for (const auto &oneInputByte : input)
+  {
+    ret.push_back(characters[(oneInputByte >> 4) & 0xf]);
+    ret.push_back(characters[oneInputByte & 0xf]);
+  }
+  return ret;
+}
+
 void Transaction::sign(const Keypair& private_key)
 {    
     CryptoPP::byte raw_private_key[SIZE_PUBKEY];
@@ -56,8 +69,9 @@ void Transaction::sign(const Keypair& private_key)
     memcpy(raw_public_key, private_key.data() + SIZE_PUBKEY, SIZE_PUBKEY);
     CryptoPP::ed25519::Signer signer(raw_public_key, raw_private_key);
 
-    if (serialized_message.size() == 0) 
+    if (serialized_message.size() == 0)
         serialized_message = get_message_for_sign();
+    std::cout<< to_hex_string(serialized_message) << std::endl;
     string signature;
 
     CryptoPP::AutoSeededRandomPool prng;
@@ -84,32 +98,32 @@ std::string Transaction::get_message_for_sign()
     // _message.data = bytes(datas_len, 0);
     // size_t occupied = 0;
 
-    std::vector<const PublicKey*> signed_writable_accounts;
-    std::vector<const PublicKey*> signed_accounts;
-    std::vector<const PublicKey*> writable_accounts;
-    std::vector<const PublicKey*> other_accounts;
+    std::vector< PublicKey> signed_writable_accounts;
+    std::vector< PublicKey> signed_accounts;
+    std::vector< PublicKey> writable_accounts;
+    std::vector< PublicKey> other_accounts;
 
     for (auto instr: instructions) {
         _message.header.num_accounts += instr.accounts.size();
-        auto tmp = instr.accounts.cbegin();
+        auto tmp = instr.accounts.begin();
         for (size_t i = 0; i < instr.accounts.size(); i++, tmp++) {
             if (tmp->is_signer) {
                 ++_message.header.num_required_signatures;
                 if (tmp->is_writable) {
-                    signed_writable_accounts.push_back(&tmp->pubkey);
+                    signed_writable_accounts.push_back(tmp->pubkey);
                 }
                 else {
                     ++_message.header.num_readonly_signed_accounts;
-                    signed_accounts.push_back(&tmp->pubkey);
+                    signed_accounts.push_back(tmp->pubkey);
                 }
             }
             else {
                 if (tmp->is_writable) {
-                    writable_accounts.push_back(&tmp->pubkey);
+                    writable_accounts.push_back(tmp->pubkey);
                 }
                 else {
                     ++_message.header.num_readonly_unsigned_accounts;
-                    other_accounts.push_back(&tmp->pubkey);
+                    other_accounts.push_back(tmp->pubkey);
                 }
             }
         }
@@ -118,7 +132,7 @@ std::string Transaction::get_message_for_sign()
     }
 
     // TODO add all program id
-    other_accounts.push_back(&instructions[0].program_id);
+    other_accounts.push_back(instructions[0].program_id);
     // _message.header.num_accounts = _message.header.num_required_signatures 
     //     + _message.header.num_readonly_signed_accounts 
     //     + _message.header.num_readonly_unsigned_accounts;
@@ -150,7 +164,7 @@ std::string Transaction::get_message_for_sign()
     shift += 4;
     memcpy(msg + shift, _message.account_keys.data(), _message.account_keys.size()); 
     shift += _message.account_keys.size();
-    memcpy(msg + shift, &_message.recent_blockhash, SIZE_HASH); 
+    memcpy(msg + shift, _message.recent_blockhash.data(), SIZE_HASH); 
     shift += SIZE_HASH;
     memcpy(msg + shift, compiled_instructions.data(), compiled_instructions.size()); 
     shift += compiled_instructions.size();
@@ -213,17 +227,17 @@ uint8_t Transaction::index_of_pub_key(const PublicKey& pubkey, const bytes& keys
 {
     uint8_t count = static_cast<uint8_t>(keys.size() / SIZE_PUBKEY);
     for (uint8_t i = 0; i < count; i++) {
-        if (memcmp(&pubkey, keys.data() + i*SIZE_PUBKEY, SIZE_PUBKEY) == 0) {
+        if (memcmp(pubkey.data(), keys.data() + i*SIZE_PUBKEY, SIZE_PUBKEY) == 0) {
             return i;
         }
     }
     return -1;
 }
 
-void Transaction::add_keys(bytes& data, const std::vector<const PublicKey*>& new_keys, size_t shift)
+void Transaction::add_keys(bytes& data, const std::vector< PublicKey>& new_keys, size_t shift)
 {
     for (auto key : new_keys) {
-        memcpy(data.data() + shift, key, SIZE_PUBKEY);
+        memcpy(data.data() + shift, key.data(), SIZE_PUBKEY);
         shift += SIZE_PUBKEY;
     }
 }

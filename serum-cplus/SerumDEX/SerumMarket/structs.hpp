@@ -53,6 +53,18 @@ struct InitializeMarket
     uint64_t quote_dust_threshold;
 };
 
+struct CancelOrderV2ByClientIdParams
+{
+    PublicKey market;
+    PublicKey bids;
+    PublicKey asks;
+    PublicKey event_queue;
+    PublicKey open_orders;
+    PublicKey owner;
+    uint64_t client_id;
+    PublicKey program_id;
+};
+
 struct CancelOrderV2Params
 {
     PublicKey market;
@@ -93,11 +105,23 @@ struct CancelOrderV2
     uint8_t order_id[16];
 };
 
+struct CancelOrderByClientIdV2
+{
+    uint64_t order_id;
+};
+
 struct InstructionLayoutCancelOrderV2
 {
     uint8_t version {0};
     uint32_t type {11};
     CancelOrderV2 order;
+};
+
+struct InstructionLayoutCancelOrderByClientIdV2
+{
+    uint8_t version {0};
+    uint32_t type {12};
+    CancelOrderByClientIdV2 order;
 };
 
 struct SolMarketLayout
