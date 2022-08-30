@@ -32,5 +32,6 @@ int main ()
     order.side = order_side_t::os_Buy;
 
 
-    market.send_new_order(instrument, order);
+    // market.send_new_order(instrument, order);
+    market.cancel_order(instrument, order);
 }
