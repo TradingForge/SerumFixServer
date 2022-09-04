@@ -2,6 +2,8 @@
 
 #include "sol_sdk/PublicKey.hpp"
 
+using namespace solana;
+
 // Data length of a token mint account.
 #define MINT_LEN 82
 

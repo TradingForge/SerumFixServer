@@ -2,6 +2,10 @@
 #include "sol_sdk/PublicKey.hpp"
 #include "enums.hpp"
 #include <string>
+#include <stdint.h>
+
+using namespace solana;
+
 #define VERSION 0
 
 struct Mintlayout
@@ -34,14 +38,12 @@ struct NewOrderV3Params
     PublicKey program_id;
 };
 
-struct Order
+struct CreateAccountParams
 {
-  std::string first;
-  std::string second;
-  double amount;
-  double price;
-  Side side;
-  long long unsigned int client_id = 0;
+    PublicKey owner;
+    PublicKey new_account;
+    uint64_t lamports;
+    PublicKey program_id;
 };
 
 struct InitializeMarket
@@ -77,6 +79,30 @@ struct CancelOrderV2Params
     uint8_t order_id[16];
     // uint64_t open_orders_slot;
     PublicKey program_id;
+};
+
+struct InitializeAccountParams
+{
+    PublicKey account;
+    PublicKey mint;
+    PublicKey owner;
+    // PublicKey sysvar;
+    PublicKey program_id;
+};
+
+struct CloseAccountParams
+{
+    PublicKey account;
+    PublicKey owner;
+    PublicKey dest;
+    PublicKey program_id;
+};
+
+struct OpenOrdersAccountInfo
+{
+    PublicKey account;
+    uint64_t base_token_free;
+    uint64_t quote_token_free;
 };
 
 #pragma pack(push,1)
@@ -124,6 +150,14 @@ struct InstructionLayoutCancelOrderByClientIdV2
     CancelOrderByClientIdV2 order;
 };
 
+struct InstructionLayoutCreateOrder
+{
+    uint32_t type {0};
+    uint64_t lamports;
+    uint64_t space;
+    uint8_t owner[SIZE_PUBKEY];
+};
+
 struct SolMarketLayout
 {
     uint8_t serum[5];
@@ -149,4 +183,24 @@ struct SolMarketLayout
     uint64_t referrer_rebate_accrued;
     uint8_t padding[7];
 };
+
+struct SolOpenOrderLayout
+{
+    uint8_t serum[5];
+    uint64_t account_flags;
+    uint8_t market[SIZE_PUBKEY];
+    uint8_t owner[SIZE_PUBKEY];
+    uint64_t base_token_free;
+    uint64_t base_token_total;
+    uint64_t quote_token_free;
+    uint64_t quote_token_total;
+    __uint128_t free_slot_bits;
+    __uint128_t is_bid_bits;
+    __uint128_t orders[128];
+    uint64_t client_ids[128];
+    uint64_t referrer_rebate_accrued;
+    uint8_t padding[7];
+};
 #pragma pack(pop)
+
+
