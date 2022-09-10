@@ -1,30 +1,29 @@
 #include "Transaction.hpp"
 #include <base58/base58.h>
-// #include "Instruments.hpp"
 #include <algorithm>
 #include <functional>
 #include <numeric>
 #include <string.h>
 #include <iostream>
-// #include <openssl/x509.h>
 #include <cryptopp/xed25519.h>
 #include <cryptopp/osrng.h>
+#include <set>
 
 
 namespace solana
 {
-    std::string to_hex(const uint8_t* vec, size_t len)
+    std::string to_hex_string(const std::string &input)
     {
-        std::string map = "0123456789abcdef";
-        std::string res = "";
-        for (size_t i = 0; i < len; i++, vec++) {
-            res.push_back(map[(*vec >> 4) & 0xf]);
-            res.push_back(map[*vec & 0xf]);
+        static const char characters[] = "0123456789abcdef";
+        std::string ret;
+        
+        for (const auto &oneInputByte : input)
+        {
+            ret.push_back(characters[(oneInputByte >> 4) & 0xf]);
+            ret.push_back(characters[oneInputByte & 0xf]);
         }
-
-        return res;
+        return ret;
     }
-
 
     void Transaction::add_instruction(const Instruction& instruction)
     {
@@ -36,7 +35,7 @@ namespace solana
         _message.recent_blockhash = Hash(blockhash);
     }
 
-    std::string Transaction::serialize() const
+    Transaction::string Transaction::serialize() const
     {
         string msg = "";
 
@@ -47,23 +46,17 @@ namespace solana
             msg.insert(msg.end(), sign.begin(), sign.end());
 
         msg.insert(msg.end(), serialized_message.begin(), serialized_message.end());
+        std::cout<< to_hex_string(msg) << std::endl;
         return msg;
     }
 
-    std::string to_hex_string(const std::string &input)
+    void Transaction::sign(const Signers& signers)
     {
-    static const char characters[] = "0123456789abcdef";
-    std::string ret;
-    
-    for (const auto &oneInputByte : input)
-    {
-        ret.push_back(characters[(oneInputByte >> 4) & 0xf]);
-        ret.push_back(characters[oneInputByte & 0xf]);
-    }
-    return ret;
+        for (const auto key: signers)
+            _sign(key);
     }
 
-    void Transaction::sign(const Keypair& private_key)
+    void Transaction::_sign(const Keypair& private_key)
     {    
         CryptoPP::byte raw_private_key[SIZE_PUBKEY];
         CryptoPP::byte raw_public_key[SIZE_PUBKEY];
@@ -73,7 +66,7 @@ namespace solana
 
         if (serialized_message.size() == 0)
             serialized_message = get_message_for_sign();
-        std::cout<< to_hex_string(serialized_message) << std::endl;
+        // std::cout<< to_hex_string(serialized_message) << std::endl;
         string signature;
 
         CryptoPP::AutoSeededRandomPool prng;
@@ -88,58 +81,70 @@ namespace solana
         signatures.push_back(signature);
     }
 
-    std::string Transaction::get_message_for_sign()
+    Transaction::string Transaction::get_message_for_sign()
     {
-        // size_t datas_len = std::accumulate(
-        //     instructions.begin(), 
-        //     instructions.end(), 
-        //     0, 
-        //     [](size_t sum, const SolInstruction& a) {return sum + a.data_len;}
-        // );
+        Keys signed_writable_accounts;
+        Keys signed_accounts;
+        Keys writable_accounts;
+        Keys other_accounts;
 
-        // _message.data = bytes(datas_len, 0);
-        // size_t occupied = 0;
+        Keys unique_accounts;
 
-        std::vector< PublicKey> signed_writable_accounts;
-        std::vector< PublicKey> signed_accounts;
-        std::vector< PublicKey> writable_accounts;
-        std::vector< PublicKey> other_accounts;
-
-        for (auto instr: instructions) {
-            _message.header.num_accounts += instr.accounts.size();
-            auto tmp = instr.accounts.begin();
-            for (size_t i = 0; i < instr.accounts.size(); i++, tmp++) {
-                if (tmp->is_signer) {
-                    ++_message.header.num_required_signatures;
-                    if (tmp->is_writable) {
-                        signed_writable_accounts.push_back(tmp->pubkey);
+        auto push_back_if_unique = [&unique_accounts](Keys& dest, const PublicKey& key){
+            if (std::find_if(unique_accounts.begin(), unique_accounts.end(), [&key](const PublicKey& i){ return i == key;}) == unique_accounts.end()){
+                dest.push_back(key);
+                unique_accounts.push_back(key);
+                return true;
+            }
+            return false;
+        };
+        for (const auto instr: instructions) {
+            // _message.header.num_accounts += instr.accounts.size();
+            for (const auto tmp: instr.accounts) {
+                if (tmp.is_signer) {
+                    // ++_message.header.num_required_signatures;
+                    if (tmp.is_writable) {
+                        if (push_back_if_unique(signed_writable_accounts, tmp.pubkey)) {
+                            ++_message.header.num_accounts;
+                            ++_message.header.num_required_signatures;
+                        }
                     }
                     else {
-                        ++_message.header.num_readonly_signed_accounts;
-                        signed_accounts.push_back(tmp->pubkey);
+                        if (push_back_if_unique(signed_accounts, tmp.pubkey))
+                        {
+                            ++_message.header.num_accounts;
+                            ++_message.header.num_required_signatures;
+                            ++_message.header.num_readonly_signed_accounts;
+                        }
                     }
                 }
                 else {
-                    if (tmp->is_writable) {
-                        writable_accounts.push_back(tmp->pubkey);
+                    if (tmp.is_writable) {
+                        if(push_back_if_unique(writable_accounts, tmp.pubkey))
+                            ++_message.header.num_accounts;
                     }
                     else {
-                        ++_message.header.num_readonly_unsigned_accounts;
-                        other_accounts.push_back(tmp->pubkey);
+                        if(push_back_if_unique(other_accounts, tmp.pubkey)){
+                            ++_message.header.num_accounts;
+                            ++_message.header.num_readonly_unsigned_accounts;
+                        }
                     }
                 }
             }
-            // memcpy(_message.data.data() + occupied, instr.data, instr.data_len);
-            // occupied += instr.data_len;
+            
+            if(push_back_if_unique(other_accounts, instr.program_id)) {
+                _message.header.num_readonly_unsigned_accounts++;
+                _message.header.num_accounts++;
+            }
         }
 
         // TODO add all program id
-        other_accounts.push_back(instructions[0].program_id);
-        // _message.header.num_accounts = _message.header.num_required_signatures 
-        //     + _message.header.num_readonly_signed_accounts 
-        //     + _message.header.num_readonly_unsigned_accounts;
-        _message.header.num_readonly_unsigned_accounts++;
-        _message.header.num_accounts++;
+        // other_accounts.push_back(instructions[0].program_id);
+        // // _message.header.num_accounts = _message.header.num_required_signatures 
+        // //     + _message.header.num_readonly_signed_accounts 
+        // //     + _message.header.num_readonly_unsigned_accounts;
+        // _message.header.num_readonly_unsigned_accounts++;
+        // _message.header.num_accounts++;
 
         _message.account_keys = bytes(SIZE_PUBKEY * _message.header.num_accounts, 0);
 

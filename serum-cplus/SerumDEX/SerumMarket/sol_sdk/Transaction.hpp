@@ -45,6 +45,7 @@ namespace solana
         bytes compile_instruction(const Instruction&, const bytes&);
         bytes get_message_from_instructions(const Instructions&, const bytes&);
         string get_message_for_sign();
+        void _sign(const Keypair&);
     public:
         // void add_account_key(SolPubkey);
         void add_instruction(const Instruction&);

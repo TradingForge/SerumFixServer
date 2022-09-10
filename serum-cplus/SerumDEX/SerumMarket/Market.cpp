@@ -37,7 +37,7 @@ void SerumMarket::cancel_order(const Instrument& instrument, const Order& order)
                 event_queue: market_info.parsed_market.event_queue,
                 open_orders: orders_account_info.account,
                 owner: pubkey_,
-                client_id: 7849659000233099250,
+                client_id: 9963972660716940520, //7849659000233099250,
                 program_id: MARKET_KEY
             }
         )
@@ -62,7 +62,7 @@ void SerumMarket::send_new_order(const Instrument& instrument, const Order& orde
         order.price,
         order.original_qty,
         // TODO Cli_id
-        7849659000233099250
+        9849659000233099250
     );
 }
 
@@ -80,15 +80,17 @@ void SerumMarket::place_order(
     uint64_t client_id
 )
 {
-    bool should_wrap_sol = (side == Side::BUY && info.quote == WRAPPED_SOL_MINT) || 
-    (side == Side::SELL && info.base == WRAPPED_SOL_MINT);
+    bool should_wrap_sol = (side == Side::BUY && info.instr.quote_mint_address == WRAPPED_SOL_MINT) || 
+    (side == Side::SELL && info.instr.base_mint_address == WRAPPED_SOL_MINT);
 
     Transaction txn;
     Transaction::Signers signers;
 
     Keypair wrapped_sol_account;
+    PublicKey payer = side == Side::BUY ? info.payer_buy : info.payer_sell;
     if (should_wrap_sol)
     {
+        payer = wrapped_sol_account.get_pubkey();
         signers.push_back(wrapped_sol_account);
         txn.add_instruction(
             create_account(
@@ -119,7 +121,7 @@ void SerumMarket::place_order(
             NewOrderV3Params{
                 market: info.market_address,
                 open_orders: orders_account_info.account,
-                payer: side == Side::BUY ? info.payer_buy : info.payer_sell,
+                payer: payer,
                 owner: pubkey_,
                 request_queue: info.parsed_market.request_queue,
                 event_queue: info.parsed_market.event_queue,
@@ -328,8 +330,8 @@ Instruction SerumMarket::create_account(const CreateAccountParams& params)
     Instruction instruction;
     instruction.set_account_id(params.program_id);
     instruction.set_accounts( Instruction::AccountMetas({
-        Instruction::AccountMeta { pubkey: params.owner, is_writable: true, is_signer: true },
-        Instruction::AccountMeta { pubkey: params.new_account, is_writable: true, is_signer: true }
+        Instruction::AccountMeta { pubkey: params.new_account, is_writable: true, is_signer: true },
+        Instruction::AccountMeta { pubkey: params.owner, is_writable: true, is_signer: true }
     }));
 
     auto ord_layout = InstructionLayoutCreateOrder {
