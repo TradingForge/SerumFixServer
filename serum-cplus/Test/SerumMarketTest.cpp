@@ -24,14 +24,41 @@ int main ()
     shared_ptr < IPoolsRequester > pools(new SerumPoolsRequester(logger, settings));
     auto market = SerumMarket(PUBKEY, SECRETKEY, "https://solana-api.projectserum.com", pools, [](const string& a, const Instrument& b, const string& info){});
 
-    cout << sizeof(Instruction) << endl;
+    // cout << sizeof(Instruction) << endl;
     Instrument instrument{"", "", "SOL/USDC", "SOL", "USDC" };
-    order_t order;
-    order.price = 39;
-    order.original_qty = 0.1;
-    order.side = order_side_t::os_Sell;
+    order_t order_sell;
+    order_sell.price = 39;
+    order_sell.original_qty = 0.1;
+    order_sell.side = order_side_t::os_Sell;
+    order_sell.clId = 1234567;
 
+    order_t order_buy;
+    order_buy.price = 15;
+    order_buy.original_qty = 0.1;
+    order_buy.side = order_side_t::os_Buy;
+    order_buy.clId = 7654321;
 
-    market.send_new_order(instrument, order);
+    while (1)
+    {
+        string msg;
+        cin >> msg;
+        if (msg == "so") {
+            market.send_new_order(instrument, order_sell);
+        }
+        else if (msg == "sc") {
+            market.cancel_order(instrument, order_sell);
+        }
+        else if (msg == "bo") {
+            market.send_new_order(instrument, order_buy);
+        }
+        else if (msg == "bc") {
+            market.cancel_order(instrument, order_buy);
+        }
+        else if (msg == "stop") {
+            break;
+        }
+    }
+    
+    
     // market.cancel_order(instrument, order);
 }
