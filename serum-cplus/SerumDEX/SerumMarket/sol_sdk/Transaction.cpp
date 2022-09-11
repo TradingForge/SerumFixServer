@@ -54,6 +54,7 @@ namespace solana
     {
         for (const auto key: signers)
             _sign(key);
+            
     }
 
     void Transaction::_sign(const Keypair& private_key)
@@ -137,14 +138,7 @@ namespace solana
                 _message.header.num_accounts++;
             }
         }
-
-        // TODO add all program id
-        // other_accounts.push_back(instructions[0].program_id);
-        // // _message.header.num_accounts = _message.header.num_required_signatures 
-        // //     + _message.header.num_readonly_signed_accounts 
-        // //     + _message.header.num_readonly_unsigned_accounts;
-        // _message.header.num_readonly_unsigned_accounts++;
-        // _message.header.num_accounts++;
+        // std::reverse(signed_writable_accounts.begin(), signed_writable_accounts.end());
 
         _message.account_keys = bytes(SIZE_PUBKEY * _message.header.num_accounts, 0);
 

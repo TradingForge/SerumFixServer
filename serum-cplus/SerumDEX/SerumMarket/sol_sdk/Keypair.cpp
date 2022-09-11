@@ -1,7 +1,8 @@
 #include "Keypair.hpp"
 #include <base58/base58.h>
 #include <cryptopp/xed25519.h>
-#include <cryptopp/osrng.h>#include <cryptopp/xed25519.h>
+#include <cryptopp/osrng.h>
+#include <cryptopp/xed25519.h>
 #include <cryptopp/osrng.h>
 
 namespace solana
@@ -11,9 +12,10 @@ namespace solana
         CryptoPP::AutoSeededRandomPool prng;
         CryptoPP::x25519 ecdh;
         CryptoPP::SecByteBlock x(CryptoPP::x25519::SECRET_KEYLENGTH);
-        ecdh.GeneratePrivateKey(prng, x);
+        // ecdh.GeneratePrivateKey(prng, x);
         CryptoPP::SecByteBlock y(CryptoPP::x25519::PUBLIC_KEYLENGTH);
-        ecdh.GeneratePublicKey(prng, x, y);
+        // ecdh.GeneratePublicKey(prng, x, y);
+        ecdh.GenerateKeyPair(prng, x, y);
 
         key_b = bytes(CryptoPP::x25519::SECRET_KEYLENGTH + CryptoPP::x25519::PUBLIC_KEYLENGTH);
         memcpy(key_b.data(), x.data(), CryptoPP::x25519::SECRET_KEYLENGTH);
