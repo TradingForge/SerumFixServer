@@ -119,8 +119,8 @@ public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);
     SerumMarket(const SerumMarket&) {};
 
-    SerumMarket::Order send_new_order(const Instrument&, const Order&) override;
-    SerumMarket::Order cancel_order(const Instrument&, const Order&) override;
+    Order send_new_order(const Instrument&, const Order&) override;
+    Order cancel_order(const Instrument&, const Order&) override;
 
     ~SerumMarket();
 };
