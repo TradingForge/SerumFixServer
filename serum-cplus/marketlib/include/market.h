@@ -123,7 +123,7 @@ namespace marketlib
     typedef size_t rule_id;
     struct order_t
     {
-        std::string clId;
+        uint64_t clId;
         std::string exchId;
         std::string secId;
         double original_qty  = 0.0;

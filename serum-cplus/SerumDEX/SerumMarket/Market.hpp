@@ -80,6 +80,7 @@ private:
     Callback callback_;
     MarketChannels markets_info;
     std::map<string, string> mint_addresses_;
+    uint64_t message_count;
 
     
     void place_order(
@@ -118,8 +119,8 @@ public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);
     SerumMarket(const SerumMarket&) {};
 
-    void send_new_order(const Instrument&, const Order&) override;
-    void cancel_order(const Instrument&, const Order&) override;
+    SerumMarket::Order send_new_order(const Instrument&, const Order&) override;
+    SerumMarket::Order cancel_order(const Instrument&, const Order&) override;
 
     ~SerumMarket();
 };

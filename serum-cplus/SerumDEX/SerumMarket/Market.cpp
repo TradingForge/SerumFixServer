@@ -6,6 +6,7 @@
 #include "sol_sdk/Transaction.hpp"
 #include "sol_sdk/enums.hpp"
 #include "sysvar.hpp"
+#include <random>
 // #include <nacl/crypto_stream.h>
 
 #define LAMPORTS_PER_SOL 1000000000
@@ -13,7 +14,7 @@
 using namespace solana; 
 
 SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback) 
-: pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback)
+: pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback), message_count(1)
 {
     get_mint_addresses();
 }
@@ -23,7 +24,7 @@ SerumMarket::~SerumMarket()
     mint_addresses_.clear();
 }
 
-void SerumMarket::cancel_order(const Instrument& instrument, const Order& order)
+SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const Order& order_)
 {
     auto market_info = *get_market_info(instrument);
     auto orders_account_info = get_orders_account_info(instrument);
@@ -37,7 +38,7 @@ void SerumMarket::cancel_order(const Instrument& instrument, const Order& order)
                 event_queue: market_info.parsed_market.event_queue,
                 open_orders: orders_account_info.account,
                 owner: pubkey_,
-                client_id: 9963972660716940520, //7849659000233099250,
+                client_id: order_.clId, //7849659000233099250,
                 program_id: MARKET_KEY
             }
         )
@@ -45,13 +46,23 @@ void SerumMarket::cancel_order(const Instrument& instrument, const Order& order)
     Transaction::Signers signers;
     signers.push_back(secretkey_);
     auto res = send_transaction(txn, signers);
+
+    auto order = order_;
+    order.state = marketlib::order_state_t::ost_Canceled;
+    return order;
 }
 
-void SerumMarket::send_new_order(const Instrument& instrument, const Order& order) 
+SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, const Order& order_) 
 {
     auto market_info = *get_market_info(instrument);
     auto oredrs_account_info = get_orders_account_info(instrument);
 
+    auto order = order_;
+    if (order.clId == 0) {
+        std::random_device rd; 
+        std::mt19937_64 mersenne(rd());
+        order.clId = mersenne();
+    };
     // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
 
     place_order(
@@ -62,8 +73,11 @@ void SerumMarket::send_new_order(const Instrument& instrument, const Order& orde
         order.price,
         order.original_qty,
         // TODO Cli_id
-        9849659000233099250
+        order.clId
     );
+
+    order.state = marketlib::order_state_t::ost_New;
+    return order;
 }
 
 // // 'url': 'https://solana-api.projectserum.com', 
@@ -85,6 +99,7 @@ void SerumMarket::place_order(
 
     Transaction txn;
     Transaction::Signers signers;
+    signers.push_back(secretkey_);
 
     Keypair wrapped_sol_account;
     PublicKey payer = side == Side::BUY ? info.payer_buy : info.payer_sell;
@@ -143,8 +158,8 @@ void SerumMarket::place_order(
             }
         )
     );
-    signers.push_back(secretkey_);
-
+    
+    // signers.push_back(secretkey_);
     if(should_wrap_sol) {
         txn.add_instruction(
             close_account(
@@ -330,8 +345,8 @@ Instruction SerumMarket::create_account(const CreateAccountParams& params)
     Instruction instruction;
     instruction.set_account_id(params.program_id);
     instruction.set_accounts( Instruction::AccountMetas({
-        Instruction::AccountMeta { pubkey: params.new_account, is_writable: true, is_signer: true },
-        Instruction::AccountMeta { pubkey: params.owner, is_writable: true, is_signer: true }
+        Instruction::AccountMeta { pubkey: params.owner, is_writable: true, is_signer: true },
+        Instruction::AccountMeta { pubkey: params.new_account, is_writable: true, is_signer: true }
     }));
 
     auto ord_layout = InstructionLayoutCreateOrder {
@@ -400,7 +415,12 @@ std::string SerumMarket::get_latest_blockhash()
     string data_str;
     try{
         data_str = HttpClient::request(
-            R"({"jsonrpc": "2.0", "id": 1, "method": "getLatestBlockhash", "params": [{"commitment": "finalized"}]})", 
+            (boost::format(R"({
+                "jsonrpc": "2.0", 
+                "id": "%1%", 
+                "method": "getLatestBlockhash", 
+                "params": [{"commitment": "finalized"}]
+            })") % message_count).str(), 
             http_address_, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -421,14 +441,14 @@ std::string SerumMarket::get_token_account_by_owner(const string& owner_pubkey, 
         data_str = HttpClient::request(
             (boost::format(R"({
                 "jsonrpc": "2.0", 
-                "id": 1, 
+                "id": "%1%", 
                 "method": "getTokenAccountsByOwner", 
                 "params": [
-                    "%1%", 
-                    {"mint": "%2%"}, 
+                    "%2%", 
+                    {"mint": "%3%"}, 
                     {"commitment": "finalized", "encoding": "base64"}
                 ]
-            })") % owner_pubkey % token_address).str(), 
+            })") % message_count++ % owner_pubkey % token_address).str(), 
             http_address_, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -452,19 +472,19 @@ std::string SerumMarket::get_token_program_accounts(const string& market_key, co
         data_str = HttpClient::request(
             (boost::format(R"({
                 "jsonrpc": "2.0", 
-                "id": 1, 
+                "id": "%1%", 
                 "method": "getProgramAccounts", 
                 "params": [
-                    "%1%", 
+                    "%2%", 
                     {"filters": [
-                        {"memcmp": {"offset": 13, "bytes": "%2%"}}, 
-                        {"memcmp": {"offset": 45, "bytes": "%3%"}}, 
+                        {"memcmp": {"offset": 13, "bytes": "%3%"}}, 
+                        {"memcmp": {"offset": 45, "bytes": "%4%"}}, 
                         {"dataSize": 3228}
                     ], 
                     "encoding": "base64", 
                     "commitment": "recent"}
                 ]
-            })") % market_key % pool_key % pubkey_owner).str(), 
+            })") % message_count++ % market_key % pool_key % pubkey_owner).str(), 
             http_address_, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -486,13 +506,13 @@ std::string SerumMarket::get_account_info(const string& account)
         data_str = HttpClient::request(
             (boost::format(R"({
                 "jsonrpc": "2.0", 
-                "id": 1, 
+                "id": "%1%", 
                 "method": "getAccountInfo", 
                 "params": [
-                    "%1%", 
+                    "%2%", 
                     {"encoding": "jsonParsed", "commitment": "finalized"}
                 ]
-            })") % account).str(), 
+            })") % message_count++ % account).str(), 
             http_address_, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -521,17 +541,17 @@ std::string SerumMarket::send_transaction(Transaction &txn, const Transaction::S
         data_str = HttpClient::request(
             (boost::format(R"({
                 "jsonrpc": "2.0", 
-                "id": 5, 
+                "id": "%1%", 
                 "method": "sendTransaction", 
                 "params": [
-                    "%1%", 
+                    "%2%", 
                     {
-                        "skipPreflight": true, 
+                        "skipPreflight": false, 
                         "preflightCommitment": "finalized", 
                         "encoding": "base64"
                     }
                 ]
-            })") % decode_msg).str(), 
+            })") % message_count++ % decode_msg).str(), 
             http_address_, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
