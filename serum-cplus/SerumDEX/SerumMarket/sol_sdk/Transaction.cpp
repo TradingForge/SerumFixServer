@@ -12,19 +12,6 @@
 
 namespace solana
 {
-    std::string to_hex_string(const std::string &input)
-    {
-        static const char characters[] = "0123456789abcdef";
-        std::string ret;
-        
-        for (const auto &oneInputByte : input)
-        {
-            ret.push_back(characters[(oneInputByte >> 4) & 0xf]);
-            ret.push_back(characters[oneInputByte & 0xf]);
-        }
-        return ret;
-    }
-
     void Transaction::add_instruction(const Instruction& instruction)
     {
         instructions.push_back(instruction);
@@ -46,15 +33,13 @@ namespace solana
             msg.insert(msg.end(), sign.begin(), sign.end());
 
         msg.insert(msg.end(), serialized_message.begin(), serialized_message.end());
-        std::cout<< to_hex_string(msg) << std::endl;
         return msg;
     }
 
     void Transaction::sign(const Signers& signers)
     {
         for (const auto key: signers)
-            _sign(key);
-            
+            _sign(key); 
     }
 
     void Transaction::_sign(const Keypair& private_key)

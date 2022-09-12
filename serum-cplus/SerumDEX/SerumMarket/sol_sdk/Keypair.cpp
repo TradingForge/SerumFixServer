@@ -2,26 +2,15 @@
 #include <base58/base58.h>
 #include <cryptopp/xed25519.h>
 #include <cryptopp/osrng.h>
-#include <cryptopp/xed25519.h>
-#include <cryptopp/osrng.h>
+#include <algorithm>
+#include <boost/algorithm/hex.hpp>
+#include <sstream>
 
 namespace solana
 {
-    Keypair::Keypair() : key_str(), key_b()
+    Keypair::Keypair()
     {
-        CryptoPP::AutoSeededRandomPool prng;
-        CryptoPP::x25519 ecdh;
-        CryptoPP::SecByteBlock x(CryptoPP::x25519::SECRET_KEYLENGTH);
-        // ecdh.GeneratePrivateKey(prng, x);
-        CryptoPP::SecByteBlock y(CryptoPP::x25519::PUBLIC_KEYLENGTH);
-        // ecdh.GeneratePublicKey(prng, x, y);
-        ecdh.GenerateKeyPair(prng, x, y);
-
-        key_b = bytes(CryptoPP::x25519::SECRET_KEYLENGTH + CryptoPP::x25519::PUBLIC_KEYLENGTH);
-        memcpy(key_b.data(), x.data(), CryptoPP::x25519::SECRET_KEYLENGTH);
-        memcpy(key_b.data() + CryptoPP::x25519::SECRET_KEYLENGTH, y.data(), CryptoPP::x25519::PUBLIC_KEYLENGTH);
-
-        key_str = _to_base58(key_b);
+        _generate_new_key();
     }
 
     Keypair::Keypair(const string& key) : key_str(key), key_b(_from_base58(key_str))
@@ -67,6 +56,35 @@ namespace solana
         return PublicKey(vec);
     }
 
+    void Keypair::_generate_new_key()
+    {
+
+        auto set_bytes = [](bytes& dest, const CryptoPP::Integer& src, size_t shift = 0) {
+            std::stringstream temp;
+            temp << std::hex << src;
+            string hex_;
+            temp >> hex_;
+            hex_.pop_back();
+            std::string hash = boost::algorithm::unhex(hex_);
+            std::reverse(hash.begin(), hash.end());
+            std::copy(hash.begin(), hash.end(), dest.begin() + shift);
+        };
+
+        key_b = bytes(CryptoPP::x25519::SECRET_KEYLENGTH + CryptoPP::x25519::PUBLIC_KEYLENGTH);
+
+        CryptoPP::AutoSeededRandomPool prng;
+        CryptoPP::ed25519::Signer signer;
+        signer.AccessPrivateKey().GenerateRandom(prng);
+        const CryptoPP::ed25519PrivateKey& x = dynamic_cast<const CryptoPP::ed25519PrivateKey&> (signer.GetPrivateKey());
+        set_bytes(key_b, x.GetPrivateExponent());
+        
+        CryptoPP::ed25519::Verifier ver(signer);
+        const CryptoPP::ed25519PublicKey& y = dynamic_cast<const CryptoPP::ed25519PublicKey&> (ver.GetPublicKey());
+        set_bytes(key_b, y.GetPublicElement(), CryptoPP::x25519::SECRET_KEYLENGTH);
+
+        key_str = _to_base58(key_b);
+    }
+
     Keypair::bytes Keypair::_from_base58(const string& key)
     {
         auto decoded_key = base58_decode(key);
@@ -77,21 +95,21 @@ namespace solana
 
     Keypair::string Keypair::_to_base58(const bytes& key)
     {
-        return base58_encode(string((char*)key.data(), key.size()));
+        return base58_encode( string((char*)key.data(), key.size()) );
     }
 
     bool operator==(const Keypair &k1, const Keypair &k2)
     {
-        if (k1.key_b.size() == 0 || k2.key_b.size() == 0) {
+        if (k1.key_b.empty() || k2.key_b.empty()) {
             throw -1;
         }
 
-        return  0 == memcmp(k1.key_b.data(), k2.key_b.data(), SIZE_PUBKEY) ? true : false;
+        return  !memcmp(k1.key_b.data(), k2.key_b.data(), SIZE_KEYPAIR);
     }
 
     bool operator==(const Keypair &k1, const std::string &k2)
     {
-        if (k1.key_str.size() == 0) {
+        if (k1.key_str.empty()) {
             throw -1;
         }
 

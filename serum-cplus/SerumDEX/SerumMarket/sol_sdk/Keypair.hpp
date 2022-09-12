@@ -18,6 +18,8 @@ namespace solana
 
         bytes _from_base58(const string&);
         string _to_base58(const bytes&);
+
+        void _generate_new_key();
     public:
         Keypair();
         Keypair(const string&);

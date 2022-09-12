@@ -81,9 +81,10 @@ private:
     MarketChannels markets_info;
     std::map<string, string> mint_addresses_;
     uint64_t message_count;
+    string Name = "SerumMarket";
 
     
-    void place_order(
+    string place_order(
         const MarketChannel&,
         const OpenOrdersAccountInfo& orders_account_info,
         OrderType,

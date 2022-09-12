@@ -26,16 +26,25 @@ SerumMarket::~SerumMarket()
 
 SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const Order& order_)
 {
-    auto market_info = *get_market_info(instrument);
-    auto orders_account_info = get_orders_account_info(instrument);
+    MarketChannel *market_info;
+    OpenOrdersAccountInfo orders_account_info;
+    try {
+        market_info = get_market_info(instrument);
+        orders_account_info = get_orders_account_info(instrument);
+    }
+    catch (string e) {
+        callback_(Name, instrument, "Failed to get information: " + e);
+        return order_;
+    }
+    
     Transaction txn;
     txn.add_instruction(
         new_cancel_order_by_client_id_v2(
             CancelOrderV2ByClientIdParams {
-                market: market_info.market_address,
-                bids: market_info.parsed_market.bids,
-                asks: market_info.parsed_market.asks,
-                event_queue: market_info.parsed_market.event_queue,
+                market: market_info->market_address,
+                bids: market_info->parsed_market.bids,
+                asks: market_info->parsed_market.asks,
+                event_queue: market_info->parsed_market.event_queue,
                 open_orders: orders_account_info.account,
                 owner: pubkey_,
                 client_id: order_.clId, //7849659000233099250,
@@ -45,8 +54,16 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
     );
     Transaction::Signers signers;
     signers.push_back(secretkey_);
-    auto res = send_transaction(txn, signers);
-
+    try{
+        auto res = send_transaction(txn, signers);
+        callback_(Name, instrument, "The order is sent: " + res);
+    }
+    catch (string e)
+    {
+        callback_(Name, instrument, "Failed to send the order: " + e);
+        return order_;
+    }
+    
     auto order = order_;
     order.state = marketlib::order_state_t::ost_Canceled;
     return order;
@@ -54,8 +71,16 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
 
 SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, const Order& order_) 
 {
-    auto market_info = *get_market_info(instrument);
-    auto oredrs_account_info = get_orders_account_info(instrument);
+    MarketChannel *market_info;
+    OpenOrdersAccountInfo orders_account_info;
+    try {
+        market_info = get_market_info(instrument);
+        orders_account_info = get_orders_account_info(instrument);
+    }
+    catch (string e) {
+        callback_(Name, instrument, "Failed to get information: " + e);
+        return order_;
+    }
 
     auto order = order_;
     if (order.clId == 0) {
@@ -65,17 +90,24 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, con
     };
     // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
 
-    place_order(
-        market_info,
-        oredrs_account_info,
-        OrderType::LIMIT,
-        order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
-        order.price,
-        order.original_qty,
-        // TODO Cli_id
-        order.clId
-    );
+    try{
+        auto res = place_order(
+            *market_info,
+            orders_account_info,
+            OrderType::LIMIT,
+            order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
+            order.price,
+            order.original_qty,
+            order.clId
+        );
+        callback_(Name, instrument, "The order is sent: " + res);
+    }
+    catch (string e) {
+        callback_(Name, instrument, "Failed to send the order: " + e);
+        return order_;
+    }
 
+    
     order.state = marketlib::order_state_t::ost_New;
     return order;
 }
@@ -84,7 +116,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, con
 // // 'headers': {'Content-Type': 'application/json'}, 
 // // 'data': '{"jsonrpc": "2.0", "id": 1, "method": "getAccountInfo", "params": ["9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT", {"encoding": "base64", "commitment": "finalized"}]}'}
 
-void SerumMarket::place_order(
+SerumMarket::string SerumMarket::place_order(
     const MarketChannel& info,
     const OpenOrdersAccountInfo& orders_account_info,
     OrderType order_type,
@@ -101,17 +133,18 @@ void SerumMarket::place_order(
     Transaction::Signers signers;
     signers.push_back(secretkey_);
 
-    Keypair wrapped_sol_account;
+    Keypair wrapped_sol_account;//("VhWkzgFvCJxdk6mc2HcCd45zUXdf1Xi6EtznLP5uGzUtSTnPYwK9AnqL6iNCcK3gMZmJX8E3aGw2MmNMgHWDYmi");
     PublicKey payer = side == Side::BUY ? info.payer_buy : info.payer_sell;
     if (should_wrap_sol)
     {
+        // wrapped_sol_account.from_base58("5nwb8M6N5wsZmsnh8HP4xiyGfz2dnvHLiR2AYfs9ipxkBhVXTT65ic2gY6yzteicdEhKZkkNYZYtGDoocGEBbXiB");
         payer = wrapped_sol_account.get_pubkey();
         signers.push_back(wrapped_sol_account);
         txn.add_instruction(
             create_account(
                 CreateAccountParams{
                     owner: pubkey_,
-                    new_account: wrapped_sol_account.get_pubkey(),
+                    new_account: payer,
                     lamports: get_lamport_need_for_sol_wrapping(
                         limit_price, max_quantity, side, orders_account_info
                     ),
@@ -173,7 +206,7 @@ void SerumMarket::place_order(
         );
     }
 
-    auto res = send_transaction(txn, signers);
+    return send_transaction(txn, signers);
 }
 
 SerumMarket::MarketChannel* SerumMarket::get_market_info(const Instrument& instrument)
@@ -219,9 +252,11 @@ SerumMarket::MarketChannel* SerumMarket::create_market_info(const Instrument& in
 
 SerumMarket::MarketLayout SerumMarket::get_market_layout(const string& market_address)
 {
-    auto account_data = base64_decode(
-        string(boost::json::parse(get_account_info(market_address)).at("result").at("value").at("data").as_array()[0].as_string().c_str())
-    );
+    string account_data;
+        account_data = base64_decode(
+            string(boost::json::parse(get_account_info(market_address)).at("result").at("value").at("data").as_array()[0].as_string().c_str())
+        );
+
     SolMarketLayout market; 
     memcpy((void*)&market, account_data.data(), account_data.size());
 
@@ -393,15 +428,16 @@ Instruction SerumMarket::close_account(const CloseAccountParams& params)
 void SerumMarket::get_mint_addresses()
 {
     string data_str;
+    string address = "https://raw.githubusercontent.com/project-serum/serum-ts/master/packages/serum/src/token-mints.json";
     try{
         data_str = HttpClient::request(
             "", 
-            "https://raw.githubusercontent.com/project-serum/serum-ts/master/packages/serum/src/token-mints.json", 
+            address, 
             HttpClient::HTTPMethod::GET
         );
     }
     catch(std::exception e) {
-
+        throw string("Failed to make a request to " + address);
     }
 
     auto data = boost::json::parse(data_str).as_array();
@@ -427,10 +463,11 @@ std::string SerumMarket::get_latest_blockhash()
         );
     }
     catch(std::exception e) {
-
-        return "";
+        throw string("Failed to make a request to " + http_address_);
     }
-
+    if (data_str.find("error") != std::string::npos) {
+        throw data_str;
+    }
     return boost::json::parse(data_str).at("result").at("value").at("blockhash").as_string().c_str();
 }
 
@@ -455,16 +492,24 @@ std::string SerumMarket::get_token_account_by_owner(const string& owner_pubkey, 
         );
     }
     catch(std::exception e) {
-
+        throw string("Failed to make a request to " + http_address_);
+    }
+    if (data_str.find("error") != std::string::npos) {
+        throw data_str;
+    }
+    if (boost::json::parse(data_str).at("result").at("value").as_array().empty()) {
         return "";
     }
 
-    return boost::json::parse(data_str).at("result").at("value").as_array()[0].at("pubkey").as_string().c_str();
+    try {
+        return boost::json::parse(data_str).at("result").at("value").as_array()[0].at("pubkey").as_string().c_str();
+    }
+    catch (std::exception e){
+        throw string("Failed to retrieve the data");
+    }
 }
 
-
 // '{"jsonrpc": "2.0", "id": 3, "method": "getProgramAccounts", "params": ["9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin", {"filters": [{"memcmp": {"offset": 13, "bytes": "9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT"}}, {"memcmp": {"offset": 45, "bytes": "GKvwL3FmQRHuB9mcZ3WuqTuVjbGDzdW51ec8fYdeHae1"}}, {"dataSize": 3228}], "encoding": "base64", "commitment": "recent"}]}'
-
 std::string SerumMarket::get_token_program_accounts(const string& market_key, const string& pool_key, const string& pubkey_owner)
 {
     string data_str;
@@ -491,10 +536,11 @@ std::string SerumMarket::get_token_program_accounts(const string& market_key, co
         );
     }
     catch(std::exception e) {
-
-        return "";
+        throw string("Failed to make a request to " + http_address_);
     }
-
+    if (data_str.find("error") != std::string::npos) {
+        throw data_str;
+    }
     return data_str ;
 }
 
@@ -519,10 +565,11 @@ std::string SerumMarket::get_account_info(const string& account)
         );
     }
     catch(std::exception e) {
-
-        return "";
+        throw string("Failed to make a request to " + http_address_);
     }
-
+    if (data_str.find("error") != std::string::npos) {
+        throw data_str;
+    }
     return data_str;
 }
 
@@ -558,8 +605,10 @@ std::string SerumMarket::send_transaction(Transaction &txn, const Transaction::S
         );
     }
     catch(std::exception e) {
-
-        return "";
+        throw string("Failed to make a request to " + http_address_);
+    }
+    if (data_str.find("error") != std::string::npos) {
+        throw data_str;
     }
     return data_str;
 }

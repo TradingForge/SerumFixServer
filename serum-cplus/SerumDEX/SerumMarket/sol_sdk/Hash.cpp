@@ -48,11 +48,11 @@ namespace solana
 
     bool operator==(const Hash &k1, const Hash &k2)
     {
-        if (k1.hash_b.size() == 0 || k2.hash_b.size() == 0) {
+        if (k1.hash_b.empty() || k2.hash_b.empty()) {
             throw -1;
         }
 
-        return  0 == memcmp(k1.hash_b.data(), k2.hash_b.data(), SIZE_HASH) ? true : false;
+        return !memcmp(k1.hash_b.data(), k2.hash_b.data(), SIZE_HASH);
     }
 
     bool operator==(const Hash &k1, const std::string &k2)

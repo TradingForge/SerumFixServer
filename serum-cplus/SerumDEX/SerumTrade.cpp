@@ -53,7 +53,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 	if (type  == "l3snapshot" || type  == "open") {
 		auto addOrderToList = [&](const boost::json::value& set, std::list<Order>& vec) {
 			vec.push_back(Order{
-				clId: set.at("clientId").as_string().c_str(),
+				clId: (uint64_t)set.at("clientId").as_int64(),
 				exchId: set.at("orderId").as_string().c_str(),
 				secId: "",
 				original_qty: stod(set.at("size").as_string().c_str()),
@@ -90,7 +90,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 		order->original_qty = stod(parsed_data.at("size").as_string().c_str());
 		order->remaining_qty = stod(parsed_data.at("size").as_string().c_str());
 		order->price = stod(parsed_data.at("price").as_string().c_str());
-		order->clId = parsed_data.at("clientId").as_string().c_str();
+		order->clId = (uint64_t)parsed_data.at("clientId").as_int64();
 
 		auto report = ExecutionReport();
 		report.clId = order->clId;

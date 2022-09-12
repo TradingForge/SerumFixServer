@@ -47,7 +47,8 @@ namespace solana
     {
         auto decoded_key = base58_decode(key);
         auto res = bytes(SIZE_PUBKEY);
-        memcpy(res.data(), decoded_key.data(), SIZE_PUBKEY);
+        // memcpy(res.data(), decoded_key.data(), SIZE_PUBKEY);
+        std::copy(decoded_key.begin(), decoded_key.end(), res.begin());
         return res;
     }
 
@@ -58,16 +59,16 @@ namespace solana
 
     bool operator==(const PublicKey &k1, const PublicKey &k2)
     {
-        if (k1.key_b.size() == 0 || k2.key_b.size() == 0) {
+        if (k1.key_b.empty() || k2.key_b.empty()) {
             throw -1;
         }
 
-        return  0 == memcmp(k1.key_b.data(), k2.key_b.data(), SIZE_PUBKEY) ? true : false;
+        return  !memcmp(k1.key_b.data(), k2.key_b.data(), SIZE_PUBKEY);
     }
 
     bool operator==(const PublicKey &k1, const std::string &k2)
     {
-        if (k1.key_str.size() == 0) {
+        if (k1.key_str.empty()) {
             throw -1;
         }
 
