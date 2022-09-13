@@ -1,7 +1,7 @@
 #pragma once 
 
 #include "enums.hpp"
-#include "structs.hpp"
+#include "models.hpp"
 #include "constants.hpp"
 
 #include "sol_sdk/PublicKey.hpp"
@@ -51,12 +51,12 @@ private:
         string quote;
 		Instrument instr;
         PublicKey market_address;
-        PublicKey payer_sell;
-        PublicKey payer_buy;
         // PublicKey open_order_account;
         MarketLayout parsed_market;
         uint64_t base_spl_token_multiplier;
         uint64_t quote_spl_token_multiplier;
+        PublicKey payer_sell;
+        PublicKey payer_buy;
     };
 
     using MarketChannels = boost::multi_index::multi_index_container<
@@ -91,7 +91,9 @@ private:
         Side,
         double,
         double,
-        uint64_t
+        uint64_t,
+        Transaction&,
+        Transaction::Signers&
     );
 
     void get_mint_addresses();
@@ -100,11 +102,13 @@ private:
     MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
     string get_latest_blockhash();
+    string get_minimum_balance_for_rent_exemption();
     string get_token_account_by_owner(const string&, const string&);
     string get_token_program_accounts(const string&, const string&, const string&);
     string send_transaction(Transaction& transaction, const Transaction::Signers&);
     uint8_t get_mint_decimals(const string&);
     OpenOrdersAccountInfo get_orders_account_info(const Instrument& instruction);
+    uint64_t get_balance_needed();
 
     Instruction new_order_v3(const NewOrderV3Params&);
     Instruction new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams&);
