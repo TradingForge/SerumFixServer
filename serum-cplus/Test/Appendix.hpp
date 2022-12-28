@@ -64,7 +64,7 @@ public:
         case Property::ExchangeName:
             return "Serum";
         case Property::WebsocketEndpoint:
-            return "wss://api.serum-vial.dev/v1/ws";
+            return "wss://vial.mngo.cloud/v1/ws";
         default:
             return "";
         }
