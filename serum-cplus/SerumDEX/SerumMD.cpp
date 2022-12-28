@@ -181,7 +181,7 @@ bool SerumMD::activeCheck() const {
 SerumMD::SerumMD(logger_ptr _logger, settings_ptr _settings, pools_ptr _pools, callback_on_event _OnEvent):
 	logger(_logger), connection(this, _settings->get(ISettings::Property::WebsocketEndpoint), _logger), 
 	depth_snapshot(depth_snapshots()), settings(_settings), pools(_pools), onEvent(_OnEvent) {
-		pools->loadPools();
+		// pools->loadPools();
 	}
 
 bool SerumMD::isEnabled() const {

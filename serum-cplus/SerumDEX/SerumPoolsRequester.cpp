@@ -8,7 +8,7 @@ using namespace std;
 SerumPoolsRequester::SerumPoolsRequester(logger_ptr _logger, settings_ptr _settings):
 	logger(_logger), settings(_settings), pools() 
 {
-	loadPools();
+	// loadPools();
 }
 
 std::vector<SerumPoolsRequester::Instrument> SerumPoolsRequester::getPoolsFromServer()
