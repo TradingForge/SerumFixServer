@@ -4,7 +4,7 @@
 
 #include <SerumDEX/SerumMarket/Market.hpp>
 #include <SerumDEX/SerumMarket/models.hpp>
-#include <SerumDEX/SerumPoolsRequester.h>
+#include <SerumDEX/PoolRequester/PoolsRequester.h>
 #include <marketlib/include/BrokerModels.h>
 #include <marketlib/include/enums.h>
 #include "Appendix.hpp"
@@ -21,7 +21,21 @@ int main ()
 {
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
-    shared_ptr < IPoolsRequester > pools(new SerumPoolsRequester(logger, settings));
+    shared_ptr < IPoolsRequester > pools(new PoolsRequester(logger, settings, "./market.json"));
+
+    auto instr = Instrument{
+        engine: "",
+        sec_id: "",
+        symbol: "SOL/USDC",
+        base_currency: "SOL",
+        quote_currency: "USDC"
+    };
+
+    // const auto p = pools->getPool(instr);
+    // cout << p.address << endl;
+    // cout << p.quote_mint_address << endl;
+    // cout << p.base_mint_address << endl;
+    // auto tt = 0;
     auto market = SerumMarket(PUBKEY, SECRETKEY, "https://solana-api.projectserum.com", pools, [](const string& name, const Instrument& inst, const string& info){
         std::cout << name << " || " << inst.symbol << " || " + info;
     });
