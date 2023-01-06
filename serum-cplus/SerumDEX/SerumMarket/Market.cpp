@@ -242,11 +242,12 @@ SerumMarket::MarketChannel* SerumMarket::get_market_info(const Instrument& instr
 		));
 
     if (market_info == markets_info.end()) {
-        auto pls = pools_->getPools();
-        auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
-                return instrument.base_currency == i.base_currency && 
-                    instrument.quote_currency == i.quote_currency;
-            });
+        // auto pls = pools_->getPools();
+        auto pool = pools_->getPool(instrument);
+        // auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
+        //         return instrument.base_currency == i.base_currency && 
+        //             instrument.quote_currency == i.quote_currency;
+        //     });
 
         markets_info.insert(create_market_info(pool));
         market_info = markets_info.begin();

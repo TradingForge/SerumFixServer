@@ -3,7 +3,10 @@
 #include <sharedlib/include/ISettings.h>
 #include <sharedlib/include/ILogger.h>
 #include <marketlib/include/market.h>
+#include <marketlib/include/BrokerModels.h>
 #include <boost/format.hpp>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace marketlib;
@@ -61,12 +64,12 @@ public:
 
     string get(Property property) const override {
         switch (property) {
-        case Property::ExchangeName:
-            return "Serum";
-        case Property::WebsocketEndpoint:
-            return "wss://vial.mngo.cloud/v1/ws";
-        default:
-            return "";
+            case Property::ExchangeName:
+                return "Serum";
+            case Property::WebsocketEndpoint:
+                return "wss://vial.mngo.cloud/v1/ws";
+            default:
+                return "";
         }
     }
 };

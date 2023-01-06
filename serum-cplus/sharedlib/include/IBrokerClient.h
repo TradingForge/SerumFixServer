@@ -77,7 +77,7 @@ public:
 	virtual void subscribe(const instrument&, const string&, callbackDepth) = 0;
 	virtual void unsubscribe(const instrument&, SubscriptionModel, const string&) = 0;
 	virtual void unsubscribeForClientId(const string&) = 0;
-	virtual std::vector< instrument > getInstruments() = 0;
+	virtual std::list< instrument > getInstruments() = 0;
 
 	virtual ~IBrokerClient() = default;
 };

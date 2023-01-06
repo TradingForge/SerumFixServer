@@ -86,7 +86,7 @@ public:
 	void subscribe(const instrument&, const string&, callbackDepth) override;
 	void unsubscribe(const instrument&, SubscriptionModel, const string&) override;
 	void unsubscribeForClientId(const string&) override;
-	std::vector< instrument > getInstruments() override;
+	std::list< instrument > getInstruments() override;
 
 	~SerumMD();
 

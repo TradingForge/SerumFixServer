@@ -333,7 +333,7 @@ static size_t writeCallback(void* content, size_t size, size_t count, void* resu
 	return size * count;
 }
 
-std::vector< SerumMD::instrument > SerumMD::getInstruments() {
+std::list< SerumMD::instrument > SerumMD::getInstruments() {
     return pools->getPools();
 }
 

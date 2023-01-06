@@ -22,7 +22,7 @@ namespace marketlib
     */
     struct instrument_descr_t
     {
-        const std::string   engine;
+        std::string     engine;
         std::string     sec_id;
         std::string     symbol;
         std::string     base_currency;

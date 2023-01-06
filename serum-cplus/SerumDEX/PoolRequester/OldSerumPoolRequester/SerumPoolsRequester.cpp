@@ -82,6 +82,7 @@ std::vector<SerumPoolsRequester::Instrument> SerumPoolsRequester::getPoolsFromSe
     return instruments;
 }
 
+
 void SerumPoolsRequester::loadPools() {
 	this->pools = getPoolsFromServer();
 }
