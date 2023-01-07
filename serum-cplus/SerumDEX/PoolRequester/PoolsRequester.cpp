@@ -128,7 +128,6 @@ const PoolsRequester::Instrument& PoolsRequester::getPool(const Instrument& inst
 	if (p == std::end(pools_list))
 		throw "Pool is not enabled";
 	
-
 	auto new_pool = getPoolInfoFromServer(*p);
 	pools.PushBackInstrument(new_pool);
 	savePoolsToJson();

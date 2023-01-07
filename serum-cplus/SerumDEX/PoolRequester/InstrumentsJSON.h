@@ -16,7 +16,7 @@ public:
     
     bool DeserializeFromFile(const std::string& path);
     bool SerializeToFile(const std::string& path)  const;
-    std::list<InstrumentJson> InstrumentsList() { return _instruments;}
+    std::list<InstrumentJson>& InstrumentsList() { return _instruments;}
     void PushBackInstrument(const Instrument& instr);
     
 private:

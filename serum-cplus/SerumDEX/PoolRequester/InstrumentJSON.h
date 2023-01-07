@@ -4,7 +4,7 @@
 #include "rapidjson/writer.h"
 #include <marketlib/include/market.h>
 
-class InstrumentJson : virtual public marketlib::instrument_descr_t
+class InstrumentJson : public marketlib::instrument_descr_t
 {
 private:
     typedef marketlib::instrument_descr_t Instrument;
