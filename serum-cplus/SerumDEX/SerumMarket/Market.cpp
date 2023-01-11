@@ -26,7 +26,7 @@ SerumMarket::~SerumMarket()
 
 SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, const Order& order_) 
 {
-    MarketChannel *market_info;
+    MarketChannel market_info;
     OpenOrdersAccountInfo orders_account_info;
     Transaction txn;
     Transaction::Signers signers;
@@ -35,15 +35,15 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, con
         market_info = get_market_info(instrument);
         orders_account_info = get_orders_account_info(instrument);
 
-        if (order_.side == marketlib::order_side_t::os_Buy && market_info->payer_buy.get_str_key().empty()) {
-            auto payer_buy = get_token_account_by_owner(pubkey_.get_str_key(), market_info->instr.quote_mint_address);
+        if (order_.side == marketlib::order_side_t::os_Buy && market_info.payer_buy.get_str_key().empty()) {
+            auto payer_buy = get_token_account_by_owner(pubkey_.get_str_key(), market_info.instr.quote_mint_address);
             if (!payer_buy.empty()) {
-                market_info->payer_buy = payer_buy;
+                market_info.payer_buy = payer_buy;
             }
             else {
                 auto balance_needed = get_balance_needed();
                 Keypair payer_buy;
-                market_info->payer_buy = payer_buy.get_pubkey();
+                market_info.payer_buy = payer_buy.get_pubkey();
                 signers.push_back(payer_buy);
                 txn.add_instruction(
                     create_account(
@@ -73,7 +73,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, con
 
     try{
         auto res = place_order(
-            *market_info,
+            market_info,
             orders_account_info,
             OrderType::LIMIT,
             order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
@@ -96,7 +96,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, con
 
 SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const Order& order_)
 {
-    MarketChannel *market_info;
+    MarketChannel market_info;
     OpenOrdersAccountInfo orders_account_info;
     try {
         market_info = get_market_info(instrument);
@@ -111,10 +111,10 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
     txn.add_instruction(
         new_cancel_order_by_client_id_v2(
             CancelOrderV2ByClientIdParams {
-                market: market_info->market_address,
-                bids: market_info->parsed_market.bids,
-                asks: market_info->parsed_market.asks,
-                event_queue: market_info->parsed_market.event_queue,
+                market: market_info.market_address,
+                bids: market_info.parsed_market.bids,
+                asks: market_info.parsed_market.asks,
+                event_queue: market_info.parsed_market.event_queue,
                 open_orders: orders_account_info.account,
                 owner: pubkey_,
                 client_id: order_.clId,
@@ -233,7 +233,7 @@ SerumMarket::string SerumMarket::place_order(
     return send_transaction(txn, signers);
 }
 
-SerumMarket::MarketChannel* SerumMarket::get_market_info(const Instrument& instrument)
+const SerumMarket::MarketChannel& SerumMarket::get_market_info(const Instrument& instrument)
 {
     auto market_info = markets_info.get<MarketChannelsByPool>()
 		.find(boost::make_tuple(
@@ -256,9 +256,10 @@ SerumMarket::MarketChannel* SerumMarket::get_market_info(const Instrument& instr
     return *market_info;
 }
 
-SerumMarket::MarketChannel* SerumMarket::create_market_info(const Instrument& instr)
+// TODO
+SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& instr)
 {
-    return new MarketChannel {
+    return MarketChannel {
         base: instr.base_currency,
         quote: instr.quote_currency,
         instr: instr,

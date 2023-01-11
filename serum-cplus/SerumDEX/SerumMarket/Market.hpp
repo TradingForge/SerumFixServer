@@ -60,7 +60,7 @@ private:
     };
 
     using MarketChannels = boost::multi_index::multi_index_container<
-        MarketChannel*,
+        MarketChannel,
         boost::multi_index::indexed_by<
             boost::multi_index::hashed_unique<
                 boost::multi_index::tag<struct MarketChannelsByPool>,
@@ -97,8 +97,8 @@ private:
     );
 
     void get_mint_addresses();
-    MarketChannel* create_market_info(const Instrument&);
-    MarketChannel* get_market_info(const Instrument&);
+    MarketChannel create_market_info(const Instrument&);
+    const MarketChannel& get_market_info(const Instrument&);
     MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
     string get_latest_blockhash();
