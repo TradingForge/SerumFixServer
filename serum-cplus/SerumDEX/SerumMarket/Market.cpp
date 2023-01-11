@@ -84,13 +84,16 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, con
             signers
         );
         callback_(Name, instrument, "The order is sent: " + res);
+        order.transaction_hash = res;
     }
     catch (string e) {
         callback_(Name, instrument, "Failed to send the order: " + e);
         return order_;
     }
 
-    order.state = marketlib::order_state_t::ost_New;
+    order.state = marketlib::order_state_t::ost_Undefined;
+    order.init_time = current_time();
+    orders_.insert(order);
     return order;
 }
 
@@ -229,19 +232,19 @@ SerumMarket::string SerumMarket::place_order(
             )
         );
     }
-
+    
     return send_transaction(txn, signers);
 }
 
 const SerumMarket::MarketChannel& SerumMarket::get_market_info(const Instrument& instrument)
 {
-    auto market_info = markets_info.get<MarketChannelsByPool>()
+    auto market_info = markets_info_.get<MarketChannelsByPool>()
 		.find(boost::make_tuple(
 			instrument.base_currency,
 			instrument.quote_currency
 		));
 
-    if (market_info == markets_info.end()) {
+    if (market_info == markets_info_.end()) {
         // auto pls = pools_->getPools();
         auto pool = pools_->getPool(instrument);
         // auto pool = *std::find_if(pls.begin(), pls.end(), [&instrument](const Instrument& i){ 
@@ -249,8 +252,8 @@ const SerumMarket::MarketChannel& SerumMarket::get_market_info(const Instrument&
         //             instrument.quote_currency == i.quote_currency;
         //     });
 
-        markets_info.insert(create_market_info(pool));
-        market_info = markets_info.begin();
+        markets_info_.insert(create_market_info(pool));
+        market_info = markets_info_.begin();
     }
 
     return *market_info;
@@ -292,7 +295,7 @@ SerumMarket::MarketLayout SerumMarket::get_market_layout(const string& market_ad
     };
 }
 
-uint64_t SerumMarket::get_balance_needed() 
+uint64_t SerumMarket::get_balance_needed()
 {
     return boost::json::parse(get_minimum_balance_for_rent_exemption())
     .at("result")
@@ -342,7 +345,7 @@ uint8_t SerumMarket::get_mint_decimals(const string& mint_address)
         .at("decimals").as_int64();
 }
 
-Instruction SerumMarket::new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams& params)
+Instruction SerumMarket::new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams& params) const
 {
     Instruction instruction;
     instruction.set_account_id(params.program_id);
@@ -365,7 +368,7 @@ Instruction SerumMarket::new_cancel_order_by_client_id_v2(const CancelOrderV2ByC
     return instruction;
 }
 
-Instruction SerumMarket::new_order_v3(const NewOrderV3Params& params) 
+Instruction SerumMarket::new_order_v3(const NewOrderV3Params& params) const
 {
     Instruction instruction;
     instruction.set_account_id(params.program_id);
@@ -402,7 +405,7 @@ Instruction SerumMarket::new_order_v3(const NewOrderV3Params& params)
     return instruction;
 }
 
-Instruction SerumMarket::create_account(const CreateAccountParams& params) 
+Instruction SerumMarket::create_account(const CreateAccountParams& params) const
 {
     Instruction instruction;
     instruction.set_account_id(params.program_id);
@@ -421,7 +424,7 @@ Instruction SerumMarket::create_account(const CreateAccountParams& params)
     return instruction;
 }
 
-Instruction SerumMarket::initialize_account(const InitializeAccountParams& params) 
+Instruction SerumMarket::initialize_account(const InitializeAccountParams& params) const
 {
     Instruction instruction;
     instruction.set_account_id(params.program_id);
@@ -437,7 +440,7 @@ Instruction SerumMarket::initialize_account(const InitializeAccountParams& param
     return instruction;
 }
 
-Instruction SerumMarket::close_account(const CloseAccountParams& params) 
+Instruction SerumMarket::close_account(const CloseAccountParams& params) const
 {
     Instruction instruction;
     instruction.set_account_id(params.program_id);
@@ -666,7 +669,7 @@ std::string SerumMarket::send_transaction(Transaction &txn, const Transaction::S
     return data_str;
 }
 
-uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChannel& info)
+uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChannel& info) const
 {
     return static_cast<uint64_t>(
         (price * info.quote_spl_token_multiplier * info.parsed_market.base_lot_size) 
@@ -674,14 +677,14 @@ uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChanne
     ); 
 }
 
-uint64_t SerumMarket::base_size_number_to_lots(long double size, const MarketChannel& info)
+uint64_t SerumMarket::base_size_number_to_lots(long double size, const MarketChannel& info) const
 {
     return static_cast<uint64_t>(
         std::floor(size * info.base_spl_token_multiplier) / info.parsed_market.base_lot_size
     );
 }
 
-uint64_t SerumMarket::get_lamport_need_for_sol_wrapping(double limit_price, double max_quantity, Side side, const OpenOrdersAccountInfo& orders_account_info)
+uint64_t SerumMarket::get_lamport_need_for_sol_wrapping(double limit_price, double max_quantity, Side side, const OpenOrdersAccountInfo& orders_account_info) const
 {
     uint64_t lamports = 0;
 

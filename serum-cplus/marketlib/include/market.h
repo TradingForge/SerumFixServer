@@ -126,6 +126,7 @@ namespace marketlib
         uint64_t clId;
         std::string exchId;
         std::string secId;
+        std::string transaction_hash;
         double original_qty  = 0.0;
         double remaining_qty = 0.0;
         double price     = 0.0;

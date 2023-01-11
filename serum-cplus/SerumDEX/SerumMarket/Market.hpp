@@ -14,6 +14,7 @@
 #include <functional>
 #include <string>
 #include <map>
+#include<ctime>
 
 #include <marketlib/include/enums.h>
 #include <marketlib/include/market.h>
@@ -73,12 +74,27 @@ private:
         >
     >;
 
+    using Orders = boost::multi_index::multi_index_container<
+        Order ,
+        boost::multi_index::indexed_by<
+            boost::multi_index::hashed_unique<
+                boost::multi_index::tag<struct OrderByStateByInitTime>,
+                boost::multi_index::composite_key<
+                    Order,
+                    boost::multi_index::member<Order, decltype(Order::state), &Order::state >,
+					boost::multi_index::member<Order, decltype(Order::init_time), &Order::init_time >
+                >
+            >
+        >
+    >;
+
     PublicKey pubkey_;
     Keypair secretkey_;
     string http_address_;
     pools_ptr pools_;
+    Orders orders_;
     Callback callback_;
-    MarketChannels markets_info;
+    MarketChannels markets_info_;
     std::map<string, string> mint_addresses_;
     uint64_t message_count;
     string Name = "SerumMarket";
@@ -110,16 +126,18 @@ private:
     OpenOrdersAccountInfo get_orders_account_info(const Instrument& instruction);
     uint64_t get_balance_needed();
 
-    Instruction new_order_v3(const NewOrderV3Params&);
-    Instruction new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams&);
-    Instruction create_account(const CreateAccountParams&);
-    Instruction initialize_account(const InitializeAccountParams&);
-    Instruction close_account(const CloseAccountParams&);
+    Instruction new_order_v3(const NewOrderV3Params&) const;
+    Instruction new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams&) const;
+    Instruction create_account(const CreateAccountParams&) const;
+    Instruction initialize_account(const InitializeAccountParams&) const;
+    Instruction close_account(const CloseAccountParams&) const;
 
     // precision
-    uint64_t price_number_to_lots(long double price, const MarketChannel& info);
-    uint64_t base_size_number_to_lots(long double price, const MarketChannel& info);
-    uint64_t get_lamport_need_for_sol_wrapping(double, double, Side, const OpenOrdersAccountInfo&);
+    uint64_t price_number_to_lots(long double price, const MarketChannel& info) const;
+    uint64_t base_size_number_to_lots(long double price, const MarketChannel& info) const;
+    uint64_t get_lamport_need_for_sol_wrapping(double, double, Side, const OpenOrdersAccountInfo&) const;
+
+    time_t current_time() const { return std::time(nullptr);};
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);
     SerumMarket(const SerumMarket&) {};
