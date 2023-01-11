@@ -53,15 +53,9 @@ public:
         min_order_size = instr.min_order_size;
         deprecated = instr.deprecated;
     }	
-    ~InstrumentJson() {
-        // if (_instrument != nullptr) {
-        //     delete _instrument;
-        // }
-    };			
+    ~InstrumentJson() {};			
 
     bool Deserialize(const rapidjson::Value& obj);
     bool Serialize(rapidjson::Writer<rapidjson::StringBuffer>* writer) const;
     const Instrument& GetInstrument() const { return *this; };
-private:
-    // Instrument* _instrument;
 };	

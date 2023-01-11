@@ -11,7 +11,7 @@ class InstrumentsJson
 private:
     typedef marketlib::instrument_descr_t Instrument;
 public:	
-    InstrumentsJson() {};
+    InstrumentsJson(): _instruments() {};
     ~InstrumentsJson() {};
     
     bool DeserializeFromFile(const std::string& path);
