@@ -8,6 +8,8 @@
 #include "sol_sdk/Keypair.hpp"
 #include "sol_sdk/Transaction.hpp"
 
+#include <SerumDEX/SerumTrade.h>
+
 #include <boost/json.hpp>
 #include <boost/format.hpp>
 #include <algorithm>
@@ -29,9 +31,11 @@ class SerumMarket : IMarket
 private:
     typedef std::string string;
     typedef std::shared_ptr < IPoolsRequester > pools_ptr;
+    typedef std::shared_ptr < IListener > Listener;
     typedef marketlib::order_t Order;
     typedef marketlib::instrument_descr_t Instrument;
     typedef std::function <void(const string&, const Instrument&, const string&)> Callback;
+    typedef std::function <void(const string&, const Order&)> OrdersCallback;
     typedef solana::PublicKey PublicKey;
 
     struct MarketLayout
@@ -78,12 +82,8 @@ private:
         Order ,
         boost::multi_index::indexed_by<
             boost::multi_index::hashed_unique<
-                boost::multi_index::tag<struct OrderByStateByInitTime>,
-                boost::multi_index::composite_key<
-                    Order,
-                    boost::multi_index::member<Order, decltype(Order::state), &Order::state >,
-					boost::multi_index::member<Order, decltype(Order::init_time), &Order::init_time >
-                >
+                boost::multi_index::tag<struct OrderByCliId>,
+                boost::multi_index::member<Order, decltype(Order::clId), &Order::clId >
             >
         >
     >;
@@ -94,11 +94,12 @@ private:
     pools_ptr pools_;
     Orders orders_;
     Callback callback_;
+    OrdersCallback orders_callback_;
+    Listener trade_channel_;
     MarketChannels markets_info_;
     std::map<string, string> mint_addresses_;
     uint64_t message_count;
     string Name = "SerumMarket";
-
     
     string place_order(
         const MarketChannel&,
@@ -138,9 +139,11 @@ private:
     uint64_t get_lamport_need_for_sol_wrapping(double, double, Side, const OpenOrdersAccountInfo&) const;
 
     time_t current_time() const { return std::time(nullptr);};
+
+    void order_checker(const Order& order);
 public:
-    SerumMarket(const string&, const string&, const string&, pools_ptr, Callback);
-    SerumMarket(const SerumMarket&) {};
+    SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
+    // SerumMarket(const SerumMarket&) {};
 
     Order send_new_order(const Instrument&, const Order&) override;
     Order cancel_order(const Instrument&, const Order&) override;

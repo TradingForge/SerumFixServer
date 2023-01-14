@@ -13,8 +13,8 @@
 
 using namespace solana; 
 
-SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback) 
-: pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback), message_count(1)
+SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback, OrdersCallback orders_callback) 
+: pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback), message_count(1), orders_callback_(orders_callback)
 {
     get_mint_addresses();
 }
@@ -667,6 +667,25 @@ std::string SerumMarket::send_transaction(Transaction &txn, const Transaction::S
         throw data_str;
     }
     return data_str;
+}
+
+void SerumMarket::order_checker(const Order& order_)
+{
+    // auto t = markets_info_.get<MarketChannelsByPool>()
+	// 	.find(boost::make_tuple(
+	// 		instrument.base_currency,
+	// 		instrument.quote_currency
+	// 	));
+
+    auto order = orders_.get<OrderByCliId>()
+        .find(order_.clId);
+
+    if (order == orders_.end()) 
+        return;
+
+    order->state = marketlib::order_state_t::ost_Canceled;
+
+    orders_callback_(Name, *order);
 }
 
 uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChannel& info) const
