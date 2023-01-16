@@ -63,11 +63,11 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, con
         return order_;
     }
 
-    auto order = order_;
-    if (order.clId == 0) {
+    auto order = std::make_shared<Order>(order_);
+    if (order->clId == 0) {
         std::random_device rd; 
         std::mt19937_64 mersenne(rd());
-        order.clId = mersenne();
+        order->clId = mersenne();
     };
     // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
 
@@ -76,25 +76,25 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument, con
             market_info,
             orders_account_info,
             OrderType::LIMIT,
-            order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
-            order.price,
-            order.original_qty,
-            order.clId,
+            order->side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
+            order->price,
+            order->original_qty,
+            order->clId,
             txn,
             signers
         );
         callback_(Name, instrument, "The order is sent: " + res);
-        order.transaction_hash = res;
+        order->transaction_hash = res;
     }
     catch (string e) {
         callback_(Name, instrument, "Failed to send the order: " + e);
         return order_;
     }
 
-    order.state = marketlib::order_state_t::ost_Undefined;
-    order.init_time = current_time();
-    orders_.insert(order);
-    return order;
+    order->state = marketlib::order_state_t::ost_Undefined;
+    order->init_time = current_time();
+    open_orders_.insert(order);
+    return *order;
 }
 
 SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const Order& order_)
@@ -669,23 +669,22 @@ std::string SerumMarket::send_transaction(Transaction &txn, const Transaction::S
     return data_str;
 }
 
-void SerumMarket::order_checker(const Order& order_)
+void SerumMarket::order_checker(const string& exch_name, const string& cli_id, const ExecutionReport& exec_report)
 {
-    // auto t = markets_info_.get<MarketChannelsByPool>()
-	// 	.find(boost::make_tuple(
-	// 		instrument.base_currency,
-	// 		instrument.quote_currency
-	// 	));
+    auto order = open_orders_.get<OrderByCliId>()
+        .find(exec_report.clId);
 
-    auto order = orders_.get<OrderByCliId>()
-        .find(order_.clId);
-
-    if (order == orders_.end()) 
+    if (order == open_orders_.end()) 
         return;
 
-    order->state = marketlib::order_state_t::ost_Canceled;
-
+    open_orders_.modify(order, change_order_status(exec_report.state));
+    open_orders_.modify(order, change_order_remaining_qty(exec_report.leavesQty));
     orders_callback_(Name, *order);
+
+    if ((*order)->isCompleted()) {
+        open_orders_.erase(order);
+        return;
+    }
 }
 
 uint64_t SerumMarket::price_number_to_lots(long double price, const MarketChannel& info) const

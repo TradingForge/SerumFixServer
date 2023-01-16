@@ -16,7 +16,7 @@
 #include <functional>
 #include <string>
 #include <map>
-#include<ctime>
+#include <ctime>
 
 #include <marketlib/include/enums.h>
 #include <marketlib/include/market.h>
@@ -33,9 +33,11 @@ private:
     typedef std::shared_ptr < IPoolsRequester > pools_ptr;
     typedef std::shared_ptr < IListener > Listener;
     typedef marketlib::order_t Order;
+    typedef std::shared_ptr < Order > Order_ptr;
+    typedef marketlib::execution_report_t ExecutionReport;
     typedef marketlib::instrument_descr_t Instrument;
     typedef std::function <void(const string&, const Instrument&, const string&)> Callback;
-    typedef std::function <void(const string&, const Order&)> OrdersCallback;
+    typedef std::function <void(const string&, Order_ptr)> OrdersCallback;
     typedef solana::PublicKey PublicKey;
 
     struct MarketLayout
@@ -79,7 +81,7 @@ private:
     >;
 
     using Orders = boost::multi_index::multi_index_container<
-        Order ,
+        Order_ptr ,
         boost::multi_index::indexed_by<
             boost::multi_index::hashed_unique<
                 boost::multi_index::tag<struct OrderByCliId>,
@@ -88,15 +90,41 @@ private:
         >
     >;
 
+    struct change_order_status
+    {
+        change_order_status(const marketlib::order_state_t& new_state):new_state_(new_state){}
+        void operator()(Order& o)
+        {
+            o.state=new_state_;
+        }
+
+    private:
+        marketlib::order_state_t new_state_;
+    };
+
+    struct change_order_remaining_qty
+    {
+        change_order_remaining_qty(double new_qty):new_qty_(new_qty){}
+        void operator()(Order& o)
+        {
+            o.remaining_qty=new_qty_;
+        }
+
+    private:
+        double new_qty_;
+    };
+
     PublicKey pubkey_;
     Keypair secretkey_;
     string http_address_;
     pools_ptr pools_;
-    Orders orders_;
+    Orders open_orders_;
     Callback callback_;
     OrdersCallback orders_callback_;
     Listener trade_channel_;
     MarketChannels markets_info_;
+    // pair - count
+    std::map<string, uint64_t> subscribed_channels_;
     std::map<string, string> mint_addresses_;
     uint64_t message_count;
     string Name = "SerumMarket";
@@ -140,7 +168,7 @@ private:
 
     time_t current_time() const { return std::time(nullptr);};
 
-    void order_checker(const Order& order);
+    void order_checker(const string&, const string&, const ExecutionReport&);
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
     // SerumMarket(const SerumMarket&) {};
