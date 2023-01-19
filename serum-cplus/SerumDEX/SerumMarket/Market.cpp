@@ -672,7 +672,7 @@ std::string SerumMarket::send_transaction(Transaction &txn, const Transaction::S
 void SerumMarket::order_checker(const string& exch_name, const string& cli_id, const ExecutionReport& exec_report)
 {
     auto order = open_orders_.get<OrderByCliId>()
-        .find(exec_report.clId);
+        .find(strtoull(exec_report.clId.c_str(), nullptr, 0));
 
     if (order == open_orders_.end()) 
         return;
