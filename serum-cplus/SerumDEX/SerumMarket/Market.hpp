@@ -24,6 +24,8 @@
 #include <sharedlib/include/HTTPClient.h>
 #include <sharedlib/include/IMarket.h>
 
+#include <boost/lexical_cast.hpp>
+
 #define MARKET_KEY PublicKey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
 
 class SerumMarket : IMarket
@@ -93,9 +95,9 @@ private:
     struct change_order_status
     {
         change_order_status(const marketlib::order_state_t& new_state):new_state_(new_state){}
-        void operator()(Order& o)
+        void operator()(Order_ptr o)
         {
-            o.state=new_state_;
+            o->state=new_state_;
         }
 
     private:
@@ -105,9 +107,9 @@ private:
     struct change_order_remaining_qty
     {
         change_order_remaining_qty(double new_qty):new_qty_(new_qty){}
-        void operator()(Order& o)
+        void operator()(Order_ptr o)
         {
-            o.remaining_qty=new_qty_;
+            o->remaining_qty=new_qty_;
         }
 
     private:
