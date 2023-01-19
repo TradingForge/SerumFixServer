@@ -89,7 +89,7 @@ sudo make install
 # Cloning and compiling the source
 ```bash
 git clone --recurse-submodules https://github.com/TradingForge/SerumFixServer.git
-cd serum_cplus
+cd serum-cplus
 mkdir build && cd build
 cmake ..
 cmake --build . --config Debug --target all -- -j 6
