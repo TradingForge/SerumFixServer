@@ -26,7 +26,7 @@
 
 #include <boost/lexical_cast.hpp>
 
-#define MARKET_KEY PublicKey("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin")
+#define MARKET_KEY PublicKey("srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX")
 
 class SerumMarket : IMarket
 {
