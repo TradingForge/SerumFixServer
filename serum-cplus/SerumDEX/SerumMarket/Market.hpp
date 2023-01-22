@@ -26,6 +26,7 @@
 
 #include <boost/lexical_cast.hpp>
 
+#define LAMPORTS_PER_SOL 1000000000
 #define MARKET_KEY PublicKey("srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX")
 
 class SerumMarket : IMarket
@@ -35,6 +36,7 @@ private:
     typedef std::shared_ptr < IPoolsRequester > pools_ptr;
     typedef std::shared_ptr < IListener > Listener;
     typedef marketlib::order_t Order;
+    typedef Keypair SecretKey;
     typedef std::shared_ptr < Order > Order_ptr;
     typedef marketlib::execution_report_t ExecutionReport;
     typedef marketlib::instrument_descr_t Instrument;
@@ -116,20 +118,20 @@ private:
         double new_qty_;
     };
 
-    PublicKey pubkey_;
-    Keypair secretkey_;
-    string http_address_;
-    pools_ptr pools_;
-    Orders open_orders_;
-    Callback callback_;
-    OrdersCallback orders_callback_;
-    Listener trade_channel_;
-    MarketChannels markets_info_;
+    // PublicKey pubkey_;
+    // Keypair secretkey_;
+    string _http_address;
+    pools_ptr _pools;
+    Orders _open_orders;
+    Callback _callback;
+    OrdersCallback _orders_callback;
+    Listener _trade_channel;
+    MarketChannels _markets_info;
     // pair - count
-    std::map<string, uint64_t> subscribed_channels_;
-    std::map<string, string> mint_addresses_;
-    uint64_t message_count;
-    string Name = "SerumMarket";
+    std::map<string, uint64_t> _subscribed_channels;
+    std::map<string, string> _mint_addresses;
+    uint64_t _message_count;
+    const string _name = "SerumMarket";
     
     string place_order(
         const MarketChannel&,
@@ -140,12 +142,13 @@ private:
         double,
         uint64_t,
         Transaction&,
-        Transaction::Signers&
+        Transaction::Signers&,
+        const PublicKey&
     );
 
-    void get_mint_addresses();
-    MarketChannel create_market_info(const Instrument&);
-    const MarketChannel& get_market_info(const Instrument&);
+    void load_mint_addresses();
+    MarketChannel create_market_info(const Instrument&, const PublicKey&);
+    const MarketChannel& get_market_info(const Instrument&, const PublicKey&);
     MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
     string get_latest_blockhash();
@@ -154,7 +157,7 @@ private:
     string get_token_program_accounts(const string&, const string&, const string&);
     string send_transaction(Transaction& transaction, const Transaction::Signers&);
     uint8_t get_mint_decimals(const string&);
-    OpenOrdersAccountInfo get_orders_account_info(const Instrument& instruction);
+    OpenOrdersAccountInfo get_orders_account_info(const Instrument&, const PublicKey&);
     uint64_t get_balance_needed();
 
     Instruction new_order_v3(const NewOrderV3Params&) const;
@@ -172,11 +175,12 @@ private:
 
     void order_checker(const string&, const string&, const ExecutionReport&);
 public:
-    SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
+    // SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
+    SerumMarket(const string&, pools_ptr, Callback, OrdersCallback);
     // SerumMarket(const SerumMarket&) {};
 
-    Order send_new_order(const Instrument&, const Order&) override;
-    Order cancel_order(const Instrument&, const Order&) override;
+    Order send_new_order(const Instrument&, const Order&, const SecretKey&) override;
+    Order cancel_order(const Instrument&, const Order&, const SecretKey&) override;
 
     ~SerumMarket();
 };
