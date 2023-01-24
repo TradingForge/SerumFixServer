@@ -1,46 +1,32 @@
 #include "Market.hpp"
-#include <base64/base64.h>
-#include <iostream>
-#include <cmath>
-#include <algorithm> 
-#include "sol_sdk/Transaction.hpp"
-#include "sol_sdk/enums.hpp"
-#include "sysvar.hpp"
-#include <random>
-// #include <nacl/crypto_stream.h>
-
-
 using namespace solana; 
 
-// SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback, OrdersCallback orders_callback) 
-// : pubkey_(pubkey), secretkey_(secretkey), http_address_(http_address), pools_(pools), callback_(callback), message_count(1), orders_callback_(orders_callback)
-SerumMarket::SerumMarket(const string& http_address, pools_ptr pools, Callback callback, OrdersCallback orders_callback) 
-: _http_address(http_address), _pools(pools), _callback(callback), _message_count(1), _orders_callback(orders_callback)
+SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback, OrdersCallback orders_callback) 
+: _pubkey(pubkey), _secretkey(secretkey), _http_address(http_address), _pools(pools), _callback(callback), _message_count(0), _orders_callback(orders_callback)
 {
-    load_mint_addresses();
+    // load_mint_addresses();
 }
 
 SerumMarket::~SerumMarket()
 {
-    _mint_addresses.clear();
+    // _mint_addresses.clear();
     _subscribed_channels.clear();
     _open_orders.clear();
 }
 
-SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, const Order& order_, const SecretKey& secretkey_) 
+SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, const Order& order_) 
 {
     MarketChannel market_info;
     OpenOrdersAccountInfo orders_account_info;
     Transaction txn;
     Transaction::Signers signers;
-    const auto pubkey = secretkey_.get_pubkey();
-    signers.push_back(secretkey_);
+    signers.push_back(_secretkey);
     try {
-        market_info = get_market_info(instrument_, pubkey);
-        orders_account_info = get_orders_account_info(instrument_, pubkey);
+        market_info = get_market_info(instrument_, _pubkey);
+        orders_account_info = get_orders_account_info(instrument_, _pubkey);
 
         if (order_.side == marketlib::order_side_t::os_Buy && market_info.payer_buy.get_str_key().empty()) {
-            auto payer_buy = get_token_account_by_owner(pubkey.get_str_key(), market_info.instr.quote_mint_address);
+            auto payer_buy = get_token_account_by_owner(_pubkey.get_str_key(), market_info.instr.quote_mint_address);
             if (!payer_buy.empty()) {
                 market_info.payer_buy = payer_buy;
             }
@@ -52,7 +38,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
                 txn.add_instruction(
                     create_account(
                         CreateAccountParams{
-                            owner: pubkey,
+                            owner: _pubkey,
                             new_account: payer_buy.get_pubkey(),
                             lamports: balance_needed,
                             program_id: PublicKey("11111111111111111111111111111111")
@@ -86,7 +72,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
             order->clId,
             txn,
             signers,
-            pubkey
+            _pubkey
         );
         _callback(_name, instrument_, "The order is sent: " + res);
         order->transaction_hash = res;
@@ -103,14 +89,13 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     return *order;
 }
 
-SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument_, const Order& order_, const SecretKey& secretkey_)
+SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument_, const Order& order_)
 {
     MarketChannel market_info;
     OpenOrdersAccountInfo orders_account_info;
-    const auto pubkey = secretkey_.get_pubkey();
     try {
-        market_info = get_market_info(instrument_, pubkey);
-        orders_account_info = get_orders_account_info(instrument_, pubkey);        
+        market_info = get_market_info(instrument_, _pubkey);
+        orders_account_info = get_orders_account_info(instrument_, _pubkey);        
     }
     catch (string e) {
         _callback(_name, instrument_, "Failed to get information: " + e);
@@ -126,14 +111,14 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument_, cons
                 asks: market_info.parsed_market.asks,
                 event_queue: market_info.parsed_market.event_queue,
                 open_orders: orders_account_info.account,
-                owner: pubkey,
+                owner: _pubkey,
                 client_id: order_.clId,
                 program_id: MARKET_KEY
             }
         )
     );
     Transaction::Signers signers;
-    signers.push_back(secretkey_);
+    signers.push_back(_secretkey);
     try{
         auto res = send_transaction(txn, signers);
         _callback(_name, instrument_, "The order is sent: " + res);
@@ -484,26 +469,26 @@ Instruction SerumMarket::close_account(const CloseAccountParams& params_) const
 //     }
 // }
 
-void SerumMarket::load_mint_addresses()
-{
-    string data_str;
-    string address = "https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json";
-    try{
-        data_str = HttpClient::request(
-            "", 
-            address, 
-            HttpClient::HTTPMethod::GET
-        );
-    }
-    catch(std::exception e) {
-        throw string("Failed to make a request to " + address);
-    }
+// void SerumMarket::load_mint_addresses()
+// {
+//     string data_str;
+//     string address = "https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json";
+//     try{
+//         data_str = HttpClient::request(
+//             "", 
+//             address, 
+//             HttpClient::HTTPMethod::GET
+//         );
+//     }
+//     catch(std::exception e) {
+//         throw string("Failed to make a request to " + address);
+//     }
 
-    auto data = boost::json::parse(data_str).at("tokens").as_array();
-    for(const auto& el : data) {
-        _mint_addresses[el.at("symbol").as_string().c_str()] = el.at("address").as_string().c_str();
-    }
-}
+//     auto data = boost::json::parse(data_str).at("tokens").as_array();
+//     for(const auto& el : data) {
+//         _mint_addresses[el.at("symbol").as_string().c_str()] = el.at("address").as_string().c_str();
+//     }
+// }
 
 std::string SerumMarket::get_latest_blockhash()
 {
@@ -515,7 +500,7 @@ std::string SerumMarket::get_latest_blockhash()
                 "id": "%1%", 
                 "method": "getLatestBlockhash", 
                 "params": [{"commitment": "finalized"}]
-            })") % _message_count++).str(), 
+            })") % ++_message_count).str(), 
             _http_address, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -544,7 +529,7 @@ std::string SerumMarket::get_token_account_by_owner(const string& owner_pubkey_,
                     {"mint": "%3%"}, 
                     {"commitment": "finalized", "encoding": "base64"}
                 ]
-            })") % _message_count++ % owner_pubkey_ % token_address_).str(), 
+            })") % ++_message_count % owner_pubkey_ % token_address_).str(), 
             _http_address, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -579,7 +564,7 @@ SerumMarket::string SerumMarket::get_minimum_balance_for_rent_exemption()
                 "method": 
                 "getMinimumBalanceForRentExemption", 
                 "params": [%2%, {"commitment": "finalized"}]
-            })") % _message_count++ % sizeof(SolOpenOrderLayout)).str(), 
+            })") % ++_message_count % sizeof(SolOpenOrderLayout)).str(), 
             _http_address, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -614,7 +599,7 @@ SerumMarket::string SerumMarket::get_token_program_accounts(const string& market
                     "encoding": "base64", 
                     "commitment": "recent"}
                 ]
-            })") % _message_count++ % market_key_ % pool_key_ % pubkey_owner_).str(), 
+            })") % ++_message_count % market_key_ % pool_key_ % pubkey_owner_).str(), 
             _http_address, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -643,7 +628,7 @@ std::string SerumMarket::get_account_info(const string& account_)
                     "%2%", 
                     {"encoding": "jsonParsed", "commitment": "finalized"}
                 ]
-            })") % _message_count++ % account_).str(), 
+            })") % ++_message_count % account_).str(), 
             _http_address, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -683,7 +668,7 @@ std::string SerumMarket::send_transaction(Transaction &txn_, const Transaction::
                         "encoding": "base64"
                     }
                 ]
-            })") % _message_count++ % decode_msg).str(), 
+            })") % ++_message_count % decode_msg).str(), 
             _http_address, 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
