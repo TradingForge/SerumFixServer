@@ -1,7 +1,13 @@
 #pragma once
+#include "PublicKey.hpp"
 #include <vector>
 #include <string>
-#include "PublicKey.hpp"
+#include <base58/base58.h>
+#include <cryptopp/xed25519.h>
+#include <cryptopp/osrng.h>
+#include <boost/algorithm/hex.hpp>
+#include <sstream>
+#include <algorithm>
 
 namespace solana
 {

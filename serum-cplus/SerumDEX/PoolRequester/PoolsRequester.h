@@ -1,11 +1,11 @@
 #pragma once
+#include "InstrumentsJSON.h"
 #include <curl/curl.h>
 #include <boost/json.hpp>
 #include <sharedlib/include/IPoolsRequester.h>
 #include <sharedlib/include/ILogger.h>
 #include <sharedlib/include/ISettings.h>
 #include <marketlib/include/market.h>
-#include "InstrumentsJSON.h"
 
 
 class PoolsRequester : public IPoolsRequester

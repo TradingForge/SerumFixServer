@@ -1,6 +1,6 @@
 #pragma once
-#include "sol_sdk/PublicKey.hpp"
 #include "enums.hpp"
+#include <sol_sdk/PublicKey.hpp>
 #include <string>
 #include <stdint.h>
 

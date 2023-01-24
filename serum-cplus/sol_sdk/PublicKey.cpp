@@ -1,6 +1,4 @@
 #include "PublicKey.hpp"
-#include <string.h>
-#include <base58/base58.h>
 
 namespace solana
 {

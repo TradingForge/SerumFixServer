@@ -1,6 +1,6 @@
 #pragma once
 #include "PublicKey.hpp"
-// #include "Transaction.hpp"
+#include <string.h>
 #include <vector>
 
 namespace solana

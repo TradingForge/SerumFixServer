@@ -10,7 +10,7 @@
 #include <boost/multi_index/hashed_index.hpp>
 #include <boost/multi_index/composite_key.hpp>
 
-#include <SerumDEX/SerumMarket/sol_sdk/Keypair.hpp>
+#include <sol_sdk/Keypair.hpp>
 
 class IMarket
 {
@@ -26,6 +26,6 @@ public:
 	IMarket& operator=(const IMarket&) = delete;
     virtual ~IMarket() = default;
 
-    virtual Order send_new_order(const Instrument& instrument, const Order& order, const SecretKey& key) = 0;
-    virtual Order cancel_order(const Instrument& instrument, const Order& order, const SecretKey& key) = 0;
+    virtual Order send_new_order(const Instrument& instrument, const Order& order) = 0;
+    virtual Order cancel_order(const Instrument& instrument, const Order& order) = 0;
 };

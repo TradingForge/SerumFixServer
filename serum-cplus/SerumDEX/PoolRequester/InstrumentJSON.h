@@ -1,7 +1,7 @@
 #pragma once
 
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
+#include <rapidjson/document.h>
+#include <rapidjson/writer.h>
 #include <marketlib/include/market.h>
 
 class InstrumentJson : public marketlib::instrument_descr_t

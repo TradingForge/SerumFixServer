@@ -3,20 +3,25 @@
 #include "enums.hpp"
 #include "models.hpp"
 #include "constants.hpp"
+#include "sysvar.hpp"
+#include "MintAddresses.hpp"
 
-#include "sol_sdk/PublicKey.hpp"
-#include "sol_sdk/Keypair.hpp"
-#include "sol_sdk/Transaction.hpp"
-
+#include <sol_sdk/enums.hpp>
+#include <sol_sdk/PublicKey.hpp>
+#include <sol_sdk/Keypair.hpp>
+#include <sol_sdk/Transaction.hpp>
+#include <base64/base64.h>
 #include <SerumDEX/SerumTrade.h>
-
 #include <boost/json.hpp>
 #include <boost/format.hpp>
+#include <boost/lexical_cast.hpp>
 #include <algorithm>
 #include <functional>
 #include <string>
 #include <map>
 #include <ctime>
+#include <cmath>
+#include <random>
 
 #include <marketlib/include/enums.h>
 #include <marketlib/include/market.h>
@@ -24,7 +29,7 @@
 #include <sharedlib/include/HTTPClient.h>
 #include <sharedlib/include/IMarket.h>
 
-#include <boost/lexical_cast.hpp>
+
 
 #define LAMPORTS_PER_SOL 1000000000
 #define MARKET_KEY PublicKey("srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX")
@@ -35,6 +40,7 @@ private:
     typedef std::string string;
     typedef std::shared_ptr < IPoolsRequester > pools_ptr;
     typedef std::shared_ptr < IListener > Listener;
+    // typedef std::shared_ptr < MintAdresses > MintAddresses_ptr;
     typedef marketlib::order_t Order;
     typedef Keypair SecretKey;
     typedef std::shared_ptr < Order > Order_ptr;
@@ -118,8 +124,8 @@ private:
         double new_qty_;
     };
 
-    // PublicKey pubkey_;
-    // Keypair secretkey_;
+    PublicKey _pubkey;
+    Keypair _secretkey;
     string _http_address;
     pools_ptr _pools;
     Orders _open_orders;
@@ -127,9 +133,10 @@ private:
     OrdersCallback _orders_callback;
     Listener _trade_channel;
     MarketChannels _markets_info;
+    // MintAddresses_ptr _mint_addresses;
     // pair - count
     std::map<string, uint64_t> _subscribed_channels;
-    std::map<string, string> _mint_addresses;
+    // std::map<string, string> _mint_addresses;
     uint64_t _message_count;
     const string _name = "SerumMarket";
     
@@ -146,7 +153,7 @@ private:
         const PublicKey&
     );
 
-    void load_mint_addresses();
+    // void load_mint_addresses();
     MarketChannel create_market_info(const Instrument&, const PublicKey&);
     const MarketChannel& get_market_info(const Instrument&, const PublicKey&);
     MarketLayout get_market_layout(const string&);
@@ -175,12 +182,12 @@ private:
 
     void order_checker(const string&, const string&, const ExecutionReport&);
 public:
-    // SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
-    SerumMarket(const string&, pools_ptr, Callback, OrdersCallback);
+    SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
+    // SerumMarket(const string&, pools_ptr, Callback, OrdersCallback);
     // SerumMarket(const SerumMarket&) {};
 
-    Order send_new_order(const Instrument&, const Order&, const SecretKey&) override;
-    Order cancel_order(const Instrument&, const Order&, const SecretKey&) override;
+    Order send_new_order(const Instrument&, const Order&) override;
+    Order cancel_order(const Instrument&, const Order&) override;
 
     ~SerumMarket();
 };

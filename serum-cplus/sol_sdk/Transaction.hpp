@@ -5,6 +5,14 @@
 #include "Instruction.hpp"
 #include <vector>
 #include <string>
+#include <base58/base58.h>
+#include <algorithm>
+#include <functional>
+#include <numeric>
+#include <string.h>
+#include <cryptopp/xed25519.h>
+#include <cryptopp/osrng.h>
+#include <set>
 
 namespace solana
 {
