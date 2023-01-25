@@ -17,12 +17,23 @@ typedef marketlib::order_t Order;
 typedef instrument_descr_t Instrument;
 // typedef order_t Order;
 
-std::map<string, string> stat = {
-    "0": "NewOrder",
-    "1": "PartiallyFilled",
-    "2": "Filled",
-    "4": "Cancelled",
-    "8": "Rejected"
+// std::map<string, string> stat = {
+//     "0": "NewOrder",
+//     "1": "PartiallyFilled",
+//     "2": "Filled",
+//     "4": "Cancelled",
+//     "8": "Rejected"
+// }
+
+std::string str_state(marketlib::order_state_t state){
+    switch (state) {
+        case '0': return "NewOrder";
+        case '1': return "PartiallyFilled";
+        case '2': return "Filled";
+        case '4': return "Cancelled";
+        case '8': return "Rejected";
+        default: return "Undefined";
+    }
 }
 
 
@@ -55,7 +66,7 @@ int main ()
         [](const string& name, shared_ptr<Order> order) {
             std::cout << "Order Update" << std::endl;
             std::cout << "id:" << order->clId << std::endl;
-            std::cout << "status" << order->state << endl;  
+            std::cout << "status" << str_state(order->state) << endl;  
         }
     );
 
