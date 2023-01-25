@@ -13,8 +13,17 @@
 using namespace std;
 using namespace BrokerModels;
 using namespace marketlib;
+typedef marketlib::order_t Order;
 typedef instrument_descr_t Instrument;
 // typedef order_t Order;
+
+std::map<string, string> stat = {
+    "0": "NewOrder",
+    "1": "PartiallyFilled",
+    "2": "Filled",
+    "4": "Cancelled",
+    "8": "Rejected"
+}
 
 
 int main () 
@@ -36,9 +45,19 @@ int main ()
     // cout << p.quote_mint_address << endl;
     // cout << p.base_mint_address << endl;
     // auto tt = 0;
-    auto market = SerumMarket(PUBKEY, SECRETKEY, "https://solana-api.projectserum.com", pools, [](const string& name, const Instrument& inst, const string& info){
-        std::cout << name << " || " << inst.symbol << " || " + info;
-    });
+    auto market = SerumMarket(
+        PUBKEY, 
+        SECRETKEY, 
+        "https://solana-api.projectserum.com", 
+        pools, 
+        [](const string& name, const Instrument& inst, const string& info){
+            std::cout << name << " || " << inst.symbol << " || " + info;},
+        [](const string& name, shared_ptr<Order> order) {
+            std::cout << "Order Update" << std::endl;
+            std::cout << "id:" << order->clId << std::endl;
+            std::cout << "status" << order->state << endl;  
+        }
+    );
 
     // cout << sizeof(Instruction) << endl;
     Instrument instrument{"", "", "SOL/USDC", "SOL", "USDC" };
