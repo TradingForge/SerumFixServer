@@ -121,13 +121,13 @@ if (type == "subscribed" || type == "unsubscribed") {
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [id = parsed_data.at("orderId").as_string().c_str()](auto a) {
 			return a.exchId == id;
 		});
-		order = find_if(
-			orders_lst.begin(), 
-			orders_lst.end(), 
-			[id = parsed_data.at("orderId").as_string().c_str()](auto a) {
-				return a.exchId == id;
-			}
-		);
+		// order = find_if(
+		// 	orders_lst.begin(), 
+		// 	orders_lst.end(), 
+		// 	[id = parsed_data.at("orderId").as_string().c_str()](auto a) {
+		// 		return a.exchId == id;
+		// 	}
+		// );
 
 		/*"done" can be pushed for orders that were never open in the order book 
 		in the first place (ImmediateOrCancel orders for example)*/
@@ -178,15 +178,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 			);
 			++chnls.first;
   		}
-		orders_lst.erase(
-			find_if(
-				orders_lst.begin(), 
-				orders_lst.end(), 
-				[id = parsed_data.at("orderId").as_string().c_str()](auto a) {
-					return a.exchId == id;
-				}
-			)
-		);
+		orders_lst.erase(order);
 	}
 }
 
