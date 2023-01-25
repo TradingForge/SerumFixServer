@@ -1,11 +1,17 @@
 #include "Market.hpp"
 using namespace solana; 
 
-SerumMarket::SerumMarket(const string& pubkey, const string& secretkey, const string& http_address, pools_ptr pools, Callback callback, OrdersCallback orders_callback) 
-: _pubkey(pubkey), _secretkey(secretkey), _http_address(http_address), _pools(pools), _callback(callback), _message_count(0), _orders_callback(orders_callback)
-{
-    // load_mint_addresses();
-}
+SerumMarket::SerumMarket(
+    const string& pubkey, const string& secretkey, const string& http_address, 
+    pools_ptr pools, Callback callback, OrdersCallback orders_callback) : 
+_pubkey(pubkey), _secretkey(secretkey), _http_address(http_address), 
+_pools(pools), _callback(callback), _message_count(0), _orders_callback(orders_callback)
+{}
+
+SerumMarket::SerumMarket(const SerumMarket& other): 
+_pubkey(other._pubkey), _secretkey(other._secretkey), _http_address(other._http_address), 
+_pools(other._pools), _callback(other._callback), _message_count(0), _orders_callback(other._orders_callback)
+{}
 
 SerumMarket::~SerumMarket()
 {
@@ -86,7 +92,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     order->state = marketlib::order_state_t::ost_Undefined;
     order->init_time = current_time();
     _open_orders.insert(order);
-    return *order;
+    return **(_open_orders.begin());
 }
 
 SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument_, const Order& order_)

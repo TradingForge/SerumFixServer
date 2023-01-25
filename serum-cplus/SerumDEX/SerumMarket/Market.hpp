@@ -184,7 +184,7 @@ private:
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
     // SerumMarket(const string&, pools_ptr, Callback, OrdersCallback);
-    // SerumMarket(const SerumMarket&) {};
+    SerumMarket(const SerumMarket&);
 
     Order send_new_order(const Instrument&, const Order&) override;
     Order cancel_order(const Instrument&, const Order&) override;
