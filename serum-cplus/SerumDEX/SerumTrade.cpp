@@ -54,7 +54,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 		auto addOrderToList = [&](const boost::json::value& set, std::list<Order>& vec) {
 			vec.push_back(Order{
 				clId:  set.at("clientId").as_uint64(), // (uint64_t)stoul(set.at("clientId").as_string().c_str()),
-				exchId: instruments::atouint128_t(set.at("orderId").as_string().c_str()),
+				exchId: instruments::atouint128(set.at("orderId").as_string().c_str()),
 				secId: "",
 				transaction_hash: "",
 				original_qty: stod(set.at("size").as_string().c_str()),
@@ -84,8 +84,9 @@ if (type == "subscribed" || type == "unsubscribed") {
 		
 	} else if (type  == "change") {
 		auto& orders_lst = orders_[market];
-		auto order = find_if(orders_lst.begin(), orders_lst.end(), [id = parsed_data.at("orderId").as_string().c_str()](auto a) {
-			return a.exchId == id;
+		auto exch_id = instruments::atouint128(parsed_data.at("orderId").as_string().c_str());
+		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
+			return a.exchId == exch_id;
 		});
 		order->side = stringToOrderSide(parsed_data.at("side").as_string().c_str());
 		order->original_qty = stod(parsed_data.at("size").as_string().c_str());
@@ -118,7 +119,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 	}
 	else if (type == "done") {
 		auto& orders_lst = orders_[market];
-		auto exch_id = instruments::atouint128_t(parsed_data.at("orderId").as_string().c_str());
+		auto exch_id = instruments::atouint128(parsed_data.at("orderId").as_string().c_str());
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
 			return a.exchId == exch_id;
 		});

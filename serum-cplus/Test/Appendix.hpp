@@ -7,6 +7,7 @@
 #include <boost/format.hpp>
 #include <iostream>
 #include <sstream>
+#include <instruments/converter.hpp>
 
 using namespace std;
 using namespace marketlib;
@@ -98,7 +99,7 @@ string formatExecutionReport(const string& exchangeName, const string &symbol, c
         % report.cumQty
         % report.leavesQty
         % state
-        % report.exchId
+        % instruments::uint128toa(report.exchId)
     ).str().c_str();
 }
 

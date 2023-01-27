@@ -3,7 +3,7 @@
 
 namespace instruments
 {
-    __uint128_t atouint128_t(const std::string& in)
+    __uint128_t atouint128(const std::string& in)
     {
         __uint128_t res = 0;
         for (const char& c : in)
@@ -14,5 +14,21 @@ namespace instruments
             res += c - '0';
         }
         return res;
-    }   
+    }
+
+    std::string uint128toa(__uint128_t in)
+    {
+        std::string res = std::string();
+
+        while (in) 
+        {
+            char c = in % 10 + '0';
+            res.insert(res.begin(), c);
+            in /= 10;
+        }
+
+        if (!res.size())
+            return "0";
+        return res;
+    }
 } // namespace instruments
