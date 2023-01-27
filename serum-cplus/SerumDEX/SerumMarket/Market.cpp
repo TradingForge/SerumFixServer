@@ -5,12 +5,14 @@ SerumMarket::SerumMarket(
     const string& pubkey, const string& secretkey, const string& http_address, 
     pools_ptr pools, Callback callback, OrdersCallback orders_callback) : 
 _pubkey(pubkey), _secretkey(secretkey), _http_address(http_address), 
-_pools(pools), _callback(callback), _message_count(0), _orders_callback(orders_callback)
+_pools(pools), _callback(callback), _message_count(0), _orders_callback(orders_callback),
+_order_count_for_symbol()
 {}
 
 SerumMarket::SerumMarket(const SerumMarket& other): 
 _pubkey(other._pubkey), _secretkey(other._secretkey), _http_address(other._http_address), 
-_pools(other._pools), _callback(other._callback), _message_count(0), _orders_callback(other._orders_callback)
+_pools(other._pools), _callback(other._callback), _message_count(0), _orders_callback(other._orders_callback),
+_order_count_for_symbol()
 {}
 
 SerumMarket::~SerumMarket()
@@ -92,6 +94,8 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     order->state = marketlib::order_state_t::ost_Undefined;
     order->init_time = current_time();
     _open_orders.insert(order);
+
+    check_order(market_info.base, market_info.quote, instrument_);
     return **(_open_orders.begin());
 }
 
@@ -689,21 +693,69 @@ std::string SerumMarket::send_transaction(Transaction &txn_, const Transaction::
     return data_str;
 }
 
-void SerumMarket::order_checker(const string& exch_name_, const string& cli_id_, const ExecutionReport& exec_report_)
+// void SerumMarket::order_checker(const string& exch_name_, const string& cli_id_, const ExecutionReport& exec_report_)  
+// {
+//     auto order = _open_orders.get<OrderByCliId>()
+//     .find(exec_report_.clId);
+
+//     if (order == _open_orders.end()) 
+//         return;
+
+//     _open_orders.modify(order, change_order_status(exec_report_.state));
+//     _open_orders.modify(order, change_order_remaining_qty(exec_report_.leavesQty));
+//     _open_orders.modify(order, change_order_exId(exec_report_.exchId));
+//     _orders_callback(_name, *order);
+
+//     if ((*order)->isCompleted()) {
+//         _open_orders.erase(order);
+//         return;
+//     }
+// };
+
+void SerumMarket::check_order(const string& base_, const string& quote_, const Instrument& instrument_) 
 {
-    auto order = _open_orders.get<OrderByCliId>()
-        .find(strtoull(exec_report_.clId.c_str(), nullptr, 0));
-
-    if (order == _open_orders.end()) 
+    auto symbol = base_ + quote_;
+    if (_order_count_for_symbol.find(symbol) != _order_count_for_symbol.end()) {
+        ++_order_count_for_symbol[symbol];
         return;
+    }
 
-    _open_orders.modify(order, change_order_status(exec_report_.state));
-    _open_orders.modify(order, change_order_remaining_qty(exec_report_.leavesQty));
-    _orders_callback(_name, *order);
+    auto order_cheker = [this](const string& exch_name_, const string& cli_id_, const ExecutionReport& exec_report_)  
+    {
+        auto order = _open_orders.get<OrderByCliId>()
+        .find(exec_report_.clId);
 
-    if ((*order)->isCompleted()) {
-        _open_orders.erase(order);
-        return;
+        if (order == _open_orders.end()) 
+            return;
+
+        _open_orders.modify(order, change_order_status(exec_report_.state));
+        _open_orders.modify(order, change_order_remaining_qty(exec_report_.leavesQty));
+        _open_orders.modify(order, change_order_exId(exec_report_.exchId));
+        _orders_callback(_name, *order);
+
+        if ((*order)->isCompleted()) {
+            _open_orders.erase(order);
+        }
+    };
+
+    _trade_channel->listen(
+        instrument_, 
+        _name + symbol, 
+        order_cheker
+    );
+    _order_count_for_symbol[symbol] = 1;
+}
+
+void SerumMarket::uncheck_order(const string& base_, const string& quote_, const Instrument& instrument_)
+{
+    auto symbol = base_ + quote_;
+    if (_order_count_for_symbol.find(symbol) == _order_count_for_symbol.end()) {
+        return; 
+    }
+    
+    --_order_count_for_symbol[symbol];
+    if (_order_count_for_symbol[symbol] < 1) {
+        _order_count_for_symbol.erase(symbol);
     }
 }
 

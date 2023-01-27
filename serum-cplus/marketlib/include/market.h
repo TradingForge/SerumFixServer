@@ -73,9 +73,9 @@ namespace marketlib
     struct execution_report_t
     {
         std::string     tradeId ;
-        std::string     clId ;
+        uint64_t         clId ;
         std::string     origClId;
-        std::string     exchId;
+        __uint128_t     exchId;
         std::string     secId;
         time_t          time ;
         std::string     text;
@@ -124,7 +124,7 @@ namespace marketlib
     struct order_t
     {
         uint64_t clId;
-        std::string exchId;
+        __uint128_t exchId;
         std::string secId;
         std::string transaction_hash;
         double original_qty  = 0.0;

@@ -53,8 +53,8 @@ if (type == "subscribed" || type == "unsubscribed") {
 	if (type  == "l3snapshot" || type  == "open") {
 		auto addOrderToList = [&](const boost::json::value& set, std::list<Order>& vec) {
 			vec.push_back(Order{
-				clId: (uint64_t)stoul(set.at("clientId").as_string().c_str()),
-				exchId: set.at("orderId").as_string().c_str(),
+				clId:  set.at("clientId").as_uint64(), // (uint64_t)stoul(set.at("clientId").as_string().c_str()),
+				exchId: instruments::atouint128_t(set.at("orderId").as_string().c_str()),
 				secId: "",
 				transaction_hash: "",
 				original_qty: stod(set.at("size").as_string().c_str()),
@@ -91,7 +91,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 		order->original_qty = stod(parsed_data.at("size").as_string().c_str());
 		order->remaining_qty = stod(parsed_data.at("size").as_string().c_str());
 		order->price = stod(parsed_data.at("price").as_string().c_str());
-		order->clId = (uint64_t)parsed_data.at("clientId").as_int64();
+		order->clId = parsed_data.at("clientId").as_uint64();
 
 		auto report = ExecutionReport();
 		report.clId = order->clId;
@@ -118,8 +118,9 @@ if (type == "subscribed" || type == "unsubscribed") {
 	}
 	else if (type == "done") {
 		auto& orders_lst = orders_[market];
-		auto order = find_if(orders_lst.begin(), orders_lst.end(), [id = parsed_data.at("orderId").as_string().c_str()](auto a) {
-			return a.exchId == id;
+		auto exch_id = instruments::atouint128_t(parsed_data.at("orderId").as_string().c_str());
+		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
+			return a.exchId == exch_id;
 		});
 		// order = find_if(
 		// 	orders_lst.begin(), 
@@ -134,8 +135,8 @@ if (type == "subscribed" || type == "unsubscribed") {
 		bool is_canceled = string(parsed_data.at("reason").as_string().c_str()) == string("canceled");
 		if (order == orders_lst.end()) {
 			auto report = ExecutionReport();
-			report.clId = parsed_data.at("clientId").as_string().c_str();
-			report.exchId = parsed_data.at("orderId").as_string().c_str();
+			report.clId = parsed_data.at("clientId").as_uint64();
+			report.exchId = exch_id;
 			report.orderType = order_type_t::ot_Market;
 			report.type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill;
 			report.state = is_canceled ? order_state_t::ost_Canceled : order_state_t::ost_Filled;

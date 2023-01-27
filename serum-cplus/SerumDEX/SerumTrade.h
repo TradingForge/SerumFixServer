@@ -14,6 +14,8 @@
 #include <marketlib/include/market.h>
 #include <marketlib/include/enums.h>
 
+#include <instruments/converter.hpp>
+
 
 class SerumTrade : public IListener
 {

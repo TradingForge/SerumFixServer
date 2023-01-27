@@ -124,6 +124,18 @@ private:
         double new_qty_;
     };
 
+    struct change_order_exId
+    {
+        change_order_exId(unsigned __int128 new_exId): new_exId_(new_exId){}
+        void operator()(Order_ptr o)
+        {
+            o->exchId=new_exId_;
+        }
+
+    private:
+        unsigned __int128 new_exId_;
+    };
+
     PublicKey _pubkey;
     Keypair _secretkey;
     string _http_address;
@@ -133,6 +145,7 @@ private:
     OrdersCallback _orders_callback;
     Listener _trade_channel;
     MarketChannels _markets_info;
+    std::map<std::string, uint64_t> _order_count_for_symbol;
     // MintAddresses_ptr _mint_addresses;
     // pair - count
     std::map<string, uint64_t> _subscribed_channels;
@@ -180,7 +193,9 @@ private:
 
     time_t current_time() const { return std::time(nullptr);};
 
-    void order_checker(const string&, const string&, const ExecutionReport&);
+    // void order_checker(const string&, const string&, const ExecutionReport&);
+    void check_order(const string&, const string&, const Instrument&);
+    void uncheck_order(const string&, const string&, const Instrument&);
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
     // SerumMarket(const string&, pools_ptr, Callback, OrdersCallback);
