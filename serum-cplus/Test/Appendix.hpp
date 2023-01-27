@@ -99,7 +99,7 @@ string formatExecutionReport(const string& exchangeName, const string &symbol, c
         % report.cumQty
         % report.leavesQty
         % state
-        % instruments::uint128toa(report.exchId)
+        % uint128toa(report.exchId)
     ).str().c_str();
 }
 

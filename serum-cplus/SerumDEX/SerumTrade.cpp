@@ -53,8 +53,8 @@ if (type == "subscribed" || type == "unsubscribed") {
 	if (type  == "l3snapshot" || type  == "open") {
 		auto addOrderToList = [&](const boost::json::value& set, std::list<Order>& vec) {
 			vec.push_back(Order{
-				clId:  set.at("clientId").as_uint64(), // (uint64_t)stoul(set.at("clientId").as_string().c_str()),
-				exchId: instruments::atouint128(set.at("orderId").as_string().c_str()),
+				clId:  strtoull(set.at("clientId").as_string().c_str(), nullptr, 0), // (uint64_t)stoul(set.at("clientId").as_string().c_str()),
+				exchId: atouint128(set.at("orderId").as_string().c_str()),
 				secId: "",
 				transaction_hash: "",
 				original_qty: stod(set.at("size").as_string().c_str()),
@@ -84,7 +84,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 		
 	} else if (type  == "change") {
 		auto& orders_lst = orders_[market];
-		auto exch_id = instruments::atouint128(parsed_data.at("orderId").as_string().c_str());
+		auto exch_id = atouint128(parsed_data.at("orderId").as_string().c_str());
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
 			return a.exchId == exch_id;
 		});
@@ -92,7 +92,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 		order->original_qty = stod(parsed_data.at("size").as_string().c_str());
 		order->remaining_qty = stod(parsed_data.at("size").as_string().c_str());
 		order->price = stod(parsed_data.at("price").as_string().c_str());
-		order->clId = parsed_data.at("clientId").as_uint64();
+		order->clId = strtoull(parsed_data.at("clientId").as_string().c_str(), nullptr, 0);
 
 		auto report = ExecutionReport();
 		report.clId = order->clId;
@@ -119,7 +119,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 	}
 	else if (type == "done") {
 		auto& orders_lst = orders_[market];
-		auto exch_id = instruments::atouint128(parsed_data.at("orderId").as_string().c_str());
+		auto exch_id = atouint128(parsed_data.at("orderId").as_string().c_str());
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
 			return a.exchId == exch_id;
 		});
@@ -136,7 +136,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 		bool is_canceled = string(parsed_data.at("reason").as_string().c_str()) == string("canceled");
 		if (order == orders_lst.end()) {
 			auto report = ExecutionReport();
-			report.clId = parsed_data.at("clientId").as_uint64();
+			report.clId = strtoull(parsed_data.at("clientId").as_string().c_str(), nullptr, 0);
 			report.exchId = exch_id;
 			report.orderType = order_type_t::ot_Market;
 			report.type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill;
@@ -220,7 +220,7 @@ bool SerumTrade::isConnected() const {
 
 void SerumTrade::clearMarkets() {
 #ifdef SERUM_LISTENER_DEBUG
-	logger_->Debug("> SerumTrade::clearMarkets");
+	// logger_->Debug("> SerumTrade::clearMarkets");
 #endif
 	orders_.clear();
 	channels_.clear();
