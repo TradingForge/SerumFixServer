@@ -62,6 +62,21 @@ public:
         >
     >;
 
+	enum class BrokerEvent {
+		Info,
+		Debug,
+		Error,
+		SessionLogon,
+		SessionLogout,
+		CoinSubscribed,
+		CoinUnsubscribed,
+		ConnectorStarted,
+		ConnectorStopped,
+		CoinSubscribedFault,
+		CoinUnsubscribedFault,
+		SubscribedCoinIsNotValid
+	};
+
 	IBrokerClient() {}
 	IBrokerClient(const IBrokerClient&) = delete;
 	IBrokerClient& operator = (const IBrokerClient&) = delete;

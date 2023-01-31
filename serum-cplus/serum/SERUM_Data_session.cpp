@@ -332,7 +332,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
 }
 
 void SERUM_Data_session::securityList(const std::string &reqId, marketlib::security_request_result_t result,
-                                      const std::vector<marketlib::instrument_descr_t>& pools)
+                                      const std::list<marketlib::instrument_descr_t>& pools)
 {
 
     // test security list  response//
