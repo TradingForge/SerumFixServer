@@ -10,15 +10,12 @@
 #include <boost/multi_index/hashed_index.hpp>
 #include <boost/multi_index/composite_key.hpp>
 
-#include <sol_sdk/Keypair.hpp>
-
 class IMarket
 {
 private:
     typedef std::string string;
     typedef marketlib::instrument_descr_t Instrument;
     typedef marketlib::order_t Order;
-    typedef Keypair SecretKey;
 public:
 
     IMarket() {}
