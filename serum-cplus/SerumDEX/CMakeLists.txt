@@ -2,6 +2,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_library("${SERUM_DEX_NAME}" STATIC
         SerumMD.cpp
+        # SerumMultipleClientMD.cpp
         SerumTrade.cpp
         PoolRequester/InstrumentJSON.cpp
         PoolRequester/InstrumentsJSON.cpp

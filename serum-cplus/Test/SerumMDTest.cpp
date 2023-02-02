@@ -12,19 +12,37 @@
 using namespace std;
 using namespace BrokerModels;
 using namespace marketlib;
-typedef marketlib::instrument_descr_t Instrument;
+typedef instrument_descr_t Instrument;
 
+class Aplication : public IBrokerApplication 
+{   
+    typedef std::shared_ptr < ILogger > logger_ptr;
+
+    logger_ptr _logger;
+public:
+    Aplication(logger_ptr logger): _logger(logger)  {}
+    ~Aplication() {};
+    void onEvent(const std::string &exchangeName, IBrokerClient::BrokerEvent event, const std::string &details) override {};
+	void onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::MarketBook& data)override {
+        _logger->Info(formatTopInfo(exchangeName, symbol, data).c_str());
+    };
+	void onReport(const std::string &exchangeName, const std::string &symbol, const BrokerModels::DepthSnapshot& data)override {
+        _logger->Info(formatDepthInfo(exchangeName,  symbol, data).c_str());
+    };
+	void onReport(const std::string& exchangeName, const std::string &symbol, const execution_report_t&)override{};
+};
 
 int main () {
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IPoolsRequester > pools(new PoolsRequester(logger, settings));
+    shared_ptr < IBrokerApplication > application( new Aplication(logger));
 
     SerumMD client(
         logger,
+        application,
         settings,
-        pools,
-        [&logger](const string& exch, broker_event event, const string& info) {}
+        pools    
     );
 
     Instrument instrument{"", "", "ETH/USDC", "ETH", "USDC" };
@@ -43,29 +61,13 @@ int main () {
         } else if (cmd == "quit") {
             break;
         } else if (cmd == "st") {
-            client.subscribe(instrument, "Cli_1", [&logger](const string& exch, const Instrument& instr, const MarketBook& data)
-            {
-                logger->Info("Cli_1");
-                logger->Info(formatTopInfo(exch, instr.symbol, data).c_str());
-            });
+            client.subscribe(instrument, market_depth_t::top);
         } else if (cmd == "ut") {
-            client.unsubscribe(instrument, market_depth_t::top, "Cli_1");
-        } else if (cmd == "st2") {
-            client.subscribe(instrument, "Cli_2", [&logger](const string& exch, const Instrument& instr, const MarketBook& data)
-            {
-                logger->Info("Cli_2");
-                logger->Info(formatTopInfo(exch, instr.symbol, data).c_str());
-            });
-        } else if (cmd == "ut2") {
-            client.unsubscribe(instrument, market_depth_t::top, "Cli_2");
-        }else if (cmd == "sd") {
-            client.subscribe(instrument, "Cli_1", [&logger](const string& exch, const Instrument& instr, const DepthSnapshot& data)
-            {
-                logger->Info("Cli_1");
-                logger->Info(formatDepthInfo(exch,  instr.symbol, data).c_str());
-            });
+            client.unsubscribe(instrument, market_depth_t::top);
+        } else if (cmd == "sd") {
+            client.subscribe(instrument, market_depth_t::full);
         } else if (cmd == "ud") {
-            client.unsubscribe(instrument, market_depth_t::full, "Cli_1");
+            client.unsubscribe(instrument, market_depth_t::full);
         } else if (cmd == "inst") {
             auto instruments = client.getInstruments();
             cout << "Instr count: " << instruments.size() << endl;
@@ -141,4 +143,3 @@ int main () {
         }
     }
 }
-

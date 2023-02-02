@@ -21,12 +21,12 @@ set(DEX_LIBRARIES
         ${CURL_LIBRARIES}
         )
 
-
 add_executable("SerumMDTest" SerumMDTest.cpp)
 target_include_directories("SerumMDTest" PRIVATE
         ${DEX_INCLUDES}
         ${CMAKE_SOURCE_DIR}/SerumDEX
         )
+        
 target_link_libraries("SerumMDTest" PRIVATE
     ${DEX_LIBRARIES}
     ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
