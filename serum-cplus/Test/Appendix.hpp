@@ -125,7 +125,7 @@ string formatTopInfo(const string &exchangeName, const string &symbol, const Mar
 
 
 string formatDepthInfo(const string &exchangeName, const string &symbol, const BrokerModels::DepthSnapshot& depth){
-    int count = 7;
+    int count = 5;
     std::ostringstream strs;
     strs << symbol << "\nAsks\n";
 
