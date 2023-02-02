@@ -36,11 +36,11 @@ int main () {
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IPoolsRequester > pools(new PoolsRequester(logger, settings));
-    shared_ptr < IBrokerApplication > application( new Aplication(logger));
+    auto  application =  Aplication(logger);
 
     SerumMD client(
         logger,
-        application,
+        &application,
         settings,
         pools    
     );

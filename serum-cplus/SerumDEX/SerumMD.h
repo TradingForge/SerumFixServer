@@ -23,7 +23,7 @@ private:
 	typedef std::shared_ptr < ILogger > logger_ptr;
 	typedef std::shared_ptr < ISettings > settings_ptr;
 	typedef std::shared_ptr < IPoolsRequester > pools_ptr;
-	typedef std::shared_ptr < IBrokerApplication > application_ptr;
+	typedef IBrokerApplication* application_ptr;
 	typedef BrokerModels::Market Market;
 	typedef std::map < string,  BrokerModels::DepthSnapshot > depth_snapshots;
 	typedef std::map < string,  BrokerModels::MarketBook > top_snapshots;
