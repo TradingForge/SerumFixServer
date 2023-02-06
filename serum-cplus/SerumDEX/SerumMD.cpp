@@ -69,7 +69,7 @@ void SerumMD::onEventHandler(const string &message) {
 		while(chnls.first != chnls.second) {
 			chnls.first->callback(
 				name,
-				chnls.first->instr,
+				chnls.first->instr.symbol,
 				top_snapshot[market]
 			);
 			++chnls.first;
@@ -101,7 +101,7 @@ void SerumMD::onEventHandler(const string &message) {
 		while(chnls.first != chnls.second){
 			chnls.first->callback(
 				name,
-				chnls.first->instr,
+				chnls.first->instr.symbol,
 				depth
 			);
 			++chnls.first;
@@ -148,7 +148,7 @@ void SerumMD::onEventHandler(const string &message) {
 		while(chnls.first != chnls.second){
 			chnls.first->callback(
 				name,
-				chnls.first->instr,
+				chnls.first->instr.symbol,
 				depth
 			);
 			++chnls.first;
@@ -218,7 +218,7 @@ void SerumMD::subscribe(const instrument& instr, SubscriptionModel model) {
 	
 }
 
-void SerumMD::subscribe(const instrument& instr, SubscriptionModel model, const string& clientId, callback callback) {
+void SerumMD::subscribe(const instrument& instr, SubscriptionModel model, const string& clientId, callback_subscribed_channel callback) {
 	auto chnls = channels
 		.get<SubscribeChannelsByMarketAndSubscribeModel>()
 		.equal_range(boost::make_tuple(
@@ -231,7 +231,7 @@ void SerumMD::subscribe(const instrument& instr, SubscriptionModel model, const 
 	} else {
 		callback(
 			name,
-			instr,
+			instr.symbol,
 			top_snapshot[getMarketFromInstrument(instr)]
 		);
 	}

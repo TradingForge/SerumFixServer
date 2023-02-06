@@ -34,7 +34,7 @@ private:
 	typedef std::map < string,  BrokerModels::MarketBook > top_snapshots;
 	typedef marketlib::market_depth_t SubscriptionModel;
 	typedef marketlib::instrument_descr_t instrument;
-	typedef std::function <void(const string&, const instrument&, const std::any&)> callback;
+	typedef std::function <void(const string&, const string&, const std::any&)> callback_subscribed_channel;
 	typedef std::function <void(const string &exchangeName, marketlib::broker_event, const string &details)> callback_on_event;
 
 protected:
@@ -84,7 +84,7 @@ public:
 
 	// void subscribe(const instrument&, const string&, callbackTop) override;
 	// void subscribe(const instrument&, const string&, callbackDepth) override;
-	void subscribe(const instrument&, SubscriptionModel, const string&, callback) override;
+	void subscribe(const instrument&, SubscriptionModel, const string&, callback_subscribed_channel) override;
 	void unsubscribe(const instrument&, SubscriptionModel, const string&) override;
 	void unsubscribeForClientId(const string&) override;
 	std::list< instrument > getInstruments() override;
