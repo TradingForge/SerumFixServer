@@ -93,7 +93,7 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
         _logger(new TestLogger),
         _settings(new SerumSettings),
-        _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger, this, _settings, std::make_shared< PoolsRequester >( _logger, _settings ) ) ))
+        _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger, this,_settings, std::make_shared< PoolsRequester >( _logger, _settings ) ) ))
 {
     _logger->Debug((boost::format("Session | construct ")).str().c_str());
     //slogger->send((boost::format("Session | construct ")).str());
@@ -332,7 +332,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
 }
 
 void SERUM_Data_session::securityList(const std::string &reqId, marketlib::security_request_result_t result,
-                                      const std::list<marketlib::instrument_descr_t>& pools)
+                                      const std::vector<marketlib::instrument_descr_t>& pools)
 {
 
     // test security list  response//

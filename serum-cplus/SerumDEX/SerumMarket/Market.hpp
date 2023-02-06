@@ -146,8 +146,10 @@ private:
     Listener _trade_channel;
     MarketChannels _markets_info;
     std::map<std::string, uint64_t> _order_count_for_symbol;
+    // MintAddresses_ptr _mint_addresses;
     // pair - count
     std::map<string, uint64_t> _subscribed_channels;
+    // std::map<string, string> _mint_addresses;
     uint64_t _message_count;
     const string _name = "SerumMarket";
     
@@ -196,6 +198,7 @@ private:
     void uncheck_order(const string&, const string&, const Instrument&);
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
+    // SerumMarket(const string&, pools_ptr, Callback, OrdersCallback);
     SerumMarket(const SerumMarket&);
 
     Order send_new_order(const Instrument&, const Order&) override;
