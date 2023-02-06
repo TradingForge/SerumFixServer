@@ -47,15 +47,15 @@ protected:
 	// 	std::shared_ptr < Market > market;
 	// };
 
-	logger_ptr logger;
-	settings_ptr settings;
-	pools_ptr pools;
-	SubscribedChannels channels;
-	callback_on_event onEvent;
-	ConnectionWrapper < SerumMD > connection;
-	depth_snapshots depth_snapshot;
-	top_snapshots top_snapshot;
-	string name;
+	logger_ptr _logger;
+	settings_ptr _settings;
+	pools_ptr _pools;
+	SubscribedChannels _channels;
+	callback_on_event _onEvent;
+	ConnectionWrapper < SerumMD > _connection;
+	depth_snapshots _depth_snapshot;
+	top_snapshots _top_snapshot;
+	string _name;
 	
 
 	void onOpen();
