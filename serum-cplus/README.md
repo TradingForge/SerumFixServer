@@ -11,7 +11,7 @@ ssh user@185.95.16.202 -p 2222
 
 # Prerequisites
 ```bash
-sudo apt install build-essential cmake autoconf automake libtool-bin pkg-config zlib1g-dev libssl-dev libcurl4-openssl-dev gcc-6 g++-6
+sudo apt install build-essential cmake autoconf automake libtool-bin pkg-config zlib1g-dev libssl-dev libcurl4-openssl-dev libgmp-dev unzip curl gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 50 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-7
 sudo update-alternatives --config gcc
@@ -19,7 +19,7 @@ sudo update-alternatives --config gcc
 
 ## Boost
 ```bash
-curl -LO https://sourceforge.net/projects/boost/files/boost/1.79.0/boost_1_79_0.tar.gz/download
+curl -LO https://sourceforge.net/projects/boost/files/boost/1.79.0/boost_1_79_0.tar.gz
 tar -xzf boost_1_79_0.tar.gz && cd boost_1_79_0/
 ./bootstrap.sh
 sudo ./b2 install
@@ -29,8 +29,7 @@ sudo ldconfig
 ```bash
 curl -LO https://github.com/pocoproject/poco/archive/poco-1.9.4-release.tar.gz
 tar -xzf poco-1.9.4-release.tar.gz && cd poco-poco-1.9.4-release/
-mkdir cmake-build && cd cmake-build/
-cmake .. && cmake --build . --target install
+mkdir cmake-build && cd cmake-build/ && cmake ..
 sudo cmake --build . --target install
 sudo ldconfig
 ```
@@ -59,10 +58,38 @@ cmake .
 sudo make install
 ```
 
+## GMP
+```bash
+wget https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz
+tar -xpJf gmp-6.2.1.tar.xz && cd gmp-6.2.1
+./configure && make && make check
+sudo make install
+```
+
+<!-- ## Nacl
+```bash
+wget https://hyperelliptic.org/nacl/nacl-20110221.tar.bz2
+bunzip2 < nacl-20110221.tar.bz2 | tar -xf -
+cd nacl-20110221
+./do
+sudo cp -i ./build/KOMPUTER/bin/* /usr/bin/
+mv ./build/KOMPUTER/include/amd64 ./build/KOMPUTER/include/nacl  && sudo cp -ir ./build/KOMPUTER/include/* /usr/include/
+mv ./build/KOMPUTER/lib/amd64 ./build/KOMPUTER/lib/nacl && sudo cp -ir ./build/KOMPUTER/lib/* /usr/lib/
+``` -->
+
+## CryptoPP
+```bash
+wget  https://www.cryptopp.com/cryptopp860.zip
+mkdir cryptopp && cd cryptopp && mv ../cryptopp860.zip .
+unzip cryptopp860.zip
+make && make test
+sudo make install
+```
+
 # Cloning and compiling the source
 ```bash
 git clone --recurse-submodules https://github.com/TradingForge/SerumFixServer.git
-cd serum_cplus
+cd serum-cplus
 mkdir build && cd build
 cmake ..
 cmake --build . --config Debug --target all -- -j 6

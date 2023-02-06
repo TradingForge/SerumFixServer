@@ -5,7 +5,7 @@
 #include <sharedlib/include/Logger.h>
 
 #include <SerumDEX/SerumMD.h>
-#include <SerumDEX/SerumPoolsRequester.h>
+#include <SerumDEX/PoolRequester/PoolsRequester.h>
 
 const char* CONN_NAME="Serum";
 

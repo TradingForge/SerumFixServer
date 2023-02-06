@@ -18,7 +18,8 @@ int main () {
 
     SerumTrade client(
         logger,
-        settings
+        settings,
+        [&logger](const string& exch, broker_event event, const string& info) {}
     );
 
     Instrument instrument{"", "", "ETH/USDC", "ETH", "USDC" };
@@ -42,8 +43,15 @@ int main () {
                 logger->Info("Cli_1");
                 logger->Info(formatExecutionReport(exch, id, report).c_str());
             });
+
+            client.listen(instrument, "Cli_2", [&logger](const string& exch, const string& id, const execution_report_t& report) 
+            {
+                logger->Info("Cli_2");
+                logger->Info(formatExecutionReport(exch, id, report).c_str());
+            });
         } else if (cmd == "ulst") {
             client.unlisten(instrument, "Cli_1");
+            client.unlisten(instrument, "Cli_2");
         } 
     }
 }
