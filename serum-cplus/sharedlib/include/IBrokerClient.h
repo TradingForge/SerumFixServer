@@ -19,8 +19,9 @@ private:
 	typedef std::string string;
 	typedef marketlib::market_depth_t SubscriptionModel;
 	typedef marketlib::instrument_descr_t instrument;
-	typedef std::function <void(const string&, const instrument&, const BrokerModels::MarketBook&)> callbackTop;
-	typedef std::function <void(const string&, const instrument&, const BrokerModels::DepthSnapshot&)> callbackDepth;
+	typedef std::function <void(const string&, const instrument&, const std::any&)> callback;
+	// typedef std::function <void(const string&, const instrument&, const BrokerModels::MarketBook&)> callbackTop;
+	// typedef std::function <void(const string&, const instrument&, const BrokerModels::DepthSnapshot&)> callbackDepth;
 public:
 	struct SubscribeChannel 
 	{
@@ -28,8 +29,7 @@ public:
 		string market;
 		instrument instr;
 		SubscriptionModel smodel;
-		callbackTop callback_top;
-		callbackDepth callback_depth;
+		callback callback;
 	};
 
 	using SubscribedChannels = boost::multi_index::multi_index_container<
@@ -73,8 +73,9 @@ public:
 	virtual void start() = 0;
 	virtual void stop() = 0;
 
-	virtual void subscribe(const instrument&, const string&, callbackTop) = 0;
-	virtual void subscribe(const instrument&, const string&, callbackDepth) = 0;
+	virtual void subscribe(const instrument&, SubscriptionModel,const string&, callback) = 0;
+	// virtual void subscribe(const instrument&, const string&, callbackTop) = 0;
+	// virtual void subscribe(const instrument&, const string&, callbackDepth) = 0;
 	virtual void unsubscribe(const instrument&, SubscriptionModel, const string&) = 0;
 	virtual void unsubscribeForClientId(const string&) = 0;
 	virtual std::list< instrument > getInstruments() = 0;
