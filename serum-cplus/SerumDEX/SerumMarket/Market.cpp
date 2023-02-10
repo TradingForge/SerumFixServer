@@ -62,7 +62,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     }
 
     auto order = std::make_shared<Order>(order_);
-    if (order->clId == 0) {
+    if (strtoul(order->clId.c_str(), nullptr, 0) == 0) {
         std::random_device rd; 
         std::mt19937_64 mersenne(rd());
         order->clId = mersenne();
@@ -77,7 +77,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
             order->side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
             order->price,
             order->original_qty,
-            order->clId,
+            strtoul(order->clId.c_str(), nullptr, 0),
             txn,
             signers,
             _pubkey
@@ -122,7 +122,7 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument_, cons
                 event_queue: market_info.parsed_market.event_queue,
                 open_orders: orders_account_info.account,
                 owner: _pubkey,
-                client_id: order_.clId,
+                client_id: strtoul(order_.clId.c_str(), nullptr, 0),
                 program_id: MARKET_KEY
             }
         )

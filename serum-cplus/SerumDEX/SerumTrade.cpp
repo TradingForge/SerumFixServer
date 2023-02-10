@@ -53,8 +53,8 @@ if (type == "subscribed" || type == "unsubscribed") {
 	if (type  == "l3snapshot" || type  == "open") {
 		auto addOrderToList = [&](const boost::json::value& set, std::list<Order>& vec) {
 			vec.push_back(Order{
-				clId:  strtoull(set.at("clientId").as_string().c_str(), nullptr, 0), // (uint64_t)stoul(set.at("clientId").as_string().c_str()),
-				exchId: atouint128(set.at("orderId").as_string().c_str()),
+				clId:    set.at("clientId").as_string().c_str(), //strtoull(set.at("clientId").as_string().c_str(), nullptr, 0),
+				exchId: set.at("orderId").as_string().c_str(), // atouint128(set.at("orderId").as_string().c_str())
 				secId: "",
 				transaction_hash: "",
 				original_qty: stod(set.at("size").as_string().c_str()),
@@ -84,7 +84,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 		
 	} else if (type  == "change") {
 		auto& orders_lst = _orders[market];
-		auto exch_id = atouint128(parsed_data.at("orderId").as_string().c_str());
+		auto exch_id = parsed_data.at("orderId").as_string().c_str();
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
 			return a.exchId == exch_id;
 		});
@@ -119,7 +119,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 	}
 	else if (type == "done") {
 		auto& orders_lst = _orders[market];
-		auto exch_id = atouint128(parsed_data.at("orderId").as_string().c_str());
+		auto exch_id = parsed_data.at("orderId").as_string().c_str();
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
 			return a.exchId == exch_id;
 		});

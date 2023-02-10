@@ -36,8 +36,8 @@ int main(int argc, char **argv) {
     std::string conf_file = "fix_server.xml";
     std::unique_ptr<FIX8::ServerSessionBase> ms_md(
             new FIX8::ServerSession<SERUM_Data_session>(FIX8::SERUM_Data::ctx(), conf_file, "SERUM_MD"));
-    // std::unique_ptr<FIX8::ServerSessionBase> ms_ord_sand(
-    //         new FIX8::ServerSession<SERUM_Order_sandbox_session>(FIX8::SERUM_Data::ctx(), conf_file, "SERUM_ORD_SAND"));
+    std::unique_ptr<FIX8::ServerSessionBase> ms_ord_sand(
+            new FIX8::ServerSession<SERUM_Order_sandbox_session>(FIX8::SERUM_Data::ctx(), conf_file, "SERUM_ORD_SAND"));
 
     typedef std::shared_ptr<FIX8::SessionInstanceBase> ClientSession;
     std::vector<ClientSession> sessions;

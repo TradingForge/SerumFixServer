@@ -126,14 +126,14 @@ private:
 
     struct change_order_exId
     {
-        change_order_exId(unsigned __int128 new_exId): new_exId_(new_exId){}
+        change_order_exId(const string& new_exId): new_exId_(new_exId){}
         void operator()(Order_ptr o)
         {
             o->exchId=new_exId_;
         }
 
     private:
-        unsigned __int128 new_exId_;
+        string new_exId_;
     };
 
     PublicKey _pubkey;
