@@ -52,20 +52,20 @@ if (type == "subscribed" || type == "unsubscribed") {
 	std::string market = parsed_data.at("market").as_string().c_str();
 	if (type  == "l3snapshot" || type  == "open") {
 		auto addOrderToList = [&](const boost::json::value& set, std::list<Order>& vec) {
-			vec.push_back(Order{
-				clId:    set.at("clientId").as_string().c_str(), //strtoull(set.at("clientId").as_string().c_str(), nullptr, 0),
-				exchId: set.at("orderId").as_string().c_str(), // atouint128(set.at("orderId").as_string().c_str())
-				secId: "",
-				transaction_hash: "",
-				original_qty: stod(set.at("size").as_string().c_str()),
-				remaining_qty: stod(set.at("size").as_string().c_str()),
-				price: stod(set.at("price").as_string().c_str()),
-				stopPrice: 0.0,
-				side: stringToOrderSide(set.at("side").as_string().c_str()),
-				state: order_state_t::ost_New,
-				tif: time_in_force_t::tf_Undefined,
-				type: order_type_t::ot_Limit
-			});
+            Order order;
+            order.clId=    set.at("clientId").as_string().c_str(); //strtoull(set.at("clientId").as_string().c_str(), nullptr, 0),
+            order.exchId= set.at("orderId").as_string().c_str(); // atouint128(set.at("orderId").as_string().c_str())
+            order.secId= "";
+            order.transaction_hash= "";
+            order.original_qty= stod(set.at("size").as_string().c_str());
+            order.remaining_qty= stod(set.at("size").as_string().c_str());
+            order.price= stod(set.at("price").as_string().c_str());
+            order.stopPrice= 0.0;
+            order.side= stringToOrderSide(set.at("side").as_string().c_str());
+            order.state= order_state_t::ost_New;
+            order.tif= time_in_force_t::tf_Undefined;
+            order.type= order_type_t::ot_Limit;
+            vec.push_back(order);
 		};
 
 		if (type  == "l3snapshot") {
