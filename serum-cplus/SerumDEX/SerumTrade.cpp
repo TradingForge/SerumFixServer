@@ -248,14 +248,31 @@ void SerumTrade::listen(const SerumTrade::Instrument& instr, const string& clien
 			"markets": ["%1%"]
 		})") % getMarketFromInstrument(instr)).str());
 	}
-	_channels.insert(
-		SubscribeChannel{
+
+	auto chnl_by_client = _channels
+		.get<SubscribeChannelsByClientAndMarket>()
+		.find(boost::make_tuple(
 			clientId,
-			getMarketFromInstrument(instr),
-			instr,
-			callback
-		}
-	);
+			getMarketFromInstrument(instr)
+		));
+
+	if (chnl_by_client == _channels.end()) {
+		_channels.insert(
+			SubscribeChannel{
+				clientId,
+				getMarketFromInstrument(instr),
+				instr,
+				callback
+			}
+		);
+	}
+	else {
+		string msg = "The subscription with parameters already exists";
+		msg += ": symbol - " + getMarketFromInstrument(instr);
+		msg += ", client Id - " + clientId;
+
+		_logger->Error( msg.c_str() );
+	}
 }
 
 void SerumTrade::unlisten(const SerumTrade::Instrument& instr, const string& clientId) {
@@ -283,6 +300,8 @@ void SerumTrade::unlisten(const SerumTrade::Instrument& instr, const string& cli
 			"channel": "level3",
 			"markets": ["%1%"]
 		})") % getMarketFromInstrument(instr)).str());
+
+		_orders.erase(getMarketFromInstrument(instr));
 	}
 }
 
