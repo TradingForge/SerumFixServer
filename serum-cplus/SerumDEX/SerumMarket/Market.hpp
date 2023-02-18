@@ -39,7 +39,7 @@ class SerumMarket : IMarket
 private:
     typedef std::string string;
     typedef std::shared_ptr < IPoolsRequester > pools_ptr;
-    typedef std::shared_ptr < IListener > Listener;
+    typedef std::shared_ptr < IListener > listener_ptr;
     // typedef std::shared_ptr < MintAdresses > MintAddresses_ptr;
     typedef marketlib::order_t Order;
     typedef Keypair SecretKey;
@@ -143,7 +143,7 @@ private:
     Orders _open_orders;
     Callback _callback;
     OrdersCallback _orders_callback;
-    Listener _trade_channel;
+    listener_ptr _trade_channel;
     MarketChannels _markets_info;
     std::map<std::string, uint64_t> _order_count_for_symbol;
     // MintAddresses_ptr _mint_addresses;
@@ -151,7 +151,7 @@ private:
     std::map<string, uint64_t> _subscribed_channels;
     // std::map<string, string> _mint_addresses;
     uint64_t _message_count;
-    const string _name = "SerumMarket";
+    const string _name;
     
     string place_order(
         const MarketChannel&,
@@ -197,9 +197,9 @@ private:
     void check_order(const string&, const string&, const Instrument&);
     void uncheck_order(const string&, const string&, const Instrument&);
 public:
-    SerumMarket(const string&, const string&, const string&, pools_ptr, Callback, OrdersCallback);
+    SerumMarket(const string&, const string&, const string&, pools_ptr, listener_ptr, Callback, OrdersCallback, const string& );
     // SerumMarket(const string&, pools_ptr, Callback, OrdersCallback);
-    SerumMarket(const SerumMarket&);
+    // SerumMarket(const SerumMarket&);
 
     Order send_new_order(const Instrument&, const Order&) override;
     Order cancel_order(const Instrument&, const Order&) override;
