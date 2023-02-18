@@ -77,7 +77,7 @@ public:
             case Property::ExchangeName:
                 return "Serum";
             case Property::WebsocketEndpoint:
-                return "wss://api.serum-vial.dev/v1/ws";
+                return "wss://vial.mngo.cloud/v1/ws";
             default:
                 return "";
         }
@@ -298,11 +298,11 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
     marketlib::instrument_descr_t pool {.engine=CONN_NAME,.sec_id=symbol.get(),.symbol=symbol.get()};
     if(subscr_type==marketlib::subscription_type::shapshot_update)
     {
-        _logger->Info((boost::format("Session | MD subscribe to %1% : %2%, depth(%3%), update type(%4%)")
-                    % request.engine % request.symbol % request.depth % request.update_type).str().c_str());
         try{
             //_client->subscribe(pool, depth, _clientId, );
             if(depth == marketlib::market_depth_t::top){
+                _logger->Info((boost::format("Session | MD subscribe TOP to %1% : %2%, depth(%3%), update type(%4%)")
+                               % request.engine % request.symbol % request.depth % request.update_type).str().c_str());
                 _client->subscribe(pool,depth,_clientId,[this, reqIdStr, pool] (const std::string &exch, const std::string &pair, const std::any &data) {
                        auto marketBook = std::any_cast<BrokerModels::MarketBook>(data);
                        _logger->Debug((boost::format("Session | --> 35=W, %1%, Ask(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%)")
@@ -311,7 +311,10 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
                         _sess->fullSnapshot(reqIdStr, pool, marketBook);
                });
             }
+
             else if(depth == marketlib::market_depth_t::full){
+                _logger->Info((boost::format("Session | MD subscribe FULL to %1% : %2%, depth(%3%), update type(%4%)")
+                               % request.engine % request.symbol % request.depth % request.update_type).str().c_str());
                 _client->subscribe(pool, depth, _clientId,
                         [this, reqIdStr, pool] (const std::string &exch, const std::string &pair, const std::any &data) {
                             auto marketDepth = std::any_cast<BrokerModels::DepthSnapshot>(data);
@@ -325,8 +328,7 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
         }
         catch(std::exception& ex)
         {
-            _logger->Error((boost::format("Session | !!! Subscribe to %1%, exception %2%")
-                    % symbol % ex.what()).str().c_str());
+            _logger->Error((boost::format("Session | !!! Subscribe to %1%, exception %2%")% symbol % ex.what()).str().c_str());
             _logger->Error((boost::format("Session | Incorrect Subscribe/Unsubscribe to %1% : %2%, depth(%3%), update type(%4%)")
                            % request.engine % request.symbol % request.depth % request.update_type).str().c_str());
             auto* _sess = const_cast<SERUM_Data_session*>(this);
