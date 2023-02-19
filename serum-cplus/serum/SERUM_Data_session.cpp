@@ -5,7 +5,6 @@
 #include <SerumDEX/SerumMD.h>
 #include <SerumDEX/PoolRequester/PoolsRequester.h>
 #include "ConsoleLogger.h"
-#include "SerumSettings.h"
 
 const char* CONN_NAME="Serum";
 
