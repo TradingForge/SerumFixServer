@@ -5,28 +5,9 @@
 #include <SerumDEX/SerumMD.h>
 #include <SerumDEX/PoolRequester/PoolsRequester.h>
 #include "ConsoleLogger.h"
+#include "SerumSettings.h"
 
 const char* CONN_NAME="Serum";
-
-class SerumSettings : public ISettings {
-
-private:
-
-    typedef std::string string;
-
-public:
-
-    string get(Property property) const override {
-        switch (property) {
-            case Property::ExchangeName:
-                return "Serum";
-            case Property::WebsocketEndpoint:
-                return "wss://vial.mngo.cloud/v1/ws";
-            default:
-                return "";
-        }
-    }
-};
 
 SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
                                        const FIX8::sender_comp_id& sci,
@@ -36,8 +17,8 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
         Session(ctx, sci, persist, slogger, plogger),
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
         _logger(new ConsoleLogger),
-        _settings(new SerumSettings),
-        _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger,_settings, std::make_shared< PoolsRequester >( _logger, _settings ), [](const std::string &exchangeName, marketlib::broker_event, const std::string &details) {})) )
+        _client(nullptr)
+        //_client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger,_settings, std::make_shared< PoolsRequester >( _logger, _settings ), [](const std::string &exchangeName, marketlib::broker_event, const std::string &details) {})) )
 {
     _logger->Debug((boost::format("Session | construct ")).str().c_str());
     _clientId = std::to_string((long)this);
@@ -84,14 +65,14 @@ FIX8::Message *SERUM_Data_session::generate_logon(const unsigned heartbeat_inter
 bool SERUM_Data_session::handle_logon(const unsigned seqnum, const FIX8::Message *msg)
 {
     _logger->Debug((boost::format("Session | handle_logon ")).str().c_str());
-   try {
+   /* try {
        _logger->Info((boost::format("Session | Serum DEX start ")).str().c_str());
        _client->start();
    }
    catch(std::exception& ex)
    {
        _logger->Error((boost::format("Session | Serum DEX start exception(%1%)")% ex.what()).str().c_str());
-   }
+   }*/
    return FIX8::Session::handle_logon(seqnum, msg);
 }
 
@@ -100,11 +81,13 @@ bool SERUM_Data_session::handle_logout(const unsigned seqnum, const FIX8::Messag
     _logger->Debug((boost::format("Session | handle_logout ")).str().c_str());
     try {
         _logger->Info((boost::format("Session | Serum DEX stop ")).str().c_str());
-        _client->stop();
-         while(_client->isConnected())
-            std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        this->stop();
+        // _client->stop();
+        //  while(_client->isConnected())
+        //  std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        _client->unsubscribeForClientId(_clientId);
+
         // _control |= shutdown;
+        this->stop();
     }
     catch(std::exception& ex)
     {
