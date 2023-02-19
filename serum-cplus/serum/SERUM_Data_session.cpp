@@ -2,67 +2,11 @@
 #include <ctime>
 #include "SERUM_Data_session.hpp"
 
-#include <sharedlib/include/Logger.h>
-
 #include <SerumDEX/SerumMD.h>
 #include <SerumDEX/PoolRequester/PoolsRequester.h>
+#include "ConsoleLogger.h"
 
 const char* CONN_NAME="Serum";
-
- class TestLogger: public ILogger
- {
- private:
-
-     typedef std::string string;
-
- public:
-
-     void Info(const char *content, ...) override;
-     void Debug(const char *content, ...) override;
-     void Error(const char *content, ...) override;
-     void Critical(const char *content, ...) override;
-     void Warn(const char *content, ...) override;
-     void Trace(const char *content, ...) override;
-
-     ~TestLogger() = default;
- };
-
-void TestLogger::Info(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | INFO | " << content << "\n";
-}
-void TestLogger::Debug(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec  << " | DEBUG | " << content << "\n";
-}
-void TestLogger::Error(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec  << " | ERROR | " << content << "\n";
-}
-void TestLogger::Warn(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | WARN | " << content << "\n";
-}
-void TestLogger::Critical(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | CRIT | " << content << "\n";
-}
-void TestLogger::Trace(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | TRACE | " << content << "\n";
-}
 
 class SerumSettings : public ISettings {
 
@@ -91,7 +35,7 @@ SERUM_Data_session::SERUM_Data_session(const FIX8::F8MetaCntx& ctx,
                                      FIX8::Logger *plogger):
         Session(ctx, sci, persist, slogger, plogger),
         FIX8::SERUM_Data::FIX8_SERUM_Data_Router(),
-        _logger(new TestLogger),
+        _logger(new ConsoleLogger),
         _settings(new SerumSettings),
         _client( std::shared_ptr <IBrokerClient>(new SerumMD(_logger,_settings, std::make_shared< PoolsRequester >( _logger, _settings ), [](const std::string &exchangeName, marketlib::broker_event, const std::string &details) {})) )
 {

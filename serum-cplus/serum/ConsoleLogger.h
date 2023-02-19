@@ -2,15 +2,24 @@
 // Created by Zay on 2/19/2023.
 //
 
-#ifndef SERUM_FIX_SERVER2_CONSOLELOGGER_H
-#define SERUM_FIX_SERVER2_CONSOLELOGGER_H
+#pragma once
 
+#include <sharedlib/include/ILogger.h>
 
+class ConsoleLogger: public ILogger
+{
+private:
 
-class ConsoleLogger {
+    typedef std::string string;
 
+public:
+
+    void Info(const char *content, ...) override;
+    void Debug(const char *content, ...) override;
+    void Error(const char *content, ...) override;
+    void Critical(const char *content, ...) override;
+    void Warn(const char *content, ...) override;
+    void Trace(const char *content, ...) override;
+
+    ~ConsoleLogger() = default;
 };
-
-
-
-#endif //SERUM_FIX_SERVER2_CONSOLELOGGER_H

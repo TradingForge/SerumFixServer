@@ -1,66 +1,13 @@
 #include <functional>
 #include <ctime>
 #include <thread>
+#include <boost/format.hpp>
+
 #include "SERUM_Order_sandbox_session.hpp"
 
-#include <sharedlib/include/Logger.h>
+#include "ConsoleLogger.h"
 
 const char* TRADE_CONN_NAME="Serum";
-
-class OrderTestLogger: public ILogger
-{
-private:
-
-    typedef std::string string;
-
-public:
-
-    void Info(const char *content, ...) override;
-    void Debug(const char *content, ...) override;
-    void Error(const char *content, ...) override;
-    void Critical(const char *content, ...) override;
-    void Warn(const char *content, ...) override;
-    void Trace(const char *content, ...) override;
-
-    ~OrderTestLogger() = default;
-};
-
-void OrderTestLogger::Info(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | INFO | " << content << "\n";
-}
-void OrderTestLogger::Debug(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec  << " | DEBUG | " << content << "\n";
-}
-void OrderTestLogger::Error(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec  << " | ERROR | " << content << "\n";
-}
-void OrderTestLogger::Warn(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | WARN | " << content << "\n";
-}
-void OrderTestLogger::Critical(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | CRIT | " << content << "\n";
-}
-void OrderTestLogger::Trace(const char *content, ...) {
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-    std::cout  << tm_local->tm_hour << ":" << tm_local->tm_min << ":" << tm_local->tm_sec << " | TRACE | " << content << "\n";
-}
 
 SERUM_Order_sandbox_session::SERUM_Order_sandbox_session(const FIX8::F8MetaCntx& ctx,
                     const FIX8::sender_comp_id& sci,
@@ -69,7 +16,7 @@ SERUM_Order_sandbox_session::SERUM_Order_sandbox_session(const FIX8::F8MetaCntx&
                     FIX8::Logger *plogger):
         Session(ctx, sci, persist, slogger, plogger),
         FIX8::SERUM_Order::FIX8_SERUM_Order_Router(),
-        _logger(new OrderTestLogger)
+        _logger(new ConsoleLogger)
 {
     _logger->Debug((boost::format("OSession | construct ")).str().c_str());
 }
