@@ -81,7 +81,7 @@ int main ()
     order_sell.price = 39;
     order_sell.original_qty = 0.1;
     order_sell.side = order_side_t::os_Sell;
-    order_sell.clId = "0";
+    order_sell.clId = "1342";
     order_sell.exchId = "719423018874672537328158";
 
     order_t order_buy;
