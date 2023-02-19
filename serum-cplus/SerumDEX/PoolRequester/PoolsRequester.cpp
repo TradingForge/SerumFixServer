@@ -29,7 +29,7 @@ void PoolsRequester::loadPoolList()
 			result = curl_easy_perform(curl);
 			// Error check
 			if (result != CURLE_OK) {
-				_logger->Error("curl_easy_perform() error");
+				_logger->Error("curl_easy_perform() error: ");
 				response.clear();
 				throw ;
 			}
