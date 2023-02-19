@@ -43,11 +43,10 @@ private:
     // typedef std::shared_ptr < MintAdresses > MintAddresses_ptr;
     typedef marketlib::order_t Order;
     typedef Keypair SecretKey;
-    typedef std::shared_ptr < Order > Order_ptr;
     typedef marketlib::execution_report_t ExecutionReport;
     typedef marketlib::instrument_descr_t Instrument;
     typedef std::function <void(const string&, const Instrument&, const string&)> Callback;
-    typedef std::function <void(const string&, Order_ptr)> OrdersCallback;
+    typedef std::function <void(const string&, const ExecutionReport&)> OrdersCallback;
     typedef solana::PublicKey PublicKey;
 
     struct MarketLayout
@@ -91,7 +90,7 @@ private:
     >;
 
     using Orders = boost::multi_index::multi_index_container<
-        Order_ptr ,
+        Order ,
         boost::multi_index::indexed_by<
             boost::multi_index::hashed_unique<
                 boost::multi_index::tag<struct OrderByCliId>,
@@ -103,37 +102,13 @@ private:
     struct change_order_status
     {
         change_order_status(const marketlib::order_state_t& new_state):new_state_(new_state){}
-        void operator()(Order_ptr o)
+        void operator()(Order& o)
         {
-            o->state=new_state_;
+            o.state=new_state_;
         }
 
     private:
         marketlib::order_state_t new_state_;
-    };
-
-    struct change_order_remaining_qty
-    {
-        change_order_remaining_qty(double new_qty):new_qty_(new_qty){}
-        void operator()(Order_ptr o)
-        {
-            o->remaining_qty=new_qty_;
-        }
-
-    private:
-        double new_qty_;
-    };
-
-    struct change_order_exId
-    {
-        change_order_exId(const string& new_exId): new_exId_(new_exId){}
-        void operator()(Order_ptr o)
-        {
-            o->exchId=new_exId_;
-        }
-
-    private:
-        string new_exId_;
     };
 
     PublicKey _pubkey;

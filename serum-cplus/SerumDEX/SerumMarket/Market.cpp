@@ -61,11 +61,11 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         return order_;
     }
 
-    auto order = std::make_shared<Order>(order_);
-    if (strtoul(order->clId.c_str(), nullptr, 0) == 0) {
+    auto order = order_;
+    if (strtoul(order.clId.c_str(), nullptr, 0) == 0) {
         std::random_device rd; 
         std::mt19937_64 mersenne(rd());
-        order->clId = std::to_string(mersenne());
+        order.clId = std::to_string(mersenne());
     };
     // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
 
@@ -74,16 +74,16 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
             market_info,
             orders_account_info,
             OrderType::LIMIT,
-            order->side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
-            order->price,
-            order->original_qty,
-            strtoul(order->clId.c_str(), nullptr, 0),
+            order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
+            order.price,
+            order.original_qty,
+            strtoul(order.clId.c_str(), nullptr, 0),
             txn,
             signers,
             _pubkey
         );
         _callback(_name, instrument_, "The order is sent: " + res);
-        order->transaction_hash = res;
+        order.transaction_hash = res;
     }
 
     catch (string e) {
@@ -91,12 +91,12 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         return order_;
     }
 
-    order->state = marketlib::order_state_t::ost_Undefined;
-    order->init_time = current_time();
+    order.state = marketlib::order_state_t::ost_Undefined;
+    order.init_time = current_time();
     _open_orders.insert(order);
 
     check_order(market_info.base, market_info.quote, instrument_);
-    return **(_open_orders.begin());
+    return *(_open_orders.begin());
 }
 
 SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument_, const Order& order_)
@@ -687,25 +687,6 @@ std::string SerumMarket::send_transaction(Transaction &txn_, const Transaction::
     return data_str;
 }
 
-// void SerumMarket::order_checker(const string& exch_name_, const string& cli_id_, const ExecutionReport& exec_report_)  
-// {
-//     auto order = _open_orders.get<OrderByCliId>()
-//     .find(exec_report_.clId);
-
-//     if (order == _open_orders.end()) 
-//         return;
-
-//     _open_orders.modify(order, change_order_status(exec_report_.state));
-//     _open_orders.modify(order, change_order_remaining_qty(exec_report_.leavesQty));
-//     _open_orders.modify(order, change_order_exId(exec_report_.exchId));
-//     _orders_callback(_name, *order);
-
-//     if ((*order)->isCompleted()) {
-//         _open_orders.erase(order);
-//         return;
-//     }
-// };
-
 void SerumMarket::check_order(const string& base_, const string& quote_, const Instrument& instrument_) 
 {
     auto symbol = base_ + quote_;
@@ -714,7 +695,8 @@ void SerumMarket::check_order(const string& base_, const string& quote_, const I
         return;
     }
 
-    auto order_cheker = [this](const string& exch_name_, const string& cli_id_, const ExecutionReport& exec_report_)  
+    auto order_cheker = [this, base_, quote_, instrument_]
+    (const string& exch_name_, const string& cli_id_, const ExecutionReport& exec_report_)  
     {
         auto order = _open_orders.get<OrderByCliId>()
         .find(exec_report_.clId);
@@ -723,12 +705,11 @@ void SerumMarket::check_order(const string& base_, const string& quote_, const I
             return;
 
         _open_orders.modify(order, change_order_status(exec_report_.state));
-        _open_orders.modify(order, change_order_remaining_qty(exec_report_.leavesQty));
-        _open_orders.modify(order, change_order_exId(exec_report_.exchId));
-        _orders_callback(_name, *order);
+        _orders_callback(_name, exec_report_);
 
-        if ((*order)->isCompleted()) {
+        if (order->isCompleted()) {
             _open_orders.erase(order);
+            uncheck_order(base_, quote_, instrument_);
         }
     };
 
