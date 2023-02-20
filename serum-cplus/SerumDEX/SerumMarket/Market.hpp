@@ -169,8 +169,14 @@ private:
     time_t current_time() const { return std::time(nullptr);};
 
     // void order_checker(const string&, const string&, const ExecutionReport&);
-    void check_order(const string&, const string&, const Instrument&);
-    void uncheck_order(const string&, const string&, const Instrument&);
+    void check_order(const Instrument&);
+    void uncheck_order(const Instrument&);
+
+    std::string getMarketFromInstrument(const Instrument& instr) {
+		if (instr.base_currency.size() && instr.quote_currency.size())
+			return instr.base_currency + "/" + instr.quote_currency;
+		return instr.symbol;
+	}
 public:
     SerumMarket(const string&, const string&, const string&, pools_ptr, listener_ptr, Callback, OrdersCallback, const string& );
     // SerumMarket(const string&, pools_ptr, Callback, OrdersCallback);
