@@ -17,15 +17,7 @@ using namespace BrokerModels;
 using namespace marketlib;
 typedef marketlib::order_t Order;
 typedef instrument_descr_t Instrument;
-// typedef order_t Order;
 
-// std::map<string, string> stat = {
-//     "0": "NewOrder",
-//     "1": "PartiallyFilled",
-//     "2": "Filled",
-//     "4": "Cancelled",
-//     "8": "Rejected"
-// }
 
 std::string str_state(marketlib::order_state_t state){
     switch (state) {
@@ -54,11 +46,6 @@ int main ()
         quote_currency: "USDC"
     };
 
-    // const auto p = pools->getPool(instr);
-    // cout << p.address << endl;
-    // cout << p.quote_mint_address << endl;
-    // cout << p.base_mint_address << endl;
-    // auto tt = 0;
     auto market = SerumMarket(
         PUBKEY, 
         SECRETKEY, 
@@ -82,7 +69,7 @@ int main ()
     order_sell.original_qty = 0.1;
     order_sell.side = order_side_t::os_Sell;
     order_sell.clId = "1342";
-    order_sell.exchId = "719423018874672537328158";
+    // order_sell.exchId = "719423018874672537328158";
 
     order_t order_buy;
     order_buy.price = 15;
