@@ -1,5 +1,6 @@
 #include <functional>
 #include <ctime>
+#include <list>
 #include <boost/format.hpp>
 
 #include "SERUM_Data_session.hpp"
@@ -136,8 +137,6 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::SecurityListR
     _logger->Info((boost::format("Session | SecurityListRequest, SecurityReqID (%1%)") % reqIdStr).str().c_str());
 
     auto pools = _client->getInstruments();
-
-    _logger->Info( (boost::format("Session | --> 35=y, count = %1%") % (int)pools.size() ).str().c_str() );
 
     auto* _sess = const_cast<SERUM_Data_session*>(this);
     _sess->securityList(reqIdStr,marketlib::security_request_result_t::srr_valid,pools);
@@ -320,34 +319,40 @@ void SERUM_Data_session::securityList(const std::string &reqId, marketlib::secur
     '5' 	Request for instrument data not supported
     component block  <Instrument>	N N
      */
+    std::list<marketlib::instrument_descr_t>::const_iterator it = pools.begin();
+    while(it != pools.end())
+    {
+        auto *mdr(new FIX8::SERUM_Data::SecurityList);
+
+        *mdr    << new FIX8::SERUM_Data::SecurityReqID(reqId)
+                << new FIX8::SERUM_Data::SecurityResponseID("resp" + reqId)
+                << new FIX8::SERUM_Data::SecurityRequestResult(result);
+
+        int offset = 0;
+        FIX8::GroupBase *noin(mdr->find_group<FIX8::SERUM_Data::SecurityList::NoRelatedSym>());
+        for (; offset <100 && it != pools.end() ; ++it, offset++) {
+            FIX8::MessageBase *noin_sym(noin->create_group());
+            *noin_sym << new FIX8::SERUM_Data::SecurityExchange(it->engine)
+                      << new FIX8::SERUM_Data::Symbol(it->symbol)
+                      << new FIX8::SERUM_Data::Currency(it->quote_currency);
+            *noin << noin_sym;
+        }
+        *mdr   << new FIX8::SERUM_Data::NoRelatedSym(offset) ;
+        *mdr << noin;
+
+        _logger->Info( (boost::format("Session | --> 35=y, count = %1%") % (int)offset ).str().c_str() );
+
+        FIX8::Session::send(mdr);
+    }
+
     auto *mdr(new FIX8::SERUM_Data::SecurityList);
 
     *mdr    << new FIX8::SERUM_Data::SecurityReqID(reqId)
             << new FIX8::SERUM_Data::SecurityResponseID("resp" + reqId)
             << new FIX8::SERUM_Data::SecurityRequestResult(result)
-            << new FIX8::SERUM_Data::NoRelatedSym(pools.size()) ;
-
-    int k = 0;
-    FIX8::GroupBase *noin(mdr->find_group<FIX8::SERUM_Data::SecurityList::NoRelatedSym >());
-    for(const auto& pool_info : pools)
-    {
-        /*if(pool_info.engine.empty() || pool_info.symbol.empty() || pool_info.quote_currency())
-        {
-            _logger->Info((boost::format("Session | Incorrect Security format\n");
-            return;
-        }*/
-
-        FIX8::MessageBase *noin_sym(noin->create_group());
-        *noin_sym << new FIX8::SERUM_Data::SecurityExchange(pool_info.engine)
-                  << new FIX8::SERUM_Data::Symbol (pool_info.symbol)
-                  << new FIX8::SERUM_Data::Currency (pool_info.quote_currency)
-                  //<< new FIX8::SERUM_Data::MinQty (pool_info.tick_precision)
-                  //<< new FIX8::SERUM_Data::PriceDelta (pool_info.tick_precision)
-                  ;
-        *noin << noin_sym;
-    }
-    *mdr << noin;
+            << new FIX8::SERUM_Data::NoRelatedSym((int)0) ;
     FIX8::Session::send(mdr);
+
 }
 
 void SERUM_Data_session::marketReject(const std::string& reqId, marketlib::ord_rej_reason reason)
@@ -535,4 +540,3 @@ void SERUM_Data_session::onReport(const std::string &exchangeName, const std::st
     fullSnapshot("123",marketlib::instrument_descr_t{.engine="Serum",.sec_id=symbol,.symbol=symbol},depth);
 }
 */
-
