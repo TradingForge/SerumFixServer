@@ -51,26 +51,24 @@ if (type == "subscribed" || type == "unsubscribed") {
 		return;
 	std::string market = parsed_data.at("market").as_string().c_str();
 	if (type  == "l3snapshot" || type  == "open") {
-		auto addOrderToList = [&](const boost::json::value& set, std::list<Order>& vec) {
-            Order order;
+		auto addOrderToList = [&](const boost::json::value& set, std::list<ExecutionReport>& vec) {
+            ExecutionReport order;
             order.clId=    set.at("clientId").as_string().c_str(); //strtoull(set.at("clientId").as_string().c_str(), nullptr, 0),
             order.exchId= set.at("orderId").as_string().c_str(); // atouint128(set.at("orderId").as_string().c_str())
             order.secId= "";
-            order.transaction_hash= "";
-            order.original_qty= stod(set.at("size").as_string().c_str());
-            order.remaining_qty= stod(set.at("size").as_string().c_str());
-            order.price= stod(set.at("price").as_string().c_str());
-            order.stopPrice= 0.0;
+            order.cumQty= stod(set.at("size").as_string().c_str());
+            order.leavesQty= stod(set.at("size").as_string().c_str());
+            order.limitPrice= stod(set.at("price").as_string().c_str());
             order.side= stringToOrderSide(set.at("side").as_string().c_str());
             order.state= order_state_t::ost_New;
             order.tif= time_in_force_t::tf_Undefined;
-            order.type= order_type_t::ot_Limit;
+            order.orderType= order_type_t::ot_Limit;
             vec.push_back(order);
 		};
 
 		if (type  == "l3snapshot") {
-			_orders[market] = std::list<Order>{};
-			auto& orders_list = _orders[market];
+			_execution_reports[market] = std::list<ExecutionReport>{};
+			auto& orders_list = _execution_reports[market];
 			for (const auto &set : parsed_data.at("asks").as_array()) {
 				addOrderToList(set, orders_list);
 			};
@@ -79,30 +77,41 @@ if (type == "subscribed" || type == "unsubscribed") {
 			};
 		}
 		else {
-			addOrderToList(parsed_data, _orders[market]);
+			addOrderToList(parsed_data, _execution_reports[market]);
+			auto chnls = _channels
+			.get<SubscribeChannelsByMarket>()
+			.equal_range(boost::make_tuple(market));
+			while(chnls.first != chnls.second) {
+				chnls.first->callback(
+					_settings->get(ISettings::Property::ExchangeName),
+					market,
+					*(--_execution_reports[market].end())
+				);
+				++chnls.first;
+			}
 		}
 		
 	} else if (type  == "change") {
-		auto& orders_lst = _orders[market];
+		auto& orders_lst = _execution_reports[market];
 		auto exch_id = parsed_data.at("orderId").as_string().c_str();
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
 			return a.exchId == exch_id;
 		});
 		order->side = stringToOrderSide(parsed_data.at("side").as_string().c_str());
-		order->original_qty = stod(parsed_data.at("size").as_string().c_str());
-		order->remaining_qty = stod(parsed_data.at("size").as_string().c_str());
-		order->price = stod(parsed_data.at("price").as_string().c_str());
-		order->clId = strtoull(parsed_data.at("clientId").as_string().c_str(), nullptr, 0);
+		order->cumQty = stod(parsed_data.at("size").as_string().c_str());
+		order->leavesQty = stod(parsed_data.at("size").as_string().c_str());
+		order->limitPrice = stod(parsed_data.at("price").as_string().c_str());
+		// order->clId = strtoull(parsed_data.at("clientId").as_string().c_str(), nullptr, 0);
 
-		auto report = ExecutionReport();
-		report.clId = order->clId;
-		report.exchId = order->exchId;
-		report.orderType = order->type;
-		report.type = report_type_t::rt_replaced;
-		report.state = order->state;
-		report.side = order->side;
-		report.limitPrice = order->price;
-		report.leavesQty = order->original_qty;
+		// auto report = ExecutionReport();
+		// report.clId = order->clId;
+		// report.exchId = order->exchId;
+		// report.orderType = order->type;
+		// report.type = report_type_t::rt_replaced;
+		// report.state = order->state;
+		// report.side = order->side;
+		// report.limitPrice = order->price;
+		// report.leavesQty = order->original_qty;
 
 		// application->onReport(settings->get(ISettings::Property::ExchangeName), market, std::move(report));
 		auto chnls = _channels
@@ -112,13 +121,13 @@ if (type == "subscribed" || type == "unsubscribed") {
 			chnls.first->callback(
 				_settings->get(ISettings::Property::ExchangeName),
 				market,
-				report
+				*order
 			);
 			++chnls.first;
   		}
 	}
 	else if (type == "done") {
-		auto& orders_lst = _orders[market];
+		auto& orders_lst = _execution_reports[market];
 		auto exch_id = parsed_data.at("orderId").as_string().c_str();
 		auto order = find_if(orders_lst.begin(), orders_lst.end(), [exch_id](auto a) {
 			return a.exchId == exch_id;
@@ -136,7 +145,7 @@ if (type == "subscribed" || type == "unsubscribed") {
 		bool is_canceled = string(parsed_data.at("reason").as_string().c_str()) == string("canceled");
 		if (order == orders_lst.end()) {
 			auto report = ExecutionReport();
-			report.clId = strtoull(parsed_data.at("clientId").as_string().c_str(), nullptr, 0);
+			report.clId = parsed_data.at("clientId").as_string().c_str();
 			report.exchId = exch_id;
 			report.orderType = order_type_t::ot_Market;
 			report.type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill;
@@ -161,12 +170,12 @@ if (type == "subscribed" || type == "unsubscribed") {
 		auto report = ExecutionReport();
 		report.clId = order->clId;
 		report.exchId = order->exchId;
-		report.orderType = order->type;
+		report.orderType = order->orderType;
 		report.type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill;
 		report.state = is_canceled ? order_state_t::ost_Canceled : order_state_t::ost_Filled;
 		report.side = order->side;
-		report.limitPrice = order->price;
-		report.leavesQty = order->original_qty - remaining;
+		report.limitPrice = order->limitPrice;
+		report.leavesQty = order->cumQty - remaining;
 		report.cumQty = remaining;
 		
 		auto chnls = _channels
@@ -222,7 +231,7 @@ void SerumTrade::clearMarkets() {
 #ifdef SERUM_LISTENER_DEBUG
 	// logger_->Debug("> SerumTrade::clearMarkets");
 #endif
-	_orders.clear();
+	_execution_reports.clear();
 	_channels.clear();
 }
 
@@ -301,7 +310,7 @@ void SerumTrade::unlisten(const SerumTrade::Instrument& instr, const string& cli
 			"markets": ["%1%"]
 		})") % getMarketFromInstrument(instr)).str());
 
-		_orders.erase(getMarketFromInstrument(instr));
+		_execution_reports.erase(getMarketFromInstrument(instr));
 	}
 }
 

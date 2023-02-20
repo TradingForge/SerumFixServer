@@ -8,6 +8,9 @@
 
 const char* TRADE_CONN_NAME="Serum";
 
+#define PUBKEY "5ejVgdkJkgwptewzs5CLYdm6vJxpEL47sErAcnom6i8A"
+#define SECRETKEY "4Vi55eAt4aCfPGrbQKWjESK9UkKvb8AU7jwrzj8ajeA8dbPXEXwB4L1uhkdDEzoZ8bWhJXoRFXcE7aeeve4seARp"
+
 SERUM_Order_session::SERUM_Order_session(const FIX8::F8MetaCntx& ctx,
                     const FIX8::sender_comp_id& sci,
                     FIX8::Persister *persist,
@@ -18,6 +21,24 @@ SERUM_Order_session::SERUM_Order_session(const FIX8::F8MetaCntx& ctx,
         _logger(new ConsoleLogger)
 {
     _logger->Debug((boost::format("OSession | construct ")).str().c_str());
+    /*
+    auto market = SerumMarket(
+            PUBKEY,
+            SECRETKEY,
+            "https://nd-664-169-151.p2pify.com/a89ccd991de179587a0b8e3356409a9b",
+            pools,
+            trade_channel,
+            [](const string& name, const Instrument& inst, const string& info){
+                std::cout << name << " || " << inst.symbol << " || " + info;},
+
+            [](const string& name, const execution_report_t& execution_report) {
+                std::cout << "Order Update" << std::endl;
+                std::cout << "id:" << execution_report.clId << std::endl;
+                std::cout << "status" << str_state(execution_report.state) << endl;
+            },
+            "Market_1"
+    );
+    */
 }
 
 SERUM_Order_session::~SERUM_Order_session()
