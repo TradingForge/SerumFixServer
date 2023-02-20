@@ -48,7 +48,9 @@ void PoolsRequester::loadPoolList()
 	auto parsed_data = boost::json::parse(response);
 	for( auto pool : parsed_data.as_array()) {
 		string symbol = AS_STR(pool.at("name"));
+
         Instrument instr;
+        instr.engine = "OpenBook";
         instr.symbol=	symbol;
         instr.base_currency= symbol.substr(0, symbol.find("/"));
         instr.quote_currency= symbol.substr(symbol.find("/") + 1);
