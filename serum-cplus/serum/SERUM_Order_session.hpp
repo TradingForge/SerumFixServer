@@ -64,7 +64,7 @@ private:
     const std::string& sess_id();
 
 private:
-    IMarket _market;
+    //IMarket _market;
     std::shared_ptr < ILogger > _logger;
     mutable  std::unordered_map<std::string, marketlib::order_t>  _orders;
 };

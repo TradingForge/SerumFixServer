@@ -327,9 +327,16 @@ void SERUM_Data_session::securityList(const std::string &reqId, marketlib::secur
             << new FIX8::SERUM_Data::SecurityRequestResult(result)
             << new FIX8::SERUM_Data::NoRelatedSym(pools.size()) ;
 
+    int k = 0;
     FIX8::GroupBase *noin(mdr->find_group<FIX8::SERUM_Data::SecurityList::NoRelatedSym >());
     for(const auto& pool_info : pools)
     {
+        /*if(pool_info.engine.empty() || pool_info.symbol.empty() || pool_info.quote_currency())
+        {
+            _logger->Info((boost::format("Session | Incorrect Security format\n");
+            return;
+        }*/
+
         FIX8::MessageBase *noin_sym(noin->create_group());
         *noin_sym << new FIX8::SERUM_Data::SecurityExchange(pool_info.engine)
                   << new FIX8::SERUM_Data::Symbol (pool_info.symbol)
