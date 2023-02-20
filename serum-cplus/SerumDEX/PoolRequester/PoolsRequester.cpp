@@ -51,6 +51,7 @@ void PoolsRequester::loadPoolList()
 		string symbol = AS_STR(pool.at("name"));
 		_pools_list.push_back(
 			Instrument{
+				engine: "OpenBook",
 				symbol:	symbol, 
 				base_currency: symbol.substr(0, symbol.find("/")),
 				quote_currency: symbol.substr(symbol.find("/") + 1),
