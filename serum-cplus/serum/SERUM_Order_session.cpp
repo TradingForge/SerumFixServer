@@ -100,7 +100,8 @@ FIX8::Message *SERUM_Order_session::generate_logon(const unsigned heartbeat_inte
     return logon;
 }
 
-// FIX8::SERUM_Data::FIX8_SERUM_Data_Router implementation
+///////////// FIX8::SERUM_Data::FIX8_SERUM_Data_Router implementation /////////////////
+
 bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::NewOrderSingle *msg) const
 {
     /*
@@ -187,7 +188,7 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::NewOrderSin
     auto session = const_cast<SERUM_Order_session*>(this);
     marketlib::instrument_descr_t pool {.engine=TRADE_CONN_NAME,.sec_id=symbol.get(),.symbol=symbol.get()};
     // order validation
-    if(order.clId.empty() || order.owner.empty() || order.secId.empty() || order.currency.empty() || order.original_qty <= 0
+    if(order.clId.empty() || order.owner.empty() ||  order.secId.empty() || order.currency.empty() || order.original_qty <= 0
               ||!(order.type==marketlib::order_type_t::ot_Market||order.type==marketlib::order_type_t::ot_Limit))
     {
         session->sendReport(order.clId, marketlib::report_type_t::rt_rejected,

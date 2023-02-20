@@ -7,7 +7,7 @@
 
 #include "ConsoleLogger.h"
 
-const char* TRADE_CONN_NAME="Serum";
+const char* SAND_TRADE_CONN_NAME="Serum";
 
 SERUM_Order_sandbox_session::SERUM_Order_sandbox_session(const FIX8::F8MetaCntx& ctx,
                     const FIX8::sender_comp_id& sci,
@@ -186,7 +186,7 @@ bool SERUM_Order_sandbox_session::operator() (const class FIX8::SERUM_Order::New
     }
 
     auto session = const_cast<SERUM_Order_sandbox_session*>(this);
-    marketlib::instrument_descr_t pool {.engine=TRADE_CONN_NAME,.sec_id=symbol.get(),.symbol=symbol.get()};
+    marketlib::instrument_descr_t pool {.engine=SAND_TRADE_CONN_NAME,.sec_id=symbol.get(),.symbol=symbol.get()};
     // order validation
     if(order.clId.empty() || order.owner.empty() || order.secId.empty() || order.currency.empty() || order.original_qty <= 0
               ||!(order.type==marketlib::order_type_t::ot_Market||order.type==marketlib::order_type_t::ot_Limit))

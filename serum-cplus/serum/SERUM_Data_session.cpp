@@ -1,9 +1,11 @@
 #include <functional>
 #include <ctime>
+#include <boost/format.hpp>
+
 #include "SERUM_Data_session.hpp"
 
-#include <SerumDEX/SerumMD.h>
-#include <SerumDEX/PoolRequester/PoolsRequester.h>
+//#include <SerumDEX/SerumMD.h>
+//#include <SerumDEX/PoolRequester/PoolsRequester.h>
 #include "ConsoleLogger.h"
 
 const char* CONN_NAME="Serum";
