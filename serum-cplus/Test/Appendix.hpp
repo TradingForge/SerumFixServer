@@ -36,13 +36,13 @@ void Logger::Info(const char *content, ...) {
 	cout << "INFO | " << content << "\n";
 }
 void Logger::Debug(const char *content, ...) {
-	cout << "INFO | " << content << "\n";
+	cout << "DEBUG | " << content << "\n";
 }
 void Logger::Error(const char *content, ...) {
-	cout << "INFO | " << content << "\n";
+	cout << "ERROR | " << content << "\n";
 }
 void Logger::Warn(const char *content, ...) {
-	cout << "INFO | " << content << "\n";
+	cout << "WARN | " << content << "\n";
 }
 
 void Logger::Critical(const char *content, ...) {

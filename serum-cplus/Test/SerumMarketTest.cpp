@@ -36,8 +36,8 @@ int main ()
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IPoolsRequester > pools(new PoolsRequester(logger, settings, "./market.json"));
-    shared_ptr < IListener >  trade_channel (new SerumTrade ( logger, settings, [&logger](const string& exch, broker_event event, const string& info) {}));
-
+    shared_ptr < IListener >  trade_channel (new SerumTrade ( logger, settings, [&logger](const string& exch, broker_event event, const string& info) {logger->Trace(info.c_str());}));
+    trade_channel->start();
     auto instr = Instrument{
         engine: "",
         sec_id: "",
