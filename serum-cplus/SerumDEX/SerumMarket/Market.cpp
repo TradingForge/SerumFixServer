@@ -99,17 +99,19 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     return *(_open_orders.begin());
 }
 
-SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument_, const Order& order_)
+SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const string& client_id)
 {
     MarketChannel market_info;
     OpenOrdersAccountInfo orders_account_info;
     try {
-        market_info = get_market_info(instrument_, _pubkey);
+        market_info = get_market_info(instrument, _pubkey);
         orders_account_info = get_orders_account_info(market_info.instr, _pubkey);        
     }
     catch (string e) {
-        _callback(_name, instrument_, "Failed to get information: " + e);
-        return order_;
+        _callback(_name, instrument, "Failed to get information: " + e);
+        return Order {
+            clId: client_id
+        };
     }
     
     Transaction txn;
@@ -122,25 +124,32 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument_, cons
                 event_queue: market_info.parsed_market.event_queue,
                 open_orders: orders_account_info.account,
                 owner: _pubkey,
-                client_id: strtoul(order_.clId.c_str(), nullptr, 0),
+                client_id: strtoul(client_id.c_str(), nullptr, 0),
                 program_id: MARKET_KEY
             }
         )
     );
     Transaction::Signers signers;
     signers.push_back(_secretkey);
+
+    Order order {
+        clId: client_id,
+        state: marketlib::order_state_t::ost_Canceled
+    };
+    
     try{
         auto res = send_transaction(txn, signers);
-        _callback(_name, instrument_, "The order is sent: " + res);
+        order.transaction_hash = res;
+        _callback(_name, instrument, "The order is sent: " + res);
     }
     catch (string e)
     {
-        _callback(_name, instrument_, "Failed to send the order: " + e);
-        return order_;
+        _callback(_name, instrument, "Failed to send the order: " + e);
+        return  Order {
+            clId: client_id
+        };
     }
     
-    auto order = order_;
-    order.state = marketlib::order_state_t::ost_Canceled;
     return order;
 }
 
@@ -722,7 +731,29 @@ void SerumMarket::check_order(const Instrument& instrument_)
                 return;
 
             _open_orders.modify(order, change_order_status(exec_report_.state));
-            _orders_callback(_name, exec_report_);
+            _orders_callback(_name, ExecutionReport{
+                tradeId:            exec_report_.tradeId,
+                clId:               exec_report_.clId,
+                origClId:           exec_report_.origClId, 
+                exchId:             exec_report_.exchId,
+                secId:              exec_report_.secId,
+                transaction_hash:   order->transaction_hash,
+                time:               exec_report_.time,
+                orderType:          exec_report_.orderType,
+                type:               exec_report_.type,
+                transType:          exec_report_.transType,
+                tif:                exec_report_.tif,
+                state:              exec_report_.state,
+                side:               exec_report_.side,
+                rejReason:          exec_report_.rejReason,
+                limitPrice:         exec_report_.limitPrice,
+                avgPx:              exec_report_.avgPx,
+                lastPx:             exec_report_.lastPx,
+                leavesQty:          exec_report_.leavesQty,
+                cumQty:             exec_report_.cumQty,
+                lastShares:         exec_report_.lastShares,
+                text:               exec_report_.text
+            });
 
             if (order->isCompleted()) {
                 _open_orders.erase(order);

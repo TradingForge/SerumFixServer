@@ -183,7 +183,7 @@ public:
     // SerumMarket(const SerumMarket&);
 
     Order send_new_order(const Instrument&, const Order&) override;
-    Order cancel_order(const Instrument&, const Order&) override;
+    Order cancel_order(const Instrument&, const string&) override;
 
     ~SerumMarket();
 };
