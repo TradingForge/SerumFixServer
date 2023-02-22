@@ -116,8 +116,7 @@ const PoolsRequester::Instrument& PoolsRequester::getPool(const Instrument& inst
 {
 	if (_pools.InstrumentsList().size()) {
 		auto pool = std::find_if(_pools.InstrumentsList().begin(), _pools.InstrumentsList().end(), [&instrument](const InstrumentJson& i){ 
-			return instrument.base_currency == i.GetInstrument().base_currency && 
-				instrument.quote_currency == i.GetInstrument().quote_currency;
+			return instrument.symbol == i.GetInstrument().symbol;
 		});
 
 		if (pool != std::end(_pools.InstrumentsList()))
