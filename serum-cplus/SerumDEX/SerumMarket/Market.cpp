@@ -2,10 +2,10 @@
 using namespace solana; 
 
 SerumMarket::SerumMarket(
-    const string& pubkey, const string& secretkey, const string& http_address, 
-    pools_ptr pools, listener_ptr listener, Callback callback, OrdersCallback orders_callback, const string& market_id): 
-_pubkey(pubkey), _secretkey(secretkey), _http_address(http_address), 
-_pools(pools), _trade_channel(listener),_callback(callback), _message_count(0), _orders_callback(orders_callback),
+    const string& pubkey, const string& secretkey, const string& http_address, logger_ptr logger,
+    pools_ptr pools, listener_ptr listener, OrdersCallback orders_callback, const string& market_id): 
+_pubkey(pubkey), _secretkey(secretkey), _http_address(http_address), _logger(logger),
+_pools(pools), _trade_channel(listener), _message_count(0), _orders_callback(orders_callback),
 _order_count_for_symbol(), _name(market_id)
 {}
 
@@ -57,7 +57,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         }
     }
     catch (string e) {
-        _callback(_name, instrument_, "Failed to get information: " + e);
+        _logger->Error(( boost::format(R"(Failed to get information: %1%)") % e ).str().c_str());
         return order_;
     }
 
@@ -82,12 +82,12 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
             signers,
             _pubkey
         );
-        _callback(_name, instrument_, "The order is sent: " + res);
+        _logger->Debug(( boost::format(R"(The order is sent: %1%)") % res).str().c_str() );
         order.transaction_hash = res;
     }
 
     catch (string e) {
-        _callback(_name, instrument_, "Failed to send the order: " + e);
+        _logger->Error(( boost::format(R"(Failed to send the order: %1%)") % e).str().c_str());
         return order_;
     }
 
@@ -108,7 +108,7 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
         orders_account_info = get_orders_account_info(market_info.instr, _pubkey);        
     }
     catch (string e) {
-        _callback(_name, instrument, "Failed to get information: " + e);
+        _logger->Error(( boost::format(R"(Failed to get information: %1%)") % e).str().c_str());
         return Order {
             clId: client_id
         };
@@ -140,11 +140,11 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
     try{
         auto res = send_transaction(txn, signers);
         order.transaction_hash = res;
-        _callback(_name, instrument, "The order is sent: " + res);
+        _logger->Debug(( boost::format(R"(The order is sent: %1%)") % res).str().c_str());
     }
     catch (string e)
     {
-        _callback(_name, instrument, "Failed to send the order: " + e);
+        _logger->Error((boost::format(R"(Failed to send the order: %1%)") % e).str().c_str());
         return  Order {
             clId: client_id
         };
@@ -250,11 +250,8 @@ SerumMarket::string SerumMarket::place_order(
 
 const SerumMarket::MarketChannel& SerumMarket::get_market_info(const Instrument& instrument_, const PublicKey& pubkey_)
 {
-    auto market_info = _markets_info.get<MarketChannelsByPool>()
-		.find(boost::make_tuple(
-			instrument_.base_currency,
-			instrument_.quote_currency
-		));
+    auto market_info = _markets_info.get<MarketChannelsBySymbol>()
+		.find(instrument_.symbol);
 
     if (market_info == _markets_info.end()) {
         auto pool = _pools->getPool(instrument_);
@@ -269,8 +266,7 @@ const SerumMarket::MarketChannel& SerumMarket::get_market_info(const Instrument&
 SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& instr_, const PublicKey& pubkey_)
 {
     return MarketChannel {
-        base: instr_.base_currency,
-        quote: instr_.quote_currency,
+        symbol: instr_.symbol,
         instr: instr_,
         market_address: instr_.address,
         parsed_market: get_market_layout(instr_.address),
@@ -757,7 +753,7 @@ void SerumMarket::check_order(const Instrument& instrument_)
 
             if (order->isCompleted()) {
                 _open_orders.erase(order);
-                uncheck_order(instrument_);
+                // uncheck_order(instrument_);
             }
         };
 
