@@ -8,7 +8,8 @@ using namespace std;
 PoolsRequester::PoolsRequester(logger_ptr logger, settings_ptr settings, std::string path):
 	_logger(logger), _settings(settings), _pools(), _path(path), _pools_list()
 {
-	loadPoolsFromJson();
+	if (_path.size())
+		loadPoolsFromJson();
 	loadPoolList();
 }
 
@@ -133,7 +134,8 @@ const PoolsRequester::Instrument& PoolsRequester::getPool(const Instrument& inst
 	
 	auto new_pool = getPoolInfoFromServer(*p);
 	_pools.PushBackInstrument(new_pool);
-	savePoolsToJson();
+	if (_path.size())
+		savePoolsToJson();
 	return _pools.InstrumentsList().back();
 }
 
