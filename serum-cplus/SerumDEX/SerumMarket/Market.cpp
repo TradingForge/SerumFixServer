@@ -718,7 +718,7 @@ void SerumMarket::check_order(const Instrument& instrument_)
             auto order = _open_orders.get<OrderByCliId>()
             .find(exec_report_.clId);
 
-            if (order == _open_orders.end()) 
+            if (order == _open_orders.end())
                 return;
 
             _open_orders.modify(order, change_order_status(exec_report_.state));
@@ -726,7 +726,7 @@ void SerumMarket::check_order(const Instrument& instrument_)
 
             if (order->isCompleted()) {
                 _open_orders.erase(order);
-                // uncheck_order(instrument_);
+                uncheck_order(instrument_);
             }
         };
 
