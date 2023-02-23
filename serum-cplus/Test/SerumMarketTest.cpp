@@ -88,27 +88,27 @@ int main ()
         string msg;
         cin >> msg;
         if (msg == "so") {
-            order_sell = market.send_new_order(instrument, order_sell);
+            market.send_new_order(instrument, order_sell);
         }
         else if (msg == "sc") {
-            order_sell = market.cancel_order(instrument, order_sell.clId);
+            market.cancel_order(instrument, order_sell.clId);
         }
         else if (msg == "bo") {
-             order_buy.clId = "7654321";
-           order_buy = market.send_new_order(instrument, order_buy);
+            order_buy.clId = "7654321";
+            market.send_new_order(instrument, order_buy);
         }
         else if (msg == "bc") {
-             order_buy.clId = "7654321";
-            order_buy = market.cancel_order(instrument, order_buy.clId);
+            order_buy.clId = "7654321";
+            market.cancel_order(instrument, order_buy.clId);
         }
         else if (msg == "bo1") {
             order_buy.clId = "1234567";
-            order_buy = market.send_new_order(instrument, order_buy);
+            market.send_new_order(instrument, order_buy);
 
         }
         else if (msg == "bc1") {
             order_buy.clId = "1234567";
-            order_buy = market.cancel_order(instrument, order_buy.clId);
+            market.cancel_order(instrument, order_buy.clId);
         }
         else if (msg == "stop") {
             break;
