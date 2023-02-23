@@ -83,7 +83,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
             _pubkey
         );
         _logger->Debug(( boost::format(R"(The order is sent: %1%)") % res).str().c_str() );
-        order.transaction_hash = res;
+        order.transaction_hash = string(boost::json::parse(res).at("result").as_string().c_str());
     }
 
     catch (string e) {
@@ -139,7 +139,7 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
     
     try{
         auto res = send_transaction(txn, signers);
-        order.transaction_hash = res;
+        order.transaction_hash = string(boost::json::parse(res).at("result").as_string().c_str());
         _logger->Debug(( boost::format(R"(The order is sent: %1%)") % res).str().c_str());
     }
     catch (string e)
