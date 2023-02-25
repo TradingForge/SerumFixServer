@@ -53,7 +53,8 @@ int main ()
         pools,
         trade_channel,
         [](const string& name, const Instrument& inst, const string& info){
-            std::cout << name << " || " << inst.symbol << " || " + info;},
+            std::cout << name << " || " << inst.symbol << " || " + info;
+        },
         [](const string& name, const execution_report_t& execution_report) {
             std::cout << "Order Update" << std::endl;
             std::cout << "id:" << execution_report.clId << std::endl;

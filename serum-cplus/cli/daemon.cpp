@@ -21,6 +21,10 @@
 
 #include <SerumDEX/SerumMD.h>
 #include <SerumDEX/PoolRequester/PoolsRequester.h>
+#include <SerumDEX/SerumMarket/Market.hpp>
+#include <SerumDEX/SerumMarket/models.hpp>
+#include <SerumDEX/SerumTrade.h>
+
 #include <serum/ConsoleLogger.h>
 #include <serum/SerumSettings.h>
 

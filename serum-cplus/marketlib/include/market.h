@@ -84,6 +84,7 @@ namespace marketlib
         order_state_t   state;
         order_side_t    side ;
         ord_rej_reason  rejReason;
+        double          orderQty;
         double          limitPrice;
         double          avgPx;
         double          lastPx;
