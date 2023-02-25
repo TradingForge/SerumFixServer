@@ -52,19 +52,14 @@ SERUM_Order_session::SERUM_Order_session(const FIX8::F8MetaCntx& ctx,
 
 void SERUM_Order_session::setupOpenbook(const std::shared_ptr < IPoolsRequester >& pools, std::shared_ptr < IListener >  trade_channel )
 {
-    //    SerumMarket(const string&, const string&, const string&, pools_ptr, listener_ptr, Callback, OrdersCallback, const string& );
-    std::function <void(const std::string&, const marketlib::instrument_descr_t&, const std::string&)> cb1
-        =  std::bind( &SERUM_Order_session::instrumentCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    std::function <void(const std::string&, const marketlib::execution_report_t&)> cb2
-        =   std::bind( &SERUM_Order_session::reportCallback, this, std::placeholders::_1, std::placeholders::_2);
     SerumMarket* market = new SerumMarket(
         PUBKEY,
         SECRETKEY,
         "https://nd-664-169--151.p2pify.com/a89ccd991de179587a0b8e3356409a9b",
+        _logger,
         pools,
         trade_channel,
-        cb1,
-        cb2,
+        std::bind( &SERUM_Order_session::reportCallback, this, std::placeholders::_1, std::placeholders::_2),
         "Market_1"
      );
     _market = std::shared_ptr<SerumMarket> (market);
@@ -354,11 +349,8 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::OrderCancel
     pool.engine = TRADE_CONN_NAME;
     pool.symbol=symbol.get();
 
-    marketlib::order_t order;
-    order.clId = clid_str;
-
     _logger->Debug((boost::format("OSession | Cancelling order %1%") % clid_str).str().c_str());
-    _market->cancel_order(pool, order);
+    _market->cancel_order(pool, clid_str);
     return true;
 }
 
