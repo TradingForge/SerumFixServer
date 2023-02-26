@@ -133,7 +133,10 @@ class FixApp(fix.Application):
     def subscribe(self, instrument, subscr=True, full_book=False, incrementals=False):
         request = fix44.MarketDataRequest()
         request.setField(fix.MDReqID(str(self.__reqId)))
-        request.setField(fix.MDUpdateType(5))
+        if incrementals:
+            request.setField(fix.MDUpdateType(1))
+        else:
+            request.setField(fix.MDUpdateType(0))
         if subscr:
             request.setField(fix.SubscriptionRequestType('1'))
         else:
