@@ -328,8 +328,6 @@ void SERUM_Order_sandbox_session::sendReport(const std::string&clId,marketlib::r
 
     if(!exchId.empty())
         *mdr    << new FIX8::SERUM_Order::OrderID (exchId);
-    if(!origClId.empty())
-        *mdr    << new FIX8::SERUM_Order::OrigClOrdID (origClId);
     if(!text.empty())
         *mdr    << new FIX8::SERUM_Order::Text (text);
 
@@ -342,13 +340,13 @@ void SERUM_Order_sandbox_session::sendReport(const std::string&clId,marketlib::r
     <field name='AvgPx' required='N' />
      */
     // change XML and delete  these  tags
-    *mdr    << new FIX8::SERUM_Order::ExecID ("deleteme");
-    *mdr    << new FIX8::SERUM_Order::Side ('1');
-    *mdr    << new FIX8::SERUM_Order::LeavesQty ("0");
-    *mdr    << new FIX8::SERUM_Order::CumQty ("0");
-    *mdr    << new FIX8::SERUM_Order::AvgPx ("0.1");
-    if(exchId.empty())
-        *mdr    << new FIX8::SERUM_Order::OrderID ("123");
+    //*mdr    << new FIX8::SERUM_Order::ExecID ("deleteme");
+    //*mdr    << new FIX8::SERUM_Order::Side ('1');
+    //*mdr    << new FIX8::SERUM_Order::LeavesQty ("0");
+    //*mdr    << new FIX8::SERUM_Order::CumQty ("0");
+    //*mdr    << new FIX8::SERUM_Order::AvgPx ("0.1");
+    //if(exchId.empty())
+    //    *mdr    << new FIX8::SERUM_Order::OrderID (exchId);
     _logger->Info((boost::format("OSession | --> %1%, clid(%2%)") % (char)state % clId).str().c_str());
 
     FIX8::Session::send(mdr);
