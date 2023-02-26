@@ -189,10 +189,6 @@ class FixApp(fix.Application):
         request = fix44.OrderCancelRequest()
         request.setField(fix.ClOrdID(newOrdID))
         request.setField(fix.OrigClOrdID(order["ClOrdID"]))
-        request.setField(fix.Symbol(instrument["Symbol"]))
-        request.setField(fix.Side(order["Side"]))
-        request.setField(fix.TransactTime())
-
         fix.Session.sendToTarget(request, self.__sessionID)
         pass
 
