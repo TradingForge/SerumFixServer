@@ -1,12 +1,12 @@
 //-------------------------------------------------------------------------------------------------
-// *** f8c generated file: DO NOT EDIT! Created: 2022-05-15 19:24:33 ***
+// *** f8c generated file: DO NOT EDIT! Created: 2023-02-26 15:05:52 ***
 //-------------------------------------------------------------------------------------------------
 /*
 
 Fix8 is released under the GNU LESSER GENERAL PUBLIC LICENSE Version 3.
 
 Fix8 Open Source FIX Engine.
-Copyright (C) 2010-22 David L. Dight <fix@fix8.org>
+Copyright (C) 2010-23 David L. Dight <fix@fix8.org>
 
 Fix8 is free software: you can  redistribute it and / or modify  it under the  terms of the
 GNU Lesser General  Public License as  published  by the Free  Software Foundation,  either
@@ -283,6 +283,7 @@ const SERUM_Data::FIX8_SERUM_Data_BaseMsgEntry::Pair msgpairs[]
    { "k", { Type2Type<SERUM_Data::BidRequest>(), "BidRequest" } },
    { "l", { Type2Type<SERUM_Data::BidResponse>(), "BidResponse" } },
    { "m", { Type2Type<SERUM_Data::ListStrikePrice>(), "ListStrikePrice" } },
+   { "n", { Type2Type<SERUM_Data::XMLnonFIX>(), "XMLnonFIX" } },
    { "o", { Type2Type<SERUM_Data::RegistrationInstructions>(), "RegistrationInstructions" } },
    { "p", { Type2Type<SERUM_Data::RegistrationInstructionsResponse>(), "RegistrationInstructionsResponse" } },
    { "q", { Type2Type<SERUM_Data::OrderMassCancelRequest>(), "OrderMassCancelRequest" } },
@@ -296,14 +297,14 @@ const SERUM_Data::FIX8_SERUM_Data_BaseMsgEntry::Pair msgpairs[]
    { "x", { Type2Type<SERUM_Data::SecurityListRequest>(), "SecurityListRequest" } },
    { "y", { Type2Type<SERUM_Data::SecurityList>(), "SecurityList" } },
    { "z", { Type2Type<SERUM_Data::DerivativeSecurityListRequest>(), "DerivativeSecurityListRequest" } }
-}; // 94
+}; // 95
 
 extern const FIX8_SERUM_Data_BaseEntry::Pair fldpairs[];
 
 /// Compiler generated metadata object, accessed through this function.
 const F8MetaCntx& ctx() // avoid SIOF
 {
-   static const FIX8_SERUM_Data_BaseMsgEntry bme(msgpairs, 94);
+   static const FIX8_SERUM_Data_BaseMsgEntry bme(msgpairs, 95);
    static const FIX8_SERUM_Data_BaseEntry be(fldpairs, 912);
    static const F8MetaCntx _ctx(4400, bme, be, cn, "FIX.4.4");
    return _ctx;
