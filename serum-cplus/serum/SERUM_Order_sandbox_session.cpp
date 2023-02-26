@@ -447,12 +447,12 @@ void SERUM_Order_sandbox_session::sendExecutionReport(const std::string &tradeId
    <field name='AvgPx' required='N' />
     */
     // change XML and delete  these  tags
-    *mdr    << new FIX8::SERUM_Order::Side ('1');
-    *mdr    << new FIX8::SERUM_Order::LeavesQty ("0");
-    *mdr    << new FIX8::SERUM_Order::CumQty ("0");
-    *mdr    << new FIX8::SERUM_Order::AvgPx ("0.1");
-    if(exchId.empty())
-        *mdr    << new FIX8::SERUM_Order::OrderID ("123");
+    //*mdr    << new FIX8::SERUM_Order::Side ('1');
+    //*mdr    << new FIX8::SERUM_Order::LeavesQty ("0");
+    //*mdr    << new FIX8::SERUM_Order::CumQty ("0");
+    // *mdr    << new FIX8::SERUM_Order::AvgPx ("0.1");
+    //if(exchId.empty())
+   //     *mdr    << new FIX8::SERUM_Order::OrderID ("123");
 
     _logger->Info((boost::format("OSession | --> Trade, clid(%1%), lastPx(%2%), lastShared(%3%)") % clId % lastPx % lastShares).str().c_str());
     FIX8::Session::send(mdr);

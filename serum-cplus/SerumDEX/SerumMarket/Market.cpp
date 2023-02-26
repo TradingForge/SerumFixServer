@@ -120,11 +120,25 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
     }
     catch (string e) {
         _logger->Error(( boost::format(R"(Failed to get information: %1%)") % e).str().c_str());
-        return Order {
-            clId: client_id
-        };
+        SerumMarket::Order order;
+        order.clId = client_id;
+        order;
     }
-    
+
+    CancelOrderV2ByClientIdParams cancelOrderParam;
+    cancelOrderParam.market= market_info.market_address;
+    cancelOrderParam.bids= market_info.parsed_market.bids;
+    cancelOrderParam.asks= market_info.parsed_market.asks;
+    cancelOrderParam.event_queue= market_info.parsed_market.event_queue;
+    cancelOrderParam.open_orders= orders_account_info.account;
+    cancelOrderParam.owner= _pubkey;
+    cancelOrderParam.client_id= strtoul(client_id.c_str(), nullptr, 0);
+    cancelOrderParam.program_id= MARKET_KEY;
+
+    Transaction txn;
+    txn.add_instruction(new_cancel_order_by_client_id_v2(cancelOrderParam));
+
+    /*
     Transaction txn;
     txn.add_instruction(
         new_cancel_order_by_client_id_v2(
@@ -140,13 +154,14 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
             }
         )
     );
+     */
     Transaction::Signers signers;
     signers.push_back(_secretkey);
 
-    Order order {
-        clId: client_id,
-        state: marketlib::order_state_t::ost_Canceled
-    };
+
+    Order order ;
+    order.clId= client_id;
+    order.state= marketlib::order_state_t::ost_Canceled;
     
     try{
         auto res = send_transaction(txn, signers);
@@ -156,9 +171,8 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
     catch (string e)
     {
         _logger->Error((boost::format(R"(Failed to send the order: %1%)") % e).str().c_str());
-        return  Order {
-            clId: client_id
-        };
+        Order order;
+        order.clId= client_id;
     }
     
     return order;
@@ -761,29 +775,30 @@ void SerumMarket::check_order(const Instrument& instrument_)
                 return;
 
             _open_orders.modify(order, change_order_status(exec_report_.state));
-            _orders_callback(_name, ExecutionReport{
-                tradeId:            exec_report_.tradeId,
-                clId:               exec_report_.clId,
-                origClId:           exec_report_.origClId, 
-                exchId:             exec_report_.exchId,
-                secId:              exec_report_.secId,
-                transaction_hash:   order->transaction_hash,
-                time:               exec_report_.time,
-                orderType:          exec_report_.orderType,
-                type:               exec_report_.type,
-                transType:          exec_report_.transType,
-                tif:                exec_report_.tif,
-                state:              exec_report_.state,
-                side:               exec_report_.side,
-                rejReason:          exec_report_.rejReason,
-                limitPrice:         exec_report_.limitPrice,
-                avgPx:              exec_report_.avgPx,
-                lastPx:             exec_report_.lastPx,
-                leavesQty:          exec_report_.leavesQty,
-                cumQty:             exec_report_.cumQty,
-                lastShares:         exec_report_.lastShares,
-                text:               exec_report_.text
-            });
+
+            ExecutionReport report;
+            report.tradeId=            exec_report_.tradeId;
+            report.clId=               exec_report_.clId;
+            report.origClId=           exec_report_.origClId;
+            report.exchId=             exec_report_.exchId;
+            report.secId=              exec_report_.secId;
+            report.transaction_hash=   order->transaction_hash;
+            report.time=               exec_report_.time;
+            report.orderType=          exec_report_.orderType;
+            report.type=               exec_report_.type;
+            report.transType=          exec_report_.transType;
+            report.tif=                exec_report_.tif;
+            report.state=              exec_report_.state;
+            report.side=               exec_report_.side;
+            report.rejReason=          exec_report_.rejReason;
+            report.limitPrice=         exec_report_.limitPrice;
+            report.avgPx=              exec_report_.avgPx;
+            report.lastPx=             exec_report_.lastPx;
+            report.leavesQty=          exec_report_.leavesQty;
+            report.cumQty=             exec_report_.cumQty;
+            report.lastShares=         exec_report_.lastShares;
+            report.text=               exec_report_.text;
+            _orders_callback(_name, report);
 
             if (order->isCompleted()) {
                 _open_orders.erase(order);
