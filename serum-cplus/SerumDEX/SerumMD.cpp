@@ -50,6 +50,34 @@ void SerumMD::onEventHandler(const string &message) {
 	}
 	else if (type == "error") {
 		_logger->Error(message.c_str());
+		if (message.find("Invalid market name provided") != string::npos) {
+			auto s1 = message.find("'")+1;
+			auto symbol = message.substr( s1, message.find("'", s1) - s1);
+			auto chnls = _channels
+				.get<SubscribeChannelsByMarket>()
+				.equal_range(boost::make_tuple(symbol));
+
+			list<pair<string, marketlib::market_depth_t>> credentials;
+
+			for( auto chnl = chnls.first, end = chnls.second; chnl != end; ++chnl ){
+				_onEvent(
+					_settings->get(ISettings::Property::ExchangeName), 
+					marketlib::broker_event::subscribed_coin_is_not_valid, 
+					(boost::format(R"({"symbol": "%1%", "client_id": "%2%"})") % symbol % chnl->clientId).str()
+				);
+				credentials.push_back(pair<string, marketlib::market_depth_t>{chnl->clientId, chnl->smodel});
+  			}
+
+			for (const auto& a: credentials)
+				_channels.erase(
+						_channels
+						.get<SubscribeChannelsByClientAndMarketAndSubscribeModel>()
+						.find(boost::make_tuple(
+							a.first,
+							symbol,
+							a.second
+						)));
+		}
 		return;
 	}
 
@@ -72,7 +100,7 @@ void SerumMD::onEventHandler(const string &message) {
 			));
 		while(chnls.first != chnls.second) {
 			chnls.first->callback(
-				_name,
+				_settings->get(ISettings::Property::ExchangeName),
 				chnls.first->instr.symbol,
 				_top_snapshot[market]
 			);
@@ -104,7 +132,7 @@ void SerumMD::onEventHandler(const string &message) {
 			));
 		while(chnls.first != chnls.second){
 			chnls.first->callback(
-				_name,
+				_settings->get(ISettings::Property::ExchangeName),
 				chnls.first->instr.symbol,
 				depth
 			);
@@ -151,7 +179,7 @@ void SerumMD::onEventHandler(const string &message) {
 			));
 		while(chnls.first != chnls.second){
 			chnls.first->callback(
-				_name,
+				_settings->get(ISettings::Property::ExchangeName),
 				chnls.first->instr.symbol,
 				depth
 			);
@@ -245,14 +273,14 @@ void SerumMD::subscribe(const instrument& instr, SubscriptionModel model, const 
 		if (chnls.first != chnls.second)
 			if (model == SubscriptionModel::top) {
 				callback(
-					_name,
+					_settings->get(ISettings::Property::ExchangeName),
 					getMarketFromInstrument(instr),
 					_top_snapshot[getMarketFromInstrument(instr)]
 				);
 			}
 			else {
 				callback(
-					_name,
+					_settings->get(ISettings::Property::ExchangeName),
 					getMarketFromInstrument(instr),
 					_depth_snapshot[getMarketFromInstrument(instr)]
 				);

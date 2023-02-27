@@ -55,9 +55,7 @@ protected:
 	callback_on_event _onEvent;
 	ConnectionWrapper < SerumMD > _connection;
 	depth_snapshots _depth_snapshot;
-	top_snapshots _top_snapshot;
-	string _name;
-	
+	top_snapshots _top_snapshot;	
 
 	void onOpen();
 	void onClose();
