@@ -43,12 +43,16 @@ void SerumTrade::onEventHandler(const string &message) {
 	auto parsed_data = boost::json::parse(message);
 	std::string type = parsed_data.at("type").as_string().c_str();
 #ifdef SERUM_LISTENER_DEBUG
-if (type == "subscribed" || type == "unsubscribed") {
-	_logger->Debug(message.c_str());
-} 
+	if (type == "subscribed" || type == "unsubscribed") {
+		_logger->Debug(message.c_str());
+	} 
 #endif
 	if (type == "subscribed" || type == "unsubscribed")
 		return;
+	else if (type == "error") {
+		_logger->Error(message.c_str());
+		return;
+	}
 	std::string market = parsed_data.at("market").as_string().c_str();
 	if (type  == "l3snapshot" || type  == "open") {
 		auto addOrderToList = [&](const boost::json::value& set, std::list<ExecutionReport>& vec) {

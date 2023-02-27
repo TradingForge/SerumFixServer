@@ -47,7 +47,11 @@ void SerumMD::onEventHandler(const string &message) {
 	if (type == "subscribed" || type == "unsubscribed") {
 		_logger->Info(message.c_str());
 		return;
-	} 
+	}
+	else if (type == "error") {
+		_logger->Error(message.c_str());
+		return;
+	}
 
 	// logger->Info(message.c_str());
 	string market = parsed_data.at("market").as_string().c_str();
