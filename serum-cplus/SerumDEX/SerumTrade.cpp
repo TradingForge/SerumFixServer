@@ -12,20 +12,20 @@ void SerumTrade::onOpen() {
 #ifdef SERUM_LISTENER_DEBUG
 _logger->Debug("> SerumTrade::onOpen");
 #endif
-	_onEvent(getName(), broker_event::session_logon, "TradeLogon: " + getName());
+	_onEvent(getName(), "", broker_event::session_logon, "TradeLogon: " + getName());
 }
 void SerumTrade::onClose() {
 #ifdef SERUM_LISTENER_DEBUG
 	_logger->Debug("> SerumTrade::onClose");
 #endif
-	_onEvent(getName(), broker_event::session_logout, "TradeLogout: " + getName());
+	_onEvent(getName(), "", broker_event::session_logout, "TradeLogout: " + getName());
 	clearMarkets();
 }
 void SerumTrade::onFail() {
 #ifdef SERUM_LISTENER_DEBUG
 _logger->Debug("> SerumTrade::onFail");
 #endif
-	_onEvent(getName(), broker_event::session_logout, "TradeLogout: " + getName());
+	_onEvent(getName(), "", broker_event::session_logout, "TradeLogout: " + getName());
 	clearMarkets();
 }
 void SerumTrade::onMessage(const string& message) {
@@ -54,22 +54,20 @@ void SerumTrade::onEventHandler(const string &message) {
 		if (message.find("Invalid market name provided") != string::npos) {
 			auto s1 = message.find("'")+1;
 			auto symbol = message.substr( s1, message.find("'", s1) - s1);
+			_onEvent(
+					getName(),
+					symbol,
+					marketlib::broker_event::subscribed_coin_is_not_valid, 
+					(boost::format(R"(Subscription to %1% is not supported by %2%)") % symbol % getName()).str()
+				);
+
 			auto chnls = _channels
 				.get<SubscribeChannelsByMarket>()
 				.equal_range(boost::make_tuple(symbol));
-
-			list<string> credentials;
-
-			for( auto chnl = chnls.first, end = chnls.second; chnl != end; ++chnl ){
-				_onEvent(
-					_settings->get(ISettings::Property::ExchangeName), 
-					marketlib::broker_event::subscribed_coin_is_not_valid, 
-					(boost::format(R"({"symbol": "%1%", "client_id": "%2%"})") % symbol % chnl->clientId).str()
-				);
-				credentials.push_back(chnl->clientId);
-  			}
-
-			for (const auto& a: credentials)
+			list<string> client_ids;
+			for( auto chnl = chnls.first, end = chnls.second; chnl != end; ++chnl )
+				client_ids.push_back(chnl->clientId);	
+			for (const auto& a: client_ids)
 				_channels.erase(
 						_channels
 						.get<SubscribeChannelsByClientAndMarket>()
@@ -243,7 +241,7 @@ void SerumTrade::broadcastForMarketSubscribers(const string& market, const Execu
 	while(next != chnls.second) {
 		next++;
 		current->callback(
-			_settings->get(ISettings::Property::ExchangeName),
+			getName(),
 			market,
 			report
 		);
