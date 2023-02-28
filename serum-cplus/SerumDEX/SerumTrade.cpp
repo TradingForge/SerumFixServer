@@ -43,12 +43,42 @@ void SerumTrade::onEventHandler(const string &message) {
 	auto parsed_data = boost::json::parse(message);
 	std::string type = parsed_data.at("type").as_string().c_str();
 #ifdef SERUM_LISTENER_DEBUG
-if (type == "subscribed" || type == "unsubscribed") {
-	_logger->Debug(message.c_str());
-} 
+	if (type == "subscribed" || type == "unsubscribed") {
+		_logger->Debug(message.c_str());
+	} 
 #endif
 	if (type == "subscribed" || type == "unsubscribed")
 		return;
+	else if (type == "error") {
+		_logger->Error(message.c_str());
+		if (message.find("Invalid market name provided") != string::npos) {
+			auto s1 = message.find("'")+1;
+			auto symbol = message.substr( s1, message.find("'", s1) - s1);
+			auto chnls = _channels
+				.get<SubscribeChannelsByMarket>()
+				.equal_range(boost::make_tuple(symbol));
+
+			list<string> credentials;
+
+			for( auto chnl = chnls.first, end = chnls.second; chnl != end; ++chnl ){
+				_onEvent(
+					_settings->get(ISettings::Property::ExchangeName), 
+					marketlib::broker_event::subscribed_coin_is_not_valid, 
+					(boost::format(R"({"symbol": "%1%", "client_id": "%2%"})") % symbol % chnl->clientId).str()
+				);
+				credentials.push_back(chnl->clientId);
+  			}
+
+			for (const auto& a: credentials)
+				_channels.erase(
+						_channels
+						.get<SubscribeChannelsByClientAndMarket>()
+						.find(boost::make_tuple(
+							a,
+							symbol )));
+		}
+		return;
+	}
 	std::string market = parsed_data.at("market").as_string().c_str();
 	if (type  == "l3snapshot" || type  == "open") {
 		auto addOrderToList = [&](const boost::json::value& set, std::list<ExecutionReport>& vec) {
