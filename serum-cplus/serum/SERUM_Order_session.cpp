@@ -47,9 +47,6 @@ SERUM_Order_session::SERUM_Order_session(const FIX8::F8MetaCntx& ctx,
     */
 }
 
-#define PUBKEY "5ejVgdkJkgwptewzs5CLYdm6vJxpEL47sErAcnom6i8A"
-#define SECRETKEY "4Vi55eAt4aCfPGrbQKWjESK9UkKvb8AU7jwrzj8ajeA8dbPXEXwB4L1uhkdDEzoZ8bWhJXoRFXcE7aeeve4seARp"
-
 void SERUM_Order_session::setupOpenbook(const std::shared_ptr < IPoolsRequester >& pools, std::shared_ptr < IListener >  trade_channel )
 {
     SerumMarket* market = new SerumMarket(
@@ -253,12 +250,13 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::NewOrderSin
         report.clId = order.clId;
         report.type = marketlib::report_type_t::rt_rejected;
         report.state = marketlib::order_state_t::ost_Rejected;
-        report.text = "wring input parameters;";
+        report.text = "wrong input parameters;";
         session->sendReport(report);
         return true;
         //| <-- 8=FIX.4.49=17735=D34=249=Lagrange-fi-client-ord52=20220617-15:18:52.00056=Lagrange-fi-ord1=90874hf7ygf476tgrfgihf874bfjhb11=1000015=USDC38=140=154=155=ETHUSDC60=20220617-15:18:5210=235
     }
 
+    _logger->Debug((boost::format("Ord. Session | Execute order %1%") % order.clId).str().c_str());
     order = _market->send_new_order(pool, order);
     return true;
 }
@@ -338,6 +336,7 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::OrderCancel
         order.original_qty = qty.get();
     }*/
 
+
     if(pair.empty() || clid_str.empty())
     {
         auto session = const_cast<SERUM_Order_session*>(this);
@@ -349,7 +348,7 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::OrderCancel
     pool.engine = TRADE_CONN_NAME;
     pool.symbol=symbol.get();
 
-    _logger->Debug((boost::format("OSession | Cancelling order %1%") % clid_str).str().c_str());
+    _logger->Debug((boost::format("Ord. Session | Cancelling order %1%") % clid_str).str().c_str());
     _market->cancel_order(pool, clid_str);
     return true;
 }
