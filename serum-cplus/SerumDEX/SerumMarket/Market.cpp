@@ -828,7 +828,7 @@ void SerumMarket::check_order(const Instrument& instrument_)
             _open_orders.modify(order, change_order_status(exec_report_.state));
 
             ExecutionReport report;
-            report.tradeId=            exec_report_.tradeId;
+            report.tradeId=            order->transaction_hash;
             report.clId=               exec_report_.clId;
             report.origClId=           exec_report_.origClId;
             report.exchId=             exec_report_.exchId;
