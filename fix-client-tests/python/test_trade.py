@@ -73,6 +73,20 @@ class Client:
         self.application.send(self.instrument, self.order)
         self.clId = self.clId + 1
 
+    def send_limit_executed(self):
+        self.order = {
+            'Account': "90874hf7ygf476tgrfgihf874bfjhb",
+            'ClOrdID': str(self.clId),
+            'Side': Side.Buy,
+            'OrderQty': 1,
+            'OrdType': OrderType.Limit,
+            'Price': 2050,
+            'TimeInForce': TimeInForce.GoodTillCancel,
+        }
+
+        self.application.send(self.instrument, self.order)
+        self.clId = self.clId + 1
+
     def cancel(self):
         self.application.cancel(self.instrument, str(self.clId), self.order)
         self.clId = self.clId + 1
@@ -92,6 +106,8 @@ if __name__ == '__main__':
                 logic.send_market()
             if message == "l":
                 logic.send_limit()
+            if message == "le":
+                logic.send_limit_executed()
             if message == "c":
                 logic.cancel()
 
