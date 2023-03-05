@@ -30,7 +30,7 @@ int main () {
         }
     );
 
-    Instrument instrument{"", "", "RLB/USDC" };
+    Instrument instrument{"", "", "SOL/USDC" };
 
     client.start();
     
