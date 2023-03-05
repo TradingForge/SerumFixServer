@@ -89,6 +89,7 @@ void SerumTrade::onEventHandler(const string &message) {
             order.limitPrice= stod(set.at("price").as_string().c_str());
             order.side= stringToOrderSide(set.at("side").as_string().c_str());
             order.state= order_state_t::ost_New;
+			order.type= report_type_t::rt_new;
             order.orderType= order_type_t::ot_Limit;
             vec.push_back(order);
 		};
@@ -118,6 +119,8 @@ void SerumTrade::onEventHandler(const string &message) {
 		order->cumQty = stod(parsed_data.at("size").as_string().c_str());
 		order->leavesQty = stod(parsed_data.at("size").as_string().c_str());
 		order->limitPrice = stod(parsed_data.at("price").as_string().c_str());
+		order->state= order_state_t::ost_Replaced;
+		order->type= report_type_t::rt_replaced;
 		broadcastForMarketSubscribers(market, *order);
 	} 
 	else if (type  == "fill") {
@@ -128,8 +131,8 @@ void SerumTrade::onEventHandler(const string &message) {
 		});
 
 		order->state = order_state_t::ost_Filled;
-		order->type = report_type_t::rt_fill;
-		order->lastShares = order->leavesQty;
+		order->type = report_type_t::rt_fill_trade;
+		order->lastShares = stod(parsed_data.at("size").as_string().c_str());
 		order->leavesQty = 0;
 		order->lastPx = stod(parsed_data.at("price").as_string().c_str());
 	}
@@ -148,7 +151,7 @@ void SerumTrade::onEventHandler(const string &message) {
 			report.clId = parsed_data.at("clientId").as_string().c_str();
 			report.exchId = exch_id;
 			report.orderType = order_type_t::ot_Limit;
-			report.type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill;
+			report.type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill_trade;
 			report.state = is_canceled ? order_state_t::ost_Canceled : order_state_t::ost_Filled;
 			report.lastShares = 0;
 			report.lastPx = 0;
@@ -160,10 +163,12 @@ void SerumTrade::onEventHandler(const string &message) {
 		// logger->Info(message.c_str());
 		// double remaining = is_canceled ? stod(parsed_data.at("sizeRemaining").as_string().c_str()) : 0;
 
-		order->type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill;
+		order->type = is_canceled ? report_type_t::rt_canceled : report_type_t::rt_fill_trade;
 		order->state = is_canceled ? order_state_t::ost_Canceled : order_state_t::ost_Filled;
 		if (is_canceled) 
 			order->leavesQty = stod(parsed_data.at("sizeRemaining").as_string().c_str());
+		else
+			order->leavesQty = 0;
 		broadcastForMarketSubscribers(market, *order);
 		if (_execution_reports.find(market) != _execution_reports.end()) {
 			orders_lst.erase(order);
