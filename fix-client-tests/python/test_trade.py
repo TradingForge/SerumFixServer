@@ -54,7 +54,7 @@ class Client:
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
             'Side': Side.Buy,
-            'OrderQty': 1,
+            'OrderQty': 0.01,
             'OrdType': OrderType.Market,
         }
         self.application.send(self.instrument, self.order)
@@ -65,7 +65,7 @@ class Client:
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
             'Side': Side.Buy,
-            'OrderQty': 1,
+            'OrderQty': 0.01,
             'OrdType': OrderType.Limit,
             'Price': 1050,
             'TimeInForce': TimeInForce.GoodTillCancel,
@@ -78,7 +78,7 @@ class Client:
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
             'Side': Side.Buy,
-            'OrderQty': 1,
+            'OrderQty': 0.01,
             'OrdType': OrderType.Limit,
             'Price': 2050,
             'TimeInForce': TimeInForce.GoodTillCancel,
@@ -99,7 +99,7 @@ if __name__ == '__main__':
                                               logic.logFactory)
         price_initiator.start()
         while True:
-            message = input('e:exit, m:market order, l:limit order c:cancel\n')
+            message = input('e:exit, m:market order, le:limit executed, l:limit order c:cancel\n')
             if message == "e":
                 break
             if message == "m":
