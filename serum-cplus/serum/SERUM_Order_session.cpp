@@ -120,13 +120,13 @@ bool SERUM_Order_session::handle_logout(const unsigned seqnum, const FIX8::Messa
 {
     _logger->Debug((boost::format("OSession | handle_logout ")).str().c_str());
     try {
-        _logger->Info((boost::format("OSession | Serum DEX stop ")).str().c_str());
+        _logger->Info((boost::format("OSession | Serum session  stop ")).str().c_str());
         this->stop();
         // _control |= shutdown;
     }
     catch(std::exception& ex)
     {
-        _logger->Error((boost::format("OSession | Serum DEX stop exception(%1%)")% ex.what()).str().c_str());
+        _logger->Error((boost::format("OSession | Serum session stop exception(%1%)")% ex.what()).str().c_str());
     }
     return FIX8::Session::handle_logout(seqnum, msg);
 }
@@ -256,7 +256,10 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::NewOrderSin
         //| <-- 8=FIX.4.49=17735=D34=249=Lagrange-fi-client-ord52=20220617-15:18:52.00056=Lagrange-fi-ord1=90874hf7ygf476tgrfgihf874bfjhb11=1000015=USDC38=140=154=155=ETHUSDC60=20220617-15:18:5210=235
     }
 
-    _logger->Debug((boost::format("Ord. Session | Execute order %1%") % order.clId).str().c_str());
+    _logger->Debug((boost::format("Ord. Session | Execute %1% %2% order id(%3%), qty(%4%), price(%5%) ")
+        %(char)order.side % (char)order.type % order.clId % order.original_qty % order.price).str().c_str());
+
+    session->sendReport(marketlib::execution_report_t(order.clId,marketlib::order_state_t::ost_New,marketlib::report_type_t::rt_new));
     order = _market->send_new_order(pool, order);
     return true;
 }
@@ -362,6 +365,11 @@ void SERUM_Order_session::sendReport(const marketlib::execution_report_t& report
     39 	OrdStatus 	Y 	The order status after the Cancel Reject.
     58 	Text 	N 	Message
  */
+    if(report.clId.empty())
+    {
+        _logger->Error(boost::format("OSession | sendReport, clId is empty").str().c_str());
+    }
+
     auto *mdr(new FIX8::SERUM_Order::ExecutionReport);
     *mdr    << new FIX8::SERUM_Order::ClOrdID(report.clId)
             << new FIX8::SERUM_Order::OrdStatus(report.state)
@@ -374,7 +382,7 @@ void SERUM_Order_session::sendReport(const marketlib::execution_report_t& report
     if(!report.text.empty())
         *mdr    << new FIX8::SERUM_Order::Text (report.text);
 
-    _logger->Info((boost::format("OSession | --> %1%, clid(%2%)") % (char)report.state % report.clId).str().c_str());
+    _logger->Info((boost::format("OSession | --> %1%,%2%, clid(%3%)") % (char)report.state % (char)report.type % report.clId).str().c_str());
 
     FIX8::Session::send(mdr);
 }
@@ -449,6 +457,11 @@ void SERUM_Order_session::sendExecutionReport(const marketlib::execution_report_
     38 	OrderQty 	N 	The Quantity of the order specified in the units of the Currency (15).
     44 	Price 	    N* 	The price of the order.
  */
+
+    if(report.clId.empty())
+    {
+        _logger->Error(boost::format("OSession | sendExecutionReport, clId is empty").str().c_str());
+    }
     auto *mdr(new FIX8::SERUM_Order::ExecutionReport);
     *mdr    << new FIX8::SERUM_Order::ClOrdID(report.clId)
             << new FIX8::SERUM_Order::OrdStatus(report.state)

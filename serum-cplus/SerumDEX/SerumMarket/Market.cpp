@@ -21,12 +21,12 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     if (order_.type != marketlib::order_type_t::ot_Limit) {
         ExecutionReport execution_report;
         execution_report.clId        = order_.clId;
-        execution_report.orderType   = order_.type;
+        //execution_report.orderType   = order_.type;
         execution_report.type        = marketlib::report_type_t::rt_rejected;
-        execution_report.transType   = marketlib::exec_trans_t::ett_undefined;
+        //execution_report.transType   = marketlib::exec_trans_t::ett_undefined;
         execution_report.state       = marketlib::order_state_t::ost_Rejected;
-        execution_report.side        = order_.side;
-        execution_report.rejReason   = marketlib::ord_rej_reason::rr_other;
+        //execution_report.side        = order_.side;
+        //execution_report.rejReason   = marketlib::ord_rej_reason::rr_other;
         execution_report.text        = "OpenBook Market::OpenBook supports only limit orders";
             
         _orders_callback(_name, execution_report);
@@ -86,12 +86,12 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str().c_str());
         ExecutionReport execution_report;
         execution_report.clId       = order_.clId;
-        execution_report.orderType  = order_.type;
+        //execution_report.orderType  = order_.type;
         execution_report.type       = marketlib::report_type_t::rt_rejected;
-        execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
+        //execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
         execution_report.state      = marketlib::order_state_t::ost_Rejected;
-        execution_report.side       = order_.side;
-        execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
+        //execution_report.side       = order_.side;
+        //execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
         execution_report.text       = ( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str();
 
         _orders_callback(_name, execution_report);
@@ -127,12 +127,12 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to send the order: %1%)") % e).str().c_str());
         ExecutionReport execution_report;
         execution_report.clId       = order_.clId;
-        execution_report.orderType  = order_.type;
+        //execution_report.orderType  = order_.type;
         execution_report.type       = marketlib::report_type_t::rt_rejected;
-        execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
+        //execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
         execution_report.state      = marketlib::order_state_t::ost_Rejected;
-        execution_report.side       = order_.side;
-        execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
+        //execution_report.side       = order_.side;
+        //execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
         execution_report.text       = ( boost::format(R"(OpenBook Market::Failed to send the order: %1%)") % e).str();
 
         _orders_callback(_name, execution_report);
@@ -159,16 +159,18 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str().c_str());
         ExecutionReport execution_report;
         execution_report.clId       = client_id;
-        execution_report.orderType  = marketlib::order_type_t::ot_Undefined;
+        //execution_report.orderType  = marketlib::order_type_t::ot_Undefined;
         execution_report.type       = marketlib::report_type_t::rt_rejected;
-        execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
+        //execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
         execution_report.state      = marketlib::order_state_t::ost_Rejected;
-        execution_report.side       = marketlib::order_side_t::os_Undefined;
-        execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
+        //execution_report.side       = marketlib::order_side_t::os_Undefined;
+        //execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
         execution_report.text       = ( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str();
 
         _orders_callback(_name, execution_report);
-        return Order {clId: client_id};
+        Order order;
+        order.clId = client_id;
+        return order;
     }
 
     CancelOrderV2ByClientIdParams cancelOrderParam;
@@ -217,12 +219,12 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to send the order: %1%)") % e).str().c_str());
         ExecutionReport execution_report;
         execution_report.clId        = client_id;
-        execution_report.orderType   = marketlib::order_type_t::ot_Undefined;:
+       //execution_report.orderType   = marketlib::order_type_t::ot_Undefined;
         execution_report.type        = marketlib::report_type_t::rt_rejected;
-        execution_report.transType   = marketlib::exec_trans_t::ett_undefined;
+        //execution_report.transType   = marketlib::exec_trans_t::ett_undefined;
         execution_report.state       = marketlib::order_state_t::ost_Rejected;
-        execution_report.side        = marketlib::order_side_t::os_Undefined;
-        execution_report.rejReason   = marketlib::ord_rej_reason::rr_other;
+        //execution_report.side        = marketlib::order_side_t::os_Undefined;
+        //execution_report.rejReason   = marketlib::ord_rej_reason::rr_other;
         execution_report.text        = ( boost::format(R"(OpenBook Market::Failed to send the order: %1%)") % e).str();
         _orders_callback(_name, execution_report);
     }
