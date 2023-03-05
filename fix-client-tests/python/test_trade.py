@@ -21,8 +21,8 @@ class Client:
         self.instrument = {
             'First': "ETH",
             'Second': "USDC",
-            'Symbol': "ETHUSDC",
-            'SecurityID': "ETHUSDC",
+            'Symbol': "ETH/USDC",
+            'SecurityID': "ETH/USDC",
             'SecurityType': "COIN",
             'SecurityExchange': "Serum",
             'Currency': "USDC"
@@ -54,7 +54,7 @@ class Client:
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
             'Side': Side.Buy,
-            'OrderQty': 0.01,
+            'OrderQty': 0.002,
             'OrdType': OrderType.Market,
         }
         self.application.send(self.instrument, self.order)
@@ -65,7 +65,7 @@ class Client:
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
             'Side': Side.Buy,
-            'OrderQty': 0.01,
+            'OrderQty': 0.002,
             'OrdType': OrderType.Limit,
             'Price': 1050,
             'TimeInForce': TimeInForce.GoodTillCancel,
@@ -78,7 +78,7 @@ class Client:
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
             'Side': Side.Buy,
-            'OrderQty': 0.01,
+            'OrderQty': 0.002,
             'OrdType': OrderType.Limit,
             'Price': 2050,
             'TimeInForce': TimeInForce.GoodTillCancel,
