@@ -120,13 +120,13 @@ bool SERUM_Order_session::handle_logout(const unsigned seqnum, const FIX8::Messa
 {
     _logger->Debug((boost::format("OSession | handle_logout ")).str().c_str());
     try {
-        _logger->Info((boost::format("OSession | Serum DEX stop ")).str().c_str());
+        _logger->Info((boost::format("OSession | Serum session  stop ")).str().c_str());
         this->stop();
         // _control |= shutdown;
     }
     catch(std::exception& ex)
     {
-        _logger->Error((boost::format("OSession | Serum DEX stop exception(%1%)")% ex.what()).str().c_str());
+        _logger->Error((boost::format("OSession | Serum session stop exception(%1%)")% ex.what()).str().c_str());
     }
     return FIX8::Session::handle_logout(seqnum, msg);
 }
@@ -362,6 +362,11 @@ void SERUM_Order_session::sendReport(const marketlib::execution_report_t& report
     39 	OrdStatus 	Y 	The order status after the Cancel Reject.
     58 	Text 	N 	Message
  */
+    if(report.clId.empty())
+    {
+        _logger->Error(boost::format("OSession | sendReport, clId is empty").str().c_str());
+    }
+
     auto *mdr(new FIX8::SERUM_Order::ExecutionReport);
     *mdr    << new FIX8::SERUM_Order::ClOrdID(report.clId)
             << new FIX8::SERUM_Order::OrdStatus(report.state)
@@ -449,6 +454,11 @@ void SERUM_Order_session::sendExecutionReport(const marketlib::execution_report_
     38 	OrderQty 	N 	The Quantity of the order specified in the units of the Currency (15).
     44 	Price 	    N* 	The price of the order.
  */
+
+    if(report.clId.empty())
+    {
+        _logger->Error(boost::format("OSession | sendExecutionReport, clId is empty").str().c_str());
+    }
     auto *mdr(new FIX8::SERUM_Order::ExecutionReport);
     *mdr    << new FIX8::SERUM_Order::ClOrdID(report.clId)
             << new FIX8::SERUM_Order::OrdStatus(report.state)

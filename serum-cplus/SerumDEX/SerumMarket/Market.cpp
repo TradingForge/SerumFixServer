@@ -168,7 +168,9 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
         execution_report.text       = ( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str();
 
         _orders_callback(_name, execution_report);
-        return Order {clId: client_id};
+        Order order;
+        order.clId = client_id;
+        return order;
     }
 
     CancelOrderV2ByClientIdParams cancelOrderParam;
