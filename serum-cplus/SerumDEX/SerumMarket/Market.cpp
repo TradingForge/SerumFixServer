@@ -41,6 +41,8 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     try {
         market_info = get_market_info(instrument_, _pubkey);
         orders_account_info = get_orders_account_info(market_info.instr, _pubkey);
+        if (!orders_account_info.account.size())
+            throw string("There is no open order account for this symbol " + market_info.instr.symbol);
 
         // if (orders_account_info.account.size() == 0) {
         //     auto balance_needed = get_balance_needed();
