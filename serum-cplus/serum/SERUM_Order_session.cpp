@@ -62,18 +62,15 @@ void SERUM_Order_session::setupOpenbook(const std::shared_ptr < IPoolsRequester 
     _market = std::shared_ptr<SerumMarket> (market);
 }
 
-void SERUM_Order_session::instrumentCallback(const std::string& name, const marketlib::instrument_descr_t& inst, const std::string& info){ }
-
 void SERUM_Order_session::reportCallback(const std::string& name, const marketlib::execution_report_t& report)
 {
-    /*
-       rt_partial_fill = '1',
-        rt_fill = '2',
-        rt_fill_trade = 'F',
-     */
     if(report.type == marketlib::rt_partial_fill||report.type == marketlib::rt_fill||report.type == marketlib::rt_fill_trade)
     {
         sendExecutionReport(report);
+    }
+    else if(report.type == marketlib::rt_cancel_rejected)
+    {
+        sendCancelRejectReport(report.clId, report.text);
     }
     else
     {
@@ -297,14 +294,13 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::OrderCancel
         orderId_str = orderId.get();
     }*/
 
-    /*
-   OrigClOrdID 	Y 	The unique ID of the last non-cancelled order assigned by the client.
-   */
-   /* FIX8::SERUM_Order::OrigClOrdID origClOrdID;
+
+   //rigClOrdID 	Y 	The unique ID of the last non-cancelled order assigned by the client.
+    FIX8::SERUM_Order::OrigClOrdID origClOrdID;
     std::string orig_clid_str;
     if(msg->get(origClOrdID) && origClOrdID.is_valid()){
         orig_clid_str = origClOrdID.get();
-    }*/
+    }
 
 
    // 55 	Symbol 	Y 	The pool name expressed as CCY1/CCY2. For example, “DOT/USDT”.
@@ -340,10 +336,10 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::OrderCancel
     }*/
 
 
-    if(pair.empty() || clid_str.empty())
+    if(pair.empty() || orig_clid_str.empty())
     {
         auto session = const_cast<SERUM_Order_session*>(this);
-        session->sendCancelRejectReport(clid_str,  "wrong input parameters");
+        session->sendCancelRejectReport(orig_clid_str,  "wrong input parameters");
         return true;
     }
 
@@ -351,8 +347,8 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::OrderCancel
     pool.engine = TRADE_CONN_NAME;
     pool.symbol=symbol.get();
 
-    _logger->Debug((boost::format("Ord. Session | Cancelling order %1%") % clid_str).str().c_str());
-    _market->cancel_order(pool, clid_str);
+    _logger->Debug((boost::format("Ord. Session | Cancelling order %1%") % orig_clid_str).str().c_str());
+    _market->cancel_order(pool, orig_clid_str);
     return true;
 }
 
