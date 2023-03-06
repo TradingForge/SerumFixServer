@@ -52,7 +52,7 @@ void SERUM_Order_session::setupOpenbook(const std::shared_ptr < IPoolsRequester 
     SerumMarket* market = new SerumMarket(
         PUBKEY,
         SECRETKEY,
-        "https://nd-664-169--151.p2pify.com/a89ccd991de179587a0b8e3356409a9b",
+        "https://nd-664-169-151.p2pify.com/a89ccd991de179587a0b8e3356409a9b",
         _logger,
         pools,
         trade_channel,

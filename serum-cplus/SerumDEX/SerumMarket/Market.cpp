@@ -41,6 +41,8 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     try {
         market_info = get_market_info(instrument_, _pubkey);
         orders_account_info = get_orders_account_info(market_info.instr, _pubkey);
+        if (!orders_account_info.account.size())
+            throw string("There is no open order account for this symbol " + market_info.instr.symbol);
 
         // if (orders_account_info.account.size() == 0) {
         //     auto balance_needed = get_balance_needed();
@@ -160,7 +162,7 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
         ExecutionReport execution_report;
         execution_report.clId       = client_id;
         //execution_report.orderType  = marketlib::order_type_t::ot_Undefined;
-        execution_report.type       = marketlib::report_type_t::rt_rejected;
+        execution_report.type       = marketlib::report_type_t::rt_cancel_rejected;
         //execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
         execution_report.state      = marketlib::order_state_t::ost_Rejected;
         //execution_report.side       = marketlib::order_side_t::os_Undefined;
@@ -220,7 +222,7 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
         ExecutionReport execution_report;
         execution_report.clId        = client_id;
        //execution_report.orderType   = marketlib::order_type_t::ot_Undefined;
-        execution_report.type        = marketlib::report_type_t::rt_rejected;
+        execution_report.type        = marketlib::report_type_t::rt_cancel_rejected;
         //execution_report.transType   = marketlib::exec_trans_t::ett_undefined;
         execution_report.state       = marketlib::order_state_t::ost_Rejected;
         //execution_report.side        = marketlib::order_side_t::os_Undefined;
