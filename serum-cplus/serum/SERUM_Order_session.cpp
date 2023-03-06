@@ -52,7 +52,7 @@ void SERUM_Order_session::setupOpenbook(const std::shared_ptr < IPoolsRequester 
     SerumMarket* market = new SerumMarket(
         PUBKEY,
         SECRETKEY,
-        "https://nd-664-169--151.p2pify.com/a89ccd991de179587a0b8e3356409a9b",
+        "https://nd-664-169-151.p2pify.com/a89ccd991de179587a0b8e3356409a9b",
         _logger,
         pools,
         trade_channel,
@@ -228,10 +228,10 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::NewOrderSin
 
     /*
        44 	Price 	N* 	The price at which the limit order should be executed.
-     */
+                                                                              */
     FIX8::SERUM_Order::Price price;
     if(msg->get(price)){
-        order.price = qty.get();
+        order.price = price.get();
     }
 
     auto session = const_cast<SERUM_Order_session*>(this);
@@ -256,7 +256,7 @@ bool SERUM_Order_session::operator() (const class FIX8::SERUM_Order::NewOrderSin
     _logger->Debug((boost::format("Ord. Session | Execute %1% %2% order id(%3%), qty(%4%), price(%5%) ")
         %(char)order.side % (char)order.type % order.clId % order.original_qty % order.price).str().c_str());
 
-    session->sendReport(marketlib::execution_report_t(order.clId,marketlib::order_state_t::ost_New,marketlib::report_type_t::rt_new));
+    session->sendReport(marketlib::execution_report_t(order.clId,marketlib::order_state_t::ost_Pending,marketlib::report_type_t::rt_pending_new));
     order = _market->send_new_order(pool, order);
     return true;
 }
