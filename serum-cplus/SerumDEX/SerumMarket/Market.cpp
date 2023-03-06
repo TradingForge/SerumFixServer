@@ -823,6 +823,8 @@ void SerumMarket::check_order(const Instrument& instrument_)
     auto checker = [this, instrument_]
         (const string& exch_name_, const string& cli_id_, const ExecutionReport& exec_report_)  
         {
+            if (!_open_orders.size())
+                return;
             auto order = _open_orders.get<OrderByCliId>()
             .find(exec_report_.clId);
 
