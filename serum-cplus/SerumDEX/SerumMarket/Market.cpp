@@ -12,6 +12,16 @@ _order_count_for_symbol(), _name(market_id)
 SerumMarket::~SerumMarket()
 {
     // _mint_addresses.clear();
+    for (const auto& p : _order_count_for_symbol)
+    {
+        Instrument i;
+        i.symbol = p.first;
+        _trade_channel->unlisten(
+            i, 
+            _name + i.symbol
+        );
+    }
+       
     _subscribed_channels.clear();
     _open_orders.clear();
 }
