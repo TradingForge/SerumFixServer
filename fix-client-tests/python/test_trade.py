@@ -19,10 +19,10 @@ class Client:
         self.application.report_func = self.on_report
         self.application.report_reject_func = self.on_cancel_reject
         self.instrument = {
-            'First': "ETH",
+            'First': "SOL",
             'Second': "USDC",
-            'Symbol': "ETH/USDC",
-            'SecurityID': "ETH/USDC",
+            'Symbol': "SOL/USDC",
+            'SecurityID': "SOL/USDC",
             'SecurityType': "COIN",
             'SecurityExchange': "Serum",
             'Currency': "USDC"
@@ -54,7 +54,7 @@ class Client:
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
             'Side': Side.Buy,
-            'OrderQty': 0.002,
+            'OrderQty': 0.1,
             'OrdType': OrderType.Market,
         }
         self.application.send(self.instrument, self.order)
@@ -65,9 +65,9 @@ class Client:
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
             'Side': Side.Buy,
-            'OrderQty': 0.002,
+            'OrderQty': 0.1,
             'OrdType': OrderType.Limit,
-            'Price': 1050,
+            'Price': 10,
             'TimeInForce': TimeInForce.GoodTillCancel,
         }
         self.application.send(self.instrument, self.order)
@@ -77,10 +77,10 @@ class Client:
         self.order = {
             'Account': "90874hf7ygf476tgrfgihf874bfjhb",
             'ClOrdID': str(self.clId),
-            'Side': Side.Buy,
-            'OrderQty': 0.002,
+            'Side': Side.Sell,
+            'OrderQty': 0.1,
             'OrdType': OrderType.Limit,
-            'Price': 2050,
+            'Price': 18,
             'TimeInForce': TimeInForce.GoodTillCancel,
         }
 
