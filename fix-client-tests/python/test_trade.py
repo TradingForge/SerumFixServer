@@ -1,3 +1,4 @@
+
 import random
 import time
 import quickfix as fix
@@ -27,7 +28,7 @@ class Client:
             'SecurityExchange': "Serum",
             'Currency': "USDC"
         }
-        self.clId = 10000
+        self.clId = random.randrange(99999)
         self.order = {}
 
     def on_event(self, data):
