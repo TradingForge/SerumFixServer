@@ -79,7 +79,7 @@ void SerumMD::onEventHandler(const string &message) {
 	string market = parsed_data.at("market").as_string().c_str();
 	if (type == "quote") {
 			bool is_subscribe_quote = false;
-			if (_top_snapshot.count(market))
+			if (!_top_snapshot.count(market))
 				is_subscribe_quote = true;
 			_top_snapshot[market] = MarketBook{
 				system_clock::now(), 
@@ -293,6 +293,8 @@ void SerumMD::unsubscribe(const instrument& instr, SubscriptionModel model, cons
 		return;
 	}
 
+	chnl->callback(getName(), getMarketFromInstrument(instr), "", IBrokerClient::BrokerEvent::CoinUnsubscribed);
+
 	_channels.erase(chnl);
 	auto chnls = _channels
 		.get<SubscribeChannelsByMarketAndSubscribeModel>()
@@ -318,9 +320,7 @@ void SerumMD::unsubscribe(const instrument& instr, SubscriptionModel model, cons
 void SerumMD::unsubscribeForClientId(const string& clientId) {
 	auto chnls = _channels
 		.get<SubscribeChannelsByClient>()
-		.equal_range(boost::make_tuple(
-			clientId
-		));
+		.equal_range(clientId);
 
 	std::list<std::pair<instrument, SubscriptionModel>> info;
 	while(chnls.first != chnls.second) {
