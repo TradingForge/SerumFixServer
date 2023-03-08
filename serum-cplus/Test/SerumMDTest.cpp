@@ -80,7 +80,7 @@ int main () {
             {
                 logger->Info("Cli_1");
                 if (event == IBrokerClient::BrokerEvent::CoinSubscribed || event == IBrokerClient::BrokerEvent::CoinSubscribed)
-                    logger->Info(formatTopInfo(exch, symbol, std::any_cast<BrokerModels::MarketBook>(data)).c_str());
+                    logger->Info(formatDepthInfo(exch, symbol, std::any_cast<BrokerModels::DepthSnapshot>(data)).c_str());
                 else
                     logger->Info(std::any_cast<string>(data).c_str());
             });
