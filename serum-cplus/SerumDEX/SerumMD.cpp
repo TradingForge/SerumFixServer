@@ -52,25 +52,32 @@ void SerumMD::onEventHandler(const string &message) {
 			auto s1 = message.find("'")+1;
 			auto market = message.substr( s1, message.find("'", s1) - s1);
 
-			broadcastForMarketSubscribers(
-				market, 
-				SubscriptionModel::top, 
-				(boost::format(R"(Subscription to %1% is not supported by %2%)") % market % getName()).str(),
-				BrokerEvent::SubscribedCoinIsNotValid
-			);
+			// broadcastForMarketSubscribers(
+			// 	market, 
+			// 	SubscriptionModel::top, 
+			// 	(boost::format(R"(Subscription to %1% is not supported by %2%)") % market % getName()).str(),
+			// 	BrokerEvent::SubscribedCoinIsNotValid
+			// );
 
-			broadcastForMarketSubscribers(
-				market, 
-				SubscriptionModel::full, 
-				(boost::format(R"(Subscription to %1% is not supported by %2%)") % market % getName()).str(),
-				BrokerEvent::SubscribedCoinIsNotValid
-			);
+			// broadcastForMarketSubscribers(
+			// 	market, 
+			// 	SubscriptionModel::full, 
+			// 	(boost::format(R"(Subscription to %1% is not supported by %2%)") % market % getName()).str(),
+			// 	BrokerEvent::SubscribedCoinIsNotValid
+			// );
 
 			auto it_chnl = _channels
 				.get<SubscribeChannelsByMarket>()
 				.find(market);
-			while (it_chnl != _channels.get<SubscribeChannelsByMarket>().end() && it_chnl->market == market)
+			while (it_chnl != _channels.get<SubscribeChannelsByMarket>().end() && it_chnl->market == market) {
+				it_chnl->callback(
+					getName(),
+					market,
+					(boost::format(R"(Subscription to %1% is not supported by %2%)") % market % getName()).str(),
+					BrokerEvent::SubscribedCoinIsNotValid
+				);
 				it_chnl = _channels.get<SubscribeChannelsByMarket>().erase(it_chnl);
+			}
 		}
 		return;
 	}
@@ -89,7 +96,7 @@ void SerumMD::onEventHandler(const string &message) {
 				stod(parsed_data.at("bestAsk").at(1).as_string().c_str())
 			};
 		
-		broadcastForMarketSubscribers(market, SubscriptionModel::top, _top_snapshot[market], is_subscribe_quote ? BrokerEvent::CoinSubscribed : BrokerEvent::Info);
+		broadcastForMarketSubscribers(market, SubscriptionModel::top, _top_snapshot[market], is_subscribe_quote ? BrokerEvent::CoinSubscribed : BrokerEvent::CoinUpdate);
 	} else if (type == "l2snapshot") {
 		auto jsonToObject = [](const boost::json::value& val, std::list<BrokerModels::MarketUpdate>& vec) {
 			for(auto set : val.as_array()) {
@@ -136,7 +143,7 @@ void SerumMD::onEventHandler(const string &message) {
 		auto& depth = _depth_snapshot[key];
 		updateDepth(parsed_data.at("asks"), depth.asks, true);
 		updateDepth(parsed_data.at("bids"), depth.bids, false);
-		broadcastForMarketSubscribers(market, SubscriptionModel::full, depth, BrokerEvent::Info);
+		broadcastForMarketSubscribers(market, SubscriptionModel::full, depth, BrokerEvent::CoinUpdate);
 	}
 }
 

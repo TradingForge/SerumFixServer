@@ -22,6 +22,7 @@ public :
 		Error,
 		SessionLogon,
 		SessionLogout,
+		CoinUpdate,
 		CoinSubscribed,
 		CoinUnsubscribed,
 		ConnectorStarted,
