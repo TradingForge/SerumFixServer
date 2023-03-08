@@ -233,12 +233,13 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
 
 
                 _client->subscribe(pool,depth,_clientId,[this, reqIdStr, pool] (const std::string &exch, const std::string &pair, const std::any &data, IBrokerClient::BrokerEvent event) {
-
-                    auto marketBook = std::any_cast<BrokerModels::MarketBook>(data);
-                    _logger->Debug((boost::format("Session | --> 35=W, %1%, Ask(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%)")
-                                    % pair % marketBook.askPrice% marketBook.askSize% marketBook.bidPrice% marketBook.bidSize).str().c_str());
-                    auto* _sess = const_cast<SERUM_Data_session*>(this);
-                    _sess->fullSnapshot(reqIdStr, pool, marketBook);
+                    if (event == IBrokerClient::BrokerEvent::CoinSubscribed || event == IBrokerClient::BrokerEvent::CoinUpdate) {
+                        auto marketBook = std::any_cast<BrokerModels::MarketBook>(data);
+                        _logger->Debug((boost::format("Session | --> 35=W, %1%, Ask(%2%) AskSize(%3%) --- Bid(%4%) BidSize(%5%)")
+                                        % pair % marketBook.askPrice% marketBook.askSize% marketBook.bidPrice% marketBook.bidSize).str().c_str());
+                        auto* _sess = const_cast<SERUM_Data_session*>(this);
+                        _sess->fullSnapshot(reqIdStr, pool, marketBook);
+                    }
                });
             }
 
@@ -246,11 +247,13 @@ bool SERUM_Data_session::operator() (const class FIX8::SERUM_Data::MarketDataReq
                 _logger->Info((boost::format("Session | MD subscribe FULL to %1% : %2%, depth(%3%), update type(%4%)")
                                % request.engine % request.symbol % request.depth % request.update_type).str().c_str());
                 _client->subscribe(pool, depth, _clientId,[this, reqIdStr, pool] (const std::string &exch, const std::string &pair, const std::any &data, IBrokerClient::BrokerEvent event) {
-                    auto marketDepth = std::any_cast<BrokerModels::DepthSnapshot>(data);
-                    _logger->Debug((boost::format("Session | --> 35=W, %1% , count = %2%")
-                                    % pair % (marketDepth.bids.size() + marketDepth.asks.size()) ).str().c_str());
-                    auto* _sess = const_cast<SERUM_Data_session*>(this);
-                    _sess->fullSnapshot(reqIdStr, pool, marketDepth);
+                    if (event == IBrokerClient::BrokerEvent::CoinSubscribed || event == IBrokerClient::BrokerEvent::CoinUpdate) {
+                        auto marketDepth = std::any_cast<BrokerModels::DepthSnapshot>(data);
+                        _logger->Debug((boost::format("Session | --> 35=W, %1% , count = %2%")
+                                        % pair % (marketDepth.bids.size() + marketDepth.asks.size()) ).str().c_str());
+                        auto* _sess = const_cast<SERUM_Data_session*>(this);
+                        _sess->fullSnapshot(reqIdStr, pool, marketDepth);
+                    }
                 });
             }
         }
