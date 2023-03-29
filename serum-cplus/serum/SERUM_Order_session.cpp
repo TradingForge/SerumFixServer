@@ -34,7 +34,7 @@ void SERUM_Order_session::setupOpenbook(const std::shared_ptr < IPoolsRequester 
 {
     _logger->Debug((boost::format("OSession | openbook setup ")).str().c_str());
     SerumMarket* market = new SerumMarket(
-        std::make_shared< FileSettings > ("/home/sovun/SerumFixServer/serum-cplus/serum/market_settings.json"),
+        std::make_shared< FileSettings > ("market_settings.json"),
         _logger,
         pools,
         trade_channel,
