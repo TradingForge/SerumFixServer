@@ -24,12 +24,13 @@ std::string base58_decode(const std::string& vec_, Alphabet alph)
         decimal = decimal * 58 + alphabet_map.at(chr);
     }    
 
-    std::string res (vec_.size() - vec.size(), 0);
+    std::string res;//(vec_.size() - vec.size(), 0);
     while(decimal > 0) {
         mpz_class r;
         mpz_tdiv_qr(decimal.get_mpz_t(), r.get_mpz_t(), decimal.get_mpz_t(), mpz_class(256).get_mpz_t());
         res.push_back(r.get_si());
     }
+    res.resize(res.size() + vec_.size() - vec.size());
     std::reverse(res.begin(), res.end());
     return res;
 };
