@@ -5,6 +5,8 @@
 #include <string.h>
 #include <base58/base58.h>
 #include <tuple>
+#include <cryptopp/sha.h>
+#include <sodium.h>
 
 namespace solana
 {
@@ -23,7 +25,8 @@ namespace solana
 
         bytes _from_base58(const string&);
         string _to_base58(const bytes&);
-        static bytes try_find_public_key(const bytes program_id, byte seed_bump, const std::list<bytes>& seeds);
+        static bytes try_find_public_key(const bytes, byte, const std::list<bytes>&);
+        static bool bytes_are_curve_point(const std::vector<byte>&);
     public:
         PublicKey();
         PublicKey(const string&);
@@ -32,7 +35,7 @@ namespace solana
         PublicKey(PublicKey&&);
         PublicKey(const byte[SIZE_PUBKEY]);
     
-        static std::tuple<PublicKey, byte> find_public_key(const std::list<PublicKey>& seeds, const PublicKey& program_id);
+        static std::tuple<PublicKey, byte> find_public_key(const std::list<PublicKey>&, const PublicKey&);
         void from_base58(const string&);
         const uint8_t* data() const {return key_b.data();}
         size_t size() const {return key_b.size();}

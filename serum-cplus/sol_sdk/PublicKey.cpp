@@ -1,13 +1,5 @@
 #include "PublicKey.hpp"
 
-#include <cryptopp/default.h>
-#include <cryptopp/hex.h>
-#include <cryptopp/filters.h>
-#include <cryptopp/sha.h>
-#include <cryptopp/ecp.h>
-#include <cryptopp/asn.h>
-#include <cryptopp/eccrypto.h>
-// #include <cryptopp/dlies.h>
 
 namespace solana
 {
@@ -126,12 +118,12 @@ namespace solana
 
         byte seed_bump = UINT8_MAX;
 
-        bool is_curve_point = false;
+        bool is_curve_point = true;
         bytes hash;
         do{
             hash = try_find_public_key(program_id_bytes, seed_bump, seeds_bytes);
             --seed_bump;
-            // is_curve_point = bytes_are_curve_point(hash);
+            is_curve_point = bytes_are_curve_point(hash);
         } while (seed_bump > 0 && is_curve_point);
 
         if (is_curve_point)
@@ -140,22 +132,14 @@ namespace solana
         return std::tuple<PublicKey, byte>(PublicKey(hash), ++seed_bump);
     }
 
-    // bool bytes_are_curve_point(const CryptoPP::byte* bytes, size_t len) {
-    //     // Validate that the given bytes form a valid curve point
-    //     // This implementation assumes that the input is a valid ECPoint
-    //     CryptoPP::ECIES<CryptoPP::ECP>::Decryptor d;
+    bool PublicKey::bytes_are_curve_point(const bytes &point) 
+    {
+        if (point.size() != crypto_core_ed25519_BYTES) {
+            return false;
+        }
 
-    //     CryptoPP::OID curve_oid("1.3.132.0.10");
-    //     d.AccessKey().AccessGroupParameters().Initialize(CryptoPP::OID("1.3.132.0.10"));
-    //     CryptoPP::ECP ec;
-    //     CryptoPP::ECP::Point p;
-    //     ec.DecodePoint(p, bytes, len);
-    //     // ec.DecodePoint(bytes, len);
-    //     return ec.VerifyPoint(p);
-    //     // CryptoPP::ECP::Point p;
-    //     // p.Decode(bytes, len);
-    //     // return p.IsValidElement();
-    // }
+        return crypto_core_ed25519_is_valid_point(point.data());
+    }
 
     PublicKey::bytes PublicKey::try_find_public_key(const bytes program_id, byte seed_bump, const std::list<bytes>& seeds)
     {

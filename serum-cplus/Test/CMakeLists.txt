@@ -4,6 +4,8 @@ find_package(Boost 1.79.0 REQUIRED)
 find_package(Websocketpp REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED) 
+# find_package(Sodium REQUIRED) 
+# find_package(libsodium REQUIRED)
 # find_package(GMP REQUIRED) 
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
@@ -58,24 +60,26 @@ target_link_libraries("SerumMarketTest" PRIVATE
     ${CMAKE_SOURCE_DIR}/build/base58/libbase58.a
     ${CMAKE_SOURCE_DIR}/build/sol_sdk/libsol_sdk.a
     ${CMAKE_SOURCE_DIR}/build/instruments/libinstruments.a
+    sodium
     /usr/local/lib/libgmp.a
     /usr/local/lib/libcryptopp.a
     /usr/local/lib/
    )
 
-#    add_executable("Test"Test.cpp)
-#    target_include_directories("Test" PRIVATE
-#            ${DEX_INCLUDES}
-#            ${CMAKE_SOURCE_DIR}/SerumDEX
-#            )
-#    target_link_libraries("Test" PRIVATE
-#         ${DEX_LIBRARIES}
-#         ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
-#         ${CMAKE_SOURCE_DIR}/build/base64/libbase64.a
-#         ${CMAKE_SOURCE_DIR}/build/base58/libbase58.a
-#         ${CMAKE_SOURCE_DIR}/build/sol_sdk/libsol_sdk.a
-#         ${CMAKE_SOURCE_DIR}/build/instruments/libinstruments.a
-#         /usr/local/lib/libgmp.a
-#         /usr/local/lib/libcryptopp.a
-#        )
+   add_executable("Test"Test.cpp)
+   target_include_directories("Test" PRIVATE
+           ${DEX_INCLUDES}
+           ${CMAKE_SOURCE_DIR}/SerumDEX
+           )
+   target_link_libraries("Test" PRIVATE
+        ${DEX_LIBRARIES}
+        ${CMAKE_SOURCE_DIR}/build/SerumDEX/libfixserverSerumDEX.a
+        ${CMAKE_SOURCE_DIR}/build/base64/libbase64.a
+        ${CMAKE_SOURCE_DIR}/build/base58/libbase58.a
+        ${CMAKE_SOURCE_DIR}/build/sol_sdk/libsol_sdk.a
+        ${CMAKE_SOURCE_DIR}/build/instruments/libinstruments.a
+        sodium
+        /usr/local/lib/libgmp.a
+        /usr/local/lib/libcryptopp.a
+       )
    
