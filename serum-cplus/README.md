@@ -11,7 +11,7 @@ ssh user@185.95.16.202 -p 2222
 
 # Prerequisites
 ```bash
-sudo apt install build-essential cmake autoconf automake libtool-bin pkg-config zlib1g-dev libssl-dev libcurl4-openssl-dev libgmp-dev unzip curl gcc-6 g++-6
+sudo apt install build-essential cmake autoconf automake libtool-bin pkg-config zlib1g-dev libssl-dev libcurl4-openssl-dev libgmp-dev libsodium-dev unzip curl gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 50 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-7
 sudo update-alternatives --config gcc
