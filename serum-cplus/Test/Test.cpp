@@ -1,8 +1,13 @@
 #include <iostream>
 #include <base64/base64.h>
+#include <sol_sdk/PublicKey.hpp>
 
 int main(int argc, char const *argv[])
 {
-    auto t = base64_decode("c2VydW0DAAAAAAAAAH1DsP7TmjY3pI3Nd+8TK8Ul/0RVNmza+yKZNKqGw7wTAQAAAAAAAACuALZxVNNk0/cvgWG8QKx92g49wVQ0wKdeW8vwwja1NMb6evO+2606PWXzaqvJdDGxu+TC0vbg5HymAgNFL11hDECqZR+eVRzCW/NJ01ZWzNEMUX0+9j69nv5ANQs2L1YAAAAAAAAAAAAAAAAAAAAA7uFEg47FrJLybLcqKSV/dT7J5oRgLx5LVG6MjAL6rBwAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAABq3vwIj8MhzXX5W5EhoKgdfZuTr47UGI0Y9ztadsJZ+xL+F7tZ4cO4qE5Cs5XlQbLcNUICpTOZOh6zKfL7shmLk07QV1sHU02MMslBC9kW/85LqY5MBOSP3OIkuMirvKLKV2SQaWCK7ZT6JEcEp6lRY3PnkLqGguJ9J3W1kvOqJgDKmjsAAAAAQEIPAAAAAAAAAAAAAAAAAAAAAAAAAAAAcGFkZGluZw==");
+    auto seed1 = solana::PublicKey("1111111QLbz7JHiBTspS962RLKV8GndWFwiEaqKM");
+    auto seed2 = solana::PublicKey("1111111ogCyDbaRMvkdsHB3qfdyFYaG1WtRUAfdh");
+    auto program_id = solana::PublicKey("11111112D1oxKts8YPdTJRG5FzxTNpMtWmq8hkVx3");
+
+    auto new_key = solana::PublicKey::find_public_key({seed1, seed2}, program_id);
     return 0;
 }

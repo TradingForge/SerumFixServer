@@ -37,7 +37,7 @@ int main ()
     shared_ptr < ILogger > logger(new Logger);
     shared_ptr < ISettings > settings(new SerumSettings);
     shared_ptr < IPoolsRequester > pools(new PoolsRequester(logger, settings));
-    shared_ptr < IMarketSettings > market_settings(new FileSettings("./market_settings.json"));
+    shared_ptr < IMarketSettings > market_settings(new FileSettings("/home/sovun/SerumFixServer/serum-cplus/Test/market_settings.json"));
     shared_ptr < IListener >  trade_channel (new SerumTrade ( logger, settings, [&logger](const string& exch, const string& synbol, broker_event event, const any& info) {logger->Trace(any_cast<string>(info).c_str());}));
     trade_channel->start();
     // auto instr = Instrument{
@@ -76,21 +76,53 @@ int main ()
     );
 
     // cout << sizeof(Instruction) << endl;
+    // Instrument instrument{"", "", "ETH/USDC" };
+    // order_t order_sell;
+    // order_sell.price = 1700;
+    // order_sell.original_qty = 0.001;
+    // order_sell.side = order_side_t::os_Sell;
+    // order_sell.clId = "1342";
+    // order_sell.type = order_type_t::ot_Limit;
+    // // order_sell.exchId = "719423018874672537328158";
+
+    // order_t order_buy;
+    // order_buy.price = 1805;
+    // order_buy.original_qty = 0.001;
+    // order_buy.side = order_side_t::os_Buy;
+    // order_buy.clId = "7654321";
+    // order_buy.type = order_type_t::ot_Limit;
+
     Instrument instrument{"", "", "SOL/USDC" };
     order_t order_sell;
     order_sell.price = 20;
     order_sell.original_qty = 0.1;
     order_sell.side = order_side_t::os_Sell;
-    order_sell.clId = "1342";
+    order_sell.clId = "13423";
     order_sell.type = order_type_t::ot_Limit;
     // order_sell.exchId = "719423018874672537328158";
 
     order_t order_buy;
-    order_buy.price = 20;
+    order_buy.price = 22;
     order_buy.original_qty = 0.1;
     order_buy.side = order_side_t::os_Buy;
     order_buy.clId = "7654321";
     order_buy.type = order_type_t::ot_Limit;
+
+    // Instrument instrument{"", "", "$LUV/USDC" };
+    // order_t order_sell;
+    // order_sell.price = 2;
+    // order_sell.original_qty = 1;
+    // order_sell.side = order_side_t::os_Sell;
+    // order_sell.clId = "7654321";
+    // order_sell.type = order_type_t::ot_Limit;
+    // // order_sell.exchId = "719423018874672537328158";
+
+    // order_t order_buy;
+    // order_buy.price = 2;
+    // order_buy.original_qty = 1;
+    // order_buy.side = order_side_t::os_Buy;
+    // order_buy.clId = "7654321";
+    // order_buy.type = order_type_t::ot_Limit;
 
     while (1)
     {
