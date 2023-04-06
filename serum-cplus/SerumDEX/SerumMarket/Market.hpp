@@ -157,6 +157,7 @@ private:
     Instruction new_order_v3(const NewOrderV3Params&) const;
     Instruction new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams&) const;
     Instruction create_account(const CreateAccountParams&) const;
+    Instruction create_associated_token_account(const CreateAssociatedAccountParams&) const;
     Instruction initialize_account(const InitializeAccountParams&) const;
     Instruction close_account(const CloseAccountParams&) const;
 

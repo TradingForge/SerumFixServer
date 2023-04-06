@@ -47,6 +47,14 @@ struct CreateAccountParams
     PublicKey program_id;
 };
 
+struct CreateAssociatedAccountParams
+{
+    PublicKey owner;
+    PublicKey payer;
+    PublicKey new_account;
+    PublicKey mint;
+};
+
 struct InitializeMarket
 {
     uint64_t base_lot_size;
@@ -203,5 +211,3 @@ struct SolOpenOrderLayout
     uint8_t padding[7];
 };
 #pragma pack(pop)
-
-
