@@ -13,10 +13,15 @@ using namespace solana;
 #define MULTISIG_LEN 355
 
 // Program ID for the associated token account program.
-#define  ASSOCIATED_TOKEN_PROGRAM_ID PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL")
+#define ASSOCIATED_TOKEN_PROGRAM_ID PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL")
 
 // Public key that identifies the SPL token program.
-#define  TOKEN_PROGRAM_ID PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+#define TOKEN_PROGRAM_ID PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA")
+
+//
+#define SYS_PROGRAM_ID PublicKey("11111111111111111111111111111111")
+
+#define SYS_VAR_RENT PublicKey("SysvarRent111111111111111111111111111111111")
 
 /*
 * Public key of the "Native Mint" for wrapping SOL to SPL token.
