@@ -92,37 +92,37 @@ int main ()
     // order_buy.clId = "7654321";
     // order_buy.type = order_type_t::ot_Limit;
 
-    Instrument instrument{"", "", "SOL/USDC" };
-    order_t order_sell;
-    order_sell.price = 20;
-    order_sell.original_qty = 0.1;
-    order_sell.side = order_side_t::os_Sell;
-    order_sell.clId = "13423";
-    order_sell.type = order_type_t::ot_Limit;
-    // order_sell.exchId = "719423018874672537328158";
-
-    order_t order_buy;
-    order_buy.price = 22;
-    order_buy.original_qty = 0.1;
-    order_buy.side = order_side_t::os_Buy;
-    order_buy.clId = "7654321";
-    order_buy.type = order_type_t::ot_Limit;
-
-    // Instrument instrument{"", "", "$LUV/USDC" };
+    // Instrument instrument{"", "", "SOL/USDC" };
     // order_t order_sell;
-    // order_sell.price = 2;
-    // order_sell.original_qty = 1;
+    // order_sell.price = 20;
+    // order_sell.original_qty = 0.1;
     // order_sell.side = order_side_t::os_Sell;
-    // order_sell.clId = "7654321";
+    // order_sell.clId = "13423";
     // order_sell.type = order_type_t::ot_Limit;
     // // order_sell.exchId = "719423018874672537328158";
 
     // order_t order_buy;
-    // order_buy.price = 2;
-    // order_buy.original_qty = 1;
+    // order_buy.price = 22;
+    // order_buy.original_qty = 0.1;
     // order_buy.side = order_side_t::os_Buy;
     // order_buy.clId = "7654321";
     // order_buy.type = order_type_t::ot_Limit;
+
+    Instrument instrument{"", "", "FOXY/USDC" };
+    order_t order_sell;
+    order_sell.price = 2;
+    order_sell.original_qty = 1;
+    order_sell.side = order_side_t::os_Sell;
+    order_sell.clId = "7654321";
+    order_sell.type = order_type_t::ot_Limit;
+    // order_sell.exchId = "719423018874672537328158";
+
+    order_t order_buy;
+    order_buy.price = 2;
+    order_buy.original_qty = 1;
+    order_buy.side = order_side_t::os_Buy;
+    order_buy.clId = "7654321";
+    order_buy.type = order_type_t::ot_Limit;
 
     while (1)
     {

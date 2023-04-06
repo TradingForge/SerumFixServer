@@ -142,6 +142,8 @@ namespace solana
         shift += 4;
         memcpy(msg + shift, _message.account_keys.data(), _message.account_keys.size()); 
         shift += _message.account_keys.size();
+        if (!_message.recent_blockhash.size()) 
+            throw -1;
         memcpy(msg + shift, _message.recent_blockhash.data(), SIZE_HASH); 
         shift += SIZE_HASH;
         memcpy(msg + shift, compiled_instructions.data(), compiled_instructions.size()); 
