@@ -7,6 +7,9 @@
 #include <tuple>
 #include <cryptopp/sha.h>
 #include <sodium.h>
+#include <gcrypt.h>
+
+// #include <gmpxx.h>
 
 namespace solana
 {
@@ -25,8 +28,9 @@ namespace solana
 
         bytes _from_base58(const string&);
         string _to_base58(const bytes&);
-        static bytes try_find_public_key(const bytes, byte, const std::list<bytes>&);
-        static bool bytes_are_curve_point(const std::vector<byte>&);
+        static bytes _try_find_public_key(const bytes&, byte, const std::list<bytes>&);
+        static bool _bytes_are_curve_point(const std::vector<byte>&);
+        static string _decompress_point(const bytes&);
     public:
         PublicKey();
         PublicKey(const string&);
