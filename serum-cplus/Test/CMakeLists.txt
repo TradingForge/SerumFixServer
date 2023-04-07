@@ -81,5 +81,8 @@ target_link_libraries("SerumMarketTest" PRIVATE
         sodium
         /usr/local/lib/libgmp.a
         /usr/local/lib/libcryptopp.a
+        /usr/lib/x86_64-linux-gnu/libgcrypt.so
+        # ssl
+        # crypto
        )
    
