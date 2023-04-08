@@ -7,7 +7,7 @@
 #include <tuple>
 #include <cryptopp/sha.h>
 #include <sodium.h>
-#include <gcrypt.h>
+// #include <gcrypt.h>
 
 // #include <gmpxx.h>
 
