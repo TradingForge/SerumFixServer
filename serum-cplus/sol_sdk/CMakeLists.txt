@@ -2,6 +2,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_library("sol_sdk" STATIC
         Hash.cpp
+        FieldElement51.cpp
         PublicKey.cpp
         Keypair.cpp
         Instruction.cpp
