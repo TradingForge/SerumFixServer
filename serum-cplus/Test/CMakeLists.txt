@@ -78,11 +78,9 @@ target_link_libraries("SerumMarketTest" PRIVATE
         ${CMAKE_SOURCE_DIR}/build/base58/libbase58.a
         ${CMAKE_SOURCE_DIR}/build/sol_sdk/libsol_sdk.a
         ${CMAKE_SOURCE_DIR}/build/instruments/libinstruments.a
-        sodium
+        # sodium
         /usr/local/lib/libgmp.a
         /usr/local/lib/libcryptopp.a
-        /usr/lib/x86_64-linux-gnu/libgcrypt.so
         # ssl
-        # crypto
        )
    
