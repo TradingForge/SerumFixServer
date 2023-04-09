@@ -43,14 +43,14 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     auto secretkey = get_private_key();
     auto pubkey = secretkey.get_pubkey();
 
-    MarketChannel market_info;
+    MarketChannel *market_info;
     OpenOrdersAccountInfo orders_account_info;
     Transaction txn;
     Transaction::Signers signers;
     signers.push_back(secretkey);
     try {
         market_info = get_market_info(instrument_, pubkey);
-        orders_account_info = get_orders_account_info(market_info.instr, pubkey);
+        orders_account_info = get_orders_account_info(market_info->instr, pubkey);
         // if (!orders_account_info.account.size())
         //     throw string("There is no open order account for this symbol " + market_info.instr.symbol);
 
@@ -73,58 +73,54 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         }
         
 
-        if (order_.side == marketlib::order_side_t::os_Buy && market_info.payer_buy == PublicKey()) {
-            auto payer_buy = get_token_account_by_owner(pubkey.get_str_key(), market_info.instr.quote_mint_address);
-            if (!payer_buy.empty()) {
-                market_info.payer_buy = payer_buy;
-            }
-            else {
-                auto new_account = std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info.instr.quote_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID));
-                market_info.payer_buy = new_account.get_str_key();
-                txn.add_instruction(
-                    create_associated_token_account(
-                        CreateAssociatedAccountParams{
-                            owner: pubkey,
-                            payer: pubkey,
-                            new_account: new_account,
-                            mint: market_info.instr.quote_mint_address
-                        }
-                    )
-                );
-            }
+        if (order_.side == marketlib::order_side_t::os_Buy && market_info->payer_buy == PublicKey()) {
+            // auto payer_buy = get_token_account_by_owner(pubkey.get_str_key(), market_info.instr.quote_mint_address);
+            // if (!payer_buy.empty()) {
+            //     market_info.payer_buy = payer_buy;
+            // }
+            // else {
+            auto new_account = std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info->instr.quote_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID));
+            market_info->payer_buy = new_account.get_str_key();
+            txn.add_instruction(
+                create_associated_token_account(
+                    CreateAssociatedAccountParams{
+                        owner: pubkey,
+                        payer: pubkey,
+                        new_account: new_account,
+                        mint: market_info->instr.quote_mint_address
+                    }
+                )
+            );
+            // }
         }
 
-        if (order_.side == marketlib::order_side_t::os_Sell && market_info.payer_sell == PublicKey()) {
-            auto payer_sell = get_token_account_by_owner(pubkey.get_str_key(), market_info.instr.base_mint_address);
-            if (!payer_sell.empty()) {
-                market_info.payer_sell = payer_sell;
-            }
-            else {
-                auto new_account =  std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info.instr.base_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID)); //PublicKey("apeBXevdWSWy8DqRC6vTdCaXnXEzGv877EBmyuB3TxW");
-                market_info.payer_sell = new_account.get_str_key();
-                txn.add_instruction(
-                    create_associated_token_account(
-                        CreateAssociatedAccountParams{
-                            owner: pubkey,
-                            payer: pubkey,
-                            new_account: new_account,
-                            mint: market_info.instr.base_mint_address
-                        }
-                    )
-                );
-            }
+        if (order_.side == marketlib::order_side_t::os_Sell && market_info->payer_sell == PublicKey()) {
+            // auto payer_sell = get_token_account_by_owner(pubkey.get_str_key(), market_info.instr.base_mint_address);
+            // if (!payer_sell.empty()) {
+            //     market_info.payer_sell = payer_sell;
+            // }
+            // else {
+            auto new_account =  std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info->instr.base_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID)); //PublicKey("apeBXevdWSWy8DqRC6vTdCaXnXEzGv877EBmyuB3TxW");
+            market_info->payer_sell = new_account.get_str_key();
+            txn.add_instruction(
+                create_associated_token_account(
+                    CreateAssociatedAccountParams{
+                        owner: pubkey,
+                        payer: pubkey,
+                        new_account: new_account,
+                        mint: market_info->instr.base_mint_address
+                    }
+                )
+            );
+            // }
         }
     }
     catch (string e) {
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str().c_str());
         ExecutionReport execution_report;
         execution_report.clId       = order_.clId;
-        //execution_report.orderType  = order_.type;
         execution_report.type       = marketlib::report_type_t::rt_rejected;
-        //execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
-        execution_report.state      = marketlib::order_state_t::ost_Rejected;
-        //execution_report.side       = order_.side;
-        //execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
+        execution_report.state      = marketlib::order_state_t::ost_Rejected;;
         execution_report.text       = ( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str();
 
         _orders_callback(get_name(), execution_report);
@@ -141,7 +137,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
 
     try{
         auto res = place_order(
-            market_info,
+            *market_info,
             orders_account_info,
             OrderType::LIMIT,
             order.side == marketlib::order_side_t::os_Buy ? Side::BUY : Side::SELL,
@@ -189,7 +185,7 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
     MarketChannel market_info;
     OpenOrdersAccountInfo orders_account_info;
     try {
-        market_info = get_market_info(instrument, pubkey);
+        market_info = *get_market_info(instrument, pubkey);
         orders_account_info = get_orders_account_info(market_info.instr, pubkey);        
     }
     catch (string e) {
@@ -364,9 +360,9 @@ SerumMarket::string SerumMarket::place_order(
     return send_transaction(txn_, signers_);
 }
 
-const SerumMarket::MarketChannel& SerumMarket::get_market_info(const Instrument& instrument_, const PublicKey& pubkey_)
+SerumMarket::MarketChannel* SerumMarket::get_market_info(const Instrument& instrument_, const PublicKey& pubkey_)
 {
-    auto market_info = _markets_info.get<MarketChannelsBySymbol>()
+    auto market_info = _markets_info.get<0>()
 		.find(instrument_.symbol);
 
     if (market_info == _markets_info.end()) {
@@ -375,12 +371,30 @@ const SerumMarket::MarketChannel& SerumMarket::get_market_info(const Instrument&
         market_info = _markets_info.begin();
     }
 
-    return *market_info;
+    return const_cast<MarketChannel*>(&(*market_info));
 }
 
 // TODO
 SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& instr_, const PublicKey& pubkey_)
 {
+    auto p_buy = instr_.quote_mint_address == WRAPPED_SOL_MINT ? pubkey_ : PublicKey();
+    auto p_sell = instr_.base_mint_address == WRAPPED_SOL_MINT ? pubkey_ : PublicKey();
+    
+
+    if (p_buy == PublicKey()){
+        auto payer_buy = get_token_account_by_owner(pubkey_.get_str_key(), instr_.quote_mint_address);
+        if (!payer_buy.empty()) {
+            p_buy = payer_buy;
+        }
+    }
+    if (p_sell == PublicKey()){
+        auto payer_sell = get_token_account_by_owner(pubkey_.get_str_key(), instr_.base_mint_address);
+        if (!payer_sell.empty()) {
+            p_sell = payer_sell;
+        }
+    }
+
+
     return MarketChannel {
         symbol: instr_.symbol,
         instr: instr_,
@@ -388,8 +402,8 @@ SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& ins
         parsed_market: get_market_layout(instr_.address),
         base_spl_token_multiplier: static_cast<uint64_t>(pow(10, get_mint_decimals(instr_.base_mint_address))),
         quote_spl_token_multiplier: static_cast<uint64_t>(pow(10, get_mint_decimals(instr_.quote_mint_address))),
-        payer_sell: instr_.base_mint_address == WRAPPED_SOL_MINT ? pubkey_ : PublicKey(),
-        payer_buy: instr_.quote_mint_address == WRAPPED_SOL_MINT ? pubkey_ : PublicKey()
+        payer_sell: p_sell,
+        payer_buy: p_buy
     };
 }
 

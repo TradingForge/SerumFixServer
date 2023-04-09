@@ -142,7 +142,7 @@ private:
 
     // void load_mint_addresses();
     MarketChannel create_market_info(const Instrument&, const PublicKey&);
-    const MarketChannel& get_market_info(const Instrument&, const PublicKey&);
+    MarketChannel* get_market_info(const Instrument&, const PublicKey&);
     MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
     string get_latest_blockhash();
