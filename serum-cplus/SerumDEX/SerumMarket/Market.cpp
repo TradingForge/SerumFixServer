@@ -48,12 +48,14 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
     Transaction txn;
     Transaction::Signers signers;
     signers.push_back(secretkey);
+
+    bool is_new_buy_account = false;
+    bool is_new_sell_account = false;
     try {
         market_info = get_market_info(instrument_, pubkey);
         orders_account_info = get_orders_account_info(market_info->instr, pubkey);
-        // if (!orders_account_info.account.size())
-        //     throw string("There is no open order account for this symbol " + market_info.instr.symbol);
 
+        // add instructions for creating an open orders account if one has not been created yet
         if (orders_account_info.account.size() == 0) {
             auto balance_needed = get_balance_needed();
             auto new_open_order_account = Keypair();
@@ -65,20 +67,19 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
                         new_account: new_open_order_account.get_pubkey(),
                         lamports: balance_needed,
                         space: sizeof(SolOpenOrderLayout),
-                        program_id: MARKET_KEY// PublicKey("11111111111111111111111111111111") //MARKET_KEY
+                        program_id: MARKET_KEY
                     }
                 )
             );
             orders_account_info.account = new_open_order_account.get_pubkey();
         }
-        
 
-        if (order_.side == marketlib::order_side_t::os_Buy && market_info->payer_buy == PublicKey()) {
-            // auto payer_buy = get_token_account_by_owner(pubkey.get_str_key(), market_info.instr.quote_mint_address);
-            // if (!payer_buy.empty()) {
-            //     market_info.payer_buy = payer_buy;
-            // }
-            // else {
+        // creation an appropriate associate account, even if we do not use it, 
+        // for the correct operation of the settle_funds instruction
+        
+        // if (order_.side == marketlib::order_side_t::os_Buy && market_info->payer_buy == PublicKey()) {
+        if (market_info->payer_buy == PublicKey()) {
+            is_new_buy_account = true;
             auto new_account = std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info->instr.quote_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID));
             market_info->payer_buy = new_account.get_str_key();
             txn.add_instruction(
@@ -91,16 +92,12 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
                     }
                 )
             );
-            // }
         }
 
-        if (order_.side == marketlib::order_side_t::os_Sell && market_info->payer_sell == PublicKey()) {
-            // auto payer_sell = get_token_account_by_owner(pubkey.get_str_key(), market_info.instr.base_mint_address);
-            // if (!payer_sell.empty()) {
-            //     market_info.payer_sell = payer_sell;
-            // }
-            // else {
-            auto new_account =  std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info->instr.base_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID)); //PublicKey("apeBXevdWSWy8DqRC6vTdCaXnXEzGv877EBmyuB3TxW");
+        // if (order_.side == marketlib::order_side_t::os_Sell && market_info->payer_sell == PublicKey()) {
+        if (market_info->payer_sell == PublicKey()) {
+            is_new_sell_account = true;
+            auto new_account =  std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info->instr.base_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID));
             market_info->payer_sell = new_account.get_str_key();
             txn.add_instruction(
                 create_associated_token_account(
@@ -112,7 +109,6 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
                     }
                 )
             );
-            // }
         }
     }
     catch (string e) {
@@ -127,13 +123,13 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         return order_;
     }
 
+    // сreate a new id to track the order by it
     auto order = order_;
     if (strtoul(order.clId.c_str(), nullptr, 0) == 0) {
         std::random_device rd; 
         std::mt19937_64 mersenne(rd());
         order.clId = std::to_string(mersenne());
     };
-    // auto payer = order.side == marketlib::order_side_t::os_Buy ? market_info->payer_buy : market_info->payer_sell;
 
     try{
         auto res = place_order(
@@ -151,17 +147,19 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         _logger->Debug(( boost::format(R"(OpenBook Market::The order is sent: %1%)") % res).str().c_str() );
         order.transaction_hash = string(boost::json::parse(res).at("result").as_string().c_str());
     }
-
     catch (string e) {
+        // if the transaction with the order creation was unsuccessful, 
+        // then reset the corresponding account to try to create it again
+        if (is_new_buy_account)
+            market_info->payer_buy = PublicKey();
+        if (is_new_sell_account)
+            market_info->payer_sell = PublicKey();
+
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to send the order: %1%)") % e).str().c_str());
         ExecutionReport execution_report;
         execution_report.clId       = order_.clId;
-        //execution_report.orderType  = order_.type;
         execution_report.type       = marketlib::report_type_t::rt_rejected;
-        //execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
         execution_report.state      = marketlib::order_state_t::ost_Rejected;
-        //execution_report.side       = order_.side;
-        //execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
         execution_report.text       = ( boost::format(R"(OpenBook Market::Failed to send the order: %1%)") % e).str();
 
         _orders_callback(get_name(), execution_report);
@@ -192,12 +190,8 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str().c_str());
         ExecutionReport execution_report;
         execution_report.clId       = client_id;
-        //execution_report.orderType  = marketlib::order_type_t::ot_Undefined;
         execution_report.type       = marketlib::report_type_t::rt_cancel_rejected;
-        //execution_report.transType  = marketlib::exec_trans_t::ett_undefined;
         execution_report.state      = marketlib::order_state_t::ost_Rejected;
-        //execution_report.side       = marketlib::order_side_t::os_Undefined;
-        //execution_report.rejReason  = marketlib::ord_rej_reason::rr_other;
         execution_report.text       = ( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str();
 
         _orders_callback(get_name(), execution_report);
@@ -218,24 +212,6 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
 
     Transaction txn;
     txn.add_instruction(new_cancel_order_by_client_id_v2(cancelOrderParam));
-
-    /*
-    Transaction txn;
-    txn.add_instruction(
-        new_cancel_order_by_client_id_v2(
-            CancelOrderV2ByClientIdParams {
-                market: market_info.market_address,
-                bids: market_info.parsed_market.bids,
-                asks: market_info.parsed_market.asks,
-                event_queue: market_info.parsed_market.event_queue,
-                open_orders: orders_account_info.account,
-                owner: _pubkey,
-                client_id: strtoul(client_id.c_str(), nullptr, 0),
-                program_id: MARKET_KEY
-            }
-        )
-    );
-     */
     Transaction::Signers signers;
     signers.push_back(secretkey);
 
@@ -252,12 +228,8 @@ SerumMarket::Order SerumMarket::cancel_order(const Instrument& instrument, const
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to send the order: %1%)") % e).str().c_str());
         ExecutionReport execution_report;
         execution_report.clId        = client_id;
-       //execution_report.orderType   = marketlib::order_type_t::ot_Undefined;
         execution_report.type        = marketlib::report_type_t::rt_cancel_rejected;
-        //execution_report.transType   = marketlib::exec_trans_t::ett_undefined;
         execution_report.state       = marketlib::order_state_t::ost_Rejected;
-        //execution_report.side        = marketlib::order_side_t::os_Undefined;
-        //execution_report.rejReason   = marketlib::ord_rej_reason::rr_other;
         execution_report.text        = ( boost::format(R"(OpenBook Market::Failed to send the order: %1%)") % e).str();
         _orders_callback(get_name(), execution_report);
     }
