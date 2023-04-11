@@ -107,6 +107,19 @@ struct CloseAccountParams
     PublicKey program_id;
 };
 
+struct SettleFundsParams
+{
+    PublicKey market;
+    PublicKey open_orders;
+    PublicKey owner;
+    PublicKey base_vault;
+    PublicKey quote_vault;
+    PublicKey base_wallet;
+    PublicKey quote_wallet;
+    PublicKey vault_signer;
+    PublicKey program_id;
+};
+
 struct OpenOrdersAccountInfo
 {
     PublicKey account;
@@ -130,33 +143,39 @@ struct NewOrderV3
 struct InstructionLayoutOrderV3
 {
     uint8_t version {0};
-    uint32_t type {10};
+    uint32_t type {::InstructionType::NEW_ORDER_V3};
     NewOrderV3 order;
 };
 
-struct CancelOrderV2
-{
-    uint32_t side;
-    uint8_t order_id[16];
-};
+// struct CancelOrderV2
+// {
+//     uint32_t side;
+//     uint8_t order_id[16];
+// };
 
 struct CancelOrderByClientIdV2
 {
     uint64_t order_id;
 };
 
-struct InstructionLayoutCancelOrderV2
-{
-    uint8_t version {0};
-    uint32_t type {11};
-    CancelOrderV2 order;
-};
+// struct InstructionLayoutCancelOrderV2
+// {
+//     uint8_t version {0};
+//     uint32_t type {11};
+//     CancelOrderV2 order;
+// };
 
 struct InstructionLayoutCancelOrderByClientIdV2
 {
     uint8_t version {0};
     uint32_t type {12};
     CancelOrderByClientIdV2 order;
+};
+
+struct InstructionLayoutSettleFunds
+{
+    uint8_t version {0};
+    uint32_t type {::InstructionType::SETTLE_FUNDS};
 };
 
 struct InstructionLayoutCreateOrder
