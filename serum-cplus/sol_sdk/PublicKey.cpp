@@ -2,6 +2,7 @@
 #include "FieldElement51.hpp"
 
 #define EDWARDS_D FieldElement51({929955233495203,466365720129213,1662059464998953,2033849074728123,1442794654840575,})
+#define PDA_MARKER "ProgramDerivedAddress"
 
 namespace solana
 {
@@ -116,13 +117,15 @@ namespace solana
         std::list<bytes> seeds_bytes;
         for ( const auto& s : seeds)
             seeds_bytes.push_back(s.key_b);
+        seeds_bytes.push_back(bytes(1));
 
         byte seed_bump = UINT8_MAX;
 
         bool is_curve_point = true;
         bytes hash;
         do{
-            hash = _try_find_public_key(program_id_bytes, seed_bump, seeds_bytes);
+            seeds_bytes.back()[0] = seed_bump;
+            hash = _try_find_public_key(program_id_bytes, seeds_bytes);
             --seed_bump;
             is_curve_point = _bytes_are_curve_point(hash);
         } while (seed_bump > 0 && is_curve_point);
@@ -131,6 +134,14 @@ namespace solana
             return std::tuple<PublicKey, byte>(PublicKey(), 0);
         
         return std::tuple<PublicKey, byte>(PublicKey(hash), ++seed_bump);
+    }
+
+    PublicKey PublicKey::create_program_address(const std::list<bytes>& seeds, const PublicKey& program_id)
+    {
+        auto hash = _try_find_public_key(program_id.key_b, seeds);
+        if (_bytes_are_curve_point(hash)) 
+            return PublicKey();
+        return PublicKey(hash);
     }
 
     bool PublicKey::_bytes_are_curve_point(const bytes &point) 
@@ -156,14 +167,13 @@ namespace solana
         return correct_sign_sqrt || flipped_sign_sqrt;
     }
 
-    PublicKey::bytes PublicKey::_try_find_public_key(const bytes& program_id, byte seed_bump, const std::list<bytes>& seeds)
+    PublicKey::bytes PublicKey::_try_find_public_key(const bytes& program_id, const std::list<bytes>& seeds)
     {
         CryptoPP::SHA256 hasher;
 
         for (auto seed : seeds) {
             hasher.Update(seed.data(), seed.size());
         }
-        hasher.Update(&seed_bump, 1);
         hasher.Update(program_id.data(), program_id.size());
         hasher.Update((byte*)PDA_MARKER, sizeof(PDA_MARKER) - 1);
 

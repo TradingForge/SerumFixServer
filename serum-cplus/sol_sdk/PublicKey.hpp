@@ -11,22 +11,22 @@
 
 namespace solana
 {
-    #define PDA_MARKER "ProgramDerivedAddress"
     #define SIZE_PUBKEY 32
 
     class PublicKey 
     {
-        typedef std::string string;
+    public:
         typedef uint8_t byte;
         typedef std::vector<byte> bytes;
-
+    private:
+        typedef std::string string;
 
         string key_str;
         bytes key_b;
 
         bytes _from_base58(const string&);
         string _to_base58(const bytes&);
-        static bytes _try_find_public_key(const bytes&, byte, const std::list<bytes>&);
+        static bytes _try_find_public_key(const bytes&, const std::list<bytes>&);
         static bool _bytes_are_curve_point(const std::vector<byte>&);
         // static string _decompress_point(const bytes&);
     public:
@@ -38,6 +38,7 @@ namespace solana
         PublicKey(const byte[SIZE_PUBKEY]);
     
         static std::tuple<PublicKey, byte> find_public_key(const std::list<PublicKey>&, const PublicKey&);
+        static PublicKey create_program_address(const std::list<bytes>&, const PublicKey&);
         void from_base58(const string&);
         const uint8_t* data() const {return key_b.data();}
         size_t size() const {return key_b.size();}
