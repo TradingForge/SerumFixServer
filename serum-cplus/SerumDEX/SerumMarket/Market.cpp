@@ -7,7 +7,7 @@ SerumMarket::SerumMarket(
     pools_ptr pools, listener_ptr listener, OrdersCallback orders_callback): 
 _market_settings(market_settings), _logger(logger),
 _pools(pools), _trade_channel(listener), _message_count(0), _orders_callback(orders_callback),
-_order_count_for_symbol()
+_order_count_for_symbol(), last_traded_symbol()
 {}
 
 SerumMarket::~SerumMarket()
@@ -55,6 +55,8 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         market_info = get_market_info(instrument_, pubkey);
         orders_account_info = get_orders_account_info(market_info->instr, pubkey);
 
+        // build_settle_funds_tx(pubkey, *market_info, orders_account_info, txn, signers);
+
         // add instructions for creating an open orders account if one has not been created yet
         if (orders_account_info.account.size() == 0) {
             auto balance_needed = get_balance_needed();
@@ -76,7 +78,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
 
         // creation an appropriate associate account, even if we do not use it, 
         // for the correct operation of the settle_funds instruction
-        
+
         // if (order_.side == marketlib::order_side_t::os_Buy && market_info->payer_buy == PublicKey()) {
         if (market_info->payer_buy == PublicKey()) {
             is_new_buy_account = true;
@@ -110,6 +112,9 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
                 )
             );
         }
+
+        if (last_traded_symbol != market_info->symbol)
+            build_settle_funds_tx(pubkey, *market_info, orders_account_info, txn, signers);
     }
     catch (string e) {
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str().c_str());
@@ -144,6 +149,7 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
             signers,
             pubkey
         );
+        last_traded_symbol = market_info->symbol;
         _logger->Debug(( boost::format(R"(OpenBook Market::The order is sent: %1%)") % res).str().c_str() );
         order.transaction_hash = string(boost::json::parse(res).at("result").as_string().c_str());
     }
@@ -332,6 +338,39 @@ SerumMarket::string SerumMarket::place_order(
     return send_transaction(txn_, signers_);
 }
 
+SerumMarket::string SerumMarket::settle_funds(const Instrument& instrument_)
+{
+    auto secretkey = get_private_key();
+    auto pubkey = secretkey.get_pubkey();
+
+    MarketChannel *market_info;
+    OpenOrdersAccountInfo orders_account_info;
+    Transaction txn;
+    Transaction::Signers signers;
+    signers.push_back(secretkey);
+
+    try{
+        market_info = get_market_info(instrument_, pubkey);
+        orders_account_info = get_orders_account_info(market_info->instr, pubkey);
+        build_settle_funds_tx(pubkey, *market_info, orders_account_info, txn, signers);
+    }
+    catch(string e)
+    {
+        _logger->Error(( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str().c_str());
+        return "";
+    }
+
+    
+    try{
+        return send_transaction(txn, signers);
+    }
+    catch(string e)
+    {
+        _logger->Error( (boost::format(R"(OpenBook Market::Failed to settle funds: %1%)") % e).str().c_str());
+        return "";
+    }
+}
+
 SerumMarket::MarketChannel* SerumMarket::get_market_info(const Instrument& instrument_, const PublicKey& pubkey_)
 {
     auto market_info = _markets_info.get<0>()
@@ -351,7 +390,6 @@ SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& ins
 {
     auto p_buy = instr_.quote_mint_address == WRAPPED_SOL_MINT ? pubkey_ : PublicKey();
     auto p_sell = instr_.base_mint_address == WRAPPED_SOL_MINT ? pubkey_ : PublicKey();
-    
 
     if (p_buy == PublicKey()){
         auto payer_buy = get_token_account_by_owner(pubkey_.get_str_key(), instr_.quote_mint_address);
@@ -365,7 +403,6 @@ SerumMarket::MarketChannel SerumMarket::create_market_info(const Instrument& ins
             p_sell = payer_sell;
         }
     }
-
 
     return MarketChannel {
         symbol: instr_.symbol,
@@ -396,15 +433,16 @@ SerumMarket::MarketLayout SerumMarket::get_market_layout(const string& market_ad
         base_vault: PublicKey(market.base_vault),
         quote_vault: PublicKey(market.quote_vault),
         base_lot_size: market.base_lot_size,
-        quote_lot_size: market.quote_lot_size
+        quote_lot_size: market.quote_lot_size,
+        vault_signer_nonce: market.vault_signer_nonce
     };
 }
 
 uint64_t SerumMarket::get_balance_needed()
 {
-    return boost::json::parse(get_minimum_balance_for_rent_exemption())
+    return boost::json::parse(get_minimum_balance_for_rent_exemption(sizeof(SolOpenOrderLayout)))
     .at("result")
-    .as_int64();;
+    .as_int64();
 }
 
 OpenOrdersAccountInfo SerumMarket::get_orders_account_info(const Instrument& instr_, const PublicKey& pubkey_)
@@ -454,6 +492,94 @@ uint8_t SerumMarket::get_mint_decimals(const string& mint_address_)
         .at("decimals").as_int64();
 }
 
+void SerumMarket::build_settle_funds_tx(
+    const PublicKey& owner,
+    const MarketChannel& info_,
+    const OpenOrdersAccountInfo& orders_account_info_,
+    Transaction& txn_,
+    Transaction::Signers& signers_
+) 
+{
+    bool should_wrap_sol = info_.instr.base_mint_address == WRAPPED_SOL_MINT || info_.instr.quote_mint_address == WRAPPED_SOL_MINT;
+    uint64_t min_bal_for_rent_exemption = should_wrap_sol ? boost::json::parse(get_minimum_balance_for_rent_exemption(165))
+        .at("result")
+        .as_int64() : 0;
+
+    auto vault_signer = PublicKey::create_program_address({
+            PublicKey::bytes(info_.market_address.data(), info_.market_address.data() + SIZE_PUBKEY), 
+            {
+                static_cast<PublicKey::byte>(info_.parsed_market.vault_signer_nonce & 0xFF),
+                static_cast<PublicKey::byte>((info_.parsed_market.vault_signer_nonce >> 8) & 0xFF),
+                static_cast<PublicKey::byte>((info_.parsed_market.vault_signer_nonce >> 16) & 0xFF),
+                static_cast<PublicKey::byte>((info_.parsed_market.vault_signer_nonce >> 24) & 0xFF),
+                static_cast<PublicKey::byte>((info_.parsed_market.vault_signer_nonce >> 32) & 0xFF),
+                static_cast<PublicKey::byte>((info_.parsed_market.vault_signer_nonce >> 40) & 0xFF),
+                static_cast<PublicKey::byte>((info_.parsed_market.vault_signer_nonce >> 48) & 0xFF),
+                static_cast<PublicKey::byte>((info_.parsed_market.vault_signer_nonce >> 56) & 0xFF),
+            }
+        }, 
+        MARKET_KEY);
+    if (vault_signer == PublicKey())
+        throw string("incorrect parameters when trying to create the vault_signer account for settle_funds_tx");
+    
+    Keypair wrapped_sol_account;
+    if (should_wrap_sol)
+    {
+        signers_.push_back(wrapped_sol_account);
+        txn_.add_instruction(
+            create_account(
+                CreateAccountParams{
+                    owner: owner,
+                    new_account: wrapped_sol_account.get_pubkey(),
+                    lamports: min_bal_for_rent_exemption,
+                    space: ACCOUNT_LEN,
+                    program_id: TOKEN_PROGRAM_ID
+                }
+            )
+        );
+        txn_.add_instruction(
+            initialize_account(
+                InitializeAccountParams{
+                    account: wrapped_sol_account.get_pubkey(),
+                    mint: WRAPPED_SOL_MINT,
+                    owner: owner,
+                    program_id: TOKEN_PROGRAM_ID
+                }
+            )
+        );
+    }
+    
+    txn_.add_instruction(
+        settle_funds(
+            SettleFundsParams{
+                market: info_.market_address,
+                open_orders: orders_account_info_.account,
+                owner: owner,
+                base_vault: info_.parsed_market.base_vault,
+                quote_vault: info_.parsed_market.quote_vault,
+                base_wallet: info_.payer_sell,
+                quote_wallet: info_.payer_buy,
+                vault_signer: vault_signer,
+                program_id: MARKET_KEY
+            }
+        )
+    );
+    
+    // signers.push_back(secretkey_);
+    if(should_wrap_sol) {
+        txn_.add_instruction(
+            close_account(
+                CloseAccountParams {
+                    account: wrapped_sol_account.get_pubkey(),
+                    owner: owner,
+                    dest: owner,
+                    program_id: TOKEN_PROGRAM_ID
+                }
+            )
+        );
+    }
+}
+
 Instruction SerumMarket::new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams& params_) const
 {
     Instruction instruction;
@@ -498,7 +624,7 @@ Instruction SerumMarket::new_order_v3(const NewOrderV3Params& params_) const
 
     auto ord_layout = InstructionLayoutOrderV3 {
         0,
-        10,
+        ::InstructionType::NEW_ORDER_V3,
         NewOrderV3 {
             side: params_.side,
             limit_price: params_.limit_price,
@@ -584,6 +710,29 @@ Instruction SerumMarket::close_account(const CloseAccountParams& params_) const
     return instruction;
 }
 
+Instruction SerumMarket::settle_funds(const SettleFundsParams& params_) const
+{
+    Instruction instruction;
+    instruction.set_account_id(params_.program_id);
+    instruction.set_accounts( Instruction::AccountMetas({
+        Instruction::AccountMeta { pubkey: params_.market, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params_.open_orders, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params_.owner, is_writable: true, is_signer: true },
+        Instruction::AccountMeta { pubkey: params_.base_vault, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params_.quote_vault, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params_.base_wallet, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params_.quote_wallet, is_writable: true, is_signer: false },
+        Instruction::AccountMeta { pubkey: params_.vault_signer, is_writable: false, is_signer: false },
+        Instruction::AccountMeta { pubkey: TOKEN_PROGRAM_ID, is_writable: false, is_signer: false },
+    }));
+    auto ord_layout = InstructionLayoutSettleFunds {
+        0,
+        ::InstructionType::SETTLE_FUNDS,
+    };
+    instruction.set_data(&ord_layout, sizeof(InstructionLayoutSettleFunds));
+    return instruction;
+}
+
 std::string SerumMarket::get_latest_blockhash()
 {
     string data_str;
@@ -647,7 +796,7 @@ std::string SerumMarket::get_token_account_by_owner(const string& owner_pubkey_,
     }
 }
 
-SerumMarket::string SerumMarket::get_minimum_balance_for_rent_exemption()
+SerumMarket::string SerumMarket::get_minimum_balance_for_rent_exemption(uint64_t size)
 {
     string data_str;
     try{
@@ -658,7 +807,7 @@ SerumMarket::string SerumMarket::get_minimum_balance_for_rent_exemption()
                 "method": 
                 "getMinimumBalanceForRentExemption", 
                 "params": [%2%, {"commitment": "finalized"}]
-            })") % ++_message_count % sizeof(SolOpenOrderLayout)).str(), 
+            })") % ++_message_count % size).str(), 
             get_endpoint(), 
             HttpClient::HTTPMethod::POST,
             std::vector<string>({"Content-Type: application/json"})
@@ -743,6 +892,7 @@ std::string SerumMarket::send_transaction(Transaction &txn_, const Transaction::
     txn_.sign(signers_);
     auto msg = txn_.serialize();
 
+    // "{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32602,\"message\":\"invalid transaction: Transaction failed to sanitize accounts offsets correctly\"},\"id\":\"8\"}\n"
     auto decode_msg = base64_encode(msg);
     string data_str;
     try{
@@ -864,7 +1014,6 @@ Keypair SerumMarket::get_private_key()
 {
     return Keypair(_market_settings->get(IMarketSettings::Property::PrivateKey));
 }
-
 
 uint64_t SerumMarket::price_number_to_lots(long double price_, const MarketChannel& info_) const
 {

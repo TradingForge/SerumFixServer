@@ -62,6 +62,7 @@ private:
         PublicKey quote_vault;
         uint64_t base_lot_size;
         uint64_t quote_lot_size;
+        uint64_t vault_signer_nonce;
     };
 
     struct MarketChannel
@@ -125,6 +126,7 @@ private:
     std::map<string, uint64_t> _subscribed_channels;
     // std::map<string, string> _mint_addresses;
     uint64_t _message_count;
+    string last_traded_symbol;
     // const string _name;
     
     string place_order(
@@ -146,7 +148,7 @@ private:
     MarketLayout get_market_layout(const string&);
     string get_account_info(const string&);
     string get_latest_blockhash();
-    string get_minimum_balance_for_rent_exemption();
+    string get_minimum_balance_for_rent_exemption(uint64_t);
     string get_token_account_by_owner(const string&, const string&);
     string get_token_program_accounts(const string&, const string&, const string&);
     string send_transaction(Transaction& transaction, const Transaction::Signers&);
@@ -154,10 +156,18 @@ private:
     OpenOrdersAccountInfo get_orders_account_info(const Instrument&, const PublicKey&);
     uint64_t get_balance_needed();
 
+    void build_settle_funds_tx(
+        const PublicKey& owner,
+        const MarketChannel&,
+        const OpenOrdersAccountInfo&,
+        Transaction&,
+        Transaction::Signers&
+    ) ;
     Instruction new_order_v3(const NewOrderV3Params&) const;
     Instruction new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams&) const;
     Instruction create_account(const CreateAccountParams&) const;
     Instruction create_associated_token_account(const CreateAssociatedAccountParams&) const;
+    Instruction settle_funds(const SettleFundsParams& params_) const;
     Instruction initialize_account(const InitializeAccountParams&) const;
     Instruction close_account(const CloseAccountParams&) const;
 
@@ -187,6 +197,7 @@ public:
 
     Order send_new_order(const Instrument&, const Order&) override;
     Order cancel_order(const Instrument&, const string&) override;
+    string settle_funds(const Instrument&);
     void create_account(const Instrument&);
 
     ~SerumMarket();
