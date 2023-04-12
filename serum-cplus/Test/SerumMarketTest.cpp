@@ -131,6 +131,9 @@ int main ()
         if (msg == "so") {
             market.send_new_order(instrument, order_sell);
         }
+        else if (msg == "q") {
+            market.settle_funds(instrument);
+        }
         else if (msg == "sc") {
             market.cancel_order(instrument, order_sell.clId);
         }
