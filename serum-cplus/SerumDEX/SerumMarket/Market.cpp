@@ -12,7 +12,6 @@ _order_count_for_symbol(), last_traded_symbol()
 
 SerumMarket::~SerumMarket()
 {
-    // _mint_addresses.clear();
     for (const auto& p : _order_count_for_symbol)
     {
         Instrument i;
@@ -55,66 +54,28 @@ SerumMarket::Order SerumMarket::send_new_order(const Instrument& instrument_, co
         market_info = get_market_info(instrument_, pubkey);
         orders_account_info = get_orders_account_info(market_info->instr, pubkey);
 
-        // build_settle_funds_tx(pubkey, *market_info, orders_account_info, txn, signers);
-
         // add instructions for creating an open orders account if one has not been created yet
-        if (orders_account_info.account.size() == 0) {
-            auto balance_needed = get_balance_needed();
-            auto new_open_order_account = Keypair();
-            signers.push_back(new_open_order_account);
-            txn.add_instruction(
-                create_account(
-                    CreateAccountParams{
-                        owner: pubkey,
-                        new_account: new_open_order_account.get_pubkey(),
-                        lamports: balance_needed,
-                        space: sizeof(SolOpenOrderLayout),
-                        program_id: MARKET_KEY
-                    }
-                )
-            );
-            orders_account_info.account = new_open_order_account.get_pubkey();
-        }
+        if (orders_account_info.account.size() == 0) 
+            orders_account_info.account = build_create_open_orders_account_tx(pubkey, txn, signers);
 
         // creation an appropriate associate account, even if we do not use it, 
         // for the correct operation of the settle_funds instruction
-
-        // if (order_.side == marketlib::order_side_t::os_Buy && market_info->payer_buy == PublicKey()) {
         if (market_info->payer_buy == PublicKey()) {
             is_new_buy_account = true;
-            auto new_account = std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info->instr.quote_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID));
-            market_info->payer_buy = new_account.get_str_key();
-            txn.add_instruction(
-                create_associated_token_account(
-                    CreateAssociatedAccountParams{
-                        owner: pubkey,
-                        payer: pubkey,
-                        new_account: new_account,
-                        mint: market_info->instr.quote_mint_address
-                    }
-                )
-            );
+            market_info->payer_buy = build_create_associated_account_for_token_tx(pubkey, pubkey, market_info->instr.quote_mint_address, txn, signers);
         }
 
-        // if (order_.side == marketlib::order_side_t::os_Sell && market_info->payer_sell == PublicKey()) {
         if (market_info->payer_sell == PublicKey()) {
             is_new_sell_account = true;
-            auto new_account =  std::get<0>(PublicKey::find_public_key({pubkey, TOKEN_PROGRAM_ID, market_info->instr.base_mint_address}, ASSOCIATED_TOKEN_PROGRAM_ID));
-            market_info->payer_sell = new_account.get_str_key();
-            txn.add_instruction(
-                create_associated_token_account(
-                    CreateAssociatedAccountParams{
-                        owner: pubkey,
-                        payer: pubkey,
-                        new_account: new_account,
-                        mint: market_info->instr.base_mint_address
-                    }
-                )
-            );
+            market_info->payer_sell = build_create_associated_account_for_token_tx(pubkey, pubkey, market_info->instr.base_mint_address, txn, signers);
         }
 
-        if (last_traded_symbol != market_info->symbol)
-            build_settle_funds_tx(pubkey, *market_info, orders_account_info, txn, signers);
+        // settle funds from the last traded symbol to have access to them when trading other symbols
+        if (last_traded_symbol != market_info->symbol && last_traded_symbol.size()) {
+            auto last_traded_market_info = get_market_info(Instrument{"", "", last_traded_symbol}, pubkey);
+            auto last_traded_market_open_accounts = get_orders_account_info(last_traded_market_info->instr, pubkey);
+            build_settle_funds_tx(pubkey, *last_traded_market_info, last_traded_market_open_accounts, txn, signers);
+        }
     }
     catch (string e) {
         _logger->Error(( boost::format(R"(OpenBook Market::Failed to get information: %1%)") % e ).str().c_str());
@@ -379,7 +340,8 @@ SerumMarket::MarketChannel* SerumMarket::get_market_info(const Instrument& instr
     if (market_info == _markets_info.end()) {
         auto pool = _pools->getPool(instrument_);
         _markets_info.insert(create_market_info(pool, pubkey_));
-        market_info = _markets_info.begin();
+        market_info = _markets_info.get<0>()
+		    .find(instrument_.symbol);
     }
 
     return const_cast<MarketChannel*>(&(*market_info));
@@ -490,6 +452,41 @@ uint8_t SerumMarket::get_mint_decimals(const string& mint_address_)
         .at("parsed")
         .at("info")
         .at("decimals").as_int64();
+}
+
+PublicKey SerumMarket::build_create_open_orders_account_tx(const PublicKey& owner, Transaction& txn, Transaction::Signers& signers)
+{
+    auto balance_needed = get_balance_needed();
+    auto new_open_order_account = Keypair();
+    signers.push_back(new_open_order_account);
+    txn.add_instruction(
+        create_account(
+            CreateAccountParams{
+                owner: owner,
+                new_account: new_open_order_account.get_pubkey(),
+                lamports: balance_needed,
+                space: sizeof(SolOpenOrderLayout),
+                program_id: MARKET_KEY
+            }
+        )
+    );
+    return new_open_order_account.get_pubkey();
+}
+
+PublicKey SerumMarket::build_create_associated_account_for_token_tx(const PublicKey& owner, const PublicKey& payer, const PublicKey& token_account, Transaction& txn, Transaction::Signers& signers)
+{
+    auto new_account = std::get<0>(PublicKey::find_public_key({owner, TOKEN_PROGRAM_ID, token_account}, ASSOCIATED_TOKEN_PROGRAM_ID));
+    txn.add_instruction(
+        create_associated_token_account(
+            CreateAssociatedAccountParams{
+                owner: owner,
+                payer: payer,
+                new_account: new_account,
+                mint: token_account
+            }
+        )
+    );
+    return new_account;
 }
 
 void SerumMarket::build_settle_funds_tx(

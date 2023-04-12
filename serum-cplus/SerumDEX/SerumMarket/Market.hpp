@@ -156,13 +156,10 @@ private:
     OpenOrdersAccountInfo get_orders_account_info(const Instrument&, const PublicKey&);
     uint64_t get_balance_needed();
 
-    void build_settle_funds_tx(
-        const PublicKey& owner,
-        const MarketChannel&,
-        const OpenOrdersAccountInfo&,
-        Transaction&,
-        Transaction::Signers&
-    ) ;
+    void build_settle_funds_tx(const PublicKey&, const MarketChannel&, const OpenOrdersAccountInfo&, Transaction&,Transaction::Signers&);
+    PublicKey build_create_open_orders_account_tx(const PublicKey&, Transaction&, Transaction::Signers&);
+    PublicKey build_create_associated_account_for_token_tx(const PublicKey&, const PublicKey&, const PublicKey&, Transaction&, Transaction::Signers&);
+
     Instruction new_order_v3(const NewOrderV3Params&) const;
     Instruction new_cancel_order_by_client_id_v2(const CancelOrderV2ByClientIdParams&) const;
     Instruction create_account(const CreateAccountParams&) const;
