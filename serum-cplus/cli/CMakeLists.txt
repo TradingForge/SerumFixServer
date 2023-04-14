@@ -44,7 +44,6 @@ set(PROJECT_LIBRARIES
     /usr/local/lib/libgmp.a
     /usr/local/lib/libcryptopp.a
     /usr/local/lib/
-    sodium
     )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

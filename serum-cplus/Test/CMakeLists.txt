@@ -5,7 +5,6 @@ find_package(Websocketpp REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED) 
 # find_package(Sodium REQUIRED) 
-# find_package(libsodium REQUIRED)
 # find_package(GMP REQUIRED) 
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
@@ -60,7 +59,6 @@ target_link_libraries("SerumMarketTest" PRIVATE
     ${CMAKE_SOURCE_DIR}/build/base58/libbase58.a
     ${CMAKE_SOURCE_DIR}/build/sol_sdk/libsol_sdk.a
     ${CMAKE_SOURCE_DIR}/build/instruments/libinstruments.a
-    sodium
     /usr/local/lib/libgmp.a
     /usr/local/lib/libcryptopp.a
     /usr/local/lib/
@@ -78,7 +76,6 @@ target_link_libraries("SerumMarketTest" PRIVATE
         ${CMAKE_SOURCE_DIR}/build/base58/libbase58.a
         ${CMAKE_SOURCE_DIR}/build/sol_sdk/libsol_sdk.a
         ${CMAKE_SOURCE_DIR}/build/instruments/libinstruments.a
-        # sodium
         /usr/local/lib/libgmp.a
         /usr/local/lib/libcryptopp.a
         # ssl
